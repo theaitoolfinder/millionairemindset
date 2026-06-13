@@ -863,7 +863,8 @@
     { words:['hello','hi','hey','kamusta','kumusta','magandang umaga','magandang gabi','magandang hapon','good morning','good evening','good afternoon','kumain','okay ka ba'], key:'greet', w:1 },
     { words:['malungkot','lungkot','nag-iisa','nahihirapan','naiiyak','nalulungkot','sad','lonely','alone','depressed','cry','crying','iyak','feel down','down ngayon'], key:'lonely', w:2 },
     { words:['miss ko','miss na','nami-miss','naalala ko','mahal ko sila','nanay','tatay','anak ko','asawa ko','lolo','lola','bunso','panganay','pamilya ko'], key:'miss_family', w:2 },
-    { words:['ipon','magtipid','budget','gastos','impok','tipid','save','saving','emergency fund','paano mag-save','paano mag-ipon'], key:'money_save', w:2 },
+    { words:['ipon','magtipid','gastos','impok','tipid','save','saving','emergency fund','paano mag-save','paano mag-ipon','pera ko','paano pera','pera namin','pera natin','wala pera','wala akong pera'], key:'money_save', w:2 },
+    { words:['pera'], key:'money_save', w:1 },
     { words:['padala','send money','remittance','taptap','gcash padala','wise','remitly','western union','magpadala','bayad','transfer pera','exchange rate','conversion rate'], key:'remittance', w:3 },
     { words:['kumita','sideline','extra income','side hustle','part-time','dagdag na kita','earn more','freelance','online job','work from home'], key:'money_earn', w:2 },
     { words:['negosyo','business','oportunidad','passive income','jc premiere','img','vista land','hof','siomai','franchise','agent','commission'], key:'money_earn_biz', w:3 },
@@ -874,7 +875,7 @@
     { words:['bahay','real estate','lupa','property','condo','house and lot','vista land','pre-selling','rfo','pagibig loan','housing loan'], key:'realestate', w:2 },
     { words:['trabaho','work stress','boss ko','employer','overtime','shift','kontrata','contract','sweldo','sahod','ayaw ko sa work','resign'], key:'work', w:1 },
     { words:['kain','pagkain','gutom','adobo','sinigang','kare-kare','tinola','food','miss ang pagkain','luto','lutuin'], key:'food', w:1 },
-    { words:['masaya','saya','excited','happy','good news','maligaya','natutuwa','nakakatuwa'], key:'happy', w:1 },
+    { words:['masaya','saya','excited','happy','good news','maligaya','natutuwa','nakakatuwa','ok lang','okay lang','mabuti naman','ayos naman','okay naman','okay na','ok na','ayos na','well','doing well','doing good','i\'m fine','im fine'], key:'happy', w:1 },
     { words:['salamat','maraming salamat','thank you','thanks','nagpapasalamat'], key:'gratitude', w:2 },
     { words:['retire','retirement','paano mag-retire','retirement fund','pension','sss pension','luma na','matanda na'], key:'retirement', w:3 },
     { words:['utang','debt','credit card','loan','bayad utang','personal loan','nag-ipon para bayad','5-6','sangla','pautang'], key:'debt', w:3 },
@@ -940,9 +941,46 @@
 
   function getRand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
+  /* Anti-repetition: track last used response per intent+lang */
+  var _lastUsed = {};
   function getResponse(key, lang) {
     var bank = RESPONSES[lang] || RESPONSES.tl;
-    return getRand(bank[key] || bank.default);
+    var arr  = bank[key] || bank.default;
+    if (!arr || arr.length === 0) return '';
+    if (arr.length === 1) return arr[0];
+    var cacheKey = lang + '-' + key;
+    var last = _lastUsed[cacheKey];
+    var pool = last ? arr.filter(function(r){ return r !== last; }) : arr;
+    if (!pool.length) pool = arr;
+    var picked = pool[Math.floor(Math.random() * pool.length)];
+    _lastUsed[cacheKey] = picked;
+    return picked;
+  }
+
+  /* ── Puter.js AI integration ── */
+  var _puterLoaded = false;
+  var _puterFailed = false;
+
+  var SYSTEM_PROMPT = 'You are {{CHAR}}, a warm and caring OFW financial companion on MillionaireMindset.ae. '
+    + 'You help Overseas Filipino Workers (OFWs) with financial literacy, emotional support, and practical advice. '
+    + 'Speak in Taglish (mix of Tagalog and English) matching the user\'s language. '
+    + 'Keep responses short (2-4 sentences). Be empathetic, practical, and encouraging. '
+    + 'WEBSITE TOOLS: Financial Check-up calculator (checkup.html), Blog series (blog.html), Business opportunities (business.html). '
+    + 'PARTNERS: TapTap Send (best remittance app, referral BENJIE83), JC Premiere (health supplements), '
+    + 'IMG International (insurance & investments), Vista Land (real estate), HOF Siomai King (food franchise). '
+    + 'RULES: Never give illegal advice. Keep responses under 150 words. Use emojis sparingly. '
+    + 'If asked about the website, refer to the specific pages. Always end with a helpful follow-up question or suggestion.';
+
+  function loadPuterJs(cb) {
+    if (_puterFailed) { cb(true); return; }
+    if (typeof puter !== 'undefined' && puter.ai) { cb(); return; }
+    if (_puterLoaded) { setTimeout(function(){ cb(typeof puter !== 'undefined' && puter.ai ? null : true); }, 200); return; }
+    _puterLoaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://js.puter.com/v2/';
+    s.onload = function() { cb(); };
+    s.onerror = function() { _puterFailed = true; cb(true); };
+    document.head.appendChild(s);
   }
 
   /* ══════════════════════════════════════════════
@@ -976,10 +1014,9 @@
   function botReply(userText) {
     var msgs = document.getElementById('mmMessages');
     if (!msgs) return;
-    var lang    = currentLang;
-    var intent  = detectIntent(userText);
-    var name    = currentChar === 'hira' ? 'Hira' : 'Aya';
-    var showBiz = BIZ_KEYS.indexOf(intent) !== -1;
+    var lang   = currentLang;
+    var intent = detectIntent(userText);
+    var name   = currentChar === 'hira' ? 'Hira' : 'Aya';
 
     /* typing indicator */
     var tid = document.createElement('div');
@@ -989,18 +1026,43 @@
     msgs.appendChild(tid);
     msgs.scrollTop = msgs.scrollHeight;
 
-    setTimeout(function(){
+    function doFallback() {
       tid.remove();
+      var showBiz = BIZ_KEYS.indexOf(intent) !== -1;
       var text = getResponse(intent, lang);
       addMsg('bot', text, showBiz ? (lang === 'tl' ? BIZ_TL : BIZ_EN) : null);
-      setBubble(text.length > 80 ? text.substring(0,78) + '…' : text);
-
+      setBubble(text.length > 80 ? text.substring(0, 78) + '…' : text);
       if (intent === 'happy' || intent === 'gratitude') triggerAnim('clap');
       else if (intent === 'greet') triggerAnim('wave');
       else if (showBiz) triggerAnim('happy');
-
       updateSuggests(intent, lang);
-    }, 850 + Math.random() * 550);
+    }
+
+    loadPuterJs(function(err) {
+      if (err || typeof puter === 'undefined' || !puter.ai) {
+        setTimeout(doFallback, 850 + Math.random() * 550);
+        return;
+      }
+      var sysPrompt = SYSTEM_PROMPT.replace('{{CHAR}}', name);
+      puter.ai.chat(userText, { model: 'claude-3-5-sonnet', system: sysPrompt })
+        .then(function(resp) {
+          tid.remove();
+          var text = typeof resp === 'string' ? resp
+            : (resp && resp.message && resp.message.content && resp.message.content[0]
+                ? resp.message.content[0].text
+                : (resp && resp.text ? resp.text : String(resp)));
+          var showBiz = BIZ_KEYS.indexOf(intent) !== -1;
+          addMsg('bot', text, showBiz ? (lang === 'tl' ? BIZ_TL : BIZ_EN) : null);
+          setBubble(text.length > 80 ? text.substring(0, 78) + '…' : text);
+          if (intent === 'happy' || intent === 'gratitude') triggerAnim('clap');
+          else if (intent === 'greet') triggerAnim('wave');
+          else if (showBiz) triggerAnim('happy');
+          updateSuggests(intent, lang);
+        })
+        .catch(function() {
+          doFallback();
+        });
+    });
   }
 
   function updateSuggests(intent, lang) {

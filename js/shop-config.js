@@ -17,6 +17,7 @@ const SHOP_CONFIG = {
     accentColor: '#FF9900',
     accentBg: 'rgba(255,153,0,0.08)',
     accentBorder: 'rgba(255,153,0,0.2)',
+    cover: 'https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1200&q=85&auto=format&fit=crop&crop=center',
     /* Optional: featured product tiles shown before the CTA */
     featured: [
       { name: 'Home Essentials', desc: 'Kitchen, bedroom & living room picks' },
@@ -37,6 +38,7 @@ const SHOP_CONFIG = {
     accentBg: 'rgba(34,197,94,0.08)',
     accentBorder: 'rgba(34,197,94,0.2)',
     logo: 'images/logo-jcpremiere.png',
+    cover: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=1200&q=85&auto=format&fit=crop&crop=center',
     featured: [
       { name: 'Immunity Boosters', desc: 'Stay strong while working abroad' },
       { name: 'Skincare Collection', desc: 'Natural formulas for all skin types' },
@@ -55,6 +57,7 @@ const SHOP_CONFIG = {
     accentColor: '#dc2626',
     accentBg: 'rgba(220,38,38,0.07)',
     accentBorder: 'rgba(220,38,38,0.18)',
+    cover: 'https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=1200&q=85&auto=format&fit=crop&crop=center',
     featured: [
       { name: 'Ready-to-Eat Meals', desc: 'Filipino favorites, oven-ready' },
       { name: 'Dry Goods & Pantry', desc: 'Rice, noodles, sauces & more' },
