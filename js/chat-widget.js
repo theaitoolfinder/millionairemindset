@@ -79,18 +79,57 @@
   }
 
   /* tooltip */
-  #mm-chat-tooltip {
-    position: absolute; bottom: 72px; right: 0;
-    background: rgba(30,12,12,.88);
-    backdrop-filter: blur(12px);
-    color: #fff; font-size: .76rem; font-weight: 600;
-    padding: 7px 14px; border-radius: 12px;
-    white-space: nowrap;
+  /* ── Callout bubble (replaces old tooltip) ── */
+  #mm-chat-callout {
+    position: absolute; bottom: 86px; right: 0;
+    width: 260px;
+    background: #fff;
+    border: 1px solid var(--border-soft);
+    border-radius: 18px 18px 4px 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.13);
+    padding: 14px 16px 12px;
     opacity: 0; pointer-events: none;
-    transform: translateY(6px);
-    transition: opacity .2s, transform .2s;
+    transform: translateY(10px) scale(.96);
+    transition: opacity .28s, transform .28s cubic-bezier(.34,1.2,.64,1);
   }
-  #mm-chat-widget:hover #mm-chat-tooltip { opacity:1; transform: translateY(0); }
+  #mm-chat-callout.show { opacity:1; pointer-events:auto; transform: translateY(0) scale(1); }
+  #mm-chat-callout::after {
+    content:''; position:absolute; bottom:-9px; right:20px;
+    border-width:9px 9px 0; border-style:solid;
+    border-color:#fff transparent transparent;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,.08));
+  }
+  .mm-callout-av {
+    display:flex; align-items:center; gap:8px; margin-bottom:8px;
+  }
+  .mm-callout-av-dot {
+    width:32px; height:32px; border-radius:50%;
+    background: linear-gradient(135deg,var(--primary),var(--primary-2));
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-weight:700; font-size:13px; flex-shrink:0;
+  }
+  .mm-callout-name { font-weight:700; font-size:.82rem; color:var(--text); }
+  .mm-callout-sub  { font-size:.72rem; color:var(--text-dim); }
+  .mm-callout-msgs { display:flex; flex-direction:column; gap:6px; }
+  .mm-callout-msg {
+    font-size:.81rem; line-height:1.45; color:var(--text);
+    background: var(--bg); border-radius:10px; padding:8px 10px;
+    opacity:0; transform:translateY(6px);
+    transition: opacity .3s, transform .3s;
+  }
+  .mm-callout-msg.visible { opacity:1; transform:translateY(0); }
+  .mm-callout-cta {
+    margin-top:10px; width:100%; padding:8px;
+    background: var(--primary); color:#fff;
+    border:none; border-radius:10px; font-size:.8rem; font-weight:700;
+    cursor:pointer; transition: background .2s;
+  }
+  .mm-callout-cta:hover { background: var(--primary-2); }
+  #mm-callout-close {
+    position:absolute; top:8px; right:10px;
+    background:none; border:none; cursor:pointer;
+    color:var(--text-dim); font-size:15px; line-height:1; padding:2px 6px;
+  }
 
   /* ── Panel ── */
   #mm-chat-panel {
@@ -477,7 +516,18 @@
       <span id="mm-chat-notif"></span>
     </button>
 
-    <div id="mm-chat-tooltip">Kausapin si Hira o Aya!</div>
+    <div id="mm-chat-callout">
+      <button id="mm-callout-close" onclick="mmCloseCallout()" aria-label="Close">✕</button>
+      <div class="mm-callout-av">
+        <div class="mm-callout-av-dot" id="mm-callout-av-dot">H</div>
+        <div>
+          <div class="mm-callout-name" id="mm-callout-char-name">Hira</div>
+          <div class="mm-callout-sub">OFW Financial Guide</div>
+        </div>
+      </div>
+      <div class="mm-callout-msgs" id="mm-callout-msgs"></div>
+      <button class="mm-callout-cta" onclick="mmToggleChat()">Open Chat →</button>
+    </div>
   `;
   document.body.appendChild(widget);
 
@@ -856,32 +906,114 @@
   };
 
   /* ── Keyword map with WEIGHTS — higher weight = stronger signal ── */
+  /* ─ Phrase patterns for high-confidence matching (checked first) ─ */
+  var PHRASES = [
+    { pattern:'how to save',        key:'money_save',    w:5 },
+    { pattern:'how to invest',      key:'invest',        w:5 },
+    { pattern:'how to send money',  key:'remittance',    w:5 },
+    { pattern:'how to remit',       key:'remittance',    w:5 },
+    { pattern:'how to budget',      key:'budget',        w:5 },
+    { pattern:'how to earn',        key:'money_earn',    w:5 },
+    { pattern:'start a business',   key:'money_earn_biz',w:5 },
+    { pattern:'start business',     key:'money_earn_biz',w:5 },
+    { pattern:'side hustle',        key:'money_earn',    w:5 },
+    { pattern:'extra income',       key:'money_earn',    w:5 },
+    { pattern:'real estate',        key:'realestate',    w:5 },
+    { pattern:'house and lot',      key:'realestate',    w:5 },
+    { pattern:'life insurance',     key:'insurance',     w:5 },
+    { pattern:'stock market',       key:'invest',        w:5 },
+    { pattern:'mutual fund',        key:'invest',        w:5 },
+    { pattern:'emergency fund',     key:'money_save',    w:5 },
+    { pattern:'send money',         key:'remittance',    w:4 },
+    { pattern:'exchange rate',      key:'remittance',    w:4 },
+    { pattern:'credit card',        key:'debt',          w:4 },
+    { pattern:'personal loan',      key:'debt',          w:4 },
+    { pattern:'retirement fund',    key:'retirement',    w:5 },
+    { pattern:'mental health',      key:'stress',        w:4 },
+    { pattern:'miss my family',     key:'miss_family',   w:5 },
+    { pattern:'miss my kids',       key:'miss_family',   w:5 },
+    { pattern:'miss home',          key:'miss_family',   w:4 },
+    { pattern:'miss philippines',   key:'miss_family',   w:4 },
+    { pattern:'miss pinas',         key:'miss_family',   w:4 },
+    { pattern:'feeling lonely',     key:'lonely',        w:5 },
+    { pattern:'feeling sad',        key:'lonely',        w:5 },
+    { pattern:'i am sad',           key:'lonely',        w:4 },
+    { pattern:'im sad',             key:'lonely',        w:4 },
+    { pattern:'no one to talk',     key:'lonely',        w:5 },
+    { pattern:'feeling homesick',   key:'homesick',      w:5 },
+    { pattern:'want to go home',    key:'homesick',      w:5 },
+    { pattern:'gusto nang umuwi',   key:'homesick',      w:5 },
+    { pattern:'paano mag-ipon',     key:'money_save',    w:5 },
+    { pattern:'paano mag-invest',   key:'invest',        w:5 },
+    { pattern:'paano mag-padala',   key:'remittance',    w:5 },
+    { pattern:'paano mag-save',     key:'money_save',    w:5 },
+    { pattern:'digital wallet',     key:'gcash',         w:4 },
+    { pattern:'online banking',     key:'gcash',         w:4 },
+    { pattern:'government benefit', key:'owwa',          w:4 },
+    { pattern:'ofw benefit',        key:'owwa',          w:4 },
+    { pattern:'work contract',      key:'contract',      w:4 },
+    { pattern:'employment contract',key:'contract',      w:5 },
+    { pattern:'employer abuse',     key:'contract',      w:5 },
+    { pattern:'passive income',     key:'money_earn',    w:4 },
+    { pattern:'how to retire',      key:'retirement',    w:5 },
+    { pattern:'jc premiere',        key:'money_earn_biz',w:5 },
+    { pattern:'img international',  key:'money_earn_biz',w:5 },
+    { pattern:'vista land',         key:'realestate',    w:4 },
+    { pattern:'siomai king',        key:'money_earn_biz',w:5 },
+    { pattern:'taptap send',        key:'remittance',    w:5 },
+    { pattern:'taptap',             key:'remittance',    w:4 },
+  ];
+
   var KEYWORDS = [
-    { words:['hello','hi','hey','kamusta','kumusta','magandang umaga','magandang gabi','magandang hapon','good morning','good evening','good afternoon','kumain','okay ka ba'], key:'greet', w:1 },
-    { words:['malungkot','lungkot','nag-iisa','nahihirapan','naiiyak','nalulungkot','sad','lonely','alone','depressed','cry','crying','iyak','feel down','down ngayon'], key:'lonely', w:2 },
-    { words:['miss ko','miss na','nami-miss','naalala ko','mahal ko sila','nanay','tatay','anak ko','asawa ko','lolo','lola','bunso','panganay','pamilya ko'], key:'miss_family', w:2 },
-    { words:['ipon','magtipid','gastos','impok','tipid','save','saving','emergency fund','paano mag-save','paano mag-ipon','pera ko','paano pera','pera namin','pera natin','wala pera','wala akong pera'], key:'money_save', w:2 },
+    /* Greetings */
+    { words:['hello','hi','hey','kamusta','kumusta','magandang umaga','magandang gabi','magandang hapon','good morning','good evening','good afternoon','how are you','how r u','sup','wassup','kumain ka na','okay ka ba','are you there','anyone there'], key:'greet', w:1 },
+    /* Loneliness / emotional */
+    { words:['malungkot','lungkot','nag-iisa','nahihirapan','naiiyak','nalulungkot','sad','lonely','alone','depressed','cry','crying','iyak','feel down','down ngayon','wala kasama','no friends','isolated','no one','no friends here','difficult time','hard time','struggling emotionally'], key:'lonely', w:2 },
+    /* Missing family */
+    { words:['miss ko','miss na','nami-miss','naalala ko','mahal ko sila','nanay','tatay','anak ko','asawa ko','lolo','lola','bunso','panganay','pamilya ko','miss my family','miss my kids','miss my wife','miss my husband','miss my parents','miss them','miss everyone','miss my baby','miss home'], key:'miss_family', w:2 },
+    /* Saving money */
+    { words:['ipon','magtipid','gastos','impok','tipid','save money','saving money','how to save','savings','mag-ipon','makatipid','paano makatipid','wala pera','wala akong pera','ubos pera','ginagastos','walang natitira','no savings','broke','need to save'], key:'money_save', w:2 },
     { words:['pera'], key:'money_save', w:1 },
-    { words:['padala','send money','remittance','taptap','gcash padala','wise','remitly','western union','magpadala','bayad','transfer pera','exchange rate','conversion rate'], key:'remittance', w:3 },
-    { words:['kumita','sideline','extra income','side hustle','part-time','dagdag na kita','earn more','freelance','online job','work from home'], key:'money_earn', w:2 },
-    { words:['negosyo','business','oportunidad','passive income','jc premiere','img','vista land','hof','siomai','franchise','agent','commission'], key:'money_earn_biz', w:3 },
-    { words:['health','kalusugan','supplement','vitamins','sakit','wellness','immune','vitamin c','collagen','sick','may sakit'], key:'health', w:2 },
-    { words:['homesick','miss ang pinas','miss pilipinas','gusto nang umuwi','balik na','uwi na','pauwi na'], key:'homesick', w:3 },
-    { words:['invest','puhunan','stock market','uitf','mutual fund','psei','col financial','bonds','dividend','ginyest','pamumuhunan'], key:'invest', w:2 },
-    { words:['insurance','life insurance','vul','coverage','proteksyon','philhealth','ssa','death benefit','health card','hmo'], key:'insurance', w:2 },
-    { words:['bahay','real estate','lupa','property','condo','house and lot','vista land','pre-selling','rfo','pagibig loan','housing loan'], key:'realestate', w:2 },
-    { words:['trabaho','work stress','boss ko','employer','overtime','shift','kontrata','contract','sweldo','sahod','ayaw ko sa work','resign'], key:'work', w:1 },
-    { words:['kain','pagkain','gutom','adobo','sinigang','kare-kare','tinola','food','miss ang pagkain','luto','lutuin'], key:'food', w:1 },
-    { words:['masaya','saya','excited','happy','good news','maligaya','natutuwa','nakakatuwa','ok lang','okay lang','mabuti naman','ayos naman','okay naman','okay na','ok na','ayos na','well','doing well','doing good','i\'m fine','im fine'], key:'happy', w:1 },
-    { words:['salamat','maraming salamat','thank you','thanks','nagpapasalamat'], key:'gratitude', w:2 },
-    { words:['retire','retirement','paano mag-retire','retirement fund','pension','sss pension','luma na','matanda na'], key:'retirement', w:3 },
-    { words:['utang','debt','credit card','loan','bayad utang','personal loan','nag-ipon para bayad','5-6','sangla','pautang'], key:'debt', w:3 },
-    { words:['budget','paano mag-budget','gastusin','plano sa pera','spending plan','cash flow','surplus','deficit'], key:'budget', w:2 },
-    { words:['kontrata','contract','poea','owwa','legal','karapatan ko','rights','employer violation','abuse'], key:'contract', w:3 },
-    { words:['owwa','sss abroad','philhealth abroad','pagibig abroad','ofw benefits','government benefits'], key:'owwa', w:3 },
-    { words:['gcash','maya','paymaya','digital wallet','e-wallet','tonik','seabank','online banking','digital bank'], key:'gcash', w:3 },
-    { words:['stress','anxiety','pagod','burnout','overwhelmed','pressure','hindi na kaya','mental health','walang tulog'], key:'stress', w:2 },
-    { words:['panalangin','dasal','diyos','lord','god','simbahan','church','faith','pray','prayer','pananalig'], key:'prayer', w:2 },
+    /* Remittance */
+    { words:['padala','send money','remittance','taptap','gcash padala','wise','remitly','western union','magpadala','bayad','transfer pera','exchange rate','conversion rate','remit','how to send','padala sa pinas','padalaan','mag-padala','where to send','best rate','cheap transfer','low fee transfer'], key:'remittance', w:3 },
+    /* Side income */
+    { words:['kumita','sideline','dagdag na kita','earn more','freelance','online job','work from home','extra money','part time','part-time','second job','another income','additional income','earn online','make money online','kita sa side'], key:'money_earn', w:2 },
+    /* Business */
+    { words:['negosyo','business','oportunidad','passive income','jc premiere','img','vista land','hof','siomai','franchise','agent','commission','start a business','own business','small business','business idea','pwede bang negosyo','magbukas ng negosyo','mamuhunan','magtayo ng negosyo'], key:'money_earn_biz', w:3 },
+    /* Health */
+    { words:['health','kalusugan','supplement','vitamins','sakit','wellness','immune','vitamin c','collagen','sick','may sakit','pagod na pagod','feeling sick','hindi well','not feeling well','malagkit','lagnat','ubo','sipon','exercise','diet','healthy living'], key:'health', w:2 },
+    /* Homesick */
+    { words:['homesick','miss ang pinas','miss pilipinas','gusto nang umuwi','balik na','uwi na','pauwi na','gusto ko nang umuwi','want to go home','sana nasa pinas na','missing philippines','balikan ang pinas'], key:'homesick', w:3 },
+    /* Investing */
+    { words:['invest','investing','puhunan','stock market','uitf','mutual fund','psei','col financial','bonds','dividend','ginvest','pamumuhunan','pag-invest','stock','shares','equity','portfolio','where to invest','saan mag-invest','mag-invest','return on investment','roi','index fund','etf'], key:'invest', w:2 },
+    /* Insurance */
+    { words:['insurance','life insurance','vul','coverage','proteksyon','philhealth','death benefit','health card','hmo','term insurance','whole life','accident insurance','disability insurance','assured','insure','need insurance','mag-insure','magpa-insure'], key:'insurance', w:2 },
+    /* Real estate */
+    { words:['bahay','real estate','lupa','property','condo','house and lot','pre-selling','rfo','pagibig loan','housing loan','house loan','mag-invest sa lupa','mag-invest sa bahay','lipat bahay','sariling bahay','dream house','bumili ng bahay','magpalit ng tirahan'], key:'realestate', w:2 },
+    /* Work problems */
+    { words:['trabaho','work stress','boss','employer','overtime','sweldo','sahod','resign','fired','nawalan ng trabaho','job problem','bad boss','employer issue','late salary','hindi bayad','hindi pa bayad sahod','underpaid','overworked','contract problem','abuse sa trabaho'], key:'work', w:1 },
+    /* Food */
+    { words:['kain','pagkain','gutom','adobo','sinigang','kare-kare','tinola','food','miss ang pagkain','luto','lutuin','cooking','recipe','hungry','kumain','miss filipino food','miss lutong bahay','lutong pinoy'], key:'food', w:1 },
+    /* Happy */
+    { words:['masaya','saya','excited','happy','good news','maligaya','natutuwa','ok lang','okay lang','mabuti naman','ayos naman','okay naman','okay na','ok na','ayos na','doing well','doing good','i\'m fine','im fine','great','wonderful','fantastic','im okay','i am okay','feeling good','feeling great','good day'], key:'happy', w:1 },
+    /* Gratitude */
+    { words:['salamat','maraming salamat','thank you','thanks','nagpapasalamat','appreciate','appreciated','helpful','very helpful','napaka-helpful','nakaka-tulong','thank you so much','thanks a lot'], key:'gratitude', w:2 },
+    /* Retirement */
+    { words:['retire','retirement','paano mag-retire','retirement fund','pension','sss pension','luma na','matanda na','para sa retirement','para sa pagtanda','old age','when i retire','when i get old'], key:'retirement', w:3 },
+    /* Debt */
+    { words:['utang','debt','credit card','loan','bayad utang','personal loan','5-6','sangla','pautang','may utang','heavily in debt','sobrang utang','hindi makabayad','hindi makabayad ng loan','past due','overdue'], key:'debt', w:3 },
+    /* Budget */
+    { words:['budget','paano mag-budget','gastusin','plano sa pera','spending plan','cash flow','surplus','deficit','income vs expenses','gano ba ang gastos','bakit nauubos pera','bakit kulang sahod','where does money go','wala na pera bago sahod'], key:'budget', w:2 },
+    /* Contract / Legal */
+    { words:['kontrata','contract','poea','legal','karapatan ko','rights','employer violation','abuse','exploited','mistreated','illegal','hindi tama ang kontrata','lumagda ng kontrata','pumirma ng kontrata'], key:'contract', w:3 },
+    /* OWWA / Gov benefits */
+    { words:['owwa','sss abroad','philhealth abroad','pagibig abroad','ofw benefits','government benefits','sss contribution','philhealth contribution','pagibig contribution','overseas worker welfare','ofw welfare'], key:'owwa', w:3 },
+    /* GCash / Digital */
+    { words:['gcash','maya','paymaya','digital wallet','e-wallet','tonik','seabank','online banking','digital bank','app para sa pera','money app','banking app','ginvest app','g-cash'], key:'gcash', w:3 },
+    /* Stress / Mental health */
+    { words:['stress','anxiety','pagod','burnout','overwhelmed','pressure','hindi na kaya','walang tulog','insomnia','feeling down','naiistress','di na kaya','exhausted','drained','mentally tired','emotional','napakahirap','too hard','too difficult','cant take it'], key:'stress', w:2 },
+    /* Prayer / Faith */
+    { words:['panalangin','dasal','diyos','lord','god','simbahan','church','faith','pray','prayer','pananalig','salamat sa diyos','blessed','blessing','nagpapasalamat sa diyos','thank god'], key:'prayer', w:2 },
   ];
 
   var BIZ_KEYS = ['money_earn','money_earn_biz','invest','insurance','realestate','remittance'];
@@ -917,10 +1049,20 @@
     }
   };
 
-  /* ── Score-based intent detection ── */
+  /* ── Score-based intent detection (phrase-first, then keyword) ── */
   function detectIntent(text) {
     var lower = text.toLowerCase();
     var scores = {};
+
+    /* 1) Phrase matching — multi-word patterns score highest */
+    for (var p = 0; p < PHRASES.length; p++) {
+      var ph = PHRASES[p];
+      if (lower.indexOf(ph.pattern) !== -1) {
+        scores[ph.key] = (scores[ph.key] || 0) + ph.w;
+      }
+    }
+
+    /* 2) Keyword matching — single words */
     for (var i = 0; i < KEYWORDS.length; i++) {
       var k = KEYWORDS[i];
       var score = 0;
@@ -929,6 +1071,8 @@
       }
       if (score > 0) scores[k.key] = (scores[k.key] || 0) + score;
     }
+
+    /* 3) Pick the highest scorer */
     var best = null, bestScore = 0;
     for (var key in scores) {
       if (scores[key] > bestScore) { bestScore = scores[key]; best = key; }
@@ -1077,12 +1221,14 @@
   ══════════════════════════════════════════════ */
   window.mmToggleChat = function() {
     isOpen = !isOpen;
-    var panel = document.getElementById('mm-chat-panel');
-    var fab   = document.getElementById('mm-chat-fab');
-    var notif = document.getElementById('mm-chat-notif');
+    var panel   = document.getElementById('mm-chat-panel');
+    var fab     = document.getElementById('mm-chat-fab');
+    var notif   = document.getElementById('mm-chat-notif');
+    var callout = document.getElementById('mm-chat-callout');
     if (panel) panel.classList.toggle('open', isOpen);
     if (fab)   fab.classList.toggle('open', isOpen);
     if (notif) notif.classList.remove('show');
+    if (callout && isOpen) callout.classList.remove('show');
     if (isOpen && !document.getElementById('mmMessages').childElementCount) {
       renderChar();
       setTimeout(function(){
@@ -1141,72 +1287,60 @@
     }
   });
 
-  /* ── Auto-open with small talk on first visit (once per session) ── */
-  (function autoStart(){
+  /* ── Auto callout bubble on first visit (once per session) ── */
+  window.mmCloseCallout = function() {
+    var callout = document.getElementById('mm-chat-callout');
+    if (callout) callout.classList.remove('show');
+  };
+
+  (function autoCallout(){
     var SESSION_KEY = 'mm_chat_started';
     var alreadyStarted = false;
     try { alreadyStarted = !!sessionStorage.getItem(SESSION_KEY); } catch(e){}
     if (alreadyStarted) return;
 
-    /* Small talk openers — rotate randomly each session */
     var OPENERS = [
-      [
-        'Hey! How\'s it going? Ako si Hira — your OFW money buddy. 👋',
-        'Nandito ako para sa financial tips, life advice abroad, o kahit just to chat. No judgment, promise!',
-        'Anong topic ang gusto mo? Saving money, investments, negosyo — or pati na rin stress sa work? I\'ve got you.'
-      ],
-      [
-        'Hi! Welcome to MillionaireMindset. Ako si Hira! 😊',
-        'Whether you need help with budgeting, padala sa Pinas, or gusto mong mag-invest — just ask!',
-        'Saan ka based ngayon — UAE, Qatar, Singapore? Let\'s talk about what makes sense for your situation.'
-      ],
-      [
-        'Hey! Good to see you here. I\'m Hira — think of me as your finance-savvy OFW friend. 🤝',
-        'A lot of OFWs earn well pero nahihirapan pa rin sa finances. That\'s exactly what we fix here.',
-        'So tell me — what\'s your biggest money challenge right now? I\'m listening.'
-      ],
+      ['Hey! Ako si Hira — your OFW money buddy. 👋', 'Kausap mo ako anytime — pera, investments, or kahit life abroad!'],
+      ['Hi! Welcome to MillionaireMindset. 😊', 'Need help with budgeting, remittance, or gusto mong mag-invest? Just type!'],
+      ['Hey! I\'m Hira — your finance-savvy OFW friend. 🤝', 'What\'s your biggest money challenge right now? I\'m listening.'],
     ];
 
     var set = OPENERS[Math.floor(Math.random() * OPENERS.length)];
 
-    /* Open panel after 1.8s */
     setTimeout(function(){
-      var panel = document.getElementById('mm-chat-panel');
-      var fab   = document.getElementById('mm-chat-fab');
-      var msgs  = document.getElementById('mmMessages');
-      if (!panel || !msgs) return;
+      var callout  = document.getElementById('mm-chat-callout');
+      var msgWrap  = document.getElementById('mm-callout-msgs');
+      var nameEl   = document.getElementById('mm-callout-char-name');
+      var avDot    = document.getElementById('mm-callout-av-dot');
+      if (!callout || !msgWrap) return;
 
-      isOpen = true;
-      panel.classList.add('open');
-      if (fab) fab.classList.add('open');
-      renderChar();
+      var name = currentChar === 'hira' ? 'Hira' : 'Aya';
+      if (nameEl) nameEl.textContent = name;
+      if (avDot)  avDot.textContent  = name[0];
 
-      /* Send messages in sequence with typing delays */
-      function sendSeq(idx) {
-        if (idx >= set.length) {
-          updateSuggests('default', currentLang);
-          try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e){}
-          return;
-        }
-        var tid = document.createElement('div');
-        var name = currentChar === 'hira' ? 'Hira' : 'Aya';
-        tid.className = 'mm-typing';
-        tid.innerHTML = '<div class="mm-msg-av">' + name[0] + '</div>'
-          + '<div class="mm-typing-dots"><div class="mm-typing-dot"></div><div class="mm-typing-dot"></div><div class="mm-typing-dot"></div></div>';
-        msgs.appendChild(tid);
-        msgs.scrollTop = msgs.scrollHeight;
+      callout.classList.add('show');
+      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e){}
 
-        var typingDelay = 700 + set[idx].length * 14;
-        setTimeout(function(){
-          tid.remove();
-          addMsg('bot', set[idx]);
-          if (idx === 0) triggerAnim('wave');
-          setTimeout(function(){ sendSeq(idx + 1); }, 600);
-        }, typingDelay);
+      /* Show messages one by one with a delay */
+      function showMsg(idx) {
+        if (idx >= set.length) return;
+        var m = document.createElement('div');
+        m.className = 'mm-callout-msg';
+        m.textContent = set[idx];
+        msgWrap.appendChild(m);
+        /* Trigger CSS transition */
+        requestAnimationFrame(function(){
+          requestAnimationFrame(function(){ m.classList.add('visible'); });
+        });
+        setTimeout(function(){ showMsg(idx + 1); }, 1400);
       }
+      showMsg(0);
 
-      setTimeout(function(){ sendSeq(0); }, 400);
-    }, 1800);
+      /* Auto-hide after 18s if user doesn't interact */
+      setTimeout(function(){
+        if (callout && !isOpen) callout.classList.remove('show');
+      }, 18000);
+    }, 2000);
   })();
 
 })();
