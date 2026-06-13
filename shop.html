@@ -433,7 +433,7 @@
   <section class="shop-hero">
     <span class="eyebrow">All Stores in One Place</span>
     <h1>The Millionaire Mindset Shop</h1>
-    <p>Digital products, health supplements, Filipino food, Amazon picks, and upcoming events — everything curated for OFWs and global workers.</p>
+    <p>Digital products, health supplements, Filipino food, and Amazon picks — everything curated for OFWs and global workers.</p>
   </section>
 
   <!-- STICKY SECTION TABS -->
@@ -454,10 +454,6 @@
       <a href="#food" class="shop-tab" data-tab="food">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
         HOF Food
-      </a>
-      <a href="#events" class="shop-tab" data-tab="events">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        Events
       </a>
     </div>
   </div>
@@ -536,24 +532,6 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════ -->
-  <!--  5. EVENTS                            -->
-  <!-- ══════════════════════════════════════ -->
-  <section class="shop-section" id="events">
-    <div class="container">
-      <div class="section-header">
-        <div>
-          <span class="section-label">Upcoming Schedules</span>
-          <h2>Events</h2>
-          <p>Seminars, orientations, workshops, and conferences from our network partners. Reserve your seat early.</p>
-        </div>
-      </div>
-      <div class="events-featured" id="eventsFeatured"></div>
-      <p class="events-section-title">All Upcoming Events</p>
-      <div class="events-list" id="eventsList"></div>
-    </div>
-  </section>
-
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container footer-inner">
@@ -583,7 +561,6 @@
 
   <script src="js/products.js"></script>
   <script src="js/shop-config.js"></script>
-  <script src="js/events.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
 
@@ -673,89 +650,6 @@
       + (featHtml ? '<div class="ext-featured-grid">' + featHtml + '</div>' : '');
   }
 
-  /* ─── EVENTS ──────────────────────────────────── */
-  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-  function parseEvtDate(s) { var p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
-
-  function modePill(mode) {
-    var cls = mode === 'physical' ? 'physical' : mode === 'hybrid' ? 'hybrid' : '';
-    var label = mode === 'physical' ? 'In-Person' : mode === 'hybrid' ? 'Hybrid' : 'Online';
-    return '<span class="event-mode-pill ' + cls + '"><svg width="7" height="7" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>' + label + '</span>';
-  }
-
-  function renderEvents() {
-    if (typeof EVENTS === 'undefined') return;
-    var now = new Date(); now.setHours(0,0,0,0);
-    var upcoming = EVENTS
-      .filter(function(e){ return parseEvtDate(e.date) >= now; })
-      .sort(function(a,b){ return parseEvtDate(a.date) - parseEvtDate(b.date); });
-    var featured = upcoming.filter(function(e){ return e.isFeatured; });
-
-    /* Featured cards */
-    var featWrap = document.getElementById('eventsFeatured');
-    if (featWrap) {
-      if (!featured.length) {
-        featWrap.style.display = 'none';
-      } else {
-        featWrap.innerHTML = featured.map(function(e){
-          var d = parseEvtDate(e.date);
-          var orgStyle = 'background:' + e.organizerColor + '1a;border-color:' + e.organizerColor + '44;color:' + e.organizerColor;
-          var seatsHtml = (e.seats > 0 && e.seatsLeft > 0)
-            ? '<span class="event-seats"><strong>' + e.seatsLeft + '</strong> of ' + e.seats + ' seats left</span>'
-            : '<span></span>';
-          return '<div class="event-card featured">'
-            + '<span class="event-featured-label">Featured</span>'
-            + '<div class="event-date-block">'
-              + '<div class="event-date-box"><div class="event-date-day">' + d.getDate() + '</div><div class="event-date-mon">' + MON[d.getMonth()] + '</div></div>'
-              + '<span class="event-cat-pill">' + e.category + '</span>'
-            + '</div>'
-            + '<span class="event-organizer-badge" style="' + orgStyle + '"><span class="event-org-dot" style="background:' + e.organizerColor + '"></span>' + e.organizer + '</span>'
-            + '<div class="event-title">' + e.title + '</div>'
-            + '<div class="event-meta">'
-              + '<div class="event-meta-row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + e.time + ' &middot; ' + e.timezone + '</div>'
-              + '<div class="event-meta-row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>' + e.location + '</div>'
-            + '</div>'
-            + '<div class="event-desc">' + e.description + '</div>'
-            + '<div class="event-footer">'
-              + seatsHtml
-              + '<div style="display:flex;gap:8px;align-items:center;">'
-                + modePill(e.mode)
-                + '<a href="' + e.registrationLink + '" class="btn-primary" style="padding:9px 20px;font-size:0.82rem;">Register</a>'
-              + '</div>'
-            + '</div>'
-            + '</div>';
-        }).join('');
-      }
-    }
-
-    /* All events list */
-    var listWrap = document.getElementById('eventsList');
-    if (listWrap) {
-      if (!upcoming.length) {
-        listWrap.innerHTML = '<div class="events-empty">'
-          + '<svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>'
-          + '<h3>No upcoming events</h3><p>Check back soon. Events are added regularly.</p>'
-          + '</div>';
-      } else {
-        listWrap.innerHTML = upcoming.map(function(e){
-          var d = parseEvtDate(e.date);
-          return '<a href="' + e.registrationLink + '" class="event-row">'
-            + '<div class="event-row-date" style="background:' + e.organizerColor + ';">'
-              + '<div class="event-row-day">' + d.getDate() + '</div>'
-              + '<div class="event-row-mon">' + MON[d.getMonth()] + '</div>'
-            + '</div>'
-            + '<div class="event-row-info">'
-              + '<div class="event-row-title">' + e.title + '</div>'
-              + '<div class="event-row-sub">' + e.organizer + ' &middot; ' + e.time + ' ' + e.timezone + ' &middot; ' + e.location + '</div>'
-            + '</div>'
-            + '<div class="event-row-right">' + modePill(e.mode) + '<span class="event-cat-pill">' + e.category + '</span></div>'
-            + '</a>';
-        }).join('');
-      }
-    }
-  }
-
   /* ─── CART HELPERS ────────────────────────────── */
   function updateCartBadges() {
     try {
@@ -779,7 +673,7 @@
   }
 
   /* ─── TAB SCROLL SYNC ─────────────────────────── */
-  var SECTION_IDS = ['our-store','amazon','health','food','events'];
+  var SECTION_IDS = ['our-store','amazon','health','food'];
   window.addEventListener('scroll', function(){
     var y = window.scrollY + 160;
     var active = SECTION_IDS[0];
