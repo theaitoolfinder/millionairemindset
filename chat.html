@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat with Hira &amp; Aya | Millionaire Mindset</title>
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/gate.js"></script>
+  <script src="js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+  /* ══════════════════════════════════════════════
+     CHAT PAGE LAYOUT
+  ══════════════════════════════════════════════ */
+  .chat-page {
+    min-height: 100vh;
+    padding: 80px 0 40px;
+    display: flex;
+    flex-direction: column;
+  }
+  .chat-wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 24px;
+    flex: 1;
+  }
+
+  /* ══════════════════════════════════════════════
+     CHARACTER PANEL
+  ══════════════════════════════════════════════ */
+  .char-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .char-stage {
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 28px;
+    padding: 20px 16px 12px;
+    box-shadow: 0 8px 32px rgba(204,16,16,.08), inset 0 1px 0 rgba(255,255,255,1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .char-stage-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(204,16,16,.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Character switcher */
+  .char-switcher {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 2;
+  }
+  .char-switch-btn {
+    padding: 6px 20px;
+    border-radius: 999px;
+    font: 600 0.8rem "Poppins", sans-serif;
+    border: 1.5px solid var(--border);
+    background: rgba(255,255,255,.6);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: .2s;
+  }
+  .char-switch-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(204,16,16,.28);
+  }
+
+  /* SVG character container */
+  .char-svg-wrap {
+    position: relative;
+    z-index: 2;
+    height: 300px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .char-svg-wrap svg {
+    height: 290px;
+    width: auto;
+    filter: drop-shadow(0 12px 20px rgba(0,0,0,.1));
+  }
+
+  /* Speech bubble */
+  .char-bubble {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    color: #fff;
+    border-radius: 18px 18px 18px 4px;
+    padding: 12px 16px;
+    font-size: 0.84rem;
+    line-height: 1.6;
+    margin: 10px 4px 4px;
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 16px rgba(204,16,16,.25);
+    text-align: left;
+  }
+  .char-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 16px;
+    border: 8px solid transparent;
+    border-top-color: var(--primary-2);
+    border-bottom: 0;
+  }
+
+  /* Char name & mood */
+  .char-name-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    position: relative;
+    z-index: 2;
+  }
+  .char-name {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 0.95rem;
+  }
+  .char-status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34,197,94,.4);
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.4); }
+    70%  { box-shadow: 0 0 0 6px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+  }
+
+  /* Animation controls */
+  .anim-controls {
+    background: rgba(255,255,255,.72);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255,255,255,.9);
+    border-radius: 20px;
+    padding: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,.05);
+  }
+  .anim-controls-label {
+    font-size: 0.68rem; font-weight: 700;
+    letter-spacing: .14em; text-transform: uppercase;
+    color: var(--text-dim); margin-bottom: 10px; display: block;
+    text-align: center;
+  }
+  .anim-btns {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .anim-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 6px;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    background: rgba(255,255,255,.7);
+    cursor: pointer;
+    font: 600 0.68rem "Poppins", sans-serif;
+    color: var(--text-dim);
+    transition: .2s;
+  }
+  .anim-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: rgba(204,16,16,.05);
+    transform: translateY(-2px);
+  }
+  .anim-btn svg { flex-shrink: 0; }
+
+  /* ══════════════════════════════════════════════
+     CHAT PANEL
+  ══════════════════════════════════════════════ */
+  .chat-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: rgba(255,255,255,.82);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(204,16,16,.08), inset 0 1px 0 rgba(255,255,255,1);
+    min-height: 560px;
+  }
+
+  .chat-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,.6);
+  }
+  .chat-header-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-weight: 800; font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(204,16,16,.28);
+    flex-shrink: 0;
+  }
+  .chat-header-info { flex: 1; }
+  .chat-header-name { font-weight: 700; font-size: 0.95rem; }
+  .chat-header-sub { font-size: 0.75rem; color: var(--text-dim); }
+  .chat-lang-toggle {
+    display: flex; gap: 4px;
+  }
+  .lang-pill {
+    padding: 4px 12px; border-radius: 999px;
+    font: 600 0.72rem "Poppins", sans-serif;
+    border: 1.5px solid var(--border);
+    background: none; color: var(--text-dim);
+    cursor: pointer; transition: .2s;
+  }
+  .lang-pill.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+  /* Messages */
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-height: 360px;
+    max-height: 400px;
+    scroll-behavior: smooth;
+  }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .msg {
+    display: flex;
+    gap: 10px;
+    max-width: 82%;
+    animation: msg-in .25s ease;
+  }
+  @keyframes msg-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .msg.bot { align-self: flex-start; }
+  .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+
+  .msg-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 0.75rem; font-weight: 800;
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .msg-bubble {
+    padding: 11px 15px;
+    border-radius: 18px;
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+  .msg.bot .msg-bubble {
+    background: rgba(255,255,255,.85);
+    border: 1px solid var(--border-soft);
+    border-radius: 4px 18px 18px 18px;
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  }
+  .msg.user .msg-bubble {
+    background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    color: #fff;
+    border-radius: 18px 18px 4px 18px;
+    box-shadow: 0 4px 14px rgba(204,16,16,.25);
+  }
+  .msg-time {
+    font-size: 0.66rem;
+    color: var(--text-dim);
+    margin-top: 4px;
+    padding: 0 4px;
+    align-self: flex-end;
+  }
+  .msg.user .msg-time { text-align: right; }
+
+  /* Typing indicator */
+  .typing-indicator {
+    display: flex; gap: 10px; align-items: center;
+    align-self: flex-start;
+  }
+  .typing-dots {
+    background: rgba(255,255,255,.85);
+    border: 1px solid var(--border-soft);
+    border-radius: 4px 18px 18px 18px;
+    padding: 12px 16px;
+    display: flex; gap: 5px; align-items: center;
+  }
+  .typing-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--text-dim);
+    animation: typing-bounce .9s infinite;
+  }
+  .typing-dot:nth-child(2) { animation-delay: .15s; }
+  .typing-dot:nth-child(3) { animation-delay: .3s; }
+  @keyframes typing-bounce {
+    0%,60%,100% { transform: translateY(0); opacity: .5; }
+    30% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* Suggestions */
+  .chat-suggestions {
+    padding: 8px 24px 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    border-top: 1px solid var(--border-soft);
+    background: rgba(255,255,255,.4);
+  }
+  .suggest-btn {
+    padding: 6px 14px;
+    border-radius: 999px;
+    font: 500 0.78rem "Poppins", sans-serif;
+    border: 1.5px solid var(--border);
+    background: rgba(255,255,255,.8);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: .2s;
+    white-space: nowrap;
+  }
+  .suggest-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(204,16,16,.05); }
+
+  /* Input */
+  .chat-input-row {
+    padding: 14px 20px;
+    display: flex;
+    gap: 10px;
+    border-top: 1px solid var(--border-soft);
+    background: rgba(255,255,255,.6);
+  }
+  .chat-input {
+    flex: 1;
+    background: rgba(255,255,255,.9);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 11px 16px;
+    font: 15px "Poppins", sans-serif;
+    color: var(--text);
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    resize: none;
+  }
+  .chat-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(204,16,16,.1);
+  }
+  .chat-input::placeholder { color: #c8a0a0; }
+  .chat-send-btn {
+    width: 46px; height: 46px; flex-shrink: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-2));
+    border: none; color: #fff; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 14px rgba(204,16,16,.3);
+    transition: .2s;
+  }
+  .chat-send-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(204,16,16,.38); }
+
+  /* Business recommendation card inside chat */
+  .biz-rec-card {
+    background: linear-gradient(135deg, rgba(204,16,16,.07) 0%, rgba(200,144,10,.05) 100%);
+    border: 1px solid rgba(204,16,16,.15);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-top: 8px;
+    font-size: 0.82rem;
+  }
+  .biz-rec-title {
+    font-weight: 700; color: var(--text);
+    margin-bottom: 8px; font-size: 0.85rem;
+  }
+  .biz-rec-item {
+    display: flex; align-items: flex-start; gap: 8px;
+    margin-bottom: 6px; color: var(--text-dim); line-height: 1.5;
+  }
+  .biz-rec-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--primary); margin-top: 6px; flex-shrink: 0;
+  }
+  .biz-rec-link {
+    display: inline-block; margin-top: 10px;
+    font-weight: 600; color: var(--primary); font-size: 0.8rem;
+    text-decoration: none;
+  }
+  .biz-rec-link:hover { text-decoration: underline; }
+
+  /* ══════════════════════════════════════════════
+     CHARACTER SVG ANIMATIONS
+  ══════════════════════════════════════════════ */
+
+  /* Idle breathing */
+  @keyframes breathe {
+    0%,100% { transform: scaleY(1); }
+    50%      { transform: scaleY(1.012); }
+  }
+  .char-body-group { transform-origin: bottom center; animation: breathe 3.5s ease-in-out infinite; }
+
+  /* Eye blink */
+  @keyframes blink {
+    0%,90%,100% { transform: scaleY(1); }
+    95%         { transform: scaleY(0.05); }
+  }
+  .eye { animation: blink 4s ease-in-out infinite; transform-origin: center center; }
+  .eye.left-eye  { animation-delay: 0s; }
+  .eye.right-eye { animation-delay: .05s; }
+
+  /* Mouth talk */
+  @keyframes talk {
+    0%,100% { d: path("M-8,0 Q0,4 8,0"); }
+    25%     { d: path("M-8,2 Q0,8 8,2"); }
+    50%     { d: path("M-8,0 Q0,5 8,0"); }
+    75%     { d: path("M-8,3 Q0,9 8,3"); }
+  }
+  .mouth-talking { animation: talk .35s ease-in-out infinite; }
+
+  /* Wave arm */
+  @keyframes wave-arm {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(-40deg); }
+    40%  { transform: rotate(10deg); }
+    60%  { transform: rotate(-40deg); }
+    80%  { transform: rotate(10deg); }
+    100% { transform: rotate(0deg); }
+  }
+  .arm-wave { animation: wave-arm .8s ease-in-out 3; transform-origin: top center; }
+
+  /* Clap */
+  @keyframes clap-right {
+    0%,100% { transform: translateX(0) rotate(0deg); }
+    40%     { transform: translateX(-22px) rotate(15deg); }
+  }
+  @keyframes clap-left {
+    0%,100% { transform: translateX(0) rotate(0deg); }
+    40%     { transform: translateX(22px) rotate(-15deg); }
+  }
+  .arm-clap-r { animation: clap-right .4s ease-in-out 5; transform-origin: top center; }
+  .arm-clap-l { animation: clap-left .4s ease-in-out 5; transform-origin: top center; }
+
+  /* Salute */
+  @keyframes salute {
+    0%   { transform: rotate(0deg) translateY(0); }
+    30%  { transform: rotate(-90deg) translateY(-10px); }
+    70%  { transform: rotate(-90deg) translateY(-10px); }
+    100% { transform: rotate(0deg) translateY(0); }
+  }
+  .arm-salute { animation: salute 1.8s ease-in-out 1; transform-origin: top center; }
+
+  /* Dance */
+  @keyframes dance-body {
+    0%,100% { transform: rotate(0deg) translateY(0); }
+    15%     { transform: rotate(-6deg) translateY(-6px); }
+    30%     { transform: rotate(0deg) translateY(-10px); }
+    45%     { transform: rotate(6deg) translateY(-6px); }
+    60%     { transform: rotate(0deg) translateY(0); }
+    75%     { transform: rotate(-4deg) translateY(-4px); }
+  }
+  @keyframes dance-arm-r {
+    0%,100% { transform: rotate(0deg); }
+    25%     { transform: rotate(-50deg); }
+    75%     { transform: rotate(20deg); }
+  }
+  @keyframes dance-arm-l {
+    0%,100% { transform: rotate(0deg); }
+    25%     { transform: rotate(50deg); }
+    75%     { transform: rotate(-20deg); }
+  }
+  .char-dancing .char-body-group   { animation: dance-body .8s ease-in-out 4; transform-origin: bottom center; }
+  .char-dancing .char-arm-right    { animation: dance-arm-r .8s ease-in-out 4; transform-origin: top center; }
+  .char-dancing .char-arm-left     { animation: dance-arm-l .8s ease-in-out 4; transform-origin: top center; }
+
+  /* Happy bounce */
+  @keyframes happy-bounce {
+    0%,100% { transform: translateY(0); }
+    40%     { transform: translateY(-12px); }
+    60%     { transform: translateY(-8px); }
+  }
+  .char-happy { animation: happy-bounce .5s ease-in-out 3; transform-origin: bottom center; }
+
+  @media (max-width: 900px) {
+    .chat-wrap { grid-template-columns: 1fr; }
+    .char-panel { flex-direction: row; flex-wrap: wrap; }
+    .char-stage { flex: 1; min-width: 260px; }
+    .anim-controls { flex: 1; min-width: 260px; }
+    .char-svg-wrap { height: 220px; }
+    .char-svg-wrap svg { height: 210px; }
+  }
+  @media (max-width: 600px) {
+    .chat-wrap { padding: 0 14px; }
+    .anim-btns { grid-template-columns: repeat(3,1fr); }
+    .chat-messages { max-height: 300px; }
+  }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">Millionaire<span>Mindset</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="chat.html" class="btn-nav">Chat</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-theme-wrap">
+          <button id="mm-theme-btn" onclick="mmToggleThemePanel(event)" aria-label="Change theme color">
+            <span id="mm-theme-dot"></span>
+          </button>
+          <div id="mm-theme-panel" role="dialog">
+            <h5>Choose Theme</h5>
+            <div class="mm-swatches">
+              <div class="mm-swatch" data-t="brand"    onclick="mmApplyTheme('brand')"></div>
+              <div class="mm-swatch" data-t="ocean"   onclick="mmApplyTheme('ocean')"></div>
+              <div class="mm-swatch" data-t="forest"  onclick="mmApplyTheme('forest')"></div>
+              <div class="mm-swatch" data-t="sunset"  onclick="mmApplyTheme('sunset')"></div>
+              <div class="mm-swatch" data-t="lavender" onclick="mmApplyTheme('lavender')"></div>
+              <div class="mm-swatch" data-t="rose"    onclick="mmApplyTheme('rose')"></div>
+              <div class="mm-swatch" data-t="sky"     onclick="mmApplyTheme('sky')"></div>
+              <div class="mm-swatch" data-t="teal"    onclick="mmApplyTheme('teal')"></div>
+              <div class="mm-swatch" data-t="amber"   onclick="mmApplyTheme('amber')"></div>
+              <div class="mm-swatch" data-t="pink"    onclick="mmApplyTheme('pink')"></div>
+              <div class="mm-swatch" data-t="indigo"  onclick="mmApplyTheme('indigo')"></div>
+            </div>
+            <div id="mm-theme-footer">Saves automatically</div>
+          </div>
+        </div>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">&#9776;</button>
+      </div>
+    </div>
+    <ul class="nav-mobile" id="mobileMenu">
+      <li><a href="index.html" onclick="toggleMenu()">Home</a></li>
+      <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
+      <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
+      <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
+      <li><a href="chat.html" onclick="toggleMenu()">Chat</a></li>
+    </ul>
+  </nav>
+
+  <div class="chat-page">
+    <div class="chat-wrap">
+
+      <!-- ── CHARACTER PANEL ── -->
+      <div class="char-panel">
+        <div class="char-stage">
+          <div class="char-stage-bg"></div>
+
+          <!-- Switcher -->
+          <div class="char-switcher">
+            <button class="char-switch-btn active" onclick="switchChar('hira')">Hira</button>
+            <button class="char-switch-btn" onclick="switchChar('aya')">Aya</button>
+          </div>
+
+          <!-- Character SVG -->
+          <div class="char-svg-wrap" id="charSvgWrap">
+            <!-- Injected by JS -->
+          </div>
+
+          <!-- Speech bubble -->
+          <div class="char-bubble" id="charBubble">
+            Hoy! Kumusta ka? Nandito ako para makipag-usap sa iyo!
+          </div>
+
+          <!-- Name row -->
+          <div class="char-name-row">
+            <span class="char-status-dot"></span>
+            <span class="char-name" id="charNameLabel">Hira</span>
+            <span>— OFW Buddy</span>
+          </div>
+        </div>
+
+        <!-- Animation controls -->
+        <div class="anim-controls">
+          <span class="anim-controls-label">Animate</span>
+          <div class="anim-btns">
+            <button class="anim-btn" onclick="triggerAnim('wave')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 00-2-2v0a2 2 0 00-2 2v0"/><path d="M14 10V4a2 2 0 00-2-2v0a2 2 0 00-2 2v2"/><path d="M10 10.5V6a2 2 0 00-2-2v0a2 2 0 00-2 2v8"/><path d="M18 8a2 2 0 114 0v6a8 8 0 01-8 8H10a8 8 0 01-7.76-6"/></svg>
+              Wave
+            </button>
+            <button class="anim-btn" onclick="triggerAnim('clap')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 8l-3-3-4 4 3 3"/><path d="M11 8l4 4 3-3-4-4"/><path d="M6 17l-3 3"/><path d="M14 9l4 8a2 2 0 01-3.46 2L11 14"/><path d="M9 12l-2 5a2 2 0 003.46 2L14 14"/></svg>
+              Clap
+            </button>
+            <button class="anim-btn" onclick="triggerAnim('salute')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a5 5 0 015 5v3"/><path d="M9 7v4l-2 4h10l-2-4V7"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+              Salute
+            </button>
+            <button class="anim-btn" onclick="triggerAnim('dance')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="2"/><path d="M12 7v6"/><path d="M9 10l-3 3"/><path d="M15 10l3 3"/><path d="M9 18l-2 3"/><path d="M15 18l2 3"/><path d="M10 13l2 5 2-5"/></svg>
+              Dance
+            </button>
+            <button class="anim-btn" onclick="triggerAnim('happy')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 13s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+              Happy
+            </button>
+            <button class="anim-btn" onclick="triggerAnim('talk')">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              Talk
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CHAT PANEL ── -->
+      <div class="chat-panel">
+        <div class="chat-header">
+          <div class="chat-header-avatar" id="chatAvatar">H</div>
+          <div class="chat-header-info">
+            <div class="chat-header-name" id="chatHeaderName">Hira</div>
+            <div class="chat-header-sub">OFW Companion &middot; Nagsasalita ng Tagalog</div>
+          </div>
+          <div class="chat-lang-toggle">
+            <button class="lang-pill active" onclick="setLang('tl')">TL</button>
+            <button class="lang-pill" onclick="setLang('en')">EN</button>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+          <!-- Messages injected by JS -->
+        </div>
+
+        <!-- Quick suggestions -->
+        <div class="chat-suggestions" id="chatSuggestions">
+          <button class="suggest-btn" onclick="sendSuggestion(this)">Kamusta na?</button>
+          <button class="suggest-btn" onclick="sendSuggestion(this)">Miss ko na pamilya ko</button>
+          <button class="suggest-btn" onclick="sendSuggestion(this)">Paano mag-ipon?</button>
+          <button class="suggest-btn" onclick="sendSuggestion(this)">Gusto kong kumita pa</button>
+          <button class="suggest-btn" onclick="sendSuggestion(this)">Malungkot ako ngayon</button>
+        </div>
+
+        <div class="chat-input-row">
+          <input
+            type="text"
+            id="chatInput"
+            class="chat-input"
+            placeholder="I-type ang mensahe mo..."
+            autocomplete="off"
+            maxlength="400"
+          />
+          <button class="chat-send-btn" onclick="sendMessage()" aria-label="Send">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer" style="margin-top:40px;">
+    <div class="container footer-inner">
+      <a href="index.html" class="logo">Millionaire<span>Mindset</span></a>
+      <p class="footer-tagline">Empowering Global Workers to Build Wealth &amp; Freedom</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="disclosure.html">Disclosure</a></li>
+      </ul>
+      <p class="copyright">&copy; 2026 Millionaire Mindset. Hira at Aya ay mga fictional animated na karakter. Hindi sila nagbibigay ng propesyonal na financial advice.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+  /* ═══════════════════════════════════════════════════════
+     SVG CHARACTER DEFINITIONS
+  ═══════════════════════════════════════════════════════ */
+
+  function buildHira() {
+    return `<svg viewBox="0 0 160 300" xmlns="http://www.w3.org/2000/svg" aria-label="Hira — animated male OFW buddy character">
+      <g class="char-body-group" id="hiraGroup">
+
+        <!-- Shoes -->
+        <ellipse cx="56" cy="290" rx="18" ry="7" fill="#2C1F14"/>
+        <ellipse cx="104" cy="290" rx="18" ry="7" fill="#2C1F14"/>
+
+        <!-- Legs -->
+        <rect x="44" y="220" width="24" height="72" rx="10" fill="#4A3728"/>
+        <rect x="92" y="220" width="24" height="72" rx="10" fill="#4A3728"/>
+
+        <!-- Body / Barong -->
+        <rect x="38" y="140" width="84" height="88" rx="18" fill="#F5EFE0"/>
+        <!-- Barong collar detail -->
+        <path d="M74 140 L80 160 L86 140" fill="none" stroke="#D4C5A0" stroke-width="1.5"/>
+        <!-- Barong buttons -->
+        <circle cx="80" cy="168" r="2.5" fill="#C4B490"/>
+        <circle cx="80" cy="180" r="2.5" fill="#C4B490"/>
+        <circle cx="80" cy="192" r="2.5" fill="#C4B490"/>
+        <!-- Barong embroidery lines -->
+        <path d="M56 152 Q60 158 56 164" stroke="#D4C5A0" stroke-width="1" fill="none"/>
+        <path d="M104 152 Q100 158 104 164" stroke="#D4C5A0" stroke-width="1" fill="none"/>
+
+        <!-- LEFT ARM (character's right side, viewer's left) -->
+        <g class="char-arm-left" id="hiraArmLeft" style="transform-origin:48px 148px">
+          <rect x="28" y="148" width="22" height="60" rx="11" fill="#F5EFE0"/>
+          <!-- Hand -->
+          <ellipse cx="39" cy="214" rx="11" ry="10" fill="#F5CBA7"/>
+        </g>
+
+        <!-- RIGHT ARM (viewer's right) — wave arm -->
+        <g class="char-arm-right" id="hiraArmRight" style="transform-origin:112px 148px">
+          <rect x="110" y="148" width="22" height="60" rx="11" fill="#F5EFE0"/>
+          <!-- Hand -->
+          <ellipse cx="121" cy="214" rx="11" ry="10" fill="#F5CBA7"/>
+        </g>
+
+        <!-- Neck -->
+        <rect x="70" y="124" width="20" height="22" rx="8" fill="#F5CBA7"/>
+
+        <!-- Head -->
+        <ellipse cx="80" cy="100" rx="42" ry="44" fill="#F5CBA7"/>
+
+        <!-- Ears -->
+        <ellipse cx="38" cy="102" rx="7" ry="9" fill="#F0BE96"/>
+        <ellipse cx="122" cy="102" rx="7" ry="9" fill="#F0BE96"/>
+
+        <!-- Hair -->
+        <path d="M38 82 Q42 50 80 48 Q118 50 122 82 Q110 60 80 60 Q50 60 38 82 Z" fill="#2D1F14"/>
+        <path d="M80 48 Q60 44 48 56 Q40 62 38 74 Q46 58 60 54 Z" fill="#3D2B1F"/>
+        <path d="M80 48 Q100 44 112 56 Q120 62 122 74 Q114 58 100 54 Z" fill="#3D2B1F"/>
+
+        <!-- Eyebrows -->
+        <path d="M58 84 Q66 80 74 84" stroke="#2D1F14" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M86 84 Q94 80 102 84" stroke="#2D1F14" stroke-width="3" stroke-linecap="round" fill="none"/>
+
+        <!-- Eyes (animated blink) -->
+        <g class="eye left-eye" style="transform-origin:66px 96px">
+          <ellipse cx="66" cy="96" rx="9" ry="10" fill="white"/>
+          <ellipse cx="66" cy="98" rx="5" ry="6" fill="#2D1F14"/>
+          <ellipse cx="64" cy="96" rx="2" ry="2.5" fill="white" opacity=".7"/>
+        </g>
+        <g class="eye right-eye" style="transform-origin:94px 96px">
+          <ellipse cx="94" cy="96" rx="9" ry="10" fill="white"/>
+          <ellipse cx="94" cy="98" rx="5" ry="6" fill="#2D1F14"/>
+          <ellipse cx="92" cy="96" rx="2" ry="2.5" fill="white" opacity=".7"/>
+        </g>
+
+        <!-- Blush cheeks -->
+        <ellipse cx="52" cy="110" rx="9" ry="6" fill="#F8A4A4" opacity=".4"/>
+        <ellipse cx="108" cy="110" rx="9" ry="6" fill="#F8A4A4" opacity=".4"/>
+
+        <!-- Nose -->
+        <ellipse cx="80" cy="108" rx="4" ry="3" fill="#E8AA80" opacity=".6"/>
+
+        <!-- Mouth -->
+        <path id="hiramouth" d="M68,118 Q80,128 92,118" fill="none" stroke="#C06040" stroke-width="2.5" stroke-linecap="round"/>
+
+      </g>
+    </svg>`;
+  }
+
+  function buildAya() {
+    return `<svg viewBox="0 0 160 300" xmlns="http://www.w3.org/2000/svg" aria-label="Aya — animated female OFW buddy character">
+      <g class="char-body-group" id="ayaGroup">
+
+        <!-- Shoes -->
+        <ellipse cx="60" cy="291" rx="16" ry="6" fill="#1A1A1A"/>
+        <ellipse cx="100" cy="291" rx="16" ry="6" fill="#1A1A1A"/>
+
+        <!-- Skirt / Dress bottom -->
+        <path d="M34 210 Q40 295 60 295 Q80 300 100 295 Q120 295 126 210 Z" fill="#EDE0C8"/>
+
+        <!-- Dress body / Maria Clara top -->
+        <rect x="36" y="138" width="88" height="78" rx="18" fill="#F2E8D4"/>
+        <!-- Collar / Panuelo detail -->
+        <path d="M58 138 Q80 154 102 138 Q80 148 58 138 Z" fill="#FAF5EE" stroke="#DDD0B4" stroke-width="1"/>
+        <!-- Dress waistline -->
+        <rect x="36" y="200" width="88" height="12" rx="4" fill="#DDD0B4"/>
+        <!-- Necklace -->
+        <path d="M62 148 Q80 164 98 148" fill="none" stroke="#C8900A" stroke-width="2"/>
+        <circle cx="80" cy="162" r="4" fill="#C8900A"/>
+
+        <!-- LEFT ARM -->
+        <g class="char-arm-left" id="ayaArmLeft" style="transform-origin:46px 148px">
+          <rect x="26" y="148" width="22" height="56" rx="11" fill="#F2E8D4"/>
+          <ellipse cx="37" cy="208" rx="10" ry="9" fill="#F5CBA7"/>
+        </g>
+
+        <!-- RIGHT ARM (wave arm) -->
+        <g class="char-arm-right" id="ayaArmRight" style="transform-origin:114px 148px">
+          <rect x="112" y="148" width="22" height="56" rx="11" fill="#F2E8D4"/>
+          <ellipse cx="123" cy="208" rx="10" ry="9" fill="#F5CBA7"/>
+        </g>
+
+        <!-- Neck -->
+        <rect x="70" y="124" width="20" height="20" rx="8" fill="#F5CBA7"/>
+
+        <!-- Head -->
+        <ellipse cx="80" cy="98" rx="40" ry="43" fill="#F5CBA7"/>
+
+        <!-- Ears -->
+        <ellipse cx="40" cy="100" rx="6" ry="8" fill="#F0BE96"/>
+        <ellipse cx="120" cy="100" rx="6" ry="8" fill="#F0BE96"/>
+        <!-- Earrings -->
+        <circle cx="40" cy="110" r="3" fill="#C8900A"/>
+        <circle cx="120" cy="110" r="3" fill="#C8900A"/>
+
+        <!-- Hair bun / chignon -->
+        <path d="M40 80 Q44 48 80 46 Q116 48 120 80 Q108 58 80 58 Q52 58 40 80 Z" fill="#2D1F14"/>
+        <!-- Bun at back -->
+        <ellipse cx="80" cy="46" rx="20" ry="14" fill="#3D2B1F"/>
+        <ellipse cx="80" cy="46" rx="15" ry="10" fill="#2D1F14"/>
+        <!-- Hair pin -->
+        <line x1="68" y1="38" x2="92" y2="38" stroke="#C8900A" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="92" cy="38" r="3" fill="#C8900A"/>
+
+        <!-- Eyebrows -->
+        <path d="M58 82 Q66 78 74 82" stroke="#2D1F14" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <path d="M86 82 Q94 78 102 82" stroke="#2D1F14" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+        <!-- Eyes (animated blink) -->
+        <g class="eye left-eye" style="transform-origin:65px 94px">
+          <ellipse cx="65" cy="94" rx="9" ry="10" fill="white"/>
+          <ellipse cx="65" cy="96" rx="5" ry="6" fill="#2D1F14"/>
+          <ellipse cx="63" cy="93" rx="2" ry="2.5" fill="white" opacity=".7"/>
+          <!-- Eyelash -->
+          <path d="M56 88 Q65 82 74 88" fill="none" stroke="#1A1010" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
+        <g class="eye right-eye" style="transform-origin:95px 94px">
+          <ellipse cx="95" cy="94" rx="9" ry="10" fill="white"/>
+          <ellipse cx="95" cy="96" rx="5" ry="6" fill="#2D1F14"/>
+          <ellipse cx="93" cy="93" rx="2" ry="2.5" fill="white" opacity=".7"/>
+          <path d="M86 88 Q95 82 104 88" fill="none" stroke="#1A1010" stroke-width="1.5" stroke-linecap="round"/>
+        </g>
+
+        <!-- Blush -->
+        <ellipse cx="50" cy="108" rx="9" ry="6" fill="#F8A4A4" opacity=".45"/>
+        <ellipse cx="110" cy="108" rx="9" ry="6" fill="#F8A4A4" opacity=".45"/>
+
+        <!-- Nose -->
+        <ellipse cx="80" cy="106" rx="3.5" ry="3" fill="#E8AA80" opacity=".55"/>
+
+        <!-- Mouth -->
+        <path id="ayamouth" d="M68,116 Q80,126 92,116" fill="none" stroke="#C06070" stroke-width="2.5" stroke-linecap="round"/>
+
+      </g>
+    </svg>`;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     CHARACTER STATE
+  ═══════════════════════════════════════════════════════ */
+  var currentChar = 'hira';
+  var isTalking = false;
+  var talkTimer = null;
+  var currentLang = 'tl';
+
+  function switchChar(name) {
+    currentChar = name;
+    document.querySelectorAll('.char-switch-btn').forEach(function(b){
+      b.classList.toggle('active', b.textContent.toLowerCase() === name);
+    });
+    document.getElementById('charNameLabel').textContent = name === 'hira' ? 'Hira' : 'Aya';
+    document.getElementById('chatAvatar').textContent    = name === 'hira' ? 'H' : 'A';
+    document.getElementById('chatHeaderName').textContent = name === 'hira' ? 'Hira' : 'Aya';
+    renderChar();
+    setBubble(name === 'hira'
+      ? 'Hi! Ako si Hira — kasama mo sa bawat araw na malayo sa pamilya!'
+      : 'Kumusta! Ako si Aya — nandito ako para sa iyo, lagi!'
+    );
+  }
+
+  function renderChar() {
+    var wrap = document.getElementById('charSvgWrap');
+    wrap.innerHTML = currentChar === 'hira' ? buildHira() : buildAya();
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     ANIMATIONS
+  ═══════════════════════════════════════════════════════ */
+  function triggerAnim(type) {
+    var group = document.getElementById(currentChar === 'hira' ? 'hiraGroup' : 'ayaGroup');
+    var armR  = document.getElementById(currentChar === 'hira' ? 'hiraArmRight' : 'ayaArmRight');
+    var armL  = document.getElementById(currentChar === 'hira' ? 'hiraArmLeft'  : 'ayaArmLeft');
+    if (!group) return;
+
+    // Reset
+    group.classList.remove('char-dancing','char-happy');
+    if (armR) { armR.classList.remove('arm-wave','arm-clap-r','arm-salute'); armR.style.animation = ''; }
+    if (armL) { armL.classList.remove('arm-clap-l'); armL.style.animation = ''; }
+    void group.offsetWidth;
+
+    if (type === 'wave') {
+      if (armR) armR.classList.add('arm-wave');
+      setTimeout(function(){ if (armR) armR.classList.remove('arm-wave'); }, 2500);
+    } else if (type === 'clap') {
+      if (armR) armR.classList.add('arm-clap-r');
+      if (armL) armL.classList.add('arm-clap-l');
+      setTimeout(function(){
+        if (armR) armR.classList.remove('arm-clap-r');
+        if (armL) armL.classList.remove('arm-clap-l');
+      }, 2200);
+    } else if (type === 'salute') {
+      if (armR) armR.classList.add('arm-salute');
+      setTimeout(function(){ if (armR) armR.classList.remove('arm-salute'); }, 2000);
+    } else if (type === 'dance') {
+      group.classList.add('char-dancing');
+      setTimeout(function(){ group.classList.remove('char-dancing'); }, 3400);
+    } else if (type === 'happy') {
+      group.classList.add('char-happy');
+      setTimeout(function(){ group.classList.remove('char-happy'); }, 1600);
+    } else if (type === 'talk') {
+      startTalking(2500);
+    }
+  }
+
+  function startTalking(duration) {
+    var mouth = document.getElementById(currentChar + 'mouth');
+    if (!mouth) return;
+    isTalking = true;
+    mouth.classList.add('mouth-talking');
+    clearTimeout(talkTimer);
+    talkTimer = setTimeout(function(){
+      isTalking = false;
+      mouth.classList.remove('mouth-talking');
+    }, duration || 2000);
+  }
+
+  function setBubble(text) {
+    document.getElementById('charBubble').textContent = text;
+    startTalking(Math.min(text.length * 55, 4000));
+    triggerAnim('wave');
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     CHATBOT BRAIN
+  ═══════════════════════════════════════════════════════ */
+
+  var BIZ_CARD_HTML = `
+    <div class="biz-rec-card">
+      <div class="biz-rec-title">Mga Oportunidad Para Sa Iyo</div>
+      <div class="biz-rec-item"><span class="biz-rec-dot"></span><div><strong>JC Premiere</strong> — Health products na pwede mong ibenta kahit nasa abroad ka. Mababa ang puhunan, malaki ang kita.</div></div>
+      <div class="biz-rec-item"><span class="biz-rec-dot"></span><div><strong>IMG International</strong> — Matuto ng financial literacy at kumita sa pamamagitan ng insurance at investments.</div></div>
+      <div class="biz-rec-item"><span class="biz-rec-dot"></span><div><strong>Vista Land</strong> — Maging property agent — tulungan ang kapwa OFW na magkaroon ng sariling bahay sa Pilipinas.</div></div>
+      <a href="business.html" class="biz-rec-link">Alamin ang Higit Pa &rarr;</a>
+    </div>`;
+
+  var BIZ_CARD_EN = `
+    <div class="biz-rec-card">
+      <div class="biz-rec-title">Business Opportunities For You</div>
+      <div class="biz-rec-item"><span class="biz-rec-dot"></span><div><strong>JC Premiere</strong> — Sell health products while working abroad. Low capital, great commissions.</div></div>
+      <div class="biz-rec-item"><span class="biz-rec-dot"></span><div><strong>IMG International</strong> — Learn financial literacy and earn through insurance and investment plans.</div></div>
+      <div class="biz-rec-item"><span class="biz-rec-dot"></span><div><strong>Vista Land</strong> — Become a property agent and help fellow OFWs own a home in the Philippines.</div></div>
+      <a href="business.html" class="biz-rec-link">Learn More &rarr;</a>
+    </div>`;
+
+  var RESPONSES = {
+    tl: {
+      greet: [
+        "Hoy! Kamusta ka ngayon? Sana okay ka lang diyan!",
+        "Kumusta na? Nandito lang ako, anytime na gusto mong mag-kwento!",
+        "Ay, magandang araw! Kumain ka na ba? Huwag kalimutang mag-ingat sa sarili mo!",
+        "Hello! Anong balita diyan sa iyo? Kwentuhan mo naman ako!",
+      ],
+      lonely: [
+        "Naiintindihan ko ang nararamdaman mo. Mahirap talaga ang maging malayo sa mahal mo sa buhay. Pero tandaan — ang pagtitiis mo ngayon ay para sa mas magandang bukas ng inyong pamilya.",
+        "Huwag mawalan ng pag-asa! Maraming OFW ang dumaan sa ganoong pakiramdam. Pag-usapan natin — anong pinaka-miss mo sa kanila?",
+        "Malungkot man ang puso, huwag hayaang lumubog ka sa kalungkutan. Gawin mong inspirasyon ang pamilya mo para mas magsikap ka!",
+        "Normal lang ang ma-miss ang mga mahal mo. Kausap mo ako ha — nandito lang ako para sa iyo. Anong gusto mong pag-usapan?",
+      ],
+      miss_family: [
+        "Nakaka-miss talaga ang pamilya, lalo na pag malayo ka. Paano ka kumakausap sa kanila? Regular ba kayo nag-video call?",
+        "Ang pagmamahal sa pamilya ang pinakamagandang motivasyon ng isang OFW. Ipagpatuloy mo ang lahat para sa kanila!",
+        "Oo naman, naiintindihan ko. Kailan ka makakauwi? May plano ka na bang special para sa kanila pag nakauwi ka?",
+      ],
+      money_save: [
+        "Mahalagang magtabi ng pera! Ang rule na ito ay makakatulong: i-save ang 20% ng bawat sweldo mo bago ka gumasta ng kahit ano. Tapos budget ang natira.",
+        "Marunong ka bang mag-invest? Kahit maliit, ang palagi mong pag-iipon ay magiging malaki sa paglipas ng panahon. Gusto mo bang malaman ang mga paraan?",
+        "Ang pinakamagandang regalo na maibibigay mo sa pamilya mo ay hindi lang pera ngayon — kundi financial security para sa bukas. Kumpleto ka na ba sa emergency fund?",
+      ],
+      money_earn: [
+        "Gusto mo bang kumita pa bukod sa trabaho mo? May mga paraan — at hindi kailangang malaki ang puhunan!",
+        "Maraming OFW ang nagsisimula ng side income habang nasa abroad pa. Gusto mo bang malaman ang mga oportunidad na pwede mong simulan ngayon?",
+        "Magandang tanong iyan! Ang pagkakaroon ng extra income ay nagbibigay ng mas malaking financial security. Gusto mo bang malaman ang mga option mo?",
+      ],
+      money_earn_biz: [
+        "Napag-isipan mo na ba ang pagkakaroon ng sariling negosyo habang nasa abroad ka? May mga oportunidad na akma para sa OFW tulad mo!",
+      ],
+      health: [
+        "Mahalagang alagaan ang kalusugan mo, lalo na pag malayo ka sa pamilya. Kumakain ka ba nang tama at natutulog ng sapat?",
+        "Ang kalusugan ay yaman! Kung interesado ka sa health products na pwede ring maging business, pwede kita tulungan sa information.",
+      ],
+      homesick: [
+        "Homesick? Normal lang iyan. Subukan mong mag-video call sa pamilya mo ngayon — siguradong mabubuwelo ka!",
+        "Kapag may sama ng loob, kumain muna ng masustansya, matulog nang maaga, at kalimutan muna ang problema. Bukas ay bagong simula!",
+      ],
+      invest: [
+        "Maganda ang iyong naiisip! Ang pamumuhunan ay isa sa mga pinakamatalinong bagay na pwede mong gawin para sa kinabukasan ng iyong pamilya.",
+        "Para sa mga OFW, ang mga maaasahang investment ay: VUL insurance, stocks (PSEi), UITF, at real estate. Gusto mo bang mas malaman ang bawat isa?",
+      ],
+      insurance: [
+        "Napakahalaga ng insurance, lalo na para sa mga OFW! Iniisip mo na ba ang life insurance at health coverage para sa pamilya mo sa Pilipinas?",
+        "Ang insurance ay hindi gastos — ito ay investment sa proteksyon ng iyong pamilya. Pwede kang magsimula ng maliit na halaga kada buwan.",
+      ],
+      realestate: [
+        "Ang real estate ay isa sa pinaka-solid na investment! Maraming OFW ang nagtatayo ng bahay habang nasa abroad — isa itong matalinong desisyon.",
+        "Gusto mong magkaroon ng sariling bahay sa Pilipinas? Pwede kang magsimula kahit nasa abroad ka. Marami akong alam na paraan para matulungan ka!",
+      ],
+      work: [
+        "Kamusta ang trabaho mo? Sana maayos lang at wala kang masyadong stress sa araw-araw.",
+        "Kahirap man ang trabaho sa abroad, tandaan na ito ay may layunin — para sa mas maliwanag na kinabukasan ng iyong pamilya!",
+        "Paano ang workload mo lately? Huwag kalimutang magpahinga — ang health mo ay mas mahalaga kaysa kahit anong trabaho.",
+      ],
+      food: [
+        "Ano ba ang mga kinakain mo diyan? Miss ko na rin ang pagkain natin sa Pinas — adobo, sinigang, kare-kare!",
+        "Naalala mo na ba ang paborito mong pagkain ng Nanay mo? Minsan ang amoy ng lutong bahay ay pinaka-nakaka-miss!",
+      ],
+      happy: [
+        "Ayos! Natutuwa ako para sa iyo! Palagi kang ganyan — masaya!",
+        "Buti naman! Ang positibong mindset ay malaking tulong sa tagumpay. Ipagpatuloy mo iyan!",
+        "Wow, ang saya naman! Kwentuhan mo pa ako — gusto kong malaman ang dahilan ng ngiti mo!",
+      ],
+      gratitude: [
+        "Walang anuman! Para ito sa mga katulad mo — ang tapang at dedikasyon ng isang OFW ay kahanga-hanga.",
+        "Ikaw ang nagpapasaya sa araw ko! Anytime na kailangan mo ng kausap, nandito lang ako!",
+      ],
+      default: [
+        "Interesting! Kwentuhan mo pa ako nang higit pa.",
+        "Naiintindihan kita. Anong gusto mong pag-usapan ngayon?",
+        "Oo nga! Marami tayong pwedeng pag-usapan. Ano pa ang nasa isip mo?",
+        "Hm, magandang punto iyan. Paano mo nararamdaman ang mga bagay ngayon?",
+        "Nandito lang ako lagi para sa iyo. Ano pa ang gusto mong malaman?",
+      ],
+    },
+
+    en: {
+      greet: [
+        "Hey! How are you doing today? Hope you're holding up well!",
+        "Hi there! I'm always here whenever you need to talk. What's on your mind?",
+        "Hello! Have you eaten today? Don't forget to take care of yourself!",
+      ],
+      lonely: [
+        "I understand how you feel. Being far from the ones you love is really hard. But remember — your sacrifices today are building a better tomorrow for your family.",
+        "Don't lose hope! Many OFWs have felt exactly the same way. Let's talk about it — what do you miss most?",
+        "It's okay to feel lonely. That's why I'm here — to keep you company. What would you like to talk about?",
+      ],
+      miss_family: [
+        "Missing family is something every OFW feels deeply. Do you video call them regularly? Even a 10-minute call can lift your spirits.",
+        "Your love for your family is what drives you forward. Keep going — it will all be worth it!",
+      ],
+      money_save: [
+        "Here's a simple rule: save 20% of every salary before spending anything else. Even a small amount adds up to something big over time.",
+        "Building an emergency fund first is the smartest move — at least 3–6 months of living expenses. Are you working on yours?",
+      ],
+      money_earn: [
+        "Want to earn more on top of your job? There are real opportunities — and you don't need a big capital to start!",
+        "Many OFWs are building side income streams while still working abroad. Want to know what options are right for you?",
+      ],
+      money_earn_biz: [
+        "Have you considered a business you can run while still abroad? There are great opportunities suited for OFWs like you!",
+      ],
+      health: [
+        "Your health is your greatest asset, especially when you're far from home. Are you eating well and sleeping enough?",
+      ],
+      homesick: [
+        "Feeling homesick? Try calling your family right now — it makes a world of difference!",
+        "That's a perfectly normal feeling. Tomorrow is a new day — rest well and come back stronger.",
+      ],
+      invest: [
+        "Great thinking! Investing is one of the smartest things you can do for your family's future.",
+        "For OFWs, reliable investments include VUL insurance, Philippine stocks, UITFs, and real estate. Which one interests you most?",
+      ],
+      insurance: [
+        "Insurance is a must for OFWs! Have you thought about life insurance and health coverage for your family back home?",
+        "Think of insurance not as an expense, but as an investment in your family's protection.",
+      ],
+      realestate: [
+        "Real estate is one of the most solid investments. Many OFWs build their dream home while still abroad!",
+      ],
+      work: [
+        "How's work going? I hope you're not too stressed out. Remember to take breaks!",
+        "No matter how hard it gets at work, remember your 'why' — your family back home.",
+      ],
+      food: [
+        "What have you been eating lately? I bet you miss home cooking!",
+      ],
+      happy: [
+        "That's amazing! I love hearing that! Keep that positive energy!",
+        "Wonderful! A happy mind is a productive mind. Tell me more!",
+      ],
+      gratitude: [
+        "Anytime! That's what I'm here for — to be your companion on this journey.",
+        "You make my day too! I'm always here whenever you need to talk.",
+      ],
+      default: [
+        "Interesting! Tell me more about that.",
+        "I hear you. What else is on your mind?",
+        "That's a good point! How are you feeling about things overall?",
+        "I'm always here for you. What else would you like to know?",
+      ],
+    }
+  };
+
+  /* keyword → response key */
+  var KEYWORDS = [
+    { words: ['kamusta','kumusta','hello','hi','hey','magandang','maayos','okay ka'], key: 'greet' },
+    { words: ['malungkot','lungkot','nag-iisa','iisa','uwi','nahihirapan','hirap','naiiyak','iyak','nalulungkot','sad','lonely','alone','miss you','naalala'], key: 'lonely' },
+    { words: ['miss ko','miss na','nami-miss','mahal ko','pamilya','nanay','tatay','mama','papa','anak','asawa','bata','lola','lolo'], key: 'miss_family' },
+    { words: ['ipon','magtipid','budget','gastos','impok','sav','tipid'], key: 'money_save' },
+    { words: ['kumita','kita pa','income','extra income','sideline','dagdag na pera','gusto kumita','earn more'], key: 'money_earn' },
+    { words: ['negosyo','business','oportunidad','maghanap ng paraan','kita ng malaki','passive income'], key: 'money_earn_biz' },
+    { words: ['health','kalusugan','supplement','vitamins','sakit','masakit','wellness'], key: 'health' },
+    { words: ['homesick','miss ang pinas','miss pilipinas','gusto nang umuwi','uwi na sana'], key: 'homesick' },
+    { words: ['invest','puhunan','stock','uitf','mutual fund','pera para lumago'], key: 'invest' },
+    { words: ['insurance','proteksyon','life insurance','vul','coverage'], key: 'insurance' },
+    { words: ['bahay','real estate','lupa','property','condo','house and lot'], key: 'realestate' },
+    { words: ['trabaho','work','boss','employer','stress sa work','overtime','shift'], key: 'work' },
+    { words: ['pagkain','kain','lutuin','adobo','sinigang','kare-kare','food','gutom'], key: 'food' },
+    { words: ['masaya','saya','maligaya','excited','happy','good news','balita'], key: 'happy' },
+    { words: ['salamat','maraming salamat','thank you','thanks','nagpapasalamat'], key: 'gratitude' },
+  ];
+
+  var BIZ_KEYS = ['money_earn','money_earn_biz','invest','insurance','realestate'];
+
+  function detectIntent(text) {
+    var lower = text.toLowerCase();
+    for (var i = 0; i < KEYWORDS.length; i++) {
+      var k = KEYWORDS[i];
+      for (var j = 0; j < k.words.length; j++) {
+        if (lower.indexOf(k.words[j]) !== -1) return k.key;
+      }
+    }
+    return 'default';
+  }
+
+  function getResponse(key, lang) {
+    var bank = RESPONSES[lang] || RESPONSES['tl'];
+    var arr = bank[key] || bank['default'];
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  var charNames = { hira: 'Hira', aya: 'Aya' };
+
+  function botReply(userText) {
+    var lang = currentLang;
+    var intent = detectIntent(userText);
+    var text = getResponse(intent, lang);
+    var showBiz = BIZ_KEYS.indexOf(intent) !== -1;
+    var charName = charNames[currentChar];
+
+    // Show typing indicator
+    var msgs = document.getElementById('chatMessages');
+    var typingId = 'typing-' + Date.now();
+    var typingEl = document.createElement('div');
+    typingEl.className = 'typing-indicator';
+    typingEl.id = typingId;
+    typingEl.innerHTML = '<div class="msg-avatar">' + charName[0] + '</div>'
+      + '<div class="typing-dots">'
+      + '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>'
+      + '</div>';
+    msgs.appendChild(typingEl);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    var delay = 900 + Math.random() * 600;
+    setTimeout(function(){
+      typingEl.remove();
+      addMessage('bot', text, showBiz ? (lang === 'tl' ? BIZ_CARD_HTML : BIZ_CARD_EN) : null);
+      setBubble(text.length > 80 ? text.substring(0,78) + '…' : text);
+
+      // Trigger animation based on intent
+      if (intent === 'happy' || intent === 'gratitude') triggerAnim('clap');
+      else if (intent === 'greet') triggerAnim('wave');
+      else if (intent === 'lonely' || intent === 'homesick') {
+        /* gentle breathing — already idle */
+      } else if (showBiz) triggerAnim('happy');
+
+      // Update suggestions based on intent
+      updateSuggestions(intent, lang);
+    }, delay);
+  }
+
+  function addMessage(role, text, extraHtml) {
+    var msgs = document.getElementById('chatMessages');
+    var charName = charNames[currentChar];
+    var now = new Date();
+    var timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+
+    var wrapper = document.createElement('div');
+    wrapper.className = 'msg ' + role;
+
+    if (role === 'bot') {
+      wrapper.innerHTML =
+        '<div class="msg-avatar">' + charName[0] + '</div>'
+        + '<div>'
+          + '<div class="msg-bubble">' + text + (extraHtml || '') + '</div>'
+          + '<div class="msg-time">' + charName + ' &middot; ' + timeStr + '</div>'
+        + '</div>';
+    } else {
+      wrapper.innerHTML =
+        '<div>'
+          + '<div class="msg-bubble">' + text + '</div>'
+          + '<div class="msg-time">' + timeStr + '</div>'
+        + '</div>';
+    }
+    msgs.appendChild(wrapper);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SUGGESTIONS
+  ═══════════════════════════════════════════════════════ */
+  var SUGGESTIONS = {
+    tl: {
+      lonely:       ['Ano ang pag-iingat mo?','Paano ka nagre-relax?','Kwento pa!'],
+      miss_family:  ['Kalian kayo mag-vide call?','Ano ang plano mo pag-uwi?','Kwento mo ang pamilya mo'],
+      money_save:   ['Paano mag-budget?','Magkano ang ideal na ipon?','Paano magsimula?'],
+      money_earn:   ['Ano ang mga oportunidad?','Kailangan ba ng malaking puhunan?','Paano magsimula ng negosyo?'],
+      invest:       ['Ano ang VUL?','Paano mag-stock market?','Saan mamumuhunan?'],
+      insurance:    ['Magkano ang insurance?','Anong klase ang kailangan ko?','Paano mag-apply?'],
+      realestate:   ['Paano maging agent?','Magkano ang properties?','Saan magsimula?'],
+      default:      ['Kamusta ka?','Miss ko pamilya ko','Paano mag-ipon?','Gusto kong kumita pa','Malungkot ako ngayon'],
+    },
+    en: {
+      lonely:       ['How do you cope?','What helps you relax?','Tell me more!'],
+      money_earn:   ['What opportunities?','Do I need big capital?','How do I start?'],
+      invest:       ['What is VUL?','How to invest in stocks?','Where to start?'],
+      default:      ['How are you?','I miss my family','How to save more?','I want extra income','I feel lonely today'],
+    }
+  };
+
+  function updateSuggestions(intent, lang) {
+    var bank = SUGGESTIONS[lang] || SUGGESTIONS['tl'];
+    var arr = bank[intent] || bank['default'];
+    var wrap = document.getElementById('chatSuggestions');
+    wrap.innerHTML = arr.map(function(s){
+      return '<button class="suggest-btn" onclick="sendSuggestion(this)">' + s + '</button>';
+    }).join('');
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SEND / RECEIVE
+  ═══════════════════════════════════════════════════════ */
+  function sendMessage() {
+    var input = document.getElementById('chatInput');
+    var text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    addMessage('user', text);
+    botReply(text);
+  }
+
+  function sendSuggestion(btn) {
+    var text = btn.textContent;
+    addMessage('user', text);
+    botReply(text);
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-pill').forEach(function(b){
+      b.classList.toggle('active', b.textContent.toLowerCase() === lang);
+    });
+    document.getElementById('chatInput').placeholder =
+      lang === 'tl' ? 'I-type ang mensahe mo...' : 'Type your message...';
+    updateSuggestions('default', lang);
+  }
+
+  /* Enter key to send */
+  document.addEventListener('DOMContentLoaded', function(){
+    renderChar();
+
+    /* Initial greeting */
+    setTimeout(function(){
+      addMessage('bot', 'Hoy! Kumusta ka? Ako si Hira — kasama mo sa bawat araw na malayo sa pamilya. Pwede kang kumausap sa akin anumang oras!');
+    }, 400);
+
+    document.getElementById('chatInput').addEventListener('keydown', function(e){
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    /* Auto-blink is handled by CSS — nothing extra needed */
+  });
+  </script>
+</body>
+</html>
