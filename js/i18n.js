@@ -100,6 +100,42 @@ const LANG = {
     footer_tagline: "Empowering Global Workers to Build Wealth & Freedom",
     footer_copy: "© 2026 MillionaireMindset.ae — All rights reserved.",
     footer_aff: "This site may contain affiliate links. We earn a small commission at no extra cost to you.",
+
+    // Blog page
+    blog_hero_label: "Financial Literacy",
+    blog_hero_h1: "Blog &amp; Series",
+    blog_hero_sub: "Guided learning series + practical articles — everything you need to build financial confidence, wherever you are in the world.",
+    blog_series_label: "Guided Learning",
+    blog_series_h2: "Blog Series",
+    blog_series_sub: "Structured multi-part series published on a schedule. Follow along day by day — each post builds on the last.",
+    blog_art_label: "Latest Articles",
+    blog_art_h2: "Financial Tips",
+    blog_read_more: "Read More →",
+
+    blog_p1_tag: "Remittance", blog_p1_date: "June 2026",
+    blog_p1_title: "5 Best Ways to Send Money Home from Abroad in 2026",
+    blog_p1_desc: "Comparing fees, exchange rates, and speed — so more of your hard-earned money reaches your family.",
+
+    blog_p2_tag: "Investing", blog_p2_date: "May 2026",
+    blog_p2_title: "OFW Beginner's Guide to the Philippine Stock Market",
+    blog_p2_desc: "You don't need to be rich to invest. Here's how to open an account and start with as little as ₱1,000.",
+
+    blog_p3_tag: "Mindset", blog_p3_date: "April 2026",
+    blog_p3_title: "Why Most OFWs Come Home Broke — And How Not To",
+    blog_p3_desc: "The lifestyle traps, the family pressure, and the money habits that drain savings. Let's fix them.",
+
+    blog_p4_tag: "Insurance", blog_p4_date: "March 2026",
+    blog_p4_title: "Why Every OFW Needs Life Insurance — Even If You're Healthy",
+    blog_p4_desc: "Your family depends on your income. What happens if something unexpected happens to you?",
+
+    blog_p5_tag: "Real Estate", blog_p5_date: "February 2026",
+    blog_p5_title: "How OFWs Can Buy a House in the Philippines from Abroad",
+    blog_p5_desc: "Step-by-step guide to purchasing property remotely — without going home to sign papers.",
+
+    blog_aff_label: "Recommended",
+    blog_aff1_title: "OFW Health Insurance", blog_aff1_desc: "Affordable coverage for you and your family back home.", blog_aff_cta: "Get a Quote →",
+    blog_aff2_title: "Vista Land Properties", blog_aff2_desc: "Affordable homes and lots across the Philippines.", blog_aff_cta2: "View Properties →",
+    blog_aff3_title: "JC Premiere Wellness", blog_aff3_desc: "Premium health products delivered anywhere.", blog_aff_cta3: "Shop Now →",
   },
 
   tl: {
@@ -202,6 +238,42 @@ const LANG = {
     footer_tagline: "Binibigyan ng Kakayahan ang mga Global Worker na Bumuo ng Yaman at Kalayaan",
     footer_copy: "© 2026 MillionaireMindset.ae — Lahat ng karapatan ay nakalaan.",
     footer_aff: "Ang site na ito ay maaaring may mga affiliate links. Kumikita kami ng maliit na komisyon nang walang dagdag na bayad sa inyo.",
+
+    // Blog page — Tagalog
+    blog_hero_label: "Pinansyal na Karunungan",
+    blog_hero_h1: "Blog at Serye",
+    blog_hero_sub: "Mga gabay na serye at praktikal na artikulo — lahat ng kailangan mo para maging matalino sa pera, saan ka man naroroon sa mundo.",
+    blog_series_label: "Gabay na Pag-aaral",
+    blog_series_h2: "Mga Blog Series",
+    blog_series_sub: "Nakabalangkas na serye na inilalathala araw-araw. Sundan mo ito — ang bawat post ay nagdadagdag sa nakaraang aralin.",
+    blog_art_label: "Pinakabagong Artikulo",
+    blog_art_h2: "Tips sa Pera para sa OFW",
+    blog_read_more: "Basahin →",
+
+    blog_p1_tag: "Padala", blog_p1_date: "Hunyo 2026",
+    blog_p1_title: "5 Pinakamahusay na Paraan ng Pagpapadala ng Pera mula sa Ibang Bansa noong 2026",
+    blog_p1_desc: "Inihambing ang bayad, halaga ng palitan, at bilis — para mas maraming pera ang makakarating sa iyong pamilya.",
+
+    blog_p2_tag: "Pamumuhunan", blog_p2_date: "Mayo 2026",
+    blog_p2_title: "Gabay ng OFW Baguhan sa Philippine Stock Market",
+    blog_p2_desc: "Hindi kailangan maging mayaman para mag-invest. Narito kung paano magsimula sa halagang ₱1,000 lang.",
+
+    blog_p3_tag: "Mindset", blog_p3_date: "Abril 2026",
+    blog_p3_title: "Bakit Karamihan sa OFW ay Walang Naipon Pag-uwi — At Paano Maiiwasan",
+    blog_p3_desc: "Ang mga bitag sa pamumuhay, presyur ng pamilya, at ugali sa pera na nagpapalubog ng ipon ng OFW.",
+
+    blog_p4_tag: "Insurance", blog_p4_date: "Marso 2026",
+    blog_p4_title: "Bakit Kailangan ng Bawat OFW ng Life Insurance — Kahit Malusog Ka",
+    blog_p4_desc: "Ang pamilya mo ay umaasa sa iyong kita. Ano ang mangyayari kung may hindi inaasahang mangyari sa iyo?",
+
+    blog_p5_tag: "Real Estate", blog_p5_date: "Pebrero 2026",
+    blog_p5_title: "Paano Makakabili ng Bahay ang OFW sa Pilipinas Kahit Nasa Abroad",
+    blog_p5_desc: "Hakbang-hakbang na gabay sa pagbili ng property nang malayo — nang hindi na kailangang umuwi para pumirma.",
+
+    blog_aff_label: "Inirerekomenda",
+    blog_aff1_title: "OFW Health Insurance", blog_aff1_desc: "Abot-kayang coverage para sa iyo at sa iyong pamilya sa Pilipinas.", blog_aff_cta: "Kumuha ng Quote →",
+    blog_aff2_title: "Vista Land Properties", blog_aff2_desc: "Abot-kayang bahay at lupa sa buong Pilipinas.", blog_aff_cta2: "Tingnan ang Mga Property →",
+    blog_aff3_title: "JC Premiere Wellness", blog_aff3_desc: "Mga premium na produktong pangkalusugan na maipapadala kahit saan.", blog_aff_cta3: "Mag-order Na →",
   }
 };
 

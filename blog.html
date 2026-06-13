@@ -150,13 +150,14 @@
         <img src="images/logo.png" alt="Millionaire Mindset" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';" />
         <span style="display:none;">Millionaire<span class="gold-text">Mindset</span></span>
       </a>
-      <ul class="nav-links">
+            <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="business.html">Business</a></li>
         <li><a href="checkup.html">Check-up</a></li>
         <li><a href="about.html">About</a></li>
+        <li><a href="index.html#contact" class="btn-nav">Contact</a></li>
       </ul>
       <div class="nav-right">
         <div class="lang-switcher">
@@ -189,21 +190,22 @@
         <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
       </div>
     </div>
-    <ul class="nav-mobile" id="mobileMenu">
+        <ul class="nav-mobile" id="mobileMenu">
       <li><a href="index.html" onclick="toggleMenu()">Home</a></li>
       <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
       <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
       <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
-      <li><a href="checkup.html" onclick="toggleMenu()">Financial Check-up</a></li>
+      <li><a href="checkup.html" onclick="toggleMenu()">Check-up</a></li>
       <li><a href="about.html" onclick="toggleMenu()">About</a></li>
+      <li><a href="index.html#contact" onclick="toggleMenu()">Contact</a></li>
     </ul>
   </nav>
 
   <!-- PAGE HERO -->
   <div class="page-hero">
-    <p class="label">Financial Literacy</p>
-    <h1>Blog & Series</h1>
-    <p>Guided learning series + practical articles — everything you need to build financial confidence, wherever you are in the world.</p>
+    <p class="label" data-i18n="blog_hero_label">Financial Literacy</p>
+    <h1 data-i18n="blog_hero_h1">Blog &amp; Series</h1>
+    <p data-i18n="blog_hero_sub">Guided learning series + practical articles — everything you need to build financial confidence, wherever you are in the world.</p>
   </div>
 
   <!-- AFFILIATE BANNER -->
@@ -218,9 +220,9 @@
   <section class="section" style="padding-top:40px;padding-bottom:0;">
     <div class="container">
       <div class="section-header" style="margin-bottom:40px;">
-        <p class="label">Guided Learning</p>
-        <h2>Blog Series</h2>
-        <p class="section-sub">Structured multi-part series published on a schedule. Follow along day by day — each post builds on the last.</p>
+        <p class="label" data-i18n="blog_series_label">Guided Learning</p>
+        <h2 data-i18n="blog_series_h2">Blog Series</h2>
+        <p class="section-sub" data-i18n="blog_series_sub">Structured multi-part series published on a schedule. Follow along day by day — each post builds on the last.</p>
       </div>
       <div id="seriesContainer">
         <!-- Rendered by JS from blog-series.js -->
@@ -234,52 +236,52 @@
 
       <div>
         <div class="section-header" style="text-align:left;margin-bottom:32px;">
-          <p class="label">Latest Articles</p>
-          <h2>Financial Tips</h2>
+          <p class="label" data-i18n="blog_art_label">Latest Articles</p>
+          <h2 data-i18n="blog_art_h2">Financial Tips</h2>
         </div>
 
         <div class="cards-grid">
           <article class="card">
             <div class="card-img card-img--remittance"></div>
             <div class="card-body">
-              <div class="blog-meta"><span class="tag">Remittance</span><span class="blog-date">June 2026</span></div>
-              <h3>5 Best Ways to Send Money Home from Abroad in 2026</h3>
-              <p>Comparing fees, exchange rates, and speed — so more of your hard-earned money reaches your family.</p>
-              <a href="#" class="read-more">Read More →</a>
+              <div class="blog-meta"><span class="tag" data-i18n="blog_p1_tag">Remittance</span><span class="blog-date" data-i18n="blog_p1_date">June 2026</span></div>
+              <h3 data-i18n="blog_p1_title">5 Best Ways to Send Money Home from Abroad in 2026</h3>
+              <p data-i18n="blog_p1_desc">Comparing fees, exchange rates, and speed — so more of your hard-earned money reaches your family.</p>
+              <a href="#" class="read-more" data-i18n="blog_read_more">Read More →</a>
             </div>
           </article>
 
           <article class="card">
             <div class="card-img card-img--stocks"></div>
             <div class="card-body">
-              <div class="blog-meta"><span class="tag">Investing</span><span class="blog-date">May 2026</span></div>
-              <h3>OFW Beginner's Guide to the Philippine Stock Market</h3>
-              <p>You don't need to be rich to invest. Here's how to open an account and start with as little as ₱1,000.</p>
-              <a href="#" class="read-more">Read More →</a>
+              <div class="blog-meta"><span class="tag" data-i18n="blog_p2_tag">Investing</span><span class="blog-date" data-i18n="blog_p2_date">May 2026</span></div>
+              <h3 data-i18n="blog_p2_title">OFW Beginner's Guide to the Philippine Stock Market</h3>
+              <p data-i18n="blog_p2_desc">You don't need to be rich to invest. Here's how to open an account and start with as little as ₱1,000.</p>
+              <a href="#" class="read-more" data-i18n="blog_read_more">Read More →</a>
             </div>
           </article>
 
           <!-- INLINE AFFILIATE -->
           <div class="affiliate-inline" style="grid-column:1/-1;">
-            <span class="affiliate-label">Recommended</span>
+            <span class="affiliate-label" data-i18n="blog_aff_label">Recommended</span>
             <div class="affiliate-inline-grid" style="margin-top:12px;">
               <div class="affiliate-card">
                 <span class="aff-icon">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
                 </span>
-                <div><strong>OFW Health Insurance</strong><p>Affordable coverage for you and your family back home.</p><a href="#" class="affiliate-link">Get a Quote →</a></div>
+                <div><strong data-i18n="blog_aff1_title">OFW Health Insurance</strong><p data-i18n="blog_aff1_desc">Affordable coverage for you and your family back home.</p><a href="#" class="affiliate-link" data-i18n="blog_aff_cta">Get a Quote →</a></div>
               </div>
               <div class="affiliate-card">
                 <span class="aff-icon">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
                 </span>
-                <div><strong>Vista Land Properties</strong><p>Affordable homes and lots across the Philippines.</p><a href="business.html" class="affiliate-link">View Properties →</a></div>
+                <div><strong data-i18n="blog_aff2_title">Vista Land Properties</strong><p data-i18n="blog_aff2_desc">Affordable homes and lots across the Philippines.</p><a href="business.html" class="affiliate-link" data-i18n="blog_aff_cta2">View Properties →</a></div>
               </div>
               <div class="affiliate-card">
                 <span class="aff-icon">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.5 20H4a2 2 0 01-2-2V5c0-1.1.9-2 2-2h3.93a2 2 0 011.66.9l.82 1.2a2 2 0 001.66.9H20a2 2 0 012 2v3"/><circle cx="17" cy="17" r="5"/><path d="M17 15v4M15 17h4"/></svg>
                 </span>
-                <div><strong>JC Premiere Wellness</strong><p>Premium health products delivered anywhere.</p><a href="shop.html" class="affiliate-link">Shop Now →</a></div>
+                <div><strong data-i18n="blog_aff3_title">JC Premiere Wellness</strong><p data-i18n="blog_aff3_desc">Premium health products delivered anywhere.</p><a href="shop.html" class="affiliate-link" data-i18n="blog_aff_cta3">Shop Now →</a></div>
               </div>
             </div>
           </div>
@@ -287,30 +289,30 @@
           <article class="card">
             <div class="card-img card-img--mindset"></div>
             <div class="card-body">
-              <div class="blog-meta"><span class="tag">Mindset</span><span class="blog-date">April 2026</span></div>
-              <h3>Why Most OFWs Come Home Broke — And How Not To</h3>
-              <p>The lifestyle traps, the family pressure, and the money habits that drain savings. Let's fix them.</p>
-              <a href="#" class="read-more">Read More →</a>
+              <div class="blog-meta"><span class="tag" data-i18n="blog_p3_tag">Mindset</span><span class="blog-date" data-i18n="blog_p3_date">April 2026</span></div>
+              <h3 data-i18n="blog_p3_title">Why Most OFWs Come Home Broke — And How Not To</h3>
+              <p data-i18n="blog_p3_desc">The lifestyle traps, the family pressure, and the money habits that drain savings. Let's fix them.</p>
+              <a href="#" class="read-more" data-i18n="blog_read_more">Read More →</a>
             </div>
           </article>
 
           <article class="card">
             <div class="card-img card-img--insurance"></div>
             <div class="card-body">
-              <div class="blog-meta"><span class="tag">Insurance</span><span class="blog-date">March 2026</span></div>
-              <h3>Why Every OFW Needs Life Insurance — Even If You're Healthy</h3>
-              <p>Your family depends on your income. What happens if something unexpected happens to you?</p>
-              <a href="#" class="read-more">Read More →</a>
+              <div class="blog-meta"><span class="tag" data-i18n="blog_p4_tag">Insurance</span><span class="blog-date" data-i18n="blog_p4_date">March 2026</span></div>
+              <h3 data-i18n="blog_p4_title">Why Every OFW Needs Life Insurance — Even If You're Healthy</h3>
+              <p data-i18n="blog_p4_desc">Your family depends on your income. What happens if something unexpected happens to you?</p>
+              <a href="#" class="read-more" data-i18n="blog_read_more">Read More →</a>
             </div>
           </article>
 
           <article class="card">
             <div class="card-img card-img--realestate"></div>
             <div class="card-body">
-              <div class="blog-meta"><span class="tag">Real Estate</span><span class="blog-date">February 2026</span></div>
-              <h3>How OFWs Can Buy a House in the Philippines from Abroad</h3>
-              <p>Step-by-step guide to purchasing property remotely — without going home to sign papers.</p>
-              <a href="#" class="read-more">Read More →</a>
+              <div class="blog-meta"><span class="tag" data-i18n="blog_p5_tag">Real Estate</span><span class="blog-date" data-i18n="blog_p5_date">February 2026</span></div>
+              <h3 data-i18n="blog_p5_title">How OFWs Can Buy a House in the Philippines from Abroad</h3>
+              <p data-i18n="blog_p5_desc">Step-by-step guide to purchasing property remotely — without going home to sign papers.</p>
+              <a href="#" class="read-more" data-i18n="blog_read_more">Read More →</a>
             </div>
           </article>
         </div>
