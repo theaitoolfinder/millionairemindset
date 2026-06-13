@@ -146,9 +146,112 @@
       margin-top: 4px;
     }
 
-    /* ── Businesses section (hidden until unlocked) ───── */
+    /* ── Businesses + Events section (hidden until unlocked) ── */
     #biz-content { display: none; }
     #biz-content.unlocked { display: block; }
+
+    /* ── Events styles ───────────────────────────────────── */
+    .events-section { padding: 80px 0 40px; }
+    .events-section-head { margin-bottom: 40px; }
+    .events-section-head .section-eyebrow {
+      display: inline-block;
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--primary);
+      background: rgba(204,16,16,.08);
+      border: 1px solid rgba(204,16,16,.15);
+      padding: 5px 14px; border-radius: 999px;
+      margin-bottom: 14px;
+    }
+    .events-section-head h2 { font-size: clamp(1.7rem,3vw,2.2rem); font-weight: 800; letter-spacing:-.03em; margin-bottom: 10px; }
+    .events-section-head p  { color: var(--text-dim); max-width: 520px; line-height: 1.8; font-size: .93rem; }
+    .events-featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
+      gap: 20px; margin-bottom: 28px;
+    }
+    .ev-card {
+      background: rgba(255,255,255,.82);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 20px; padding: 28px;
+      box-shadow: 0 4px 20px rgba(0,0,0,.06), inset 0 1px 0 rgba(255,255,255,1);
+      transition: .25s cubic-bezier(.4,0,.2,1);
+      position: relative; overflow: hidden;
+    }
+    .ev-card:hover { transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,.09); }
+    .ev-card.ev-featured { border-top: 3px solid var(--primary); }
+    .ev-featured-tag {
+      position: absolute; top: 14px; right: 14px;
+      font-size: .62rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      background: rgba(204,16,16,.09); color: var(--primary);
+      border: 1px solid rgba(204,16,16,.18);
+      padding: 3px 10px; border-radius: 999px;
+    }
+    .ev-date-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .ev-date-box {
+      width: 50px; height: 50px; flex-shrink: 0;
+      border-radius: 13px; background: var(--primary);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: #fff; box-shadow: 0 4px 14px rgba(204,16,16,.28);
+    }
+    .ev-date-day { font-size: 1.15rem; font-weight: 800; line-height: 1; }
+    .ev-date-mon { font-size: .56rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; opacity: .85; }
+    .ev-cat-pill {
+      font-size: .64rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 999px;
+      background: rgba(200,144,10,.09); color: var(--accent);
+      border: 1px solid rgba(200,144,10,.22);
+    }
+    .ev-org-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .7rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 999px; margin-bottom: 10px;
+      border: 1px solid transparent;
+    }
+    .ev-org-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .ev-title { font-size: 1.05rem; font-weight: 700; letter-spacing: -.02em; margin-bottom: 10px; line-height: 1.3; }
+    .ev-meta { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .ev-meta-row { display: flex; align-items: center; gap: 7px; font-size: .8rem; color: var(--text-dim); }
+    .ev-meta-row svg { flex-shrink: 0; }
+    .ev-desc { font-size: .83rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 18px; }
+    .ev-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .ev-seats { font-size: .77rem; color: var(--text-dim); }
+    .ev-seats strong { color: var(--text); }
+    .ev-mode-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: .67rem; font-weight: 600;
+      padding: 3px 10px; border-radius: 999px;
+      background: rgba(34,197,94,.09); color: #16a34a;
+      border: 1px solid rgba(34,197,94,.2);
+    }
+    .ev-mode-pill.physical { background: rgba(59,130,246,.09); color: #2563eb; border-color: rgba(59,130,246,.2); }
+    .ev-mode-pill.hybrid   { background: rgba(124,58,237,.09); color: #7c3aed; border-color: rgba(124,58,237,.2); }
+    .ev-list { display: flex; flex-direction: column; gap: 10px; }
+    .ev-row {
+      background: rgba(255,255,255,.72); backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.9); border-radius: 16px;
+      padding: 15px 20px; display: flex; align-items: center;
+      gap: 14px; text-decoration: none; transition: .2s;
+      box-shadow: 0 2px 10px rgba(0,0,0,.04);
+    }
+    .ev-row:hover { transform: translateX(4px); box-shadow: 0 4px 18px rgba(0,0,0,.07); }
+    .ev-row-date {
+      width: 42px; height: 42px; flex-shrink: 0; border-radius: 12px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; color: #fff;
+    }
+    .ev-row-day { font-size: 1rem; font-weight: 800; line-height: 1; }
+    .ev-row-mon { font-size: .5rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; opacity: .88; }
+    .ev-row-info { flex: 1; min-width: 0; }
+    .ev-row-title { font-size: .88rem; font-weight: 700; color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ev-row-sub { font-size: .75rem; color: var(--text-dim); }
+    .ev-row-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .ev-empty { text-align: center; padding: 48px 24px; color: var(--text-dim); }
+    .ev-empty svg { margin: 0 auto 14px; display: block; opacity: .28; }
+    .ev-list-label { font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 14px; }
 
     /* ── Teaser cards (visible before subscribe) ─────── */
     .teaser-grid {
@@ -401,6 +504,7 @@
   </footer>
 
   <script src="js/businesses.js"></script>
+  <script src="js/events.js"></script>
   <script src="js/leads.js"></script>
   <script src="js/i18n.js"></script>
   <script src="js/main.js"></script>
@@ -534,9 +638,107 @@
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     };
 
+    /* ── Events renderer ────────────────────────────── */
+    var EV_MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function parseEvDate(s) { var p = s.split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+
+    function evModePill(mode) {
+      var cls = mode === 'physical' ? 'physical' : mode === 'hybrid' ? 'hybrid' : '';
+      var label = mode === 'physical' ? 'In-Person' : mode === 'hybrid' ? 'Hybrid' : 'Online';
+      return '<span class="ev-mode-pill ' + cls + '"><svg width="7" height="7" viewBox="0 0 8 8"><circle cx="4" cy="4" r="4" fill="currentColor"/></svg>' + label + '</span>';
+    }
+
+    function renderEvents() {
+      if (typeof EVENTS === 'undefined') return;
+
+      /* Inject events section after biz-content */
+      var wrap = document.getElementById('biz-content');
+      if (!wrap) return;
+
+      var now = new Date(); now.setHours(0,0,0,0);
+      var upcoming = EVENTS
+        .filter(function(e){ return parseEvDate(e.date) >= now; })
+        .sort(function(a,b){ return parseEvDate(a.date) - parseEvDate(b.date); });
+      var featured = upcoming.filter(function(e){ return e.isFeatured; });
+
+      /* Featured cards HTML */
+      var featHtml = featured.length === 0 ? '' : featured.map(function(e){
+        var d = parseEvDate(e.date);
+        var orgStyle = 'background:' + e.organizerColor + '1a;border-color:' + e.organizerColor + '44;color:' + e.organizerColor;
+        var seatsHtml = (e.seats > 0 && e.seatsLeft > 0)
+          ? '<span class="ev-seats"><strong>' + e.seatsLeft + '</strong> of ' + e.seats + ' seats left</span>'
+          : '<span></span>';
+        return '<div class="ev-card' + (e.isFeatured ? ' ev-featured' : '') + '">'
+          + (e.isFeatured ? '<span class="ev-featured-tag">Featured</span>' : '')
+          + '<div class="ev-date-row">'
+            + '<div class="ev-date-box"><div class="ev-date-day">' + d.getDate() + '</div><div class="ev-date-mon">' + EV_MON[d.getMonth()] + '</div></div>'
+            + '<span class="ev-cat-pill">' + e.category + '</span>'
+          + '</div>'
+          + '<span class="ev-org-badge" style="' + orgStyle + '"><span class="ev-org-dot" style="background:' + e.organizerColor + '"></span>' + e.organizer + '</span>'
+          + '<div class="ev-title">' + e.title + '</div>'
+          + '<div class="ev-meta">'
+            + '<div class="ev-meta-row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' + e.time + ' &middot; ' + e.timezone + '</div>'
+            + '<div class="ev-meta-row"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>' + e.location + '</div>'
+          + '</div>'
+          + '<div class="ev-desc">' + e.description + '</div>'
+          + '<div class="ev-footer">'
+            + seatsHtml
+            + '<div style="display:flex;gap:8px;align-items:center;">'
+              + evModePill(e.mode)
+              + '<a href="' + e.registrationLink + '" class="btn-primary" style="padding:9px 20px;font-size:.82rem;">Register</a>'
+            + '</div>'
+          + '</div>'
+          + '</div>';
+      }).join('');
+
+      /* All events list HTML */
+      var listHtml = upcoming.length === 0
+        ? '<div class="ev-empty"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><h3 style="font-size:1rem;margin-bottom:6px;">No upcoming events</h3><p style="font-size:.88rem;">Check back soon — events are added regularly.</p></div>'
+        : upcoming.map(function(e){
+            var d = parseEvDate(e.date);
+            return '<a href="' + e.registrationLink + '" class="ev-row">'
+              + '<div class="ev-row-date" style="background:' + e.organizerColor + ';">'
+                + '<div class="ev-row-day">' + d.getDate() + '</div>'
+                + '<div class="ev-row-mon">' + EV_MON[d.getMonth()] + '</div>'
+              + '</div>'
+              + '<div class="ev-row-info">'
+                + '<div class="ev-row-title">' + e.title + '</div>'
+                + '<div class="ev-row-sub">' + e.organizer + ' &middot; ' + e.time + ' ' + e.timezone + ' &middot; ' + e.location + '</div>'
+              + '</div>'
+              + '<div class="ev-row-right">' + evModePill(e.mode) + '<span class="ev-cat-pill">' + e.category + '</span></div>'
+              + '</a>';
+          }).join('');
+
+      /* Build and append the events section */
+      var evSection = document.createElement('section');
+      evSection.className = 'events-section';
+      evSection.id = 'biz-events';
+      evSection.innerHTML =
+        '<div class="container">'
+          + '<div class="events-section-head">'
+            + '<span class="section-eyebrow">For Members</span>'
+            + '<h2>Upcoming Events</h2>'
+            + '<p>Seminars, orientations, and workshops from our network partners. Exclusive schedule — members only.</p>'
+          + '</div>'
+          + (featHtml ? '<div class="events-featured-grid">' + featHtml + '</div>' : '')
+          + '<p class="ev-list-label">All Upcoming Events</p>'
+          + '<div class="ev-list">' + listHtml + '</div>'
+        + '</div>';
+
+      /* Insert events before the bottom CTA */
+      var cta = document.getElementById('biz-cta');
+      if (cta) {
+        cta.parentNode.insertBefore(evSection, cta);
+      } else {
+        wrap.appendChild(evSection);
+      }
+    }
+
     /* ── Init ───────────────────────────────────────── */
     renderTeasers();
     renderBusinesses();
+    renderEvents();
 
     var unlocked = false;
     try { unlocked = localStorage.getItem(STORAGE_KEY) === '1'; } catch(ex){}
@@ -547,5 +749,6 @@
 
   })();
   </script>
+  <script src="js/chat-widget.js"></script>
 </body>
 </html>
