@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post | Millionaire Mindset</title>
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    .post-wrap { max-width: 760px; margin: 0 auto; padding: 140px 28px 96px; }
+
+    .post-series-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(255,255,255,0.75); backdrop-filter: blur(12px);
+      border: 1px solid rgba(0,0,0,0.08); border-radius: 999px;
+      padding: 7px 16px; font-size: 0.78rem; font-weight: 600;
+      color: var(--text-muted); margin-bottom: 20px;
+      text-decoration: none; transition: 0.2s;
+    }
+    .post-series-badge:hover { background: rgba(255,255,255,0.95); }
+
+    .post-day-pill {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 56px; height: 56px; border-radius: 16px;
+      background: var(--red); color: #fff;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      box-shadow: 0 4px 16px var(--red-glow);
+      margin-bottom: 20px;
+    }
+
+    .post-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 16px;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+
+    .post-meta {
+      display: flex; align-items: center; gap: 12px;
+      flex-wrap: wrap; margin-bottom: 32px;
+    }
+    .post-meta-item {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; color: var(--text-muted);
+    }
+
+    .post-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; }
+    .post-tag {
+      background: rgba(204,16,16,0.07); border: 1px solid rgba(204,16,16,0.15);
+      color: var(--red); font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 999px;
+    }
+
+    .post-body {
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255,255,255,0.95);
+      border-radius: 24px;
+      padding: 44px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.07), inset 0 2px 0 rgba(255,255,255,1);
+      margin-bottom: 32px;
+    }
+    .post-body p { color: var(--text-muted); line-height: 1.9; margin-bottom: 20px; font-size: 0.97rem; }
+    .post-body p strong { color: var(--text); font-weight: 700; }
+    .post-body h2 { font-size: 1.4rem; margin: 36px 0 14px; color: var(--heading); }
+    .post-body h3 { font-size: 1.15rem; margin: 28px 0 10px; color: var(--heading); }
+    .post-body ul, .post-body ol { margin: 0 0 20px 20px; }
+    .post-body li { color: var(--text-muted); line-height: 1.8; margin-bottom: 6px; font-size: 0.97rem; }
+    .post-body blockquote {
+      border-left: 3px solid var(--red); padding: 16px 20px;
+      background: var(--red-light); border-radius: 0 12px 12px 0;
+      margin: 28px 0; font-style: italic;
+    }
+    .post-body blockquote p { margin: 0; color: var(--text); }
+
+    /* Coming soon state */
+    .post-coming-soon {
+      text-align: center; padding: 56px 24px;
+    }
+    .coming-soon-icon { font-size: 3.5rem; margin-bottom: 16px; }
+    .coming-soon-bar {
+      background: rgba(0,0,0,0.05); border-radius: 999px; height: 8px;
+      max-width: 320px; margin: 24px auto 8px; overflow: hidden;
+    }
+    .coming-soon-fill {
+      height: 100%; background: linear-gradient(90deg, var(--red), var(--gold));
+      border-radius: 999px; transition: width 1s ease;
+    }
+    .coming-soon-label { font-size: 0.78rem; color: var(--text-light); }
+
+    /* Navigation */
+    .post-nav {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 32px;
+    }
+    .post-nav-btn {
+      background: rgba(255,255,255,0.78); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.9); border-radius: 18px;
+      padding: 18px 20px; text-decoration: none;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+      transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .post-nav-btn:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.09); }
+    .post-nav-btn.next { text-align: right; }
+    .post-nav-direction { font-size: 0.7rem; color: var(--text-light); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+    .post-nav-title { font-size: 0.88rem; color: var(--text); font-weight: 600; line-height: 1.4; }
+    .post-nav-day { font-size: 0.75rem; color: var(--red); font-weight: 700; }
+
+    /* Series progress */
+    .series-progress-card {
+      background: rgba(255,255,255,0.78); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.9); border-radius: 20px;
+      padding: 24px 28px; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+      margin-bottom: 32px;
+    }
+    .series-progress-card h4 { font-size: 0.95rem; margin-bottom: 12px; }
+    .series-prog-bar { background: rgba(0,0,0,0.07); border-radius: 999px; height: 6px; overflow: hidden; margin-bottom: 8px; }
+    .series-prog-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--gold)); border-radius: 999px; }
+    .series-prog-label { font-size: 0.78rem; color: var(--text-muted); display: flex; justify-content: space-between; }
+
+    /* Notify me */
+    .notify-card {
+      background: rgba(255,248,225,0.8); backdrop-filter: blur(16px);
+      border: 1px solid rgba(200,144,10,0.2); border-radius: 20px;
+      padding: 28px; text-align: center;
+      box-shadow: 0 2px 16px rgba(200,144,10,0.08);
+    }
+    .notify-card h4 { margin-bottom: 8px; }
+    .notify-card p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px; }
+    .notify-form { display: flex; gap: 8px; max-width: 400px; margin: 0 auto; flex-wrap: wrap; }
+    .notify-input {
+      flex: 1; min-width: 200px; background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(200,144,10,0.2); border-radius: 12px;
+      padding: 11px 16px; font-size: 0.88rem; font-family: inherit;
+      outline: none; color: var(--text);
+    }
+    .notify-btn {
+      background: var(--gold); color: #fff; border: none;
+      padding: 11px 20px; border-radius: 12px; font-weight: 700;
+      font-size: 0.85rem; cursor: pointer; white-space: nowrap;
+      transition: 0.2s; box-shadow: 0 4px 12px rgba(200,144,10,0.2);
+    }
+    .notify-btn:hover { background: var(--gold); filter: brightness(1.05); transform: translateY(-1px); }
+
+    @media (max-width: 600px) {
+      .post-wrap { padding: 120px 20px 72px; }
+      .post-body { padding: 28px 20px; }
+      .post-nav { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Millionaire Mindset" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';" />
+        <span style="display:none;">Millionaire<span class="gold-text">Mindset</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="checkup.html">💰 Check-up</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="nav-theme-wrap">
+          <button id="mm-theme-btn" onclick="mmToggleThemePanel(event)" aria-label="Change theme color" title="Change theme color">
+            <span id="mm-theme-dot"></span>
+          </button>
+          <div id="mm-theme-panel" role="dialog">
+            <h5>🎨 Choose Theme</h5>
+            <div class="mm-swatches">
+              <div class="mm-swatch" data-t="brand"    onclick="mmApplyTheme('brand')"></div>
+              <div class="mm-swatch" data-t="ocean"    onclick="mmApplyTheme('ocean')"></div>
+              <div class="mm-swatch" data-t="forest"   onclick="mmApplyTheme('forest')"></div>
+              <div class="mm-swatch" data-t="sunset"   onclick="mmApplyTheme('sunset')"></div>
+              <div class="mm-swatch" data-t="lavender" onclick="mmApplyTheme('lavender')"></div>
+              <div class="mm-swatch" data-t="rose"     onclick="mmApplyTheme('rose')"></div>
+              <div class="mm-swatch" data-t="sky"      onclick="mmApplyTheme('sky')"></div>
+              <div class="mm-swatch" data-t="teal"     onclick="mmApplyTheme('teal')"></div>
+              <div class="mm-swatch" data-t="amber"    onclick="mmApplyTheme('amber')"></div>
+              <div class="mm-swatch" data-t="pink"     onclick="mmApplyTheme('pink')"></div>
+              <div class="mm-swatch" data-t="indigo"   onclick="mmApplyTheme('indigo')"></div>
+            </div>
+            <div id="mm-theme-footer">Saves automatically ✓</div>
+          </div>
+        </div>
+        <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+      </div>
+    </div>
+    <ul class="nav-mobile" id="mobileMenu">
+      <li><a href="index.html" onclick="toggleMenu()">Home</a></li>
+      <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
+      <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
+      <li><a href="checkup.html" onclick="toggleMenu()">💰 Financial Check-up</a></li>
+    </ul>
+  </nav>
+
+  <div class="post-wrap" id="postWrap">
+    <!-- Rendered by JS -->
+    <p style="color:var(--text-muted);text-align:center;padding-top:60px;">Loading post…</p>
+  </div>
+
+  <script src="js/blog-series.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+  (function(){
+    var params = new URLSearchParams(window.location.search);
+    var seriesId = params.get('series');
+    var day = parseInt(params.get('day'), 10);
+
+    var wrap = document.getElementById('postWrap');
+
+    // Find series
+    var series = (BLOG_SERIES || []).find(function(s){ return s.id === seriesId; });
+    if (!series) {
+      wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:60px 0;">Series not found. <a href="blog.html" style="color:var(--red);">← Back to Blog</a></p>';
+      return;
+    }
+
+    // Find post
+    var post = series.posts.find(function(p){ return p.day === day; });
+    if (!post) {
+      wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:60px 0;">Post not found. <a href="blog.html" style="color:var(--red);">← Back to Blog</a></p>';
+      return;
+    }
+
+    // Update page title
+    document.title = 'Day ' + post.day + ': ' + post.title + ' | Millionaire Mindset';
+
+    // Prev/next
+    var prevPost = series.posts.find(function(p){ return p.day === day - 1; });
+    var nextPost = series.posts.find(function(p){ return p.day === day + 1; });
+
+    // Progress
+    var pct = Math.round((day / series.totalPosts) * 100);
+    var publishedCount = series.posts.filter(function(p){ return p.content; }).length;
+
+    // Convert markdown-ish content to HTML
+    function parseContent(text) {
+      if (!text) return '';
+      return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/^/, '<p>').replace(/$/, '</p>')
+        .replace(/<p>\*\*(.+?)\*\*<\/p>/g, '<h3>$1</h3>');
+    }
+
+    var tagsHtml = post.tags.map(function(t){
+      return '<span class="post-tag">' + t + '</span>';
+    }).join('');
+
+    var navHtml = '';
+    if (prevPost || nextPost) {
+      navHtml = '<div class="post-nav">';
+      if (prevPost) {
+        navHtml += '<a href="post.html?series=' + seriesId + '&day=' + prevPost.day + '" class="post-nav-btn prev">'
+          + '<span class="post-nav-direction">← Previous</span>'
+          + '<span class="post-nav-day">Day ' + prevPost.day + '</span>'
+          + '<span class="post-nav-title">' + prevPost.title + '</span>'
+          + '</a>';
+      } else {
+        navHtml += '<div></div>';
+      }
+      if (nextPost) {
+        navHtml += '<a href="post.html?series=' + seriesId + '&day=' + nextPost.day + '" class="post-nav-btn next">'
+          + '<span class="post-nav-direction">Next →</span>'
+          + '<span class="post-nav-day">Day ' + nextPost.day + '</span>'
+          + '<span class="post-nav-title">' + nextPost.title + '</span>'
+          + '</a>';
+      }
+      navHtml += '</div>';
+    }
+
+    var bodyHtml;
+    if (post.content) {
+      bodyHtml = '<div class="post-body">' + parseContent(post.content) + '</div>';
+    } else {
+      bodyHtml = '<div class="post-body"><div class="post-coming-soon">'
+        + '<div class="coming-soon-icon">📝</div>'
+        + '<h3>This lesson is coming soon</h3>'
+        + '<p style="color:var(--text-muted);max-width:400px;margin:12px auto 24px;line-height:1.8;">'
+        + post.excerpt
+        + '</p>'
+        + '<div class="coming-soon-bar"><div class="coming-soon-fill" style="width:' + pct + '%;"></div></div>'
+        + '<p class="coming-soon-label">Day ' + day + ' of ' + series.totalPosts + ' — publishing daily</p>'
+        + '</div>'
+        + '<div class="notify-card" style="margin-top:0;border-radius:0 0 24px 24px;border-top:1px solid rgba(200,144,10,0.15);">'
+        + '<h4>📩 Get notified when Day ' + day + ' publishes</h4>'
+        + '<p>Enter your email and we\'ll send you each new lesson as it goes live.</p>'
+        + '<form class="notify-form" onsubmit="notifySubmit(event)">'
+        + '<input type="email" class="notify-input" placeholder="your@email.com" required />'
+        + '<button type="submit" class="notify-btn">Notify Me</button>'
+        + '</form>'
+        + '</div>'
+        + '</div>';
+    }
+
+    wrap.innerHTML =
+      '<a href="blog.html#series-' + seriesId + '" class="post-series-badge">'
+        + series.emoji + ' ' + series.title + ' Series'
+      + '</a>'
+      + '<div class="post-day-pill">D' + post.day + '</div>'
+      + '<h1 class="post-title">' + post.title + '</h1>'
+      + '<div class="post-meta">'
+        + '<span class="post-meta-item">⏱ ' + post.readTime + '</span>'
+        + '<span class="post-meta-item">📅 Day ' + post.day + ' of ' + series.totalPosts + '</span>'
+      + '</div>'
+      + '<div class="post-tags">' + tagsHtml + '</div>'
+      + bodyHtml
+      + navHtml
+      + '<div class="series-progress-card">'
+        + '<h4>' + series.emoji + ' ' + series.title + ' — Your Progress</h4>'
+        + '<div class="series-prog-bar"><div class="series-prog-fill" style="width:' + pct + '%;"></div></div>'
+        + '<div class="series-prog-label"><span>Day ' + day + ' of ' + series.totalPosts + '</span><span>' + pct + '% complete</span></div>'
+        + '<a href="blog.html#series-' + seriesId + '" style="display:inline-block;margin-top:14px;font-size:0.84rem;color:var(--red);font-weight:600;">View all ' + series.totalPosts + ' lessons →</a>'
+      + '</div>';
+
+    window.notifySubmit = function(e) {
+      e.preventDefault();
+      var form = e.target;
+      form.innerHTML = '<p style="color:var(--gold);font-weight:600;">✅ We\'ll notify you when Day ' + day + ' publishes!</p>';
+    };
+  })();
+  </script>
+</body>
+</html>
