@@ -22,11 +22,7 @@ function handleContact(e) {
 window.addEventListener('scroll', () => {
   const navbar = document.querySelector('.navbar');
   if (navbar) {
-    if (window.scrollY > 50) {
-      navbar.style.background = 'rgba(10,10,10,0.97)';
-    } else {
-      navbar.style.background = '';
-    }
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
   }
 });
 
