@@ -2,19 +2,19 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --red: #B22222;          /* Deep crimson — brand red, not harsh */
-  --red-dark: #8B1A1A;     /* Darker crimson for hover states */
-  --red-glow: rgba(178,34,34,0.18);
-  --gold: #D4A832;         /* Rich warm gold — refined, not neon */
-  --gold-light: #E8C05A;   /* Soft gold for highlights */
-  --gold-glow: rgba(212,168,50,0.15);
-  --dark: #0F0F0F;         /* Soft black — easier on eyes than pure #000 */
-  --dark2: #181818;
-  --dark3: #222222;
-  --dark4: #2E2E2E;
-  --text: #DCDCDC;         /* Soft white — not glaring */
+  --red: #CC1010;          /* True brand red — vivid but not eye-straining */
+  --red-dark: #A80D0D;     /* Hover state */
+  --red-glow: rgba(204,16,16,0.18);
+  --gold: #F5C42C;         /* Exact logo gold/yellow */
+  --gold-light: #FFD84D;   /* Lighter gold for highlights */
+  --gold-glow: rgba(245,196,44,0.15);
+  --dark: #111111;         /* Near-black — easier than pure #000 */
+  --dark2: #1A1A1A;
+  --dark3: #242424;
+  --dark4: #303030;
+  --text: #E2E2E2;         /* Soft white text */
   --text-muted: #7A7A7A;
-  --white: #F5F5F5;        /* Off-white — warmer, softer */
+  --white: #F8F8F8;        /* Off-white */
   --radius: 12px;
   --transition: 0.3s ease;
 }
@@ -1199,3 +1199,14 @@ ul { list-style: none; }
   .blog-layout { grid-template-columns: 1fr; }
   .blog-sidebar { position: static; }
 }
+
+/* ===== LEGAL PAGES ===== */
+.legal-body h2 {
+  font-size: 1.2rem;
+  color: var(--gold);
+  margin: 32px 0 10px;
+  padding-top: 24px;
+  border-top: 1px solid var(--dark4);
+}
+.legal-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+.legal-body p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.8; margin-bottom: 8px; }

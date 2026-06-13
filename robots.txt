@@ -1,0 +1,22 @@
+User-agent: *
+Disallow: /data/
+Disallow: /.github/
+Allow: /
+
+# Block AI training crawlers
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+Sitemap: https://www.millionairemindset.ae/sitemap.xml
