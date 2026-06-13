@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     /* ── Series Card ────────────────────────────────── */
     .series-card {
@@ -54,7 +56,7 @@
     .series-info { flex: 1; }
     .series-info .label { margin-bottom: 6px; }
     .series-info h2 { font-size: 1.7rem; margin-bottom: 8px; letter-spacing: -0.02em; }
-    .series-info p { color: var(--text-muted); font-size: 0.92rem; line-height: 1.7; }
+    .series-info p { color: var(--text-dim); font-size: 0.92rem; line-height: 1.7; }
 
     /* Progress bar */
     .series-progress-row {
@@ -67,10 +69,10 @@
     }
     .series-prog-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--red), var(--gold));
+      background: linear-gradient(90deg, var(--primary), var(--accent));
       border-radius: 999px;
     }
-    .series-prog-text { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
+    .series-prog-text { font-size: 0.8rem; color: var(--text-dim); white-space: nowrap; }
 
     /* Day posts grid */
     .series-posts-grid {
@@ -102,31 +104,31 @@
     }
     .day-pill:hover {
       background: rgba(255,255,255,0.95);
-      border-color: var(--red);
+      border-color: var(--primary);
       transform: translateY(-2px);
       box-shadow: 0 4px 14px rgba(204,16,16,0.1);
     }
     .day-pill-num {
       font-size: 0.68rem; font-weight: 800;
-      color: var(--red); min-width: 32px;
+      color: var(--primary); min-width: 32px;
       letter-spacing: 0.05em;
     }
     .day-pill-title {
       font-size: 0.78rem; color: var(--text);
       font-weight: 500; line-height: 1.35;
     }
-    .day-pill.coming .day-pill-num { color: var(--text-light); }
-    .day-pill.coming .day-pill-title { color: var(--text-light); }
+    .day-pill.coming .day-pill-num { color: var(--text-dim); }
+    .day-pill.coming .day-pill-title { color: var(--text-dim); }
     .day-pill.coming { cursor: default; }
     .day-pill.coming:hover { transform: none; border-color: rgba(0,0,0,0.07); box-shadow: none; }
 
     .series-expand-btn {
       background: none; border: 1.5px solid rgba(0,0,0,0.1);
-      color: var(--text-muted); padding: 9px 22px;
+      color: var(--text-dim); padding: 9px 22px;
       border-radius: 999px; font-size: 0.82rem; font-weight: 600;
       cursor: pointer; transition: 0.2s;
     }
-    .series-expand-btn:hover { border-color: var(--red); color: var(--red); }
+    .series-expand-btn:hover { border-color: var(--primary); color: var(--primary); }
 
     .series-footer {
       display: flex; align-items: center; justify-content: space-between;
@@ -135,7 +137,7 @@
       border-top: 1px solid rgba(0,0,0,0.06);
     }
     .series-stats { display: flex; gap: 20px; }
-    .series-stat { font-size: 0.82rem; color: var(--text-muted); }
+    .series-stat { font-size: 0.82rem; color: var(--text-dim); }
     .series-stat strong { color: var(--text); }
   </style>
 </head>
@@ -152,13 +154,13 @@
         <li><a href="blog.html">Blog</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="business.html">Business</a></li>
-        <li><a href="checkup.html">💰 Check-up</a></li>
+        <li><a href="checkup.html">Check-up</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
       <div class="nav-right">
         <div class="lang-switcher">
-          <button class="lang-btn" data-lang="tl" onclick="setLang('tl')">🇵🇭 FIL</button>
-          <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧 EN</button>
+          <button class="lang-btn" data-lang="tl" onclick="setLang('tl')">FIL</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
         </div>
         <a href="cart.html" class="cart-icon">🛒 <span class="cart-count" id="cartCount">0</span></a>
         <div class="nav-theme-wrap">
@@ -166,7 +168,7 @@
             <span id="mm-theme-dot"></span>
           </button>
           <div id="mm-theme-panel" role="dialog">
-            <h5>🎨 Choose Theme</h5>
+            <h5>Choose Theme</h5>
             <div class="mm-swatches">
               <div class="mm-swatch" data-t="brand"    onclick="mmApplyTheme('brand')"></div>
               <div class="mm-swatch" data-t="ocean"    onclick="mmApplyTheme('ocean')"></div>
@@ -191,7 +193,7 @@
       <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
       <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
       <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
-      <li><a href="checkup.html" onclick="toggleMenu()">💰 Financial Check-up</a></li>
+      <li><a href="checkup.html" onclick="toggleMenu()">Financial Check-up</a></li>
       <li><a href="about.html" onclick="toggleMenu()">About</a></li>
     </ul>
   </nav>
@@ -310,7 +312,7 @@
       <!-- SIDEBAR -->
       <aside class="blog-sidebar">
         <div class="sidebar-widget">
-          <h4>💰 Free Financial Check-up</h4>
+          <h4>Free Financial Check-up</h4>
           <p>Find out your Financial Health Score in 3 minutes.</p>
           <a href="checkup.html" class="btn-primary" style="display:block;text-align:center;margin-top:16px;">Start Check-up</a>
         </div>
@@ -328,7 +330,7 @@
         </div>
 
         <div class="sidebar-widget sidebar-widget--gold">
-          <h4>🤝 Business Opportunities</h4>
+          <h4>Business Opportunities</h4>
           <p>Subscribe to unlock our partner businesses — flexible income you can build from anywhere.</p>
           <a href="business.html" class="btn-primary" style="display:block;text-align:center;margin-top:16px;">Explore →</a>
         </div>

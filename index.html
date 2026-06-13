@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -26,14 +28,14 @@
         <li><a href="#contact" class="btn-nav">Contact</a></li>
       </ul>
       <div class="nav-right">
-        <a href="shop.html" class="cart-icon" id="cartNavIcon">&#128722; <span class="cart-count" id="cartCount">0</span></a>
+        <a href="shop.html" class="cart-icon" id="cartNavIcon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> <span class="cart-count" id="cartCount">0</span></a>
         <!-- Theme picker -->
         <div class="nav-theme-wrap">
           <button id="mm-theme-btn" onclick="mmToggleThemePanel(event)" aria-label="Change theme color" title="Change theme color">
             <span id="mm-theme-dot"></span>
           </button>
           <div id="mm-theme-panel" role="dialog" aria-label="Choose your color theme">
-            <h5>🎨 Choose Theme</h5>
+            <h5>Choose Theme</h5>
             <div class="mm-swatches">
               <div class="mm-swatch" data-t="brand"    title="Brand (Red/Gold)"  onclick="mmApplyTheme('brand')"></div>
               <div class="mm-swatch" data-t="ocean"    title="Ocean Blue"        onclick="mmApplyTheme('ocean')"></div>
@@ -93,7 +95,7 @@
   <div class="container">
     <div class="affiliate-banner affiliate-banner--top">
       <span class="affiliate-label">Sponsored</span>
-      <p>&#128176; <strong>Send money home smarter.</strong> Compare remittance rates and save on fees. <a href="#" class="affiliate-link">Learn More &rarr;</a></p>
+      <p><strong>Send money home smarter.</strong> Compare remittance rates and save on fees. <a href="#" class="affiliate-link">Learn More &rarr;</a></p>
     </div>
   </div>
 
@@ -107,22 +109,22 @@
       </div>
       <div class="categories">
         <div class="cat-card">
-          <div class="cat-icon">&#128176;</div>
+          <div class="cat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 3"/></svg></div>
           <h4>Smart Remittances</h4>
           <p>Stop losing money on fees. Learn the best channels to send more home with less cost.</p>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">&#128200;</div>
+          <div class="cat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div>
           <h4>Investing for OFWs</h4>
           <p>Stocks, UITF, real estate — where to put your savings so your money grows while you work.</p>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">&#127968;</div>
+          <div class="cat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
           <h4>Balik-Bayan Planning</h4>
           <p>Build a solid plan so when you come home, you come home for good — not because you have to.</p>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">&#128101;</div>
+          <div class="cat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
           <h4>Family Financial Plan</h4>
           <p>Teach your family to manage remittances wisely so your hard work doesn't disappear.</p>
         </div>
@@ -172,7 +174,7 @@
         <span class="affiliate-label">Recommended</span>
         <div class="affiliate-inline-grid">
           <div class="affiliate-card">
-            <span class="aff-icon">&#127968;</span>
+            <span class="aff-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
             <div>
               <strong>OFW Home Loan</strong>
               <p>Buy your dream home in the Philippines while working abroad.</p>
@@ -180,7 +182,7 @@
             </div>
           </div>
           <div class="affiliate-card">
-            <span class="aff-icon">&#128137;</span>
+            <span class="aff-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
             <div>
               <strong>OFW Health Insurance</strong>
               <p>Protect yourself and your family with affordable coverage.</p>
@@ -188,7 +190,7 @@
             </div>
           </div>
           <div class="affiliate-card">
-            <span class="aff-icon">&#128179;</span>
+            <span class="aff-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
             <div>
               <strong>Online Investment Account</strong>
               <p>Open a stock account from anywhere in the world.</p>
@@ -239,7 +241,7 @@
       </div>
       <div class="business-visual">
         <div class="biz-card">
-          <div class="biz-icon">&#127981;</div>
+          <div class="biz-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8m-4-4v4"/></svg></div>
           <h3>Part-Time.<br/>Real Income.</h3>
           <p>Thousands of Filipinos are already building income streams through network marketing — while keeping their day jobs.</p>
           <div class="biz-stat">
@@ -287,8 +289,8 @@
           <p>Whether you want to learn about financial literacy, explore the business opportunity, or just connect with a fellow Filipino — I'm here.</p>
           <ul class="contact-details">
             <li>&#9993;&nbsp; hello@millionairemindset.ae</li>
-            <li>&#127757;&nbsp; millionairemindset.ae</li>
-            <li>&#127988;&nbsp; Serving Global Workers Worldwide</li>
+            <li>millionairemindset.ae</li>
+            <li>Serving Global Workers Worldwide</li>
           </ul>
           <div class="social-links">
             <a href="#" class="social-btn">Facebook</a>

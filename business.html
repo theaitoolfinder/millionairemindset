@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <style>
     /* ── Subscribe Gate ───────────────────────────────── */
     #biz-gate {
@@ -40,7 +42,7 @@
     }
     .gate-lock {
       width: 68px; height: 68px;
-      background: linear-gradient(135deg, var(--red-light), #fff);
+      background: linear-gradient(135deg, var(--primary-light), #fff);
       border: 1px solid rgba(204,16,16,0.15);
       border-radius: 20px;
       display: flex; align-items: center; justify-content: center;
@@ -54,7 +56,7 @@
       letter-spacing: -0.02em;
     }
     .gate-card p.gate-sub {
-      color: var(--text-muted);
+      color: var(--text-dim);
       font-size: 0.96rem;
       line-height: 1.75;
       margin-bottom: 32px;
@@ -101,12 +103,12 @@
     }
     .gate-form input:focus {
       border-color: rgba(204,16,16,0.3);
-      box-shadow: 0 0 0 3px var(--red-glow), inset 0 1px 3px rgba(0,0,0,0.04);
+      box-shadow: 0 0 0 3px rgba(204,16,16,.12), inset 0 1px 3px rgba(0,0,0,0.04);
     }
-    .gate-form input::placeholder { color: var(--text-light); }
+    .gate-form input::placeholder { color: var(--text-dim); }
     .gate-submit {
       width: 100%;
-      background: var(--red);
+      background: var(--primary);
       color: #fff;
       border: none;
       padding: 15px 24px;
@@ -115,7 +117,7 @@
       font-weight: 700;
       cursor: pointer;
       transition: 0.2s ease;
-      box-shadow: 0 4px 16px var(--red-glow), inset 0 1px 0 rgba(255,255,255,0.2);
+      box-shadow: 0 4px 16px rgba(204,16,16,.12), inset 0 1px 0 rgba(255,255,255,0.2);
       position: relative;
       overflow: hidden;
     }
@@ -126,13 +128,13 @@
       background: linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 60%);
     }
     .gate-submit:hover {
-      background: var(--red-dark);
+      background: var(--primary-2);
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px var(--red-glow);
+      box-shadow: 0 8px 24px rgba(204,16,16,.12);
     }
     .gate-disclaimer {
       font-size: 0.76rem;
-      color: var(--text-light);
+      color: var(--text-dim);
       margin-top: 14px;
       line-height: 1.6;
     }
@@ -169,14 +171,14 @@
     .teaser-card .teaser-name {
       font-size: 1rem;
       font-weight: 700;
-      color: var(--heading);
+      color: var(--text);
       margin-bottom: 6px;
       filter: blur(6px);
       user-select: none;
     }
     .teaser-card .teaser-cat {
       font-size: 0.75rem;
-      color: var(--text-muted);
+      color: var(--text-dim);
       filter: blur(5px);
       user-select: none;
     }
@@ -194,7 +196,7 @@
       display: block;
     }
     #gate-success h3 { font-size: 1.6rem; margin-bottom: 10px; }
-    #gate-success p { color: var(--text-muted); margin-bottom: 24px; }
+    #gate-success p { color: var(--text-dim); margin-bottom: 24px; }
   </style>
 </head>
 <body>
@@ -210,13 +212,13 @@
         <li><a href="blog.html">Blog</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="business.html">Business</a></li>
-        <li><a href="checkup.html">💰 Check-up</a></li>
+        <li><a href="checkup.html">Check-up</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
       <div class="nav-right">
         <div class="lang-switcher">
-          <button class="lang-btn" data-lang="tl" onclick="setLang('tl')">🇵🇭 FIL</button>
-          <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧 EN</button>
+          <button class="lang-btn" data-lang="tl" onclick="setLang('tl')">FIL</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
         </div>
         <!-- Theme picker -->
         <div class="nav-theme-wrap">
@@ -224,7 +226,7 @@
             <span id="mm-theme-dot"></span>
           </button>
           <div id="mm-theme-panel" role="dialog" aria-label="Choose your color theme">
-            <h5>🎨 Choose Theme</h5>
+            <h5>Choose Theme</h5>
             <div class="mm-swatches">
               <div class="mm-swatch" data-t="brand"    title="Brand (Red/Gold)"  onclick="mmApplyTheme('brand')"></div>
               <div class="mm-swatch" data-t="ocean"    title="Ocean Blue"        onclick="mmApplyTheme('ocean')"></div>
@@ -249,7 +251,7 @@
       <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
       <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
       <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
-      <li><a href="checkup.html" onclick="toggleMenu()">💰 Financial Check-up</a></li>
+      <li><a href="checkup.html" onclick="toggleMenu()">Financial Check-up</a></li>
       <li><a href="about.html" onclick="toggleMenu()">About</a></li>
     </ul>
   </nav>
@@ -271,22 +273,22 @@
       </div>
       <div class="categories">
         <div class="cat-card">
-          <div class="cat-icon">🌍</div>
+          <div class="cat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
           <h4>Work From Anywhere</h4>
           <p>Build your business from any country — manage everything from your smartphone, no matter the time zone.</p>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">⏰</div>
+          <div class="cat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
           <h4>Flexible Hours</h4>
           <p>Work during your breaks, after shifts, or on weekends. Fit it around your existing schedule.</p>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">💰</div>
+          <div class="cat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
           <h4>Low Startup Cost</h4>
           <p>Start a real business with a fraction of what a traditional business would cost — no warehouse, no rent.</p>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">🤝</div>
+          <div class="cat-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
           <h4>Help Others Too</h4>
           <p>Build a team, help your family back home, and earn from their success too. Everyone wins together.</p>
         </div>
@@ -367,7 +369,7 @@
   <section class="newsletter" id="biz-cta" style="display:none;">
     <div class="container" style="text-align:center;">
       <h2>Ready to Start Your Journey?</h2>
-      <p style="color:var(--text-muted); max-width:500px; margin:12px auto 28px; line-height:1.8;">Take the free Financial Check-up first to see which business fits your current financial situation — then let's talk.</p>
+      <p style="color:var(--text-dim); max-width:500px; margin:12px auto 28px; line-height:1.8;">Take the free Financial Check-up first to see which business fits your current financial situation — then let's talk.</p>
       <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
         <a href="checkup.html" class="btn-primary">Take Free Financial Check-up</a>
         <a href="index.html#contact" class="btn-outline">Message Me Directly</a>
@@ -429,7 +431,7 @@
             + b.category
           + '</div>'
           + '<h2 class="biz-feature-title">' + b.name
-            + (b.nameShort ? ' <span style="font-size:1rem;color:var(--text-muted);">(' + b.nameShort + ')</span>' : '')
+            + (b.nameShort ? ' <span style="font-size:1rem;color:var(--text-dim);">(' + b.nameShort + ')</span>' : '')
           + '</h2>'
           + '<p class="biz-feature-sub">' + b.tagline + '</p>'
           + '<div class="biz-feature-grid">'

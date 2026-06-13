@@ -10,7 +10,9 @@
   <script src="js/theme.js"></script>
   <link rel="stylesheet" href="css/checkup.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -26,13 +28,13 @@
         <li><a href="blog.html">Blog</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="business.html">Business</a></li>
-        <li><a href="checkup.html" style="color:var(--gold);">💰 Check-up</a></li>
+        <li><a href="checkup.html" style="color:var(--accent);">Check-up</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
       <div class="nav-right">
         <div class="lang-switcher">
-          <button class="lang-btn active" data-lang="tl" onclick="setLang('tl')">🇵🇭 FIL</button>
-          <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧 EN</button>
+          <button class="lang-btn active" data-lang="tl" onclick="setLang('tl')">FIL</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
         </div>
         <!-- Theme picker -->
         <div class="nav-theme-wrap">
@@ -40,7 +42,7 @@
             <span id="mm-theme-dot"></span>
           </button>
           <div id="mm-theme-panel" role="dialog" aria-label="Choose your color theme">
-            <h5>🎨 Choose Theme</h5>
+            <h5>Choose Theme</h5>
             <div class="mm-swatches">
               <div class="mm-swatch" data-t="brand"    title="Brand (Red/Gold)"  onclick="mmApplyTheme('brand')"></div>
               <div class="mm-swatch" data-t="ocean"    title="Ocean Blue"        onclick="mmApplyTheme('ocean')"></div>
@@ -65,7 +67,7 @@
       <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
       <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
       <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
-      <li><a href="checkup.html" onclick="toggleMenu()">💰 Financial Check-up</a></li>
+      <li><a href="checkup.html" onclick="toggleMenu()">Financial Check-up</a></li>
       <li><a href="about.html" onclick="toggleMenu()">About</a></li>
     </ul>
   </nav>
@@ -77,10 +79,10 @@
       <h1>OFW Financial <span class="gold-text">Check-up</span></h1>
       <p class="checkup-hero-sub">Answer 10 quick questions and find out your Financial Health Score — plus get a personalized action plan to build real wealth as an OFW.</p>
       <div class="checkup-badges">
-        <span>✅ Takes 3 minutes</span>
-        <span>✅ 100% Free</span>
-        <span>✅ Personalized Results</span>
-        <span>✅ No sign-up needed</span>
+        <span>Takes 3 minutes</span>
+        <span>100% Free</span>
+        <span>Personalized Results</span>
+        <span>No sign-up needed</span>
       </div>
     </div>
   </div>
@@ -104,14 +106,14 @@
         <!-- START SCREEN -->
         <div class="quiz-screen active" id="screen-start">
           <div class="quiz-start-inner">
-            <div class="quiz-icon">💰</div>
+            <div class="quiz-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
             <h2>Are You Financially Healthy?</h2>
             <p>Most OFWs work hard but still feel financially stuck. This 3-minute check-up will show you exactly where you stand and what you can do about it — for free.</p>
             <ul class="quiz-start-list">
-              <li>📊 Get your personal Financial Health Score</li>
-              <li>🔍 Identify your biggest financial weaknesses</li>
-              <li>🚀 Get an action plan built for OFWs</li>
-              <li>💼 Discover income opportunities to close the gap</li>
+              <li>Get your personal Financial Health Score</li>
+              <li>Identify your biggest financial weaknesses</li>
+              <li>Get an action plan built for OFWs</li>
+              <li>Discover income opportunities to close the gap</li>
             </ul>
             <button class="btn-primary btn-lg" onclick="startQuiz()">Start My Free Check-up →</button>
             <p class="quiz-disclaimer">No personal data stored. Results are for guidance only.</p>
