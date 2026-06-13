@@ -245,27 +245,41 @@
     <p style="color:var(--text-dim);text-align:center;padding-top:60px;">Loading post…</p>
   </div>
 
-  <script src="js/blog-series.js"></script>
+  <script src="js/blog-series.js?v=20260615"></script>
   <script src="js/main.js?v=20260615"></script>
   <script>
   (function(){
-    var params = new URLSearchParams(window.location.search);
-    var seriesId = params.get('series');
-    var day = parseInt(params.get('day'), 10);
-
     var wrap = document.getElementById('postWrap');
 
+    function showError(msg) {
+      wrap.innerHTML = '<div style="text-align:center;padding:80px 24px;">'
+        + '<div style="font-size:3rem;margin-bottom:16px;">😕</div>'
+        + '<p style="color:var(--text-dim);margin-bottom:20px;">' + msg + '</p>'
+        + '<a href="blog.html" style="color:var(--primary);font-weight:700;">← Back to Blog</a>'
+        + '</div>';
+    }
+
+    // Safety: blog-series.js must define BLOG_SERIES
+    if (typeof BLOG_SERIES === 'undefined' || !Array.isArray(BLOG_SERIES)) {
+      showError('Could not load blog content. Please try again.');
+      return;
+    }
+
+    var params = new URLSearchParams(window.location.search);
+    var seriesId = params.get('series');
+    var day = parseInt(params.get('day'), 10) || 1;
+
     // Find series
-    var series = (BLOG_SERIES || []).find(function(s){ return s.id === seriesId; });
+    var series = BLOG_SERIES.filter(function(s){ return s.id === seriesId; })[0];
     if (!series) {
-      wrap.innerHTML = '<p style="text-align:center;color:var(--text-dim);padding:60px 0;">Series not found. <a href="blog.html" style="color:var(--primary);">← Back to Blog</a></p>';
+      showError('Series not found.');
       return;
     }
 
     // Find post
-    var post = series.posts.find(function(p){ return p.day === day; });
+    var post = series.posts.filter(function(p){ return p.day === day; })[0];
     if (!post) {
-      wrap.innerHTML = '<p style="text-align:center;color:var(--text-dim);padding:60px 0;">Post not found. <a href="blog.html" style="color:var(--primary);">← Back to Blog</a></p>';
+      showError('Post not found. It may still be coming soon!');
       return;
     }
 
@@ -290,7 +304,7 @@
         .replace(/<p>\*\*(.+?)\*\*<\/p>/g, '<h3>$1</h3>');
     }
 
-    var tagsHtml = post.tags.map(function(t){
+    var tagsHtml = (post.tags || []).map(function(t){
       return '<span class="post-tag">' + t + '</span>';
     }).join('');
 
@@ -377,6 +391,6 @@
     };
   })();
   </script>
-  <script src="js/chat-widget.js?v=20260614"></script>
+  <script src="js/chat-widget.js?v=20260615"></script>
 </body>
 </html>
