@@ -106,7 +106,7 @@ window.addEventListener('scroll', () => {
     root.style.setProperty('--border',        'hsl('+h+',42%,86%)');
     root.style.setProperty('--border-soft',   'hsl('+h+',42%,91%)');
     root.style.setProperty('--hero-grad',
-      'linear-gradient(135deg,hsl('+h+',72%,43%) 0%,hsl('+((h+18)%360)+',68%,36%) 100%)');
+      'linear-gradient(160deg,hsl('+h+',82%,95%) 0%,hsl('+h+',60%,98%) 45%,hsl('+((h+15)%360)+',70%,97%) 100%)');
 
     var dotColor = 'hsl('+h+',72%,43%)';
     syncNavDot(dotColor);
