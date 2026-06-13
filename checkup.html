@@ -190,28 +190,28 @@
                 <input class="calc-label-input" placeholder="Basic Salary" value="Basic Salary" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Housing Allowance" value="Housing Allowance" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Transportation Allowance" value="Transportation Allowance" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Other Income / Overtime" value="Other Income / Overtime" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
             </div>
@@ -233,56 +233,56 @@
                 <input class="calc-label-input" placeholder="Remittance sa Pamilya" value="Remittance sa Pamilya" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Rent / Accommodation" value="Rent / Accommodation" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Pagkain / Groceries" value="Pagkain / Groceries" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Transport / Commute" value="Transport / Commute" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Load / Internet / Phone" value="Load / Internet / Phone" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Insurance / SSS / Pag-IBIG" value="Insurance / SSS / Pag-IBIG" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Utang / Loan Payment" value="Utang / Loan Payment" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
               <div class="calc-row">
                 <input class="calc-label-input" placeholder="Ipon / Savings" value="Ipon / Savings" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
             </div>
@@ -542,10 +542,36 @@
     return s + Math.round(n).toLocaleString();
   }
 
+  /* Safely evaluate a math expression like "1000+2000" or "5*3-100" */
+  function calcEval(str) {
+    if (!str || !str.trim()) return 0;
+    /* Allow only digits, operators, spaces, dots, parentheses */
+    var clean = str.replace(/[^0-9+\-*/().% ]/g, '').trim();
+    if (!clean) return 0;
+    try {
+      /* eslint-disable no-new-func */
+      var result = Function('"use strict"; return (' + clean + ')')();
+      return isFinite(result) ? result : 0;
+    } catch(e) {
+      return parseFloat(str) || 0;
+    }
+  }
+
+  /* On blur: resolve expression and display the computed value */
+  function calcResolveInput(el) {
+    var val = el.value.trim();
+    if (!val) return;
+    var computed = calcEval(val);
+    /* If the value was a pure number already, don't rewrite */
+    if (val !== String(computed) && /[+\-*/()]/.test(val)) {
+      el.value = computed % 1 === 0 ? String(computed) : computed.toFixed(2);
+    }
+  }
+
   function calcSum(containerId) {
     var rows = document.getElementById(containerId).querySelectorAll('.calc-amount');
     var total = 0;
-    rows.forEach(function(i){ total += parseFloat(i.value) || 0; });
+    rows.forEach(function(i){ total += calcEval(i.value); });
     return total;
   }
 
@@ -743,7 +769,7 @@
     div.innerHTML = '<input class="calc-label-input" placeholder="Pangalan ng item..." />'
       + '<div class="calc-amount-wrap">'
         + '<span class="calc-currency">' + calcCurrency + '</span>'
-        + '<input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />'
+        + '<input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />'
       + '</div>'
       + '<button onclick="this.closest(\'.calc-row\').remove();calcUpdate();" style="background:none;border:none;color:#dc2626;cursor:pointer;font-size:1.1rem;padding:0 4px;line-height:1;flex-shrink:0;">×</button>';
     wrap.appendChild(div);
@@ -762,22 +788,30 @@
       </div>
       <div class="categories">
         <div class="cat-card">
-          <div class="cat-icon">😰</div>
+          <div class="cat-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/><path d="M8 12H4"/></svg>
+          </div>
           <h4>Living Paycheck to Paycheck</h4>
           <p>Despite earning in a stronger currency, most OFW salaries are fully spent before the next payday.</p>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">📉</div>
+          <div class="cat-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
           <h4>No Savings Buffer</h4>
           <p>Without 3–6 months of emergency fund, one crisis can wipe out years of hard work abroad.</p>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">🔄</div>
+          <div class="cat-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </div>
           <h4>The OFW Trap</h4>
           <p>Planning to go home "next year" but staying for 10+ more years because there's no financial plan waiting at home.</p>
         </div>
         <div class="cat-card">
-          <div class="cat-icon">💡</div>
+          <div class="cat-icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
+          </div>
           <h4>One Income, Zero Backup</h4>
           <p>When your only income is your job, losing it means losing everything. A second income stream changes everything.</p>
         </div>
