@@ -50,7 +50,8 @@
             <div id="mm-theme-footer">Saves automatically ✓</div>
           </div>
         </div>
-        <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+        <div class="lang-switcher"><button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button><button class="lang-btn" data-lang="tl" onclick="setLang('tl')">TL</button></div>
+        <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
       </div>
     </div>
     <ul class="nav-mobile" id="mobileMenu">
@@ -292,15 +293,29 @@
             </div>
           </div>
 
-          <!-- Currency toggle -->
+          <!-- Currency dropdown -->
           <div class="calc-currency-row">
-            <span style="font-size:.8rem;color:var(--text-dim);font-weight:600;">Display currency:</span>
-            <div style="display:flex;gap:6px;">
-              <button class="calc-cur-btn active" onclick="calcSetCurrency('AED',this)">AED</button>
-              <button class="calc-cur-btn" onclick="calcSetCurrency('PHP',this)">PHP</button>
-              <button class="calc-cur-btn" onclick="calcSetCurrency('USD',this)">USD</button>
-            </div>
-            <span id="rateNote" style="font-size:.72rem;color:var(--text-dim);">1 AED ≈ ₱15.5</span>
+            <span style="font-size:.8rem;color:var(--text-dim);font-weight:600;">Currency:</span>
+            <select id="calcCurrencySelect" onchange="calcSetCurrencyDrop(this.value)" style="padding:7px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(255,255,255,.9);font:600 .82rem 'Poppins',sans-serif;color:var(--text);cursor:pointer;outline:none;">
+              <option value="AED">🇦🇪 AED — UAE Dirham</option>
+              <option value="SAR">🇸🇦 SAR — Saudi Riyal</option>
+              <option value="QAR">🇶🇦 QAR — Qatar Riyal</option>
+              <option value="KWD">🇰🇼 KWD — Kuwait Dinar</option>
+              <option value="BHD">🇧🇭 BHD — Bahrain Dinar</option>
+              <option value="OMR">🇴🇲 OMR — Oman Riyal</option>
+              <option value="SGD">🇸🇬 SGD — Singapore Dollar</option>
+              <option value="HKD">🇭🇰 HKD — Hong Kong Dollar</option>
+              <option value="USD">🇺🇸 USD — US Dollar</option>
+              <option value="GBP">🇬🇧 GBP — British Pound</option>
+              <option value="EUR">🇪🇺 EUR — Euro</option>
+              <option value="JPY">🇯🇵 JPY — Japanese Yen</option>
+              <option value="KRW">🇰🇷 KRW — Korean Won</option>
+              <option value="AUD">🇦🇺 AUD — Australian Dollar</option>
+              <option value="CAD">🇨🇦 CAD — Canadian Dollar</option>
+              <option value="NZD">🇳🇿 NZD — New Zealand Dollar</option>
+              <option value="PHP">🇵🇭 PHP — Philippine Peso</option>
+            </select>
+            <span id="rateNote" style="font-size:.72rem;color:var(--text-dim);"></span>
           </div>
 
         </div><!-- end calc-inputs -->
@@ -503,8 +518,19 @@
      DISPOSABLE INCOME CALCULATOR
   ═══════════════════════════════════════════ */
   var calcCurrency = 'AED';
-  var RATES = { AED: 1, PHP: 15.5, USD: 0.272 };
-  var SYMBOLS = { AED: 'AED ', PHP: '₱', USD: '$' };
+
+  /* Symbols only — no conversion. Inputs are always in the selected currency. */
+  var SYMBOLS = {
+    AED:'AED ', SAR:'SAR ', QAR:'QAR ', KWD:'KD ', BHD:'BD ', OMR:'OMR ',
+    SGD:'S$ ', HKD:'HK$ ', USD:'$ ', GBP:'£', EUR:'€', JPY:'¥',
+    KRW:'₩', AUD:'A$ ', CAD:'C$ ', NZD:'NZ$ ', PHP:'₱'
+  };
+  /* Approximate to PHP for context note */
+  var TO_PHP = {
+    AED:15.5, SAR:14.3, QAR:14.8, KWD:177, BHD:144, OMR:141,
+    SGD:40.3, HKD:6.9, USD:57, GBP:72, EUR:62, JPY:0.38,
+    KRW:0.042, AUD:36, CAD:42, NZD:33, PHP:1
+  };
 
   var BAR_COLORS = [
     '#CC1010','#f97316','#f59e0b','#22c55e','#3b82f6',
@@ -512,10 +538,8 @@
   ];
 
   function calcFmt(n) {
-    var r = RATES[calcCurrency];
-    var s = SYMBOLS[calcCurrency];
-    var v = Math.round(n * r);
-    return s + v.toLocaleString();
+    var s = SYMBOLS[calcCurrency] || '';
+    return s + Math.round(n).toLocaleString();
   }
 
   function calcSum(containerId) {
@@ -701,6 +725,17 @@
       + '</div></div>';
   }
 
+  function calcSetCurrencyDrop(cur) {
+    calcCurrency = cur;
+    /* update all currency labels in input rows */
+    document.querySelectorAll('.calc-currency').forEach(function(el){ el.textContent = cur; });
+    /* update context rate note */
+    var rate = TO_PHP[cur];
+    var note = rate ? '1 ' + cur + ' ≈ ₱' + (rate >= 1 ? rate.toFixed(1) : rate.toFixed(3)) : '';
+    document.getElementById('rateNote').textContent = note;
+    calcUpdate();
+  }
+
   function calcAddRow(containerId, type) {
     var wrap = document.getElementById(containerId);
     var div = document.createElement('div');
@@ -714,16 +749,7 @@
     wrap.appendChild(div);
   }
 
-  function calcSetCurrency(cur, btn) {
-    calcCurrency = cur;
-    document.querySelectorAll('.calc-cur-btn').forEach(function(b){ b.classList.remove('active'); });
-    btn.classList.add('active');
-    var rateMap = { AED: '1 AED ≈ ₱15.5', PHP: '1 PHP ≈ AED 0.065', USD: '1 USD ≈ AED 3.67' };
-    document.getElementById('rateNote').textContent = rateMap[cur] || '';
-    /* update currency labels */
-    document.querySelectorAll('.calc-currency').forEach(function(el){ el.textContent = cur; });
-    calcUpdate();
-  }
+  /* calcSetCurrencyDrop handles currency switching — see above */
   </script>
 
   <!-- WHY SECTION -->

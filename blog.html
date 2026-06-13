@@ -358,7 +358,8 @@
             <div id="mm-theme-footer">Saves automatically ✓</div>
           </div>
         </div>
-        <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+        <div class="lang-switcher"><button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button><button class="lang-btn" data-lang="tl" onclick="setLang('tl')">TL</button></div>
+        <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
       </div>
     </div>
     <ul class="nav-mobile" id="mobileMenu">
@@ -493,19 +494,31 @@
     if (typeof BLOG_SERIES === 'undefined') return;
 
     /* ── Shared cover images for episodes (cycle) ── */
+    /* Finance/OFW themed + Philippine scenic destinations */
     var EP_COVERS = [
-      'photo-1488085061387-422e29b40080',
-      'photo-1507003211169-0a1dd7228f2d',
-      'photo-1521737711867-e3b97375f902',
-      'photo-1560518883-ce09059eeffa',
-      'photo-1611974789855-9c2a0a7236a3',
-      'photo-1512290923902-8a9f81dc236c',
-      'photo-1563245372-f21724e3856d',
-      'photo-1504384308090-c894fdcc538d',
-      'photo-1573496359142-b8d87734a5a2',
-      'photo-1523240795612-9a054b0db644',
-      'photo-1553877522-43269d4ea984',
-      'photo-1450101499163-c8848c66ca85',
+      'photo-1611974789855-9c2a0a7236a3', /* stock charts */
+      'photo-1526304640581-d334cdbbf45e', /* money/remittance */
+      'photo-1450101499163-c8848c66ca85', /* insurance docs */
+      'photo-1560518883-ce09059eeffa',    /* house real estate */
+      'photo-1553877522-43269d4ea984',    /* business/laptop */
+      'photo-1512290923902-8a9f81dc236c', /* health wellness */
+      'photo-1504384308090-c894fdcc538d', /* team/professional */
+      'photo-1573496359142-b8d87734a5a2', /* professional Filipina */
+      'photo-1488085061387-422e29b40080', /* night sky travel */
+      'photo-1507003211169-0a1dd7228f2d', /* Filipino man smiling */
+      'photo-1521737711867-e3b97375f902', /* OFW professional */
+      'photo-1579621970563-ebec7560ff3e', /* savings/financial */
+    ];
+    /* Philippine scenic photos shown in destinations row */
+    var PH_SCENICS = [
+      { id:'photo-1518509562904-e7ef99cdcc86', place:'Palawan',       caption:'El Nido, Palawan — Isa sa pinakamagandang dagat sa mundo' },
+      { id:'photo-1558618666-fcd25c85cd64',    place:'Siargao',        caption:'Siargao — Surfing capital ng Pilipinas' },
+      { id:'photo-1506929562872-bb421503ef21', place:'Boracay',        caption:'Boracay — White Beach, paborito ng lahat' },
+      { id:'photo-1516026672322-bc52d61a55d5', place:'Banaue',         caption:'Banaue Rice Terraces — Ika-walong kababalaghan ng mundo' },
+      { id:'photo-1504701954957-2010ec3bcec1', place:'Manila',         caption:'Manila — Puso ng bansang Pilipinas' },
+      { id:'photo-1551966775-a4daa9665a6d',    place:'Bohol',          caption:'Chocolate Hills, Bohol — Natural wonder ng Pilipinas' },
+      { id:'photo-1567620905732-2d1ec7ab7445', place:'Sagada',         caption:'Sagada Mountain Province — Mapayapa, malamig, maganda' },
+      { id:'photo-1528702748617-c64d49f918af', place:'Cebu',           caption:'Cebu — Lungsod ng kasaysayan at karagatan' },
     ];
 
     /* ── Build Hero from first series ── */
@@ -533,6 +546,28 @@
           + '<a href="#series-row-' + featured.id + '" class="nf-btn-info">ⓘ Higit Pa</a>'
         + '</div>';
     }
+
+    /* ── Build Series Rows ── */
+    /* ── Build Philippines Destinations Row ── */
+    var destContainer = document.getElementById('seriesRows');
+    var destRow = document.createElement('div');
+    destRow.className = 'nf-row';
+    destRow.innerHTML = '<div class="nf-row-head"><span class="nf-row-title">🇵🇭 Ang Ating Magandang Bansa — Philippines</span></div>'
+      + '<div class="nf-scroll-wrap"><button class="nf-arrow nf-arrow-left" onclick="scrollRow(\'phScroll\',-1)">‹</button>'
+      + '<div class="nf-scroll" id="phScroll">'
+      + PH_SCENICS.map(function(s){
+          return '<div style="width:280px;border-radius:14px;overflow:hidden;position:relative;flex-shrink:0;scroll-snap-align:start;">'
+            + '<img src="https://images.unsplash.com/' + s.id + '?w=560&q=85&auto=format&fit=crop&crop=center" alt="' + s.place + '" loading="lazy" style="width:100%;height:158px;object-fit:cover;display:block;filter:brightness(.7);">'
+            + '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px 16px;">'
+              + '<div style="font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Destination</div>'
+              + '<div style="font-size:.95rem;font-weight:800;color:#fff;margin-bottom:3px;">' + s.place + '</div>'
+              + '<div style="font-size:.68rem;color:rgba(255,255,255,.65);line-height:1.4;">' + s.caption + '</div>'
+            + '</div>'
+          + '</div>';
+        }).join('')
+      + '</div>'
+      + '<button class="nf-arrow nf-arrow-right" onclick="scrollRow(\'phScroll\',1)">›</button></div>';
+    destContainer.appendChild(destRow);
 
     /* ── Build Series Rows ── */
     var container = document.getElementById('seriesRows');

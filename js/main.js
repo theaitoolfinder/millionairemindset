@@ -1,5 +1,9 @@
 function toggleMenu() {
-  document.getElementById('mobileMenu').classList.toggle('open');
+  var menu = document.getElementById('mobileMenu');
+  var btn  = document.querySelector('.hamburger');
+  if (!menu) return;
+  var isOpen = menu.classList.toggle('open');
+  if (btn) btn.classList.toggle('open', isOpen);
 }
 
 function handleSubscribe(e) {

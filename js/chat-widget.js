@@ -24,26 +24,44 @@
     font-size: 14px;
   }
 
-  /* ── Fab button ── */
+  /* ── Fab button — transparent, shows character ── */
   #mm-chat-fab {
-    width: 62px; height: 62px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #CC1010, #A80D0D);
-    box-shadow: 0 6px 28px rgba(204,16,16,.38), 0 2px 8px rgba(0,0,0,.18);
+    width: 72px; height: 88px;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
     border: none; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .2s;
+    display: flex; align-items: flex-end; justify-content: center;
+    transition: transform .22s cubic-bezier(.34,1.56,.64,1);
     position: relative;
     overflow: visible;
+    padding: 0;
   }
-  #mm-chat-fab:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 36px rgba(204,16,16,.46), 0 3px 12px rgba(0,0,0,.22);
-  }
-  #mm-chat-fab.open { transform: scale(1.05) rotate(10deg); }
+  #mm-chat-fab:hover { transform: translateY(-6px); }
+  #mm-chat-fab.open { transform: translateY(-4px) scale(1.05); }
 
-  /* mini character on fab */
-  #mm-chat-fab svg.fab-char { width: 38px; height: 38px; }
+  /* Character SVG in FAB */
+  #mm-fab-char-wrap {
+    position: relative; display: flex; align-items: flex-end; justify-content: center;
+  }
+  #mm-fab-char-wrap svg { width: 68px; height: 88px; display: block; filter: drop-shadow(0 6px 16px rgba(0,0,0,.28)); }
+  /* Red chat badge bottom-right */
+  #mm-fab-badge {
+    position: absolute; bottom: 2px; right: -4px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: linear-gradient(135deg,#CC1010,#A80D0D);
+    border: 2.5px solid #fff;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(204,16,16,.45);
+    font-size: .65rem; color: #fff;
+  }
+  /* shadow under feet */
+  #mm-fab-shadow {
+    width: 44px; height: 8px; border-radius: 50%;
+    background: rgba(0,0,0,.18);
+    filter: blur(4px);
+    margin: 0 auto; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%);
+  }
 
   /* notification dot */
   #mm-chat-notif {
@@ -447,27 +465,15 @@
       </div>
     </div>
 
-    <!-- FAB -->
+    <!-- FAB — shows actual Hira/Aya character -->
     <button id="mm-chat-fab" onclick="mmToggleChat()" aria-label="Chat with Hira and Aya">
-      <svg class="fab-char" viewBox="0 0 160 300" xmlns="http://www.w3.org/2000/svg">
-        <ellipse cx="56" cy="287" rx="16" ry="6" fill="rgba(255,255,255,.3)"/>
-        <ellipse cx="104" cy="287" rx="16" ry="6" fill="rgba(255,255,255,.3)"/>
-        <rect x="44" y="222" width="22" height="65" rx="10" fill="rgba(255,255,255,.35)"/>
-        <rect x="94" y="222" width="22" height="65" rx="10" fill="rgba(255,255,255,.35)"/>
-        <rect x="40" y="142" width="80" height="84" rx="17" fill="rgba(255,255,255,.9)"/>
-        <rect x="28" y="150" width="20" height="56" rx="10" fill="rgba(255,255,255,.9)"/>
-        <rect x="112" y="150" width="20" height="56" rx="10" fill="rgba(255,255,255,.9)"/>
-        <rect x="70" y="126" width="20" height="20" rx="8" fill="#F5CBA7"/>
-        <ellipse cx="80" cy="100" rx="40" ry="42" fill="#F5CBA7"/>
-        <path d="M40 82 Q44 52 80 50 Q116 52 120 82 Q108 62 80 62 Q52 62 40 82 Z" fill="#2D1F14"/>
-        <ellipse cx="67" cy="97" rx="7" ry="8" fill="white"/>
-        <ellipse cx="67" cy="99" rx="4" ry="5" fill="#2D1F14"/>
-        <ellipse cx="93" cy="97" rx="7" ry="8" fill="white"/>
-        <ellipse cx="93" cy="99" rx="4" ry="5" fill="#2D1F14"/>
-        <ellipse cx="53" cy="109" rx="8" ry="5" fill="#F8A4A4" opacity=".5"/>
-        <ellipse cx="107" cy="109" rx="8" ry="5" fill="#F8A4A4" opacity=".5"/>
-        <path d="M68,118 Q80,127 92,118" fill="none" stroke="#C06040" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
+      <div id="mm-fab-char-wrap">
+        <div id="mm-fab-shadow"></div>
+        <div id="mm-fab-char-inner"></div>
+        <div id="mm-fab-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+      </div>
       <span id="mm-chat-notif"></span>
     </button>
 
@@ -481,6 +487,9 @@
   function renderChar() {
     var mini = document.getElementById('mmPanelCharMini');
     if (mini) mini.innerHTML = currentChar === 'hira' ? buildHira(52) : buildAya(52);
+    /* also update FAB character */
+    var fabInner = document.getElementById('mm-fab-char-inner');
+    if (fabInner) fabInner.innerHTML = currentChar === 'hira' ? buildHira(68) : buildAya(68);
   }
 
   /* ══════════════════════════════════════════════
