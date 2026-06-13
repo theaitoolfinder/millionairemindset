@@ -1,3 +1,38 @@
+/* ── Inject theme + lang footer into mobile menu ── */
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var menu = document.getElementById('mobileMenu');
+    if (!menu || menu.querySelector('.nav-mobile-footer')) return;
+    var li = document.createElement('li');
+    li.innerHTML =
+      '<div class="nav-mobile-footer">'
+        + '<div class="lang-switcher">'
+          + '<button class="lang-btn" data-lang="en" onclick="setLang(\'en\')">EN</button>'
+          + '<button class="lang-btn" data-lang="tl" onclick="setLang(\'tl\')">TL</button>'
+        + '</div>'
+        + '<button onclick="mmToggleThemePanel(event)" style="display:inline-flex;align-items:center;gap:8px;'
+            + 'background:rgba(0,0,0,.06);border:none;padding:8px 14px;border-radius:10px;'
+            + 'font:600 12.5px \'Poppins\',sans-serif;cursor:pointer;color:var(--text);">'
+          + '<span id="mm-theme-dot-mob" style="width:13px;height:13px;border-radius:50%;display:inline-block;background:var(--primary);flex-shrink:0;"></span>'
+          + 'Change Theme'
+        + '</button>'
+      + '</div>';
+    menu.appendChild(li);
+    /* Sync the mobile dot when theme changes */
+    var origApply = window.mmApplyTheme;
+    if (origApply) {
+      window.mmApplyTheme = function(t){
+        origApply(t);
+        var dot = document.getElementById('mm-theme-dot-mob');
+        if (dot) {
+          var colors = {brand:'#CC1010',ocean:'#0284c7',forest:'#059669',sunset:'#ea580c',lavender:'#7c3aed',rose:'#e11d48',sky:'#38bdf8',teal:'#0d9488',amber:'#d97706',pink:'#db2777',indigo:'#4338ca'};
+          dot.style.background = colors[t] || colors.brand;
+        }
+      };
+    }
+  });
+})();
+
 function toggleMenu() {
   var menu = document.getElementById('mobileMenu');
   var btn  = document.querySelector('.hamburger');

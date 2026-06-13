@@ -93,7 +93,12 @@ ul{list-style:none}
 .mm-swatch[data-t="indigo"]{background:#4338ca}
 #mm-theme-footer{font-size:10.5px;color:var(--text-dim);text-align:center;line-height:1.4;padding-top:8px;border-top:1px solid rgba(0,0,0,.06)}
 .nav-theme-wrap{position:relative;display:flex;align-items:center}
-@media(max-width:768px){#mm-theme-btn{display:none!important}#mm-theme-panel{right:auto;left:0}}
+@media(max-width:768px){
+  #mm-theme-btn{display:none!important}
+  #mm-theme-panel{right:auto;left:0}
+  .cart-icon{padding:5px 7px}
+  .nav-right{gap:4px}
+}
 
 /* ===== NAVBAR ===== */
 .navbar{
