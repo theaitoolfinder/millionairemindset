@@ -340,7 +340,7 @@ Share this series with a fellow OFW who just arrived. You might save them years 
     accentBg: 'rgba(2,132,199,0.07)',
     totalPosts: 15,
     posts: [
-      { day:1, title:'Why Remittance Fees Are Silently Stealing From Your Family', excerpt:'The difference between a 1% and 4% remittance fee on ₱100K/month is ₱36,000 a year. A complete breakdown of what you're losing.', tags:['Remittance','Fees'], readTime:'5 min', content:`Every time you send money home, a portion disappears in fees and unfavorable exchange rates. Most OFWs never calculate exactly how much this costs them over a year — or a career.
+      { day:1, title:'Why Remittance Fees Are Silently Stealing From Your Family', excerpt:'The difference between a 1% and 4% remittance fee on ₱100K/month is ₱36,000 a year. A complete breakdown of what you\'re losing.', tags:['Remittance','Fees'], readTime:'5 min', content:`Every time you send money home, a portion disappears in fees and unfavorable exchange rates. Most OFWs never calculate exactly how much this costs them over a year — or a career.
 
 **The math:**
 - If you send AED 3,000 (about ₱46,000) every month
