@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Blog | Millionaire Mindset</title>
   <link rel="icon" type="image/png" href="images/favicon.png" />
-  <meta name="description" content="Financial literacy articles and guided series for OFWs and global workers — remittance, investing, mindset, and more." />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
+  <meta name="description" content="Financial literacy series for OFWs — remittance, investing, real estate, insurance and more." />
   <link rel="stylesheet" href="css/style.css?v=20260614" />
   <link rel="stylesheet" href="css/blog.css?v=20260614" />
   <script src="js/gate.js"></script>
@@ -18,6 +15,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 </head>
 <body>
+
   <!-- NAV -->
   <nav class="navbar" style="position:fixed;top:0;left:0;right:0;z-index:100;">
     <div class="container nav-inner">
@@ -32,12 +30,18 @@
         <li><a href="index.html#contact" class="btn-nav">Contact</a></li>
       </ul>
       <div class="nav-right">
-        <a href="cart.html" class="cart-icon" id="cartNavIcon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg><span class="cart-count" id="cartCount">0</span></a>
+        <a href="cart.html" class="cart-icon" id="cartNavIcon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
         <div class="nav-theme-wrap">
           <button id="mm-theme-btn" onclick="mmToggleThemePanel(event)" aria-label="Change theme color"><span id="mm-theme-dot"></span></button>
           <div id="mm-theme-panel" role="dialog" aria-label="Choose your color theme"></div>
         </div>
-        <div class="lang-switcher"><button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button><button class="lang-btn" data-lang="tl" onclick="setLang('tl')">TL</button></div>
+        <div class="lang-switcher">
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+          <button class="lang-btn" data-lang="tl" onclick="setLang('tl')">TL</button>
+        </div>
         <button class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></button>
       </div>
     </div>
@@ -52,16 +56,54 @@
     </ul>
   </nav>
 
-  <!-- ══ FEATURED HERO ══ -->
-  <div class="blog-hero" id="blogHero">
-    <div class="blog-hero-bg" id="blogHeroBg"></div>
+  <!-- ══ HERO — Series 1: First 100 Days ══ -->
+  <div class="blog-hero">
+    <div class="blog-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1600&q=90&auto=format&fit=crop&crop=center');"></div>
     <div class="blog-hero-overlay"></div>
-    <div class="blog-hero-content" id="blogHeroContent"><!-- filled by JS --></div>
+    <div class="blog-hero-content">
+      <div class="blog-hero-eyebrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Featured Series
+      </div>
+      <h1 class="blog-hero-title">First 100 Days Abroad</h1>
+      <div class="blog-hero-meta">
+        <span>100 Lessons</span>
+        <span class="blog-hero-dot"></span>
+        <span>7 Available Now</span>
+        <span class="blog-hero-dot"></span>
+        <span>Financial Literacy</span>
+      </div>
+      <p class="blog-hero-sub">One financial lesson a day — so you never have to learn the hard way.</p>
+      <div class="blog-hero-btns">
+        <a href="post.html?series=first-100-days&day=1" class="blog-btn-primary">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          Simulan ang Day 1
+        </a>
+        <a href="#seriesGrid" class="blog-btn-ghost">Browse All Series</a>
+      </div>
+    </div>
   </div>
 
   <!-- ══ STATS BAR ══ -->
-  <div class="blog-stats-bar" id="blogStatsBar">
-    <div class="blog-stats-inner" id="blogStatsInner"><!-- filled by JS --></div>
+  <div class="blog-stats-bar">
+    <div class="blog-stats-inner">
+      <div class="blog-stat-item">
+        <div class="blog-stat-num">11</div>
+        <div class="blog-stat-label">Reading<br>Series</div>
+      </div>
+      <div class="blog-stat-item">
+        <div class="blog-stat-num">7</div>
+        <div class="blog-stat-label">Lessons<br>Available</div>
+      </div>
+      <div class="blog-stat-item">
+        <div class="blog-stat-num">120</div>
+        <div class="blog-stat-label">Total<br>Episodes</div>
+      </div>
+      <div class="blog-stat-item">
+        <div class="blog-stat-num">100+</div>
+        <div class="blog-stat-label">Days of<br>Content</div>
+      </div>
+    </div>
   </div>
 
   <!-- ══ TAPTAP BANNER ══ -->
@@ -91,7 +133,273 @@
           <h2 class="blog-section-title">Browse All Series</h2>
         </div>
       </div>
-      <div class="series-grid" id="seriesGrid"><!-- filled by JS --></div>
+
+      <div class="series-grid" id="seriesGrid">
+
+        <!-- Series 1: First 100 Days -->
+        <a href="post.html?series=first-100-days&day=1" class="series-card">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1488085061387-422e29b40080?w=640&q=85&auto=format&fit=crop&crop=center" alt="First 100 Days Abroad" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">📅 Series</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              100 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">First 100 Days Abroad</div>
+            <div class="series-card-sub">One financial lesson a day — so you never have to learn the hard way</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:7%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog"><span>7</span> of 100 live</div>
+              <div class="series-card-cta">Start Reading <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 2: Smart Remittance -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=640&q=85&auto=format&fit=crop&crop=center" alt="Smart Remittance Guide" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">💸 Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              15 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Smart Remittance Guide</div>
+            <div class="series-card-sub">Send more money home — by losing less in fees and bad exchange rates</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 3: Stock Market 101 -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=640&q=85&auto=format&fit=crop&crop=center" alt="Stock Market 101 for OFWs" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">📈 Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              20 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Stock Market 101 for OFWs</div>
+            <div class="series-card-sub">Grow your money while you sleep — even from thousands of miles away</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 4: Insurance Simplified -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=640&q=85&auto=format&fit=crop&crop=center" alt="Insurance Simplified" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">🛡️ Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              10 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Insurance Simplified</div>
+            <div class="series-card-sub">Protect your family before something bad forces you to wish you had</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 5: Real Estate Roadmap -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=640&q=85&auto=format&fit=crop&crop=center" alt="Real Estate Roadmap" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">🏠 Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              15 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Real Estate Roadmap</div>
+            <div class="series-card-sub">Build tangible wealth in the Philippines while you work abroad</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 6: Side Hustle from Abroad -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=640&q=85&auto=format&fit=crop&crop=center" alt="Side Hustle from Abroad" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">💼 Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              12 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Side Hustle from Abroad</div>
+            <div class="series-card-sub">Kumita nang higit pa — kahit layo ka sa Pilipinas</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 7: Family Finance -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=640&q=85&auto=format&fit=crop&crop=center" alt="Family Finance from Abroad" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">👨‍👩‍👧 Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              10 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Family Finance from Abroad</div>
+            <div class="series-card-sub">Ang pera mo ay pamilya mo — paano sila turuan sa pamamahala ng pera</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 8: Emergency Fund & Debt -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=640&q=85&auto=format&fit=crop&crop=center" alt="Emergency Fund and Debt Freedom" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">🆘 Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              8 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Emergency Fund & Debt Freedom</div>
+            <div class="series-card-sub">Ang pinaka-importante: protektahan ka bago ka magpalago</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 9: Digital Banking -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=640&q=85&auto=format&fit=crop&crop=center" alt="Digital Banking for OFWs" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">📱 Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              10 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Digital Banking for OFWs</div>
+            <div class="series-card-sub">Pamahalaan ang iyong pera kahit wala kang branch malapit sa iyo</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 10: Millionaire Mindset -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=640&q=85&auto=format&fit=crop&crop=center" alt="Millionaire Mindset" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">🧠 Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              10 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Millionaire Mindset</div>
+            <div class="series-card-sub">The psychology, habits, and decisions that separate wealthy OFWs from the rest</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Series 11: Balik-Bayan Blueprint -->
+        <a href="#" class="series-card" style="opacity:.75;">
+          <div class="series-card-cover">
+            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=640&q=85&auto=format&fit=crop&crop=center" alt="Balik-Bayan Blueprint" loading="lazy">
+            <div class="series-card-cover-overlay"></div>
+            <div class="series-card-badge">✈️ Series</div>
+            <div class="series-card-coming">Coming Soon</div>
+            <div class="series-card-episodes">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+              10 Episodes
+            </div>
+          </div>
+          <div class="series-card-body">
+            <div class="series-card-category">Financial Literacy</div>
+            <div class="series-card-title">Balik-Bayan Blueprint</div>
+            <div class="series-card-sub">How to come home for good — not because you have to, but because you're ready</div>
+            <div class="series-prog-bar"><div class="series-prog-fill" style="width:0%"></div></div>
+            <div class="series-card-footer">
+              <div class="series-card-prog">Coming soon</div>
+              <div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>
+            </div>
+          </div>
+        </a>
+
+      </div><!-- /series-grid -->
     </div>
   </section>
 
@@ -108,7 +416,56 @@
       </div>
     </div>
     <div class="dest-scroll-wrap">
-      <div class="dest-scroll" id="destScroll"><!-- filled by JS --></div>
+      <div class="dest-scroll">
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=600&q=85&auto=format&fit=crop&crop=center" alt="Palawan" loading="lazy">
+          <div class="dest-card-overlay">
+            <div class="dest-card-label">Destination</div>
+            <div class="dest-card-place">Palawan</div>
+            <div class="dest-card-caption">El Nido, Palawan — Isa sa pinakamagandang dagat sa mundo</div>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=85&auto=format&fit=crop&crop=center" alt="Siargao" loading="lazy">
+          <div class="dest-card-overlay">
+            <div class="dest-card-label">Destination</div>
+            <div class="dest-card-place">Siargao</div>
+            <div class="dest-card-caption">Siargao — Surfing capital ng Pilipinas</div>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=600&q=85&auto=format&fit=crop&crop=center" alt="Boracay" loading="lazy">
+          <div class="dest-card-overlay">
+            <div class="dest-card-label">Destination</div>
+            <div class="dest-card-place">Boracay</div>
+            <div class="dest-card-caption">Boracay — White Beach, paborito ng lahat</div>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=600&q=85&auto=format&fit=crop&crop=center" alt="Banaue" loading="lazy">
+          <div class="dest-card-overlay">
+            <div class="dest-card-label">Destination</div>
+            <div class="dest-card-place">Banaue</div>
+            <div class="dest-card-caption">Banaue Rice Terraces — Ika-walong kababalaghan ng mundo</div>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1551966775-a4daa9665a6d?w=600&q=85&auto=format&fit=crop&crop=center" alt="Bohol" loading="lazy">
+          <div class="dest-card-overlay">
+            <div class="dest-card-label">Destination</div>
+            <div class="dest-card-place">Bohol</div>
+            <div class="dest-card-caption">Chocolate Hills, Bohol — Natural wonder ng Pilipinas</div>
+          </div>
+        </div>
+        <div class="dest-card">
+          <img src="https://images.unsplash.com/photo-1528702748617-c64d49f918af?w=600&q=85&auto=format&fit=crop&crop=center" alt="Cebu" loading="lazy">
+          <div class="dest-card-overlay">
+            <div class="dest-card-label">Destination</div>
+            <div class="dest-card-place">Cebu</div>
+            <div class="dest-card-caption">Cebu — Lungsod ng kasaysayan at karagatan</div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -182,12 +539,10 @@
     </div>
   </footer>
 
-  <script src="js/blog-series.js?v=20260614"></script>
   <script src="js/i18n.js"></script>
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js?v=20260614"></script>
-  <script src="js/blog-render.js?v=20260614"></script>
   <script src="js/chat-widget.js?v=20260614"></script>
 </body>
 </html>
