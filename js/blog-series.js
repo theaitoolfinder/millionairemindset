@@ -17,6 +17,7 @@ const BLOG_SERIES = [
     title: 'First 100 Days Abroad',
     subtitle: 'One financial lesson a day — so you never have to learn the hard way',
     description: 'The first 100 days as an overseas worker are the most important for your financial future. Most people arrive without a plan and end up in the same cycle for years. This series gives you one practical lesson every day — covering contracts, banking, remittance, savings, investing, insurance, and building a business on the side.',
+    cover: 'https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1200&q=85&auto=format&fit=crop&crop=center',
     emoji: '📅',
     accentColor: '#CC1010',
     accentBg: 'rgba(204,16,16,0.07)',
