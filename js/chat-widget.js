@@ -1144,12 +1144,72 @@
     }
   });
 
-  /* ── Show notification dot after 6s if not opened ── */
-  setTimeout(function(){
-    if (!isOpen) {
-      var notif = document.getElementById('mm-chat-notif');
-      if (notif) notif.classList.add('show');
-    }
-  }, 6000);
+  /* ── Auto-open with small talk on first visit (once per session) ── */
+  (function autoStart(){
+    var SESSION_KEY = 'mm_chat_started';
+    var alreadyStarted = false;
+    try { alreadyStarted = !!sessionStorage.getItem(SESSION_KEY); } catch(e){}
+    if (alreadyStarted) return;
+
+    /* Small talk openers — rotate randomly each session */
+    var OPENERS = [
+      [
+        'Hoy! Kumusta ka ngayon? 👋',
+        'Ako si Hira — kasama mo dito sa MillionaireMindset. Para sa pera, negosyo, o kahit kwento lang — nandito ako!',
+        'Meron bang gusto kang malaman ngayon? Financial tips, OFW life advice, o paano palakihin ang ipon mo?'
+      ],
+      [
+        'Hi! Maligayang pagdating! Ako si Hira. 😊',
+        'Marami akong nalalaman tungkol sa pera, investments, at buhay OFW. Huwag mahiyang magtanong!',
+        'Saan ka ngayon — UAE? Qatar? Singapore? At saan tayo magsisimula?'
+      ],
+      [
+        'Kumusta ang araw mo? Ako si Hira — your OFW financial buddy. 🤝',
+        'Dito sa MillionaireMindset, tumutulong kami sa mga OFW na palaguin ang ipon, mag-invest, at makabalik na may kaya.',
+        'Anong pinakamalaking financial challenge mo ngayon? I-type mo lang — nandito ako.'
+      ],
+    ];
+
+    var set = OPENERS[Math.floor(Math.random() * OPENERS.length)];
+
+    /* Open panel after 1.8s */
+    setTimeout(function(){
+      var panel = document.getElementById('mm-chat-panel');
+      var fab   = document.getElementById('mm-chat-fab');
+      var msgs  = document.getElementById('mmMessages');
+      if (!panel || !msgs) return;
+
+      isOpen = true;
+      panel.classList.add('open');
+      if (fab) fab.classList.add('open');
+      renderChar();
+
+      /* Send messages in sequence with typing delays */
+      function sendSeq(idx) {
+        if (idx >= set.length) {
+          updateSuggests('default', currentLang);
+          try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e){}
+          return;
+        }
+        var tid = document.createElement('div');
+        var name = currentChar === 'hira' ? 'Hira' : 'Aya';
+        tid.className = 'mm-typing';
+        tid.innerHTML = '<div class="mm-msg-av">' + name[0] + '</div>'
+          + '<div class="mm-typing-dots"><div class="mm-typing-dot"></div><div class="mm-typing-dot"></div><div class="mm-typing-dot"></div></div>';
+        msgs.appendChild(tid);
+        msgs.scrollTop = msgs.scrollHeight;
+
+        var typingDelay = 700 + set[idx].length * 14;
+        setTimeout(function(){
+          tid.remove();
+          addMsg('bot', set[idx]);
+          if (idx === 0) triggerAnim('wave');
+          setTimeout(function(){ sendSeq(idx + 1); }, 600);
+        }, typingDelay);
+      }
+
+      setTimeout(function(){ sendSeq(0); }, 400);
+    }, 1800);
+  })();
 
 })();
