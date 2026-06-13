@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disclosure Statement | Millionaire Mindset</title>
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/gate.js"></script>
+  <script src="js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    .disclosure-hero {
+      padding: 120px 24px 56px;
+      text-align: center;
+    }
+    .disclosure-hero .eyebrow {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--primary);
+      background: rgba(204,16,16,.08);
+      border: 1px solid rgba(204,16,16,.15);
+      padding: 5px 14px; border-radius: 999px;
+      margin-bottom: 20px;
+    }
+    .disclosure-hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: 14px;
+    }
+    .disclosure-hero p {
+      color: var(--text-dim);
+      max-width: 580px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .disclosure-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 28px 96px;
+    }
+
+    .disc-card {
+      background: rgba(255,255,255,.82);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 20px;
+      padding: 40px 44px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 28px rgba(204,16,16,.07), inset 0 1px 0 rgba(255,255,255,1);
+    }
+
+    .disc-card h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .disc-card h2 .disc-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: rgba(204,16,16,.08);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--primary);
+    }
+
+    .disc-card p {
+      color: var(--text-dim);
+      font-size: 0.93rem;
+      line-height: 1.85;
+      margin-bottom: 14px;
+    }
+    .disc-card p:last-child { margin-bottom: 0; }
+    .disc-card strong { color: var(--text); font-weight: 600; }
+
+    .disc-card ul {
+      list-style: none;
+      margin: 12px 0 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .disc-card ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.92rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+    .disc-card ul li::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--primary);
+      margin-top: 7px;
+      flex-shrink: 0;
+    }
+
+    .disc-updated {
+      text-align: center;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      padding-bottom: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .disc-card { padding: 28px 22px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">Millionaire<span>Mindset</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#contact" class="btn-nav">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <button id="mm-theme-btn" aria-label="Change theme">
+          <span id="mm-theme-dot"></span>
+        </button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">&#9776;</button>
+      </div>
+    </div>
+    <div id="mobile-menu" class="mobile-menu">
+      <ul>
+        <li><a href="index.html" onclick="toggleMenu()">Home</a></li>
+        <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
+        <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
+        <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
+        <li><a href="about.html" onclick="toggleMenu()">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="disclosure-hero">
+    <span class="eyebrow">Legal Notice</span>
+    <h1>Disclosure Statement</h1>
+    <p>We believe in full transparency. Please read this disclosure carefully before engaging with any business opportunities or products featured on this website.</p>
+  </section>
+
+  <!-- BODY -->
+  <div class="disclosure-body">
+
+    <div class="disc-card">
+      <h2>
+        <span class="disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </span>
+        Independence of Featured Companies
+      </h2>
+      <p>The companies and business opportunities featured on Millionaire Mindset — including but not limited to <strong>JC Premiere International</strong>, <strong>International Marketing Group (IMG)</strong>, and <strong>Vista Land &amp; Lifescapes</strong> — are <strong>independent, legally separate entities</strong>.</p>
+      <p>These companies:</p>
+      <ul>
+        <li>Have no legal, financial, or corporate relationship with each other unless explicitly stated by their respective official channels.</li>
+        <li>Are not affiliated with, owned by, or endorsed by Millionaire Mindset or its operators.</li>
+        <li>Operate under their own independent terms, conditions, compensation plans, and regulatory registrations.</li>
+        <li>Each hold their own licenses, government registrations, and legal status as separate business entities.</li>
+      </ul>
+      <p>Any comparison, grouping, or co-presentation of these companies on this website is for <strong>informational and educational purposes only</strong> and does not imply any partnership, joint venture, or association among them.</p>
+    </div>
+
+    <div class="disc-card">
+      <h2>
+        <span class="disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </span>
+        Affiliate &amp; Referral Relationship
+      </h2>
+      <p>The operator of this website may be an <strong>independent associate, member, or affiliate</strong> of some or all of the featured companies. This means:</p>
+      <ul>
+        <li>The website operator may earn commissions, bonuses, or referral compensation when visitors register, purchase products, or join any featured business through links on this site.</li>
+        <li>This potential compensation may influence which opportunities are highlighted, but does not alter the factual descriptions provided.</li>
+        <li>All information is shared based on personal experience and publicly available data from the respective companies.</li>
+      </ul>
+    </div>
+
+    <div class="disc-card">
+      <h2>
+        <span class="disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </span>
+        Income &amp; Earnings Disclaimer
+      </h2>
+      <p>Any income figures, earnings potential, or financial results mentioned on this website are <strong>illustrative examples only</strong> and do not represent typical or guaranteed results.</p>
+      <ul>
+        <li>Individual results vary significantly based on effort, experience, market conditions, and other factors.</li>
+        <li>Network marketing, direct selling, and investment-linked products carry inherent risks. Past results do not guarantee future performance.</li>
+        <li>You should conduct your own due diligence and consult a licensed financial advisor before joining any business or making any financial decision.</li>
+        <li>Millionaire Mindset does not provide licensed financial, investment, or legal advice.</li>
+      </ul>
+    </div>
+
+    <div class="disc-card">
+      <h2>
+        <span class="disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </span>
+        Accuracy of Information
+      </h2>
+      <p>We make every effort to ensure information on this website is accurate and up to date. However:</p>
+      <ul>
+        <li>Product details, pricing, compensation plans, and business terms are set by each individual company and may change without notice.</li>
+        <li>Always verify current information directly with the official website of each featured company before making any decision.</li>
+        <li>Millionaire Mindset is not responsible for errors or omissions in information provided by third-party companies.</li>
+      </ul>
+    </div>
+
+    <div class="disc-card">
+      <h2>
+        <span class="disc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </span>
+        Governing Law
+      </h2>
+      <p>This website is operated for a global audience, with particular focus on overseas Filipino workers (OFWs) and global migrant workers. The operator complies with applicable laws in the jurisdictions where each featured company is registered to operate.</p>
+      <p>For questions about this disclosure, please contact us through the <a href="about.html#contact" style="color:var(--primary);font-weight:600;">Contact</a> section of this website.</p>
+    </div>
+
+    <p class="disc-updated">Last updated: June 2026</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo" style="margin-bottom:14px;">Millionaire<span>Mindset</span></div>
+          <p>Financial literacy and business education for OFWs and global workers everywhere.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="business.html">Business</a></li>
+            <li><a href="checkup.html">Financial Check-up</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="disclosure.html">Disclosure Statement</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+            <li><a href="terms.html">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Millionaire Mindset. All rights reserved. &nbsp;|&nbsp; <a href="disclosure.html">Disclosure</a> &nbsp;|&nbsp; <a href="privacy.html">Privacy</a> &nbsp;|&nbsp; <a href="terms.html">Terms</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

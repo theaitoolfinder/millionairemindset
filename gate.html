@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coming Soon | Millionaire Mindset</title>
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <script src="js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #CC1010;
+      --primary-2: #A80D0D;
+      --primary-light: #fdecea;
+      --accent: #C8900A;
+      --surface: #ffffff;
+      --text: #1a0505;
+      --text-dim: #7a4a4a;
+      --border: #f5c6c6;
+      --radius: 14px;
+      --hero-grad: linear-gradient(160deg, #fdecea 0%, #fff5f5 45%, #fff8f0 100%);
+    }
+    html, body {
+      min-height: 100vh;
+      background: var(--hero-grad);
+      font: 15px/1.55 "Poppins", system-ui, sans-serif;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gate-wrap {
+      width: 100%;
+      max-width: 480px;
+      padding: 40px 28px;
+      text-align: center;
+    }
+
+    /* Brand mark */
+    .brand-mark {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 8px 24px rgba(204,16,16,.28), inset 0 1px 0 rgba(255,255,255,.2);
+    }
+    .brand-mark svg { color: #fff; }
+
+    .gate-eyebrow {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--primary);
+      background: rgba(204,16,16,.08);
+      border: 1px solid rgba(204,16,16,.15);
+      padding: 5px 14px; border-radius: 999px;
+      margin-bottom: 20px;
+    }
+
+    .gate-wrap h1 {
+      font-size: clamp(1.9rem, 5vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gate-wrap p {
+      color: var(--text-dim);
+      font-size: 0.93rem;
+      line-height: 1.75;
+      margin-bottom: 36px;
+    }
+
+    /* Card */
+    .gate-card {
+      background: rgba(255,255,255,.82);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(255,255,255,.95);
+      border-radius: 24px;
+      padding: 36px 32px;
+      box-shadow: 0 8px 32px rgba(204,16,16,.09), inset 0 1px 0 rgba(255,255,255,1);
+      margin-bottom: 24px;
+    }
+
+    .gate-card label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-align: left;
+      margin-bottom: 10px;
+    }
+
+    .gate-input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .gate-input {
+      flex: 1;
+      background: rgba(255,255,255,.9);
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 13px 18px;
+      font: 15px "Poppins", sans-serif;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .gate-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(204,16,16,.1);
+    }
+    .gate-input::placeholder { color: #c8a0a0; }
+
+    .gate-btn {
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 13px 22px;
+      font: 600 15px "Poppins", sans-serif;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: .2s;
+      box-shadow: 0 6px 18px rgba(204,16,16,.32), inset 0 1px 0 rgba(255,255,255,.15);
+    }
+    .gate-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(204,16,16,.38); }
+    .gate-btn:active { transform: none; }
+
+    .gate-error {
+      margin-top: 12px;
+      font-size: 0.82rem;
+      color: var(--primary);
+      font-weight: 600;
+      display: none;
+    }
+
+    /* Status dots */
+    .gate-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 8px;
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 0 rgba(34,197,94,.4);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.4); }
+      70%  { box-shadow: 0 0 0 7px rgba(34,197,94,0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    }
+
+    .gate-footer {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+    .shake { animation: shake .35s ease; }
+  </style>
+</head>
+<body>
+  <div class="gate-wrap">
+
+    <div class="brand-mark">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+    </div>
+
+    <span class="gate-eyebrow">Under Development</span>
+
+    <h1>Coming Soon</h1>
+    <p>Millionaire Mindset is being crafted for launch.<br>Enter your access code to preview the site.</p>
+
+    <div class="gate-card">
+      <label for="gate-code-input">Preview Access Code</label>
+      <div class="gate-input-row">
+        <input
+          id="gate-code-input"
+          class="gate-input"
+          type="password"
+          placeholder="Enter access code"
+          autocomplete="off"
+          spellcheck="false"
+        />
+        <button class="gate-btn" onclick="submitGate()">Enter</button>
+      </div>
+      <div class="gate-error" id="gate-err">Incorrect code. Try again.</div>
+    </div>
+
+    <div class="gate-status">
+      <span class="status-dot"></span>
+      Site is live — access restricted during development
+    </div>
+
+    <br>
+    <div class="gate-footer">
+      &copy; 2026 Millionaire Mindset. All rights reserved.
+    </div>
+  </div>
+
+  <script>
+    var GATE_KEY  = 'mm_dev_access';
+    var GATE_CODE = 'mmdev2026';
+
+    // If already unlocked, go straight in
+    try {
+      if (localStorage.getItem(GATE_KEY) === GATE_CODE) {
+        window.location.replace('index.html');
+      }
+    } catch(e) {}
+
+    function submitGate() {
+      var val = document.getElementById('gate-code-input').value.trim();
+      var err = document.getElementById('gate-err');
+      if (val === GATE_CODE) {
+        try { localStorage.setItem(GATE_KEY, GATE_CODE); } catch(e) {}
+        window.location.replace('index.html');
+      } else {
+        err.style.display = 'block';
+        var card = document.querySelector('.gate-card');
+        card.classList.remove('shake');
+        void card.offsetWidth;
+        card.classList.add('shake');
+        document.getElementById('gate-code-input').value = '';
+        document.getElementById('gate-code-input').focus();
+      }
+    }
+
+    document.getElementById('gate-code-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') submitGate();
+    });
+  </script>
+</body>
+</html>
