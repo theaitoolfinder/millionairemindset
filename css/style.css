@@ -145,7 +145,7 @@ ul{list-style:none}
 .btn-lg{padding:16px 44px;font-size:15px}
 
 /* ===== HERO ===== */
-.hero{position:relative;display:flex;align-items:flex-start;overflow:hidden;padding:120px 0 80px}
+.hero{position:relative;display:flex;align-items:flex-start;overflow:hidden;padding:72px 0 64px}
 .hero-content{position:relative;z-index:1;max-width:700px;padding-top:0}
 
 .hero-tag{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--primary);background:rgba(253,236,234,.65);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border:1px solid rgba(255,255,255,.7);padding:7px 16px;border-radius:999px;margin-bottom:28px;box-shadow:inset 0 1px 0 rgba(255,255,255,.9),0 2px 10px rgba(204,16,16,.10)}
@@ -193,6 +193,9 @@ ul{list-style:none}
 .card-illus--vista{background:linear-gradient(135deg,#fef9c3 0%,#fde68a 60%,#fbbf24 100%)}
 .card-illus--hof{background:linear-gradient(135deg,#fee2e2 0%,#fecaca 50%,#f97316 100%)}
 .card-illus--ofw{background:linear-gradient(135deg,#CC1010 0%,#7c1010 50%,#3d0808 100%)}
+.card-photo-wrap{height:200px;overflow:hidden;border-radius:var(--radius) var(--radius) 0 0;position:relative}
+.card-photo{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+.card:hover .card-photo{transform:scale(1.05)}
 /* Series card cover strip */
 .series-cover{height:180px;background-size:cover;background-position:center;border-radius:18px 18px 0 0;margin:-40px -40px 28px -40px;overflow:hidden;position:relative}
 .series-cover::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.08) 0%,rgba(0,0,0,.45) 100%)}
@@ -421,7 +424,7 @@ ul{list-style:none}
   .nav-links{display:none}
   .hamburger{display:flex}
   .section{padding:56px 0}
-  .hero-content{padding-top:64px}
+  .hero-content{padding-top:0}
   .contact-grid{grid-template-columns:1fr;gap:40px}
   .about-grid{grid-template-columns:1fr;gap:40px}
   .about-img{aspect-ratio:1/1;max-width:280px;margin:0 auto}
