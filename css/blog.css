@@ -223,13 +223,12 @@ body { background: var(--bg); }
 }
 
 /* ── DESTINATIONS ROW ──────────────────────── */
-.dest-scroll-wrap { position: relative; }
 .dest-scroll {
   display: flex; gap: 16px;
   overflow-x: auto; overflow-y: visible;
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
-  padding: 8px 28px 20px;
+  padding: 4px 0 20px;
   scrollbar-width: none;
 }
 .dest-scroll::-webkit-scrollbar { display: none; }
