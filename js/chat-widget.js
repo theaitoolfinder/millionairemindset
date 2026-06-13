@@ -143,36 +143,6 @@
   }
   .mm-close-btn:hover { background: rgba(255,255,255,.32); }
 
-  /* character stage inside header */
-  .mm-stage-wrap {
-    display: flex; justify-content: center;
-    padding: 14px 18px 8px;
-    background: rgba(255,245,245,.5);
-    border-bottom: 1px solid rgba(204,16,16,.08);
-    gap: 0;
-  }
-  .mm-stage-wrap svg {
-    width: 90px; height: auto;
-    filter: drop-shadow(0 6px 14px rgba(204,16,16,.12));
-  }
-
-  /* speech bubble */
-  .mm-bubble-wrap {
-    padding: 0 18px 12px;
-    background: rgba(255,245,245,.5);
-    border-bottom: 1px solid rgba(204,16,16,.08);
-  }
-  .mm-bubble {
-    background: rgba(255,255,255,.85);
-    border: 1px solid rgba(204,16,16,.1);
-    border-radius: 14px 14px 14px 4px;
-    padding: 10px 14px;
-    font-size: .8rem; line-height: 1.55;
-    color: #3d1010;
-    min-height: 42px;
-    transition: opacity .25s;
-  }
-
   /* ── Chat messages ── */
   .mm-messages {
     flex: 1; overflow-y: auto; padding: 14px 16px;
@@ -458,14 +428,6 @@
         <button class="mm-close-btn" onclick="mmToggleChat()" aria-label="Close chat">✕</button>
       </div>
 
-      <!-- Character stage -->
-      <div class="mm-stage-wrap" id="mmStage"></div>
-
-      <!-- Speech bubble -->
-      <div class="mm-bubble-wrap">
-        <div class="mm-bubble" id="mmBubble">Hi! Ako si Hira — kasama mo sa bawat araw na malayo sa pamilya!</div>
-      </div>
-
       <!-- Messages -->
       <div class="mm-messages" id="mmMessages"></div>
 
@@ -517,11 +479,7 @@
      5. RENDER CHARACTER
   ══════════════════════════════════════════════ */
   function renderChar() {
-    var stage = document.getElementById('mmStage');
-    var mini  = document.getElementById('mmPanelCharMini');
-    if (!stage) return;
-    var svg = currentChar === 'hira' ? buildHira(84) : buildAya(84);
-    stage.innerHTML = svg;
+    var mini = document.getElementById('mmPanelCharMini');
     if (mini) mini.innerHTML = currentChar === 'hira' ? buildHira(52) : buildAya(52);
   }
 
@@ -577,8 +535,7 @@
   }
 
   function setBubble(text) {
-    var bubble = document.getElementById('mmBubble');
-    if (bubble) bubble.textContent = text;
+    /* character stage removed — only animate mini avatar in header */
     startTalking(Math.min(text.length * 50, 3800));
     triggerAnim('wave');
   }
