@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Financial Check-up | Millionaire Mindset</title>
+  <meta name="description" content="Take our free OFW Financial Check-up and discover exactly where you stand — and how to level up your finances today." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/checkup.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Millionaire Mindset" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
+        <span class="logo-text" style="display:none;">Millionaire<span class="gold-text">Mindset</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="checkup.html" style="color:var(--gold);">💰 Check-up</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-switcher">
+          <button class="lang-btn active" data-lang="tl" onclick="setLang('tl')">🇵🇭 FIL</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧 EN</button>
+        </div>
+        <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+      </div>
+    </div>
+    <ul class="nav-mobile" id="mobileMenu">
+      <li><a href="index.html" onclick="toggleMenu()">Home</a></li>
+      <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
+      <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
+      <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
+      <li><a href="checkup.html" onclick="toggleMenu()">💰 Financial Check-up</a></li>
+      <li><a href="about.html" onclick="toggleMenu()">About</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="checkup-hero">
+    <div class="container">
+      <p class="label">100% Free Tool</p>
+      <h1>OFW Financial <span class="gold-text">Check-up</span></h1>
+      <p class="checkup-hero-sub">Answer 10 quick questions and find out your Financial Health Score — plus get a personalized action plan to build real wealth as an OFW.</p>
+      <div class="checkup-badges">
+        <span>✅ Takes 3 minutes</span>
+        <span>✅ 100% Free</span>
+        <span>✅ Personalized Results</span>
+        <span>✅ No sign-up needed</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <section class="checkup-section">
+    <div class="container">
+      <div class="quiz-wrapper">
+
+        <!-- PROGRESS BAR -->
+        <div class="quiz-progress" id="quizProgress" style="display:none;">
+          <div class="progress-label">
+            <span id="progressText">Question 1 of 10</span>
+            <span id="progressPct">10%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill" style="width:10%"></div>
+          </div>
+        </div>
+
+        <!-- START SCREEN -->
+        <div class="quiz-screen active" id="screen-start">
+          <div class="quiz-start-inner">
+            <div class="quiz-icon">💰</div>
+            <h2>Are You Financially Healthy?</h2>
+            <p>Most OFWs work hard but still feel financially stuck. This 3-minute check-up will show you exactly where you stand and what you can do about it — for free.</p>
+            <ul class="quiz-start-list">
+              <li>📊 Get your personal Financial Health Score</li>
+              <li>🔍 Identify your biggest financial weaknesses</li>
+              <li>🚀 Get an action plan built for OFWs</li>
+              <li>💼 Discover income opportunities to close the gap</li>
+            </ul>
+            <button class="btn-primary btn-lg" onclick="startQuiz()">Start My Free Check-up →</button>
+            <p class="quiz-disclaimer">No personal data stored. Results are for guidance only.</p>
+          </div>
+        </div>
+
+        <!-- QUESTIONS -->
+        <div class="quiz-screen" id="screen-questions">
+          <div id="questionArea"></div>
+          <div class="quiz-nav">
+            <button class="btn-outline" id="btnBack" onclick="prevQuestion()" style="display:none;">← Back</button>
+            <button class="btn-primary" id="btnNext" onclick="nextQuestion()">Next →</button>
+          </div>
+          <p class="quiz-skip" id="skipNote">Please select an answer to continue.</p>
+        </div>
+
+        <!-- RESULTS -->
+        <div class="quiz-screen" id="screen-results">
+          <div class="results-header">
+            <h2>Your Financial Health Score</h2>
+            <div class="score-circle-wrap">
+              <svg class="score-ring" viewBox="0 0 120 120">
+                <circle class="ring-bg" cx="60" cy="60" r="52" />
+                <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52" />
+              </svg>
+              <div class="score-center">
+                <span class="score-number" id="scoreNumber">0</span>
+                <span class="score-label" id="scoreLabel">Loading...</span>
+              </div>
+            </div>
+            <p class="score-tier" id="scoreTier"></p>
+          </div>
+
+          <div class="results-breakdown" id="resultsBreakdown"></div>
+
+          <div class="results-cta" id="resultsCta"></div>
+
+          <div class="results-actions">
+            <button class="btn-outline" onclick="restartQuiz()">Retake Check-up</button>
+            <a href="business.html" class="btn-primary">Learn About the Business Opportunity</a>
+          </div>
+
+          <div class="results-share">
+            <p>Share your results and help a fellow OFW:</p>
+            <div class="share-btns">
+              <a href="#" class="share-btn share-fb" onclick="shareFacebook()">Facebook</a>
+              <a href="#" class="share-btn share-wa" onclick="shareWhatsapp()">WhatsApp / Viber</a>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end quiz-wrapper -->
+    </div>
+  </section>
+
+  <!-- WHY SECTION -->
+  <section class="section bg-dark2">
+    <div class="container">
+      <div class="section-header">
+        <p class="label">Why It Matters</p>
+        <h2>Most OFWs Are in a Financial Trap</h2>
+        <p class="section-sub">Working abroad should lead to freedom — but for many, it leads to a cycle that never ends. This check-up helps you break out of it.</p>
+      </div>
+      <div class="categories">
+        <div class="cat-card">
+          <div class="cat-icon">😰</div>
+          <h4>Living Paycheck to Paycheck</h4>
+          <p>Despite earning in a stronger currency, most OFW salaries are fully spent before the next payday.</p>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">📉</div>
+          <h4>No Savings Buffer</h4>
+          <p>Without 3–6 months of emergency fund, one crisis can wipe out years of hard work abroad.</p>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">🔄</div>
+          <h4>The OFW Trap</h4>
+          <p>Planning to go home "next year" but staying for 10+ more years because there's no financial plan waiting at home.</p>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">💡</div>
+          <h4>One Income, Zero Backup</h4>
+          <p>When your only income is your job, losing it means losing everything. A second income stream changes everything.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Millionaire Mindset" class="logo-img logo-img--sm" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';" />
+        <span style="display:none;">Millionaire<span class="gold-text">Mindset</span></span>
+      </a>
+      <p class="footer-tagline">Empowering OFWs to Build Wealth & Freedom</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="checkup.html">Financial Check-up</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <p class="copyright">© 2026 MillionaireMindset.ae — All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/checkup.js"></script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog | Millionaire Mindset</title>
+  <meta name="description" content="Financial literacy articles for OFWs — remittance tips, investing guides, mindset, and more." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Millionaire Mindset" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';" />
+        <span style="display:none;">Millionaire<span class="gold-text">Mindset</span></span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="checkup.html">💰 Check-up</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <div class="lang-switcher">
+          <button class="lang-btn" data-lang="tl" onclick="setLang('tl')">🇵🇭 FIL</button>
+          <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧 EN</button>
+        </div>
+        <a href="cart.html" class="cart-icon">🛒 <span class="cart-count" id="cartCount">0</span></a>
+        <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+      </div>
+    </div>
+    <ul class="nav-mobile" id="mobileMenu">
+      <li><a href="index.html" onclick="toggleMenu()">Home</a></li>
+      <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
+      <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
+      <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
+      <li><a href="checkup.html" onclick="toggleMenu()">💰 Financial Check-up</a></li>
+      <li><a href="about.html" onclick="toggleMenu()">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <p class="label">Financial Literacy for OFWs</p>
+    <h1>Blog</h1>
+    <p>Practical money tips, investing guides, and mindset shifts — all designed for the OFW life.</p>
+  </div>
+
+  <!-- AFFILIATE BANNER -->
+  <div class="container">
+    <div class="affiliate-banner affiliate-banner--top">
+      <span class="affiliate-label">Sponsored</span>
+      <p>💸 <strong>Send money home smarter.</strong> Compare remittance rates and save on fees every month. <a href="#" class="affiliate-link">Compare Now →</a></p>
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:32px;">
+    <div class="container blog-layout">
+
+      <!-- MAIN ARTICLES -->
+      <div>
+        <div class="cards-grid">
+
+          <article class="card">
+            <div class="card-img card-img--1"></div>
+            <div class="card-body">
+              <div class="blog-meta"><span class="tag">Remittance</span><span class="blog-date">June 2026</span></div>
+              <h3>5 Best Ways to Send Money Home from UAE in 2026</h3>
+              <p>Comparing fees, exchange rates, and speed — so more of your hard-earned money reaches your family in the Philippines.</p>
+              <a href="#" class="read-more">Read More →</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img card-img--2"></div>
+            <div class="card-body">
+              <div class="blog-meta"><span class="tag">Investing</span><span class="blog-date">May 2026</span></div>
+              <h3>OFW Beginner's Guide to the Philippine Stock Market</h3>
+              <p>You don't need to be rich to invest. Here's how to open an account and start with as little as ₱1,000 from abroad.</p>
+              <a href="#" class="read-more">Read More →</a>
+            </div>
+          </article>
+
+          <!-- INLINE AFFILIATE -->
+          <div class="affiliate-inline" style="grid-column:1/-1;">
+            <span class="affiliate-label">Recommended</span>
+            <div class="affiliate-inline-grid" style="margin-top:12px;">
+              <div class="affiliate-card">
+                <span class="aff-icon">🏥</span>
+                <div><strong>OFW Health Insurance</strong><p>Affordable coverage for you and your family back home.</p><a href="#" class="affiliate-link">Get a Quote →</a></div>
+              </div>
+              <div class="affiliate-card">
+                <span class="aff-icon">🏠</span>
+                <div><strong>Vista Land Properties</strong><p>Affordable homes and lots across the Philippines.</p><a href="business.html#vistaland" class="affiliate-link">View Properties →</a></div>
+              </div>
+              <div class="affiliate-card">
+                <span class="aff-icon">💊</span>
+                <div><strong>JC Premiere Wellness</strong><p>Premium health products delivered anywhere.</p><a href="shop.html" class="affiliate-link">Shop Now →</a></div>
+              </div>
+            </div>
+          </div>
+
+          <article class="card">
+            <div class="card-img card-img--3"></div>
+            <div class="card-body">
+              <div class="blog-meta"><span class="tag">Mindset</span><span class="blog-date">April 2026</span></div>
+              <h3>Why Most OFWs Come Home Broke — And How Not To</h3>
+              <p>The lifestyle traps, the family pressure, and the money habits that drain OFW savings. Let's fix them once and for all.</p>
+              <a href="#" class="read-more">Read More →</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img card-img--1"></div>
+            <div class="card-body">
+              <div class="blog-meta"><span class="tag">Insurance</span><span class="blog-date">March 2026</span></div>
+              <h3>Why Every OFW Needs Life Insurance — Even If You're Healthy</h3>
+              <p>Your family depends on your income. What happens if something unexpected happens to you? Here's how to protect them.</p>
+              <a href="#" class="read-more">Read More →</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img card-img--2"></div>
+            <div class="card-body">
+              <div class="blog-meta"><span class="tag">Real Estate</span><span class="blog-date">February 2026</span></div>
+              <h3>How OFWs Can Buy a House in the Philippines from Abroad</h3>
+              <p>Step-by-step guide to purchasing property in the Philippines while working overseas — without going home to sign papers.</p>
+              <a href="#" class="read-more">Read More →</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-img card-img--3"></div>
+            <div class="card-body">
+              <div class="blog-meta"><span class="tag">Side Income</span><span class="blog-date">January 2026</span></div>
+              <h3>Network Marketing: Is It Worth It for OFWs?</h3>
+              <p>Honest review of network marketing as a side income for overseas workers — what works, what doesn't, and how to pick the right one.</p>
+              <a href="#" class="read-more">Read More →</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="blog-sidebar">
+        <div class="sidebar-widget">
+          <h4>💰 Free Financial Check-up</h4>
+          <p>Find out your OFW Financial Health Score in 3 minutes.</p>
+          <a href="checkup.html" class="btn-primary" style="display:block; text-align:center; margin-top:16px;">Start Check-up</a>
+        </div>
+
+        <div class="sidebar-widget">
+          <h4>📂 Browse by Topic</h4>
+          <ul class="sidebar-cats">
+            <li><a href="#">💵 Remittance Tips</a></li>
+            <li><a href="#">📈 Investing</a></li>
+            <li><a href="#">🛡️ Insurance</a></li>
+            <li><a href="#">🏠 Real Estate</a></li>
+            <li><a href="#">💼 Side Income</a></li>
+            <li><a href="#">🧠 Mindset</a></li>
+          </ul>
+        </div>
+
+        <div class="sidebar-widget sidebar-widget--gold">
+          <h4>🤝 Join My Team</h4>
+          <p>JC Premiere · IMG · Vista Land</p>
+          <p style="font-size:0.82rem; color:var(--text-muted); margin-top:8px;">Build a part-time business while you work abroad.</p>
+          <a href="business.html" class="btn-primary" style="display:block; text-align:center; margin-top:16px;">Learn More</a>
+        </div>
+
+        <!-- SIDEBAR AD -->
+        <div class="sidebar-ad">
+          <span class="affiliate-label">Ad</span>
+          <div class="sidebar-ad-content">
+            <span style="font-size:2rem;">🏦</span>
+            <strong>Open an Investment Account</strong>
+            <p>Start investing in Philippine stocks from UAE today.</p>
+            <a href="#" class="affiliate-link">Open Account →</a>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="index.html" class="logo">
+        <img src="images/logo.png" alt="Millionaire Mindset" class="logo-img logo-img--sm" onerror="this.style.display='none';this.nextElementSibling.style.display='inline';" />
+        <span style="display:none;">Millionaire<span class="gold-text">Mindset</span></span>
+      </a>
+      <p class="footer-tagline">Empowering OFWs to Build Wealth &amp; Freedom</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="checkup.html">Financial Check-up</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <p class="copyright">© 2026 MillionaireMindset.ae — All rights reserved.<br/><small>This site may contain affiliate links.</small></p>
+    </div>
+  </footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

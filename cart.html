@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart | Millionaire Mindset</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">Millionaire<span>Mindset</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cart.html" class="cart-icon">&#128722; <span class="cart-count" id="cartCount">0</span></a>
+        <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+      </div>
+    </div>
+    <ul class="nav-mobile" id="mobileMenu">
+      <li><a href="index.html" onclick="toggleMenu()">Home</a></li>
+      <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero" style="padding-bottom:48px;">
+    <p class="label">Your Order</p>
+    <h1>Shopping Cart</h1>
+  </div>
+
+  <section class="section" style="padding-top:40px;">
+    <div class="container cart-layout">
+
+      <div class="cart-main">
+        <div id="cartItems"><!-- Rendered by JS --></div>
+      </div>
+
+      <div class="cart-aside" id="cartSummary" style="display:none;">
+        <div class="summary-box">
+          <h3>Order Summary</h3>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span class="cart-grand-total">₱0</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span class="summary-free">FREE</span>
+          </div>
+          <div class="summary-divider"></div>
+          <div class="summary-row summary-total">
+            <span>Total</span>
+            <span class="cart-grand-total">₱0</span>
+          </div>
+
+          <h4 style="margin:28px 0 16px;">Your Details</h4>
+          <form onsubmit="handleCheckout(event)">
+            <input type="text" id="checkoutName" placeholder="Full Name" required class="checkout-input" />
+            <input type="email" id="checkoutEmail" placeholder="Email Address" required class="checkout-input" />
+            <input type="text" id="checkoutPhone" placeholder="Phone / Viber / WhatsApp" class="checkout-input" />
+            <select class="checkout-input">
+              <option value="">Payment Method</option>
+              <option>GCash</option>
+              <option>Bank Transfer (BDO / BPI)</option>
+              <option>PayPal</option>
+              <option>Western Union</option>
+            </select>
+            <button type="submit" class="btn-primary" style="width:100%; margin-top:8px;">Place Order</button>
+          </form>
+          <p class="checkout-note">After placing your order, you'll receive payment instructions via email within 24 hours.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="index.html" class="logo">Millionaire<span>Mindset</span></a>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+      </ul>
+      <p class="copyright">&copy; 2026 MillionaireMindset.ae</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

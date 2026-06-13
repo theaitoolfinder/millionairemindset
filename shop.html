@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop | Millionaire Mindset</title>
+  <meta name="description" content="Products for OFWs — digital guides, health supplements, courses, and more." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">Millionaire<span>Mindset</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="index.html#contact" class="btn-nav">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="cart.html" class="cart-icon">&#128722; <span class="cart-count" id="cartCount">0</span></a>
+        <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+      </div>
+    </div>
+    <ul class="nav-mobile" id="mobileMenu">
+      <li><a href="index.html" onclick="toggleMenu()">Home</a></li>
+      <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
+      <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
+      <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
+      <li><a href="about.html" onclick="toggleMenu()">About</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-hero">
+    <p class="label">Our Store</p>
+    <h1>Shop for OFWs</h1>
+    <p>Digital guides, health products, and courses — everything to support your success abroad.</p>
+  </div>
+
+  <!-- AFFILIATE BANNER -->
+  <div class="container" style="margin-top:32px;">
+    <div class="affiliate-banner affiliate-banner--top">
+      <span class="affiliate-label">Partner Offer</span>
+      <p>🛒 <strong>Shop Lazada Philippines</strong> — order products delivered to your family back home. <a href="#" class="affiliate-link">Shop Now &rarr;</a></p>
+    </div>
+  </div>
+
+  <!-- FILTER BAR -->
+  <section class="section" style="padding-top:40px; padding-bottom:0;">
+    <div class="container">
+      <div class="filter-bar">
+        <button class="filter-btn active" onclick="filterProducts('all', this)">All Products</button>
+        <button class="filter-btn" onclick="filterProducts('Digital', this)">📱 Digital</button>
+        <button class="filter-btn" onclick="filterProducts('Health', this)">💊 Health</button>
+        <button class="filter-btn" onclick="filterProducts('Course', this)">🎓 Courses</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:32px;">
+    <div class="container">
+      <div class="cards-grid" id="allProducts">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- AFFILIATE SIDEBAR BLOCK -->
+  <section class="section bg-dark2" style="padding:48px 0;">
+    <div class="container">
+      <p class="label" style="text-align:center; margin-bottom:24px;">Recommended Partners</p>
+      <div class="affiliate-inline-grid">
+        <div class="affiliate-card">
+          <span class="aff-icon">💸</span>
+          <div>
+            <strong>Best Remittance Rates</strong>
+            <p>Send money home with zero fees this week. Limited offer.</p>
+            <a href="#" class="affiliate-link">Compare Now &rarr;</a>
+          </div>
+        </div>
+        <div class="affiliate-card">
+          <span class="aff-icon">🏥</span>
+          <div>
+            <strong>OFW Health Insurance</strong>
+            <p>Affordable health coverage for you and your family.</p>
+            <a href="#" class="affiliate-link">Get a Quote &rarr;</a>
+          </div>
+        </div>
+        <div class="affiliate-card">
+          <span class="aff-icon">📲</span>
+          <div>
+            <strong>GCash Padala</strong>
+            <p>Send money directly to GCash wallets in the Philippines.</p>
+            <a href="#" class="affiliate-link">Learn More &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="index.html" class="logo">Millionaire<span>Mindset</span></a>
+      <p class="footer-tagline">Empowering OFWs to Build Wealth &amp; Freedom</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <p class="copyright">&copy; 2026 MillionaireMindset.ae &mdash; All rights reserved.<br/><small>This site contains affiliate links. We may earn a commission at no extra cost to you.</small></p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    function filterProducts(category, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const container = document.getElementById('allProducts');
+      const list = category === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === category);
+      container.innerHTML = list.map(p => `
+        <div class="card product-card">
+          <div class="card-img product-icon-wrap">
+            <span class="product-icon">${p.icon}</span>
+            ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+          </div>
+          <div class="card-body">
+            <div class="blog-meta"><span class="tag">${p.category}</span></div>
+            <h3>${p.name}</h3>
+            <p>${p.description}</p>
+            <div class="product-footer">
+              <span class="product-price">₱${p.price.toLocaleString()}</span>
+              <button class="btn-primary btn-sm" onclick="addToCart(${p.id})">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+  </script>
+</body>
+</html>

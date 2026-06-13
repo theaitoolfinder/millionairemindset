@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Millionaire Mindset | Financial Literacy for OFWs</title>
+  <meta name="description" content="Empowering OFWs with financial literacy, business opportunities, and products to build wealth from abroad." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="logo">Millionaire<span>Mindset</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#contact" class="btn-nav">Contact</a></li>
+      </ul>
+      <div class="nav-right">
+        <a href="shop.html" class="cart-icon" id="cartNavIcon">&#128722; <span class="cart-count" id="cartCount">0</span></a>
+        <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
+      </div>
+    </div>
+    <ul class="nav-mobile" id="mobileMenu">
+      <li><a href="index.html" onclick="toggleMenu()">Home</a></li>
+      <li><a href="blog.html" onclick="toggleMenu()">Blog</a></li>
+      <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
+      <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
+      <li><a href="about.html" onclick="toggleMenu()">About</a></li>
+      <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-content">
+      <p class="hero-tag">Para sa mga OFW na Naghahanap ng Tunay na Kalayaan</p>
+      <h1>Your Sacrifice<br />Deserves a<br /><span class="gold-text">Millionaire Plan.</span></h1>
+      <p class="hero-sub">Financial literacy, extra income opportunities, and curated products — everything an OFW needs to build real wealth from abroad.</p>
+      <div class="hero-btns">
+        <a href="blog.html" class="btn-primary">Learn &amp; Grow</a>
+        <a href="shop.html" class="btn-outline">Browse Shop</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="container trust-inner">
+      <div class="trust-item"><span class="trust-num">5,000+</span><span>OFWs Reached</span></div>
+      <div class="trust-divider"></div>
+      <div class="trust-item"><span class="trust-num">UAE</span><span>Based Community</span></div>
+      <div class="trust-divider"></div>
+      <div class="trust-item"><span class="trust-num">Free</span><span>Financial Resources</span></div>
+      <div class="trust-divider"></div>
+      <div class="trust-item"><span class="trust-num">Part-time</span><span>Income Options</span></div>
+    </div>
+  </div>
+
+  <!-- AFFILIATE BANNER TOP -->
+  <div class="container">
+    <div class="affiliate-banner affiliate-banner--top">
+      <span class="affiliate-label">Sponsored</span>
+      <p>&#128176; <strong>Send money home smarter.</strong> Compare remittance rates and save on fees. <a href="#" class="affiliate-link">Learn More &rarr;</a></p>
+    </div>
+  </div>
+
+  <!-- TOPICS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="label">What We Cover</p>
+        <h2>Built for the OFW Journey</h2>
+        <p class="section-sub">From your first remittance to your first investment — we guide every step.</p>
+      </div>
+      <div class="categories">
+        <div class="cat-card">
+          <div class="cat-icon">&#128176;</div>
+          <h4>Smart Remittances</h4>
+          <p>Stop losing money on fees. Learn the best channels to send more home with less cost.</p>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">&#128200;</div>
+          <h4>Investing for OFWs</h4>
+          <p>Stocks, UITF, real estate — where to put your savings so your money grows while you work.</p>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">&#127968;</div>
+          <h4>Balik-Bayan Planning</h4>
+          <p>Build a solid plan so when you come home, you come home for good — not because you have to.</p>
+        </div>
+        <div class="cat-card">
+          <div class="cat-icon">&#128101;</div>
+          <h4>Family Financial Plan</h4>
+          <p>Teach your family to manage remittances wisely so your hard work doesn't disappear.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED POSTS -->
+  <section class="section bg-dark2">
+    <div class="container">
+      <div class="section-header">
+        <p class="label">Latest Articles</p>
+        <h2>Financial Tips for OFWs</h2>
+      </div>
+      <div class="cards-grid">
+        <article class="card">
+          <div class="card-img card-img--1"></div>
+          <div class="card-body">
+            <div class="blog-meta"><span class="tag">Remittance</span><span class="blog-date">June 2026</span></div>
+            <h3>5 Best Ways to Send Money Home from UAE in 2026</h3>
+            <p>Comparing fees, exchange rates, and speed — so more of your hard-earned money reaches your family.</p>
+            <a href="blog.html" class="read-more">Read More &rarr;</a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-img card-img--2"></div>
+          <div class="card-body">
+            <div class="blog-meta"><span class="tag">Investing</span><span class="blog-date">May 2026</span></div>
+            <h3>OFW Beginner's Guide to the Philippine Stock Market</h3>
+            <p>You don't need to be rich to invest. Here's how to start with as little as ₱1,000.</p>
+            <a href="blog.html" class="read-more">Read More &rarr;</a>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-img card-img--3"></div>
+          <div class="card-body">
+            <div class="blog-meta"><span class="tag">Mindset</span><span class="blog-date">April 2026</span></div>
+            <h3>Why Most OFWs Come Home Broke — And How Not To</h3>
+            <p>The lifestyle traps, the family pressure, and the money habits that drain OFW savings.</p>
+            <a href="blog.html" class="read-more">Read More &rarr;</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- AFFILIATE IN-CONTENT -->
+      <div class="affiliate-inline">
+        <span class="affiliate-label">Recommended</span>
+        <div class="affiliate-inline-grid">
+          <div class="affiliate-card">
+            <span class="aff-icon">&#127968;</span>
+            <div>
+              <strong>OFW Home Loan</strong>
+              <p>Buy your dream home in the Philippines while working abroad.</p>
+              <a href="#" class="affiliate-link">Check Rates &rarr;</a>
+            </div>
+          </div>
+          <div class="affiliate-card">
+            <span class="aff-icon">&#128137;</span>
+            <div>
+              <strong>OFW Health Insurance</strong>
+              <p>Protect yourself and your family with affordable coverage.</p>
+              <a href="#" class="affiliate-link">Get a Quote &rarr;</a>
+            </div>
+          </div>
+          <div class="affiliate-card">
+            <span class="aff-icon">&#128179;</span>
+            <div>
+              <strong>Online Investment Account</strong>
+              <p>Open a stock account from anywhere in the world.</p>
+              <a href="#" class="affiliate-link">Open Account &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:16px;">
+        <a href="blog.html" class="btn-outline">View All Articles</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP PREVIEW -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <p class="label">Our Shop</p>
+        <h2>Products for the OFW Lifestyle</h2>
+        <p class="section-sub">Curated products to support your health, growth, and hustle.</p>
+      </div>
+      <div class="cards-grid" id="homeFeaturedProducts">
+        <!-- Populated by JS -->
+      </div>
+      <div style="text-align:center; margin-top:40px;">
+        <a href="shop.html" class="btn-primary">Browse Full Shop</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BUSINESS PROMO -->
+  <section class="section business-promo">
+    <div class="container business-inner">
+      <div class="business-text">
+        <p class="label">Extra Income</p>
+        <h2>Build a Business While You Work Abroad</h2>
+        <p>Network marketing is one of the most OFW-friendly businesses you can run — low capital, flexible hours, and you can operate it from anywhere using just your phone.</p>
+        <ul class="biz-benefits">
+          <li>&#10003; No need to quit your job — start part-time</li>
+          <li>&#10003; Work from UAE, operate in the Philippines</li>
+          <li>&#10003; Help your family back home earn too</li>
+          <li>&#10003; Build passive income streams</li>
+          <li>&#10003; Join a supportive Filipino community</li>
+        </ul>
+        <a href="business.html" class="btn-primary" style="margin-top:28px;">Learn About the Opportunity</a>
+      </div>
+      <div class="business-visual">
+        <div class="biz-card">
+          <div class="biz-icon">&#127981;</div>
+          <h3>Part-Time.<br/>Real Income.</h3>
+          <p>Thousands of Filipinos are already building income streams through network marketing — while keeping their day jobs.</p>
+          <div class="biz-stat">
+            <div><strong>Flexible</strong><span>Work anytime</span></div>
+            <div><strong>Low Capital</strong><span>Start small</span></div>
+            <div><strong>Scalable</strong><span>Grow your team</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE BANNER -->
+  <section class="quote-banner">
+    <div class="container">
+      <blockquote>"Hindi ka lang nagtatrabaho para sa pamilya mo.<br/>You're building their future."</blockquote>
+      <p class="quote-attr">— Millionaire Mindset</p>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="container newsletter-inner">
+      <div>
+        <h2>Join Our OFW Community</h2>
+        <p>Free weekly tips on saving, investing, and building income. <strong>Libre. Walang spam.</strong></p>
+      </div>
+      <form class="newsletter-form" onsubmit="handleSubscribe(event)">
+        <input type="email" placeholder="Enter your email address" required />
+        <button type="submit" class="btn-primary">Subscribe Free</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <p class="label">Get In Touch</p>
+        <h2>Let's Talk</h2>
+        <p class="section-sub">Questions about the business, products, or financial advice? Message me anytime.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>Whether you want to learn about financial literacy, explore the business opportunity, or just connect with a fellow Filipino — I'm here.</p>
+          <ul class="contact-details">
+            <li>&#9993;&nbsp; hello@millionairemindset.ae</li>
+            <li>&#127757;&nbsp; millionairemindset.ae</li>
+            <li>&#127988;&nbsp; Dubai, UAE</li>
+          </ul>
+          <div class="social-links">
+            <a href="#" class="social-btn">Facebook</a>
+            <a href="#" class="social-btn">Instagram</a>
+            <a href="#" class="social-btn">Viber / WhatsApp</a>
+          </div>
+        </div>
+        <form class="contact-form" onsubmit="handleContact(event)">
+          <input type="text" placeholder="Your Name" required />
+          <input type="email" placeholder="Your Email" required />
+          <select>
+            <option value="">What are you interested in?</option>
+            <option>Financial Literacy Resources</option>
+            <option>Business Opportunity</option>
+            <option>Product Inquiry</option>
+            <option>General Inquiry</option>
+          </select>
+          <textarea placeholder="Your Message" rows="5" required></textarea>
+          <button type="submit" class="btn-primary">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="index.html" class="logo">Millionaire<span>Mindset</span></a>
+      <p class="footer-tagline">Empowering OFWs to Build Wealth &amp; Freedom</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <p class="copyright">&copy; 2026 MillionaireMindset.ae &mdash; All rights reserved.<br/><small>This site may contain affiliate links. We earn a small commission at no extra cost to you.</small></p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
