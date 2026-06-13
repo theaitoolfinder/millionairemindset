@@ -85,28 +85,46 @@ window.addEventListener('scroll', () => {
   ];
 
   /* ── Apply a hue-based dynamic theme ── */
-  function applyHueTheme(hue, swatchIdx) {
+  /* sat = swatch saturation override (for grey etc); default 72 */
+  function applyHueTheme(hue, swatchIdx, sat) {
     var root = document.documentElement;
     root.removeAttribute('data-theme');
     /* Clear any previous inline overrides first */
     var vars = ['--primary','--primary-2','--primary-light','--accent',
                 '--bg','--text','--text-2','--text-dim',
-                '--border','--border-soft','--hero-grad'];
+                '--border','--border-soft','--hero-grad',
+                '--shadow','--shadow-lg',
+                '--glow-xs','--glow-sm','--glow-md','--glow-lg','--glow-xl',
+                '--tint-bg'];
     vars.forEach(function(v){ root.style.removeProperty(v); });
 
-    var h = Math.round(hue);
-    root.style.setProperty('--primary',       'hsl('+h+',72%,43%)');
-    root.style.setProperty('--primary-2',     'hsl('+h+',76%,36%)');
-    root.style.setProperty('--primary-light', 'hsl('+h+',78%,95%)');
-    root.style.setProperty('--accent',        'hsl('+((h+32)%360)+',62%,42%)');
-    root.style.setProperty('--bg',            'hsl('+h+',52%,97%)');
-    root.style.setProperty('--text',          'hsl('+h+',65%,10%)');
-    root.style.setProperty('--text-2',        'hsl('+h+',60%,20%)');
-    root.style.setProperty('--text-dim',      'hsl('+h+',32%,48%)');
-    root.style.setProperty('--border',        'hsl('+h+',42%,86%)');
-    root.style.setProperty('--border-soft',   'hsl('+h+',42%,91%)');
+    var h  = Math.round(hue);
+    var s  = (sat !== undefined) ? Math.round(sat) : 72;  /* respect swatch saturation */
+    var s2 = Math.min(s + 4, 100);
+    var sLight = Math.max(s - 10, 8);  /* slightly less sat for light shades */
+
+    root.style.setProperty('--primary',       'hsl('+h+','+s+'%,43%)');
+    root.style.setProperty('--primary-2',     'hsl('+h+','+s2+'%,36%)');
+    root.style.setProperty('--primary-light', 'hsl('+h+','+sLight+'%,95%)');
+    root.style.setProperty('--accent',        'hsl('+((h+32)%360)+','+Math.max(s-10,20)+'%,42%)');
+    root.style.setProperty('--bg',            'hsl('+h+','+Math.max(s-20,8)+'%,97%)');
+    root.style.setProperty('--text',          'hsl('+h+','+Math.max(s-7,8)+'%,10%)');
+    root.style.setProperty('--text-2',        'hsl('+h+','+Math.max(s-12,8)+'%,20%)');
+    root.style.setProperty('--text-dim',      'hsl('+h+','+Math.max(s-40,8)+'%,48%)');
+    root.style.setProperty('--border',        'hsl('+h+','+Math.max(s-30,8)+'%,86%)');
+    root.style.setProperty('--border-soft',   'hsl('+h+','+Math.max(s-30,8)+'%,91%)');
     root.style.setProperty('--hero-grad',
-      'linear-gradient(160deg,hsl('+h+',82%,95%) 0%,hsl('+h+',60%,98%) 45%,hsl('+((h+15)%360)+',70%,97%) 100%)');
+      'linear-gradient(160deg,hsl('+h+','+Math.max(s-10,8)+'%,95%) 0%,hsl('+h+','+Math.max(s-20,4)+'%,98%) 45%,hsl('+((h+15)%360)+','+Math.max(s-20,4)+'%,97%) 100%)');
+
+    /* Glow variables — update so box-shadows follow the theme */
+    root.style.setProperty('--shadow',    '0 2px 12px hsla('+h+','+s+'%,43%,.07)');
+    root.style.setProperty('--shadow-lg', '0 8px 28px hsla('+h+','+s+'%,43%,.13)');
+    root.style.setProperty('--glow-xs',   'hsla('+h+','+s+'%,43%,.07)');
+    root.style.setProperty('--glow-sm',   'hsla('+h+','+s+'%,43%,.12)');
+    root.style.setProperty('--glow-md',   'hsla('+h+','+s+'%,43%,.18)');
+    root.style.setProperty('--glow-lg',   'hsla('+h+','+s+'%,43%,.32)');
+    root.style.setProperty('--glow-xl',   'hsla('+h+','+s+'%,43%,.48)');
+    root.style.setProperty('--tint-bg',   'hsla('+h+','+Math.max(s-10,8)+'%,95%,.65)');
 
     var dotColor = 'hsl('+h+',72%,43%)';
     syncNavDot(dotColor);
@@ -121,7 +139,10 @@ window.addEventListener('scroll', () => {
     var root = document.documentElement;
     var vars = ['--primary','--primary-2','--primary-light','--accent',
                 '--bg','--text','--text-2','--text-dim',
-                '--border','--border-soft','--hero-grad'];
+                '--border','--border-soft','--hero-grad',
+                '--shadow','--shadow-lg',
+                '--glow-xs','--glow-sm','--glow-md','--glow-lg','--glow-xl',
+                '--tint-bg'];
     vars.forEach(function(v){ root.style.removeProperty(v); });
     root.removeAttribute('data-theme');
     syncNavDot('#CC1010');
@@ -242,7 +263,7 @@ window.addEventListener('scroll', () => {
   window.mmApplySwatchIdx = function(idx) {
     var sw = SWATCHES[idx];
     if (!sw) return;
-    applyHueTheme(sw.h, idx);
+    applyHueTheme(sw.h, idx, sw.s);  /* pass swatch saturation so grey stays grey */
     _panelOpen = false;
     var panel = document.getElementById('mm-theme-panel');
     if (panel) panel.classList.remove('open');
@@ -276,7 +297,8 @@ window.addEventListener('scroll', () => {
       if (saved) {
         var obj = JSON.parse(saved);
         if (obj.type === 'hue') {
-          applyHueTheme(obj.hue, obj.idx);
+          var restoreSat = (obj.idx >= 0 && SWATCHES[obj.idx]) ? SWATCHES[obj.idx].s : undefined;
+          applyHueTheme(obj.hue, obj.idx, restoreSat);
         } else {
           applyBrand();
         }
