@@ -11,317 +11,337 @@
   <script src="js/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
   /* ═══════════════════════════════════════════════
-     NETFLIX-STYLE BLOG
+     BLOG — EDITORIAL MAGAZINE STYLE
   ═══════════════════════════════════════════════ */
+  body { background: var(--bg); }
 
-  /* Light theme — uses site color variables */
-  body { background: var(--bg); color: var(--text); }
-
-  /* ── Featured Hero ── */
-  .nf-hero {
+  /* ── FEATURED HERO ─────────────────────────── */
+  .blog-hero {
     position: relative;
-    height: 72vh; min-height: 440px; max-height: 620px;
+    height: 76vh; min-height: 480px; max-height: 680px;
     display: flex; align-items: flex-end;
-    overflow: hidden;
+    overflow: hidden; margin-top: 64px;
   }
-  .nf-hero-bg {
+  .blog-hero-bg {
     position: absolute; inset: 0;
-    background-size: cover; background-position: center 20%;
-    transition: transform 12s ease;
+    background-size: cover; background-position: center 25%;
+    transition: transform 14s ease;
   }
-  .nf-hero:hover .nf-hero-bg { transform: scale(1.04); }
-  .nf-hero-overlay {
+  .blog-hero:hover .blog-hero-bg { transform: scale(1.03); }
+  .blog-hero-overlay {
     position: absolute; inset: 0;
     background: linear-gradient(
       to bottom,
-      rgba(13,13,13,.2) 0%,
-      rgba(13,13,13,.1) 30%,
-      rgba(13,13,13,.7) 70%,
-      rgba(13,13,13,.96) 100%
+      rgba(0,0,0,.05) 0%,
+      rgba(0,0,0,.12) 35%,
+      rgba(0,0,0,.72) 72%,
+      rgba(0,0,0,.94) 100%
     );
   }
-  .nf-hero-content {
+  .blog-hero-content {
     position: relative; z-index: 2;
-    padding: 0 48px 52px;
-    max-width: 680px;
+    padding: 0 60px 60px;
+    max-width: 760px; width: 100%;
   }
-  .nf-hero-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: .66rem; font-weight: 800; letter-spacing: .16em;
+  .blog-hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: .65rem; font-weight: 800; letter-spacing: .2em;
     text-transform: uppercase; color: #fff;
-    background: var(--primary); border-radius: 4px;
-    padding: 4px 10px; margin-bottom: 16px;
+    background: var(--primary); border-radius: 6px;
+    padding: 5px 12px; margin-bottom: 18px;
   }
-  .nf-hero-title {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
+  .blog-hero-title {
+    font-size: clamp(2rem, 5vw, 3.4rem);
     font-weight: 900; color: #fff;
     line-height: 1.05; letter-spacing: -.03em;
-    margin: 0 0 12px; text-shadow: 0 2px 16px rgba(0,0,0,.5);
+    margin: 0 0 14px; text-shadow: 0 2px 20px rgba(0,0,0,.4);
   }
-  .nf-hero-meta {
-    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-    font-size: .78rem; color: rgba(255,255,255,.7);
-    font-weight: 600; margin-bottom: 14px;
+  .blog-hero-sub {
+    font-size: .95rem; color: rgba(255,255,255,.78);
+    line-height: 1.7; margin-bottom: 28px; max-width: 560px;
   }
-  .nf-hero-meta-dot { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,.4); }
-  .nf-hero-sub {
-    font-size: .88rem; color: rgba(255,255,255,.75);
-    line-height: 1.65; margin-bottom: 24px;
-    max-width: 520px;
+  .blog-hero-meta {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    font-size: .78rem; color: rgba(255,255,255,.6);
+    font-weight: 600; margin-bottom: 28px;
   }
-  .nf-hero-btns { display: flex; gap: 10px; flex-wrap: wrap; }
-  .nf-btn-play {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: #fff; color: #0d0d0d;
-    font: 700 .88rem "Poppins", sans-serif;
-    padding: 11px 26px; border-radius: 8px;
-    text-decoration: none; transition: .18s;
-    border: none; cursor: pointer;
+  .blog-hero-dot { width: 3px; height: 3px; border-radius: 50%; background: rgba(255,255,255,.4); }
+  .blog-hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .blog-btn-primary {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: #fff; color: #111;
+    font: 700 .9rem "Poppins", sans-serif;
+    padding: 13px 28px; border-radius: 10px;
+    text-decoration: none; transition: .2s; border: none; cursor: pointer;
   }
-  .nf-btn-play:hover { background: rgba(255,255,255,.85); transform: scale(1.03); }
-  .nf-btn-info {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,.18); color: #fff;
-    backdrop-filter: blur(12px);
-    font: 600 .88rem "Poppins", sans-serif;
-    padding: 11px 22px; border-radius: 8px;
-    text-decoration: none; transition: .18s;
-    border: 1px solid rgba(255,255,255,.25);
+  .blog-btn-primary:hover { background: rgba(255,255,255,.88); transform: translateY(-2px); }
+  .blog-btn-ghost {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: rgba(255,255,255,.15); color: #fff;
+    backdrop-filter: blur(10px);
+    font: 600 .9rem "Poppins", sans-serif;
+    padding: 13px 24px; border-radius: 10px;
+    text-decoration: none; transition: .2s;
+    border: 1px solid rgba(255,255,255,.3);
   }
-  .nf-btn-info:hover { background: rgba(255,255,255,.28); }
+  .blog-btn-ghost:hover { background: rgba(255,255,255,.25); }
 
-  /* ── Content area ── */
-  .nf-content {
-    background: var(--bg);
-    padding: 12px 0 60px;
-    position: relative; z-index: 1;
+  /* ── QUICK STATS BAR ───────────────────────── */
+  .blog-stats-bar {
+    background: var(--surface); border-bottom: 1px solid var(--border-soft);
+    padding: 0;
+  }
+  .blog-stats-inner {
+    max-width: 1180px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    gap: 0; padding: 0 24px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .blog-stats-inner::-webkit-scrollbar { display: none; }
+  .blog-stat-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 16px 32px; flex-shrink: 0;
+    border-right: 1px solid var(--border-soft);
+    cursor: pointer; transition: background .18s;
+    text-decoration: none;
+  }
+  .blog-stat-item:last-child { border-right: none; }
+  .blog-stat-item:hover { background: var(--primary-light); }
+  .blog-stat-num {
+    font-size: 1.3rem; font-weight: 800;
+    color: var(--primary); line-height: 1;
+  }
+  .blog-stat-label {
+    font-size: .72rem; font-weight: 600;
+    color: var(--text-dim); line-height: 1.3;
   }
 
-  /* ── Row ── */
-  .nf-row { margin-bottom: 40px; }
-  .nf-row-head {
-    display: flex; align-items: baseline; justify-content: space-between;
-    padding: 0 40px 14px;
+  /* ── SECTION WRAPPER ───────────────────────── */
+  .blog-section { padding: 72px 0; }
+  .blog-section + .blog-section { padding-top: 0; }
+  .blog-container { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+  .blog-section-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 36px; flex-wrap: wrap; gap: 12px;
   }
-  @media(max-width:600px){ .nf-row-head, .nf-hero-content { padding-left:18px; padding-right:18px; } }
-  .nf-row-title {
-    font-size: .82rem; font-weight: 800; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--text-2);
+  .blog-section-eyebrow {
+    font-size: .68rem; font-weight: 800; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--primary); margin-bottom: 6px; display: block;
   }
-  .nf-row-see-all {
-    font-size: .72rem; font-weight: 700; color: var(--primary);
-    text-decoration: none; letter-spacing: .05em;
-    text-transform: uppercase; transition: .15s;
+  .blog-section-title {
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    font-weight: 800; letter-spacing: -.03em; margin: 0;
   }
-  .nf-row-see-all:hover { color: #ff4444; }
+  .blog-section-link {
+    font-size: .78rem; font-weight: 700; color: var(--primary);
+    text-decoration: none; letter-spacing: .05em; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .blog-section-link:hover { opacity: .75; }
 
-  /* ── Horizontal scroll track ── */
-  .nf-scroll-wrap { position: relative; }
-  .nf-scroll {
-    display: flex; gap: 12px;
+  /* ── SERIES GRID ───────────────────────────── */
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  @media(max-width:900px){ .series-grid { grid-template-columns: repeat(2,1fr); } }
+  @media(max-width:560px){ .series-grid { grid-template-columns: 1fr; } }
+
+  /* ── SERIES CARD ───────────────────────────── */
+  .series-card {
+    background: var(--surface);
+    border: 1px solid var(--border-soft);
+    border-radius: 18px; overflow: hidden;
+    text-decoration: none; display: flex; flex-direction: column;
+    box-shadow: 0 2px 12px rgba(204,16,16,.05);
+    transition: transform .28s cubic-bezier(.34,1.2,.64,1), box-shadow .28s;
+  }
+  .series-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 48px rgba(204,16,16,.13);
+  }
+  .series-card-cover {
+    position: relative; height: 200px; overflow: hidden;
+    background: var(--primary-light);
+  }
+  .series-card-cover img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    transition: transform .5s ease;
+  }
+  .series-card:hover .series-card-cover img { transform: scale(1.06); }
+  .series-card-cover-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(0,0,0,.6) 100%);
+  }
+  .series-card-badge {
+    position: absolute; top: 14px; left: 14px;
+    font-size: .6rem; font-weight: 800; letter-spacing: .15em;
+    text-transform: uppercase; color: #fff;
+    background: var(--primary); border-radius: 5px;
+    padding: 3px 9px;
+  }
+  .series-card-coming {
+    position: absolute; top: 14px; right: 14px;
+    font-size: .6rem; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: rgba(255,255,255,.9);
+    background: rgba(0,0,0,.45); border-radius: 5px;
+    padding: 3px 9px; backdrop-filter: blur(6px);
+  }
+  .series-card-episodes {
+    position: absolute; bottom: 12px; right: 14px;
+    font-size: .65rem; font-weight: 700; color: rgba(255,255,255,.85);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .series-card-body { padding: 22px 22px 24px; flex: 1; display: flex; flex-direction: column; }
+  .series-card-category {
+    font-size: .62rem; font-weight: 800; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--primary); margin-bottom: 8px;
+  }
+  .series-card-title {
+    font-size: 1.02rem; font-weight: 800; color: var(--text);
+    letter-spacing: -.02em; line-height: 1.25; margin-bottom: 8px;
+  }
+  .series-card-sub {
+    font-size: .82rem; color: var(--text-dim); line-height: 1.65;
+    flex: 1; margin-bottom: 18px;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .series-card-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid var(--border-soft); padding-top: 14px;
+  }
+  .series-card-prog {
+    font-size: .68rem; font-weight: 700; color: var(--text-dim);
+  }
+  .series-card-prog span { color: var(--primary); }
+  .series-card-cta {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: .75rem; font-weight: 700; color: var(--primary);
+  }
+  .series-card-cta svg { transition: transform .2s; }
+  .series-card:hover .series-card-cta svg { transform: translateX(3px); }
+
+  /* ── PROGRESS BAR on card ── */
+  .series-prog-bar {
+    height: 3px; background: var(--border-soft);
+    border-radius: 99px; margin-bottom: 14px; overflow: hidden;
+  }
+  .series-prog-fill {
+    height: 100%; background: var(--primary);
+    border-radius: 99px; transition: width .6s ease;
+  }
+
+  /* ── DESTINATIONS ROW ──────────────────────── */
+  .dest-scroll-wrap { position: relative; }
+  .dest-scroll {
+    display: flex; gap: 16px;
     overflow-x: auto; overflow-y: visible;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    padding: 8px 40px 16px;
+    padding: 8px 28px 20px;
     scrollbar-width: none;
   }
-  .nf-scroll::-webkit-scrollbar { display: none; }
-  .nf-scroll > * { scroll-snap-align: start; flex-shrink: 0; }
-
-  /* Scroll arrow buttons */
-  .nf-arrow {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    width: 36px; height: 56px; border-radius: 6px;
-    background: var(--surface); border: 1px solid var(--border);
-    color: var(--text); font-size: 1.1rem; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    z-index: 10; transition: .18s;
-    box-shadow: var(--shadow);
-    display: none; /* shown on hover of row */
+  .dest-scroll::-webkit-scrollbar { display: none; }
+  .dest-card {
+    width: 300px; height: 200px; flex-shrink: 0;
+    border-radius: 18px; overflow: hidden;
+    position: relative; scroll-snap-align: start;
+    cursor: default;
   }
-  .nf-scroll-wrap:hover .nf-arrow { display: flex; }
-  .nf-arrow-left { left: 2px; }
-  .nf-arrow-right { right: 2px; }
-  .nf-arrow:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
-
-  /* ── Episode card ── */
-  .nf-ep-card {
-    width: 220px; border-radius: 10px;
-    overflow: hidden; cursor: pointer;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    transition: transform .25s, box-shadow .25s;
-    text-decoration: none; display: block;
-  }
-  .nf-ep-card:hover {
-    transform: scale(1.06) translateY(-4px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--primary);
-    z-index: 5; position: relative;
-  }
-  .nf-ep-thumb {
-    height: 124px; position: relative; overflow: hidden;
-    background: var(--primary-light);
-  }
-  .nf-ep-thumb img {
+  .dest-card img {
     width: 100%; height: 100%; object-fit: cover; display: block;
-    transition: transform .4s;
-    filter: brightness(.75);
+    transition: transform .5s ease; filter: brightness(.75);
   }
-  .nf-ep-card:hover .nf-ep-thumb img { transform: scale(1.08); filter: brightness(.9); }
-  .nf-ep-thumb-overlay {
+  .dest-card:hover img { transform: scale(1.06); filter: brightness(.9); }
+  .dest-card-overlay {
     position: absolute; inset: 0;
-    background: linear-gradient(to bottom, transparent 30%, rgba(0,0,0,.7) 100%);
+    background: linear-gradient(to top, rgba(0,0,0,.8) 0%, transparent 55%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 18px 20px;
   }
-  .nf-ep-num {
-    position: absolute; top: 8px; left: 10px;
-    font-size: .6rem; font-weight: 800; letter-spacing: .1em;
-    color: rgba(255,255,255,.9); text-transform: uppercase;
-    background: rgba(204,16,16,.85); border-radius: 4px;
-    padding: 2px 7px;
+  .dest-card-label {
+    font-size: .58rem; font-weight: 800; letter-spacing: .18em;
+    text-transform: uppercase; color: rgba(255,255,255,.55); margin-bottom: 4px;
   }
-  .nf-ep-play {
-    position: absolute; bottom: 8px; right: 8px;
-    width: 28px; height: 28px; border-radius: 50%;
-    background: rgba(255,255,255,.9); color: #0d0d0d;
-    display: flex; align-items: center; justify-content: center;
-    font-size: .65rem; opacity: 0; transition: opacity .2s;
-  }
-  .nf-ep-card:hover .nf-ep-play { opacity: 1; }
-  .nf-ep-body { padding: 12px; }
-  .nf-ep-title {
-    font-size: .78rem; font-weight: 700; color: var(--text);
-    line-height: 1.35; margin-bottom: 5px;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .nf-ep-desc {
-    font-size: .68rem; color: var(--text-dim);
-    line-height: 1.45;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .nf-ep-meta {
-    display: flex; align-items: center; gap: 8px;
-    margin-top: 8px; font-size: .62rem; color: var(--text-dim); font-weight: 600;
-  }
-  .nf-ep-lock { color: var(--border); font-size: .65rem; }
+  .dest-card-place { font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 3px; }
+  .dest-card-caption { font-size: .7rem; color: rgba(255,255,255,.65); line-height: 1.4; }
 
-  /* ── Coming Soon card ── */
-  .nf-ep-card.coming { opacity: .45; cursor: default; }
-  .nf-ep-card.coming:hover { transform: none; box-shadow: none; }
-
-  /* ── Series header card (wide) ── */
-  .nf-series-hero {
-    width: 320px; height: 180px; border-radius: 10px;
-    position: relative; overflow: hidden;
-    flex-shrink: 0; scroll-snap-align: start;
-    background: #222;
+  /* ── PARTNER CARDS ─────────────────────────── */
+  .partner-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
   }
-  .nf-series-hero img {
-    width: 100%; height: 100%; object-fit: cover;
-    filter: brightness(.55);
-  }
-  .nf-series-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(204,16,16,.4) 0%, rgba(0,0,0,.5) 100%);
-    display: flex; flex-direction: column;
-    justify-content: flex-end; padding: 16px;
-  }
-  .nf-series-hero-title {
-    font-size: .88rem; font-weight: 800; color: #fff;
-    line-height: 1.2; margin-bottom: 4px;
-  }
-  .nf-series-hero-sub {
-    font-size: .68rem; color: rgba(255,255,255,.6);
-    line-height: 1.4;
-  }
-  .nf-series-hero-btn {
-    display: inline-flex; align-items: center; gap: 5px;
-    margin-top: 10px;
-    background: var(--primary); color: #fff;
-    font: 700 .7rem "Poppins", sans-serif;
-    padding: 6px 14px; border-radius: 6px;
-    text-decoration: none; width: fit-content;
-    transition: .15s;
-  }
-  .nf-series-hero-btn:hover { background: #a80d0d; }
-
-  /* ── Partner spotlight card ── */
-  .nf-partner-card {
-    width: 240px; border-radius: 12px;
-    overflow: hidden; text-decoration: none;
-    display: block; transition: .25s;
-    border: 1px solid var(--border);
+  .partner-card {
+    border-radius: 16px; overflow: hidden;
+    text-decoration: none; display: block;
+    border: 1px solid var(--border-soft);
     background: var(--surface);
-    box-shadow: var(--shadow);
+    box-shadow: 0 2px 10px rgba(204,16,16,.05);
+    transition: .26s cubic-bezier(.34,1.2,.64,1);
   }
-  .nf-partner-card:hover {
-    transform: scale(1.05) translateY(-3px);
-    border-color: var(--primary);
-    box-shadow: var(--shadow-lg);
+  .partner-card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(204,16,16,.11); }
+  .partner-card-img { height: 148px; overflow: hidden; }
+  .partner-card-img img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: brightness(.8); transition: .4s;
   }
-  .nf-partner-img {
-    height: 135px; overflow: hidden; position: relative;
+  .partner-card:hover .partner-card-img img { transform: scale(1.06); filter: brightness(.95); }
+  .partner-card-body { padding: 16px 18px 18px; }
+  .partner-card-tag {
+    font-size: .6rem; font-weight: 800; letter-spacing: .14em;
+    text-transform: uppercase; margin-bottom: 5px;
   }
-  .nf-partner-img img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: .4s; filter: brightness(.7);
-  }
-  .nf-partner-card:hover .nf-partner-img img { transform: scale(1.08); filter: brightness(.85); }
-  .nf-partner-body { padding: 12px 14px; }
-  .nf-partner-tag {
-    font-size: .6rem; font-weight: 800; letter-spacing: .12em;
-    text-transform: uppercase; margin-bottom: 4px;
-  }
-  .nf-partner-title {
-    font-size: .82rem; font-weight: 700; color: var(--text);
-    line-height: 1.3; margin-bottom: 4px;
-  }
-  .nf-partner-desc { font-size: .7rem; color: var(--text-dim); line-height: 1.5; }
+  .partner-card-title { font-size: .9rem; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+  .partner-card-desc { font-size: .75rem; color: var(--text-dim); line-height: 1.55; }
 
-  /* ── TapTap banner ── */
-  .nf-taptap {
-    margin: 8px 40px 36px;
-    background: linear-gradient(135deg, rgba(204,16,16,.18) 0%, rgba(200,144,10,.15) 100%);
-    border: 1px solid rgba(204,16,16,.25);
-    border-radius: 16px; padding: 22px 28px;
-    display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+  /* ── TAPTAP BANNER ─────────────────────────── */
+  .blog-taptap {
+    background: linear-gradient(135deg, var(--primary) 0%, #a80d0d 100%);
+    border-radius: 22px; padding: 36px 44px;
+    display: flex; align-items: center; gap: 28px;
+    flex-wrap: wrap; margin: 0 28px;
   }
-  .nf-taptap-icon { flex-shrink: 0; }
-  .nf-taptap-body { flex: 1; }
-  .nf-taptap-label {
-    font-size: .65rem; font-weight: 800; letter-spacing: .14em;
-    text-transform: uppercase; color: var(--primary); margin-bottom: 4px;
+  .blog-taptap-icon {
+    width: 60px; height: 60px; border-radius: 16px;
+    background: rgba(255,255,255,.15); display: flex;
+    align-items: center; justify-content: center; flex-shrink: 0;
   }
-  .nf-taptap-title { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-  .nf-taptap-sub { font-size: .78rem; color: var(--text-dim); line-height: 1.55; }
-  .nf-taptap-btn {
+  .blog-taptap-body { flex: 1; min-width: 200px; }
+  .blog-taptap-eyebrow {
+    font-size: .62rem; font-weight: 800; letter-spacing: .2em;
+    text-transform: uppercase; color: rgba(255,255,255,.65); margin-bottom: 6px;
+  }
+  .blog-taptap-title { font-size: 1.2rem; font-weight: 800; color: #fff; margin-bottom: 6px; }
+  .blog-taptap-sub { font-size: .85rem; color: rgba(255,255,255,.75); line-height: 1.6; }
+  .blog-taptap-btn {
     display: inline-flex; align-items: center; gap: 8px;
-    background: var(--primary); color: #fff;
-    font: 700 .82rem "Poppins", sans-serif;
-    padding: 11px 22px; border-radius: 10px;
-    text-decoration: none; flex-shrink: 0; transition: .18s;
+    background: #fff; color: var(--primary);
+    font: 700 .9rem "Poppins", sans-serif;
+    padding: 13px 26px; border-radius: 12px;
+    text-decoration: none; flex-shrink: 0; transition: .2s;
+    box-shadow: 0 4px 20px rgba(0,0,0,.2);
   }
-  .nf-taptap-btn:hover { background: #a80d0d; transform: translateY(-1px); }
+  .blog-taptap-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,.25); }
 
-  /* ── Footer ── */
-  .nf-footer {
-    background: var(--surface); border-top: 1px solid var(--border);
-    padding: 32px 40px; text-align: center;
+  /* ── DIVIDER ───────────────────────────────── */
+  .blog-divider {
+    border: none; height: 1px;
+    background: var(--border-soft); margin: 0 28px;
   }
-  .nf-footer a { color: var(--text-dim); font-size: .78rem; margin: 0 12px; text-decoration: none; }
-  .nf-footer a:hover { color: var(--primary); }
-  .nf-footer-copy { font-size: .72rem; color: var(--text-dim); margin-top: 14px; }
 
-  @media(max-width:600px){
-    .nf-scroll { padding-left:14px; padding-right:14px; }
-    .nf-taptap { margin-left:14px; margin-right:14px; padding:16px 18px; }
-    .nf-row-head { padding-left:14px; padding-right:14px; }
+  @media(max-width: 700px){
+    .blog-hero-content { padding: 0 20px 40px; }
+    .blog-taptap { margin: 0 16px; padding: 24px 22px; }
+    .dest-scroll { padding-left: 16px; padding-right: 16px; }
+    .blog-stats-inner { justify-content: flex-start; }
+    .blog-stat-item { padding: 14px 20px; }
+    .blog-section-head { flex-direction: column; align-items: flex-start; }
   }
   </style>
 </head>
@@ -376,112 +396,134 @@
     </ul>
   </nav>
 
-  <!-- ══ FEATURED HERO (rendered by JS from first series) ══ -->
-  <div class="nf-hero" id="nfHero" style="margin-top:64px;">
-    <div class="nf-hero-bg" id="nfHeroBg"></div>
-    <div class="nf-hero-overlay"></div>
-    <div class="nf-hero-content" id="nfHeroContent">
-      <!-- Filled by JS -->
-    </div>
+  <!-- ══ FEATURED HERO ══ -->
+  <div class="blog-hero" id="blogHero">
+    <div class="blog-hero-bg" id="blogHeroBg"></div>
+    <div class="blog-hero-overlay"></div>
+    <div class="blog-hero-content" id="blogHeroContent"><!-- filled by JS --></div>
   </div>
 
-  <!-- ══ NETFLIX CONTENT ROWS ══ -->
-  <div class="nf-content">
+  <!-- ══ STATS BAR ══ -->
+  <div class="blog-stats-bar" id="blogStatsBar">
+    <div class="blog-stats-inner" id="blogStatsInner"><!-- filled by JS --></div>
+  </div>
 
-    <!-- TapTap Send strip -->
-    <div class="nf-taptap">
-      <div class="nf-taptap-icon">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#CC1010" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+  <!-- ══ TAPTAP BANNER ══ -->
+  <section class="blog-section" style="padding-bottom:0;">
+    <div class="blog-taptap">
+      <div class="blog-taptap-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       </div>
-      <div class="nf-taptap-body">
-        <div class="nf-taptap-label">Ipadala ang Pera sa Pinas</div>
-        <div class="nf-taptap-title">TapTap Send — Ginagamit namin ito!</div>
-        <div class="nf-taptap-sub">Mababang bayad, magandang palitan ng pera. I-download na at makatipid sa bawat padala mo.</div>
+      <div class="blog-taptap-body">
+        <div class="blog-taptap-eyebrow">Partner — Remittance</div>
+        <div class="blog-taptap-title">TapTap Send — Ginagamit namin ito!</div>
+        <div class="blog-taptap-sub">Mababang bayad, magandang palitan ng pera. I-download na at makatipid sa bawat padala mo sa Pilipinas.</div>
       </div>
-      <a href="https://taptapsend.com/?referral=BENJIE83" target="_blank" rel="noopener" class="nf-taptap-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 8v8M8 12l4-4 4 4"/></svg>
+      <a href="https://taptapsend.com/?referral=BENJIE83" target="_blank" rel="noopener" class="blog-taptap-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         I-download Ngayon
       </a>
     </div>
+  </section>
 
-    <!-- Partner Spotlight row -->
-    <div class="nf-row" id="partnerRow">
-      <div class="nf-row-head">
-        <span class="nf-row-title">🤝 Partner Spotlight — Mga Pagkakataon</span>
-        <a href="business.html" class="nf-row-see-all">Lahat →</a>
-      </div>
-      <div class="nf-scroll-wrap">
-        <button class="nf-arrow nf-arrow-left" onclick="scrollRow('partnerScroll',-1)">‹</button>
-        <div class="nf-scroll" id="partnerScroll">
-
-          <a href="business.html" class="nf-partner-card">
-            <div class="nf-partner-img"><img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=480&q=85&auto=format&fit=crop&crop=center" alt="JC Premiere" loading="lazy"></div>
-            <div class="nf-partner-body">
-              <div class="nf-partner-tag" style="color:#22c55e;">Health & Wellness</div>
-              <div class="nf-partner-title">JC Premiere</div>
-              <div class="nf-partner-desc">I-sell ang premium health products kahit nasa abroad. Mababang puhunan, malaking kita.</div>
-            </div>
-          </a>
-
-          <a href="business.html" class="nf-partner-card">
-            <div class="nf-partner-img"><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=480&q=85&auto=format&fit=crop&crop=center" alt="IMG International" loading="lazy"></div>
-            <div class="nf-partner-body">
-              <div class="nf-partner-tag" style="color:#3b82f6;">Insurance & Investments</div>
-              <div class="nf-partner-title">IMG International</div>
-              <div class="nf-partner-desc">Financial literacy at VUL insurance para protektahan ang iyong pamilya at kinabukasan.</div>
-            </div>
-          </a>
-
-          <a href="business.html" class="nf-partner-card">
-            <div class="nf-partner-img"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=480&q=85&auto=format&fit=crop&crop=center" alt="Vista Land" loading="lazy"></div>
-            <div class="nf-partner-body">
-              <div class="nf-partner-tag" style="color:#f59e0b;">Real Estate</div>
-              <div class="nf-partner-title">Vista Land</div>
-              <div class="nf-partner-desc">Mga abot-kayang bahay at lote para sa mga OFW — maging agent o mag-invest.</div>
-            </div>
-          </a>
-
-          <a href="business.html" class="nf-partner-card">
-            <div class="nf-partner-img"><img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=480&q=85&auto=format&fit=crop&crop=center" alt="HOF Siomai King" loading="lazy"></div>
-            <div class="nf-partner-body">
-              <div class="nf-partner-tag" style="color:#ef4444;">Food Business</div>
-              <div class="nf-partner-title">HOF Siomai King</div>
-              <div class="nf-partner-desc">Palamihin ang siomai franchise para sa pamilya mo sa Pilipinas habang ikaw ay nasa abroad.</div>
-            </div>
-          </a>
-
-          <a href="business.html" class="nf-partner-card">
-            <div class="nf-partner-img"><img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=480&q=85&auto=format&fit=crop&crop=center" alt="OFW Success" loading="lazy"></div>
-            <div class="nf-partner-body">
-              <div class="nf-partner-tag" style="color:#8b5cf6;">OFW Growth</div>
-              <div class="nf-partner-title">OFW Community</div>
-              <div class="nf-partner-desc">Sumali sa aming network ng mga OFW na actively nagtatayo ng kayamanan mula sa abroad.</div>
-            </div>
-          </a>
-
+  <!-- ══ ALL SERIES GRID ══ -->
+  <section class="blog-section">
+    <div class="blog-container">
+      <div class="blog-section-head">
+        <div>
+          <span class="blog-section-eyebrow">Reading Series</span>
+          <h2 class="blog-section-title">Browse All Series</h2>
         </div>
-        <button class="nf-arrow nf-arrow-right" onclick="scrollRow('partnerScroll',1)">›</button>
+      </div>
+      <div class="series-grid" id="seriesGrid"><!-- filled by JS --></div>
+    </div>
+  </section>
+
+  <hr class="blog-divider">
+
+  <!-- ══ PHILIPPINES DESTINATIONS ══ -->
+  <section class="blog-section">
+    <div class="blog-container">
+      <div class="blog-section-head">
+        <div>
+          <span class="blog-section-eyebrow">Our Home</span>
+          <h2 class="blog-section-title">Ang Ating Magandang Pilipinas</h2>
+        </div>
       </div>
     </div>
-
-    <!-- SERIES ROWS — rendered by JS -->
-    <div id="seriesRows"></div>
-
-  </div><!-- end nf-content -->
-
-  <!-- Dark footer -->
-  <footer class="nf-footer">
-    <div>
-      <a href="index.html">Home</a>
-      <a href="blog.html">Blog</a>
-      <a href="shop.html">Shop</a>
-      <a href="business.html">Business</a>
-      <a href="checkup.html">Check-up</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
+    <div class="dest-scroll-wrap">
+      <div class="dest-scroll" id="destScroll"><!-- filled by JS --></div>
     </div>
-    <div class="nf-footer-copy">© 2026 MillionaireMindset.ae — All rights reserved. This site may contain affiliate links.</div>
+  </section>
+
+  <hr class="blog-divider">
+
+  <!-- ══ PARTNER SPOTLIGHT ══ -->
+  <section class="blog-section">
+    <div class="blog-container">
+      <div class="blog-section-head">
+        <div>
+          <span class="blog-section-eyebrow">Business Opportunities</span>
+          <h2 class="blog-section-title">Partner Spotlight</h2>
+        </div>
+        <a href="business.html" class="blog-section-link">View All →</a>
+      </div>
+      <div class="partner-grid">
+        <a href="business.html" class="partner-card">
+          <div class="partner-card-img"><img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?w=480&q=85&auto=format&fit=crop&crop=center" alt="JC Premiere" loading="lazy"></div>
+          <div class="partner-card-body">
+            <div class="partner-card-tag" style="color:#22c55e;">Health & Wellness</div>
+            <div class="partner-card-title">JC Premiere</div>
+            <div class="partner-card-desc">Premium health products — sell from anywhere, earn from anywhere.</div>
+          </div>
+        </a>
+        <a href="business.html" class="partner-card">
+          <div class="partner-card-img"><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=480&q=85&auto=format&fit=crop&crop=center" alt="IMG International" loading="lazy"></div>
+          <div class="partner-card-body">
+            <div class="partner-card-tag" style="color:#3b82f6;">Insurance & Investments</div>
+            <div class="partner-card-title">IMG International</div>
+            <div class="partner-card-desc">VUL insurance and financial planning — protect and grow your family's future.</div>
+          </div>
+        </a>
+        <a href="business.html" class="partner-card">
+          <div class="partner-card-img"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=480&q=85&auto=format&fit=crop&crop=center" alt="Vista Land" loading="lazy"></div>
+          <div class="partner-card-body">
+            <div class="partner-card-tag" style="color:#f59e0b;">Real Estate</div>
+            <div class="partner-card-title">Vista Land</div>
+            <div class="partner-card-desc">OFW-friendly property investment — own land or earn as a referral agent.</div>
+          </div>
+        </a>
+        <a href="business.html" class="partner-card">
+          <div class="partner-card-img"><img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?w=480&q=85&auto=format&fit=crop&crop=center" alt="HOF Siomai King" loading="lazy"></div>
+          <div class="partner-card-body">
+            <div class="partner-card-tag" style="color:#ef4444;">Food Franchise</div>
+            <div class="partner-card-title">HOF Siomai King</div>
+            <div class="partner-card-desc">Let your family run a siomai franchise in the Philippines while you fund it from abroad.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="index.html" class="logo"><img src="images/logo.png" class="logo-icon" alt="" aria-hidden="true" onerror="this.style.display='none'">Millionaire<span>Mindset</span></a>
+      <p class="footer-tagline">Empowering Global Workers to Build Wealth &amp; Freedom</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="business.html">Business</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="disclosure.html">Disclosure</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+      </ul>
+      <p class="copyright">&copy; 2026 Millionaire Mindset &mdash; All rights reserved.<br/>
+        <small>External links may be affiliate links. <a href="disclosure.html" style="color:inherit;text-decoration:underline;">Read our disclosure.</a></small>
+      </p>
+    </div>
   </footer>
 
   <script src="js/blog-series.js"></script>
@@ -490,172 +532,146 @@
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <script>
-  /* ═══════════════════════════════════════════
-     NETFLIX BLOG RENDERER
-  ═══════════════════════════════════════════ */
+  /* ═══════════════════════════════════════════════
+     BLOG RENDERER
+  ═══════════════════════════════════════════════ */
   (function(){
     if (typeof BLOG_SERIES === 'undefined') return;
 
-    /* ── Shared cover images for episodes (cycle) ── */
-    /* Finance/OFW themed + Philippine scenic destinations */
     var EP_COVERS = [
-      'photo-1611974789855-9c2a0a7236a3', /* stock charts */
-      'photo-1526304640581-d334cdbbf45e', /* money/remittance */
-      'photo-1450101499163-c8848c66ca85', /* insurance docs */
-      'photo-1560518883-ce09059eeffa',    /* house real estate */
-      'photo-1553877522-43269d4ea984',    /* business/laptop */
-      'photo-1512290923902-8a9f81dc236c', /* health wellness */
-      'photo-1504384308090-c894fdcc538d', /* team/professional */
-      'photo-1573496359142-b8d87734a5a2', /* professional Filipina */
-      'photo-1488085061387-422e29b40080', /* night sky travel */
-      'photo-1507003211169-0a1dd7228f2d', /* Filipino man smiling */
-      'photo-1521737711867-e3b97375f902', /* OFW professional */
-      'photo-1579621970563-ebec7560ff3e', /* savings/financial */
-    ];
-    /* Philippine scenic photos shown in destinations row */
-    var PH_SCENICS = [
-      { id:'photo-1518509562904-e7ef99cdcc86', place:'Palawan',       caption:'El Nido, Palawan — Isa sa pinakamagandang dagat sa mundo' },
-      { id:'photo-1558618666-fcd25c85cd64',    place:'Siargao',        caption:'Siargao — Surfing capital ng Pilipinas' },
-      { id:'photo-1506929562872-bb421503ef21', place:'Boracay',        caption:'Boracay — White Beach, paborito ng lahat' },
-      { id:'photo-1516026672322-bc52d61a55d5', place:'Banaue',         caption:'Banaue Rice Terraces — Ika-walong kababalaghan ng mundo' },
-      { id:'photo-1504701954957-2010ec3bcec1', place:'Manila',         caption:'Manila — Puso ng bansang Pilipinas' },
-      { id:'photo-1551966775-a4daa9665a6d',    place:'Bohol',          caption:'Chocolate Hills, Bohol — Natural wonder ng Pilipinas' },
-      { id:'photo-1567620905732-2d1ec7ab7445', place:'Sagada',         caption:'Sagada Mountain Province — Mapayapa, malamig, maganda' },
-      { id:'photo-1528702748617-c64d49f918af', place:'Cebu',           caption:'Cebu — Lungsod ng kasaysayan at karagatan' },
+      'photo-1611974789855-9c2a0a7236a3',
+      'photo-1526304640581-d334cdbbf45e',
+      'photo-1450101499163-c8848c66ca85',
+      'photo-1560518883-ce09059eeffa',
+      'photo-1553877522-43269d4ea984',
+      'photo-1512290923902-8a9f81dc236c',
+      'photo-1504384308090-c894fdcc538d',
+      'photo-1573496359142-b8d87734a5a2',
+      'photo-1488085061387-422e29b40080',
+      'photo-1521737711867-e3b97375f902',
+      'photo-1579621970563-ebec7560ff3e',
     ];
 
-    /* ── Build Hero from first series ── */
+    var PH_SCENICS = [
+      { id:'photo-1518509562904-e7ef99cdcc86', place:'Palawan',  caption:'El Nido, Palawan — Isa sa pinakamagandang dagat sa mundo' },
+      { id:'photo-1558618666-fcd25c85cd64', place:'Siargao',     caption:'Siargao — Surfing capital ng Pilipinas' },
+      { id:'photo-1506929562872-bb421503ef21', place:'Boracay',  caption:'Boracay — White Beach, paborito ng lahat' },
+      { id:'photo-1516026672322-bc52d61a55d5', place:'Banaue',   caption:'Banaue Rice Terraces — Ika-walong kababalaghan ng mundo' },
+      { id:'photo-1504701954957-2010ec3bcec1', place:'Manila',   caption:'Manila — Puso ng bansang Pilipinas' },
+      { id:'photo-1551966775-a4daa9665a6d',   place:'Bohol',    caption:'Chocolate Hills, Bohol — Natural wonder ng Pilipinas' },
+      { id:'photo-1567620905732-2d1ec7ab7445', place:'Sagada',   caption:'Sagada Mountain Province — Mapayapa, malamig, maganda' },
+      { id:'photo-1528702748617-c64d49f918af', place:'Cebu',     caption:'Cebu — Lungsod ng kasaysayan at karagatan' },
+    ];
+
+    /* ── HERO ── */
     var featured = BLOG_SERIES[0];
     if (featured) {
-      var heroBg = document.getElementById('nfHeroBg');
-      var heroContent = document.getElementById('nfHeroContent');
+      var heroBg = document.getElementById('blogHeroBg');
+      var heroContent = document.getElementById('blogHeroContent');
       var pubCount = featured.posts.filter(function(p){ return p.content; }).length;
-      if (featured.cover) heroBg.style.backgroundImage = 'url("' + featured.cover + '")';
+      var coverUrl = featured.cover || ('https://images.unsplash.com/' + EP_COVERS[0] + '?w=1600&q=90&auto=format&fit=crop');
+      heroBg.style.backgroundImage = 'url("' + coverUrl + '")';
       heroContent.innerHTML =
-        '<div class="nf-hero-badge">▶ Serye • ' + featured.totalPosts + ' Episodes</div>'
-        + '<h1 class="nf-hero-title">' + featured.title + '</h1>'
-        + '<div class="nf-hero-meta">'
-          + '<span>' + pubCount + ' Lessons Live</span>'
-          + '<span class="nf-hero-meta-dot"></span>'
-          + '<span>Financial Literacy</span>'
-          + '<span class="nf-hero-meta-dot"></span>'
-          + '<span>Para sa OFW</span>'
+        '<div class="blog-hero-eyebrow">'
+          + '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
+          + 'Featured Series'
         + '</div>'
-        + '<p class="nf-hero-sub">' + featured.subtitle + '</p>'
-        + '<div class="nf-hero-btns">'
+        + '<h1 class="blog-hero-title">' + featured.title + '</h1>'
+        + '<div class="blog-hero-meta">'
+          + '<span>' + featured.totalPosts + ' Lessons</span>'
+          + '<span class="blog-hero-dot"></span>'
+          + '<span>' + pubCount + ' Available Now</span>'
+          + '<span class="blog-hero-dot"></span>'
+          + '<span>Financial Literacy</span>'
+        + '</div>'
+        + '<p class="blog-hero-sub">' + featured.subtitle + '</p>'
+        + '<div class="blog-hero-btns">'
           + (pubCount > 0
-            ? '<a href="post.html?series=' + featured.id + '&day=1" class="nf-btn-play">▶ Simulan ang Day 1</a>'
-            : '<span class="nf-btn-play" style="opacity:.5;cursor:default;">▶ Coming Soon</span>')
-          + '<a href="#series-row-' + featured.id + '" class="nf-btn-info">ⓘ Higit Pa</a>'
+            ? '<a href="post.html?series=' + featured.id + '&day=1" class="blog-btn-primary">'
+                + '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>'
+                + 'Simulan ang Day 1'
+              + '</a>'
+            : '<span class="blog-btn-primary" style="opacity:.5;cursor:default;">Coming Soon</span>')
+          + '<a href="#seriesGrid" class="blog-btn-ghost">Browse All Series</a>'
         + '</div>';
     }
 
-    /* ── Build Series Rows ── */
-    /* ── Build Philippines Destinations Row ── */
-    var destContainer = document.getElementById('seriesRows');
-    var destRow = document.createElement('div');
-    destRow.className = 'nf-row';
-    destRow.innerHTML = '<div class="nf-row-head"><span class="nf-row-title">🇵🇭 Ang Ating Magandang Bansa — Philippines</span></div>'
-      + '<div class="nf-scroll-wrap"><button class="nf-arrow nf-arrow-left" onclick="scrollRow(\'phScroll\',-1)">‹</button>'
-      + '<div class="nf-scroll" id="phScroll">'
-      + PH_SCENICS.map(function(s){
-          return '<div style="width:280px;border-radius:14px;overflow:hidden;position:relative;flex-shrink:0;scroll-snap-align:start;">'
-            + '<img src="https://images.unsplash.com/' + s.id + '?w=560&q=85&auto=format&fit=crop&crop=center" alt="' + s.place + '" loading="lazy" style="width:100%;height:158px;object-fit:cover;display:block;filter:brightness(.7);">'
-            + '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px 16px;">'
-              + '<div style="font-size:.62rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px;">Destination</div>'
-              + '<div style="font-size:.95rem;font-weight:800;color:#fff;margin-bottom:3px;">' + s.place + '</div>'
-              + '<div style="font-size:.68rem;color:rgba(255,255,255,.65);line-height:1.4;">' + s.caption + '</div>'
+    /* ── STATS BAR ── */
+    var totalSeries = BLOG_SERIES.length;
+    var totalPosts = BLOG_SERIES.reduce(function(s,sr){ return s + sr.posts.filter(function(p){ return p.content; }).length; }, 0);
+    var totalEpisodes = BLOG_SERIES.reduce(function(s,sr){ return s + sr.totalPosts; }, 0);
+    var statsInner = document.getElementById('blogStatsInner');
+    if (statsInner) {
+      statsInner.innerHTML = [
+        { num: totalSeries, label: 'Reading\nSeries' },
+        { num: totalPosts,  label: 'Lessons\nAvailable' },
+        { num: totalEpisodes, label: 'Total\nEpisodes' },
+        { num: '100+', label: 'Days of\nContent' },
+      ].map(function(s){
+        return '<div class="blog-stat-item">'
+          + '<div class="blog-stat-num">' + s.num + '</div>'
+          + '<div class="blog-stat-label">' + s.label.replace('\n','<br>') + '</div>'
+        + '</div>';
+      }).join('');
+    }
+
+    /* ── SERIES GRID ── */
+    var grid = document.getElementById('seriesGrid');
+    if (grid) {
+      grid.innerHTML = BLOG_SERIES.map(function(series, sIdx){
+        var pub = series.posts.filter(function(p){ return p.content; });
+        var pct = series.totalPosts > 0 ? Math.round((pub.length / series.totalPosts) * 100) : 0;
+        var coverUrl = series.cover || ('https://images.unsplash.com/' + EP_COVERS[sIdx % EP_COVERS.length] + '?w=640&q=85&auto=format&fit=crop&crop=center');
+        var href = pub.length > 0 ? 'post.html?series=' + series.id + '&day=1' : '#';
+        var isComingSoon = pub.length === 0;
+
+        return '<a href="' + href + '" class="series-card" style="' + (isComingSoon ? 'opacity:.75;' : '') + '">'
+          + '<div class="series-card-cover">'
+            + '<img src="' + coverUrl + '" alt="' + series.title + '" loading="lazy">'
+            + '<div class="series-card-cover-overlay"></div>'
+            + '<div class="series-card-badge">' + series.emoji + ' Series</div>'
+            + (isComingSoon ? '<div class="series-card-coming">Coming Soon</div>' : '')
+            + '<div class="series-card-episodes">'
+              + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'
+              + series.totalPosts + ' Episodes'
             + '</div>'
-          + '</div>';
-        }).join('')
-      + '</div>'
-      + '<button class="nf-arrow nf-arrow-right" onclick="scrollRow(\'phScroll\',1)">›</button></div>';
-    destContainer.appendChild(destRow);
-
-    /* ── Build Series Rows ── */
-    var container = document.getElementById('seriesRows');
-
-    BLOG_SERIES.forEach(function(series, sIdx){
-      var publishedPosts = series.posts.filter(function(p){ return p.content; });
-      var pct = Math.round((publishedPosts.length / series.totalPosts) * 100);
-
-      var row = document.createElement('div');
-      row.className = 'nf-row';
-      row.id = 'series-row-' + series.id;
-
-      /* Progress label */
-      var progLabel = pct > 0
-        ? ' <span style="font-size:.65rem;font-weight:700;color:var(--primary);margin-left:8px;">' + pct + '% done</span>'
-        : ' <span style="font-size:.65rem;font-weight:700;color:var(--text-dim);margin-left:8px;">Coming Soon</span>';
-
-      row.innerHTML =
-        '<div class="nf-row-head">'
-          + '<span class="nf-row-title">' + series.emoji + ' ' + series.title + progLabel + '</span>'
-          + (publishedPosts.length > 0 ? '<a href="post.html?series=' + series.id + '&day=1" class="nf-row-see-all">Simulan →</a>' : '')
-        + '</div>'
-        + '<div class="nf-scroll-wrap" id="wrap-' + series.id + '">'
-          + '<button class="nf-arrow nf-arrow-left" onclick="scrollRow(\'scroll-' + series.id + '\',-1)">‹</button>'
-          + '<div class="nf-scroll" id="scroll-' + series.id + '">'
-            + buildSeriesCards(series, sIdx)
           + '</div>'
-          + '<button class="nf-arrow nf-arrow-right" onclick="scrollRow(\'scroll-' + series.id + '\',1)">›</button>'
-        + '</div>';
-
-      container.appendChild(row);
-    });
-
-    function buildSeriesCards(series, sIdx) {
-      /* First card: series overview/cover */
-      var coverImg = series.cover || ('https://images.unsplash.com/' + EP_COVERS[sIdx % EP_COVERS.length] + '?w=640&q=80&auto=format&fit=crop');
-      var pubPosts = series.posts.filter(function(p){ return p.content; });
-      var overviewCard =
-        '<div class="nf-series-hero">'
-          + '<img src="' + coverImg + '" alt="' + series.title + '" loading="lazy">'
-          + '<div class="nf-series-hero-overlay">'
-            + '<div class="nf-series-hero-title">' + series.title + '</div>'
-            + '<div class="nf-series-hero-sub">' + series.subtitle + '</div>'
-            + (pubPosts.length > 0
-              ? '<a href="post.html?series=' + series.id + '&day=1" class="nf-series-hero-btn">▶ Simulan</a>'
-              : '<span style="font-size:.65rem;color:rgba(255,255,255,.45);margin-top:8px;display:block;">Coming Soon</span>')
-          + '</div>'
-        + '</div>';
-
-      /* Episode cards */
-      var episodeCards = series.posts.map(function(post, i){
-        var hasContent = !!post.content;
-        var imgId = EP_COVERS[(sIdx * 3 + i) % EP_COVERS.length];
-        var imgUrl = series.cover
-          ? series.cover.replace('?w=1200', '?w=400').replace('crop=center', 'crop=center&sat=-30')
-          : 'https://images.unsplash.com/' + imgId + '?w=400&q=75&auto=format&fit=crop';
-        var dayLabel = post.day ? 'Day ' + post.day : 'Ep ' + (i+1);
-        var href = hasContent ? 'post.html?series=' + series.id + '&day=' + post.day : '#';
-        return '<a href="' + href + '" class="nf-ep-card' + (hasContent ? '' : ' coming') + '">'
-          + '<div class="nf-ep-thumb">'
-            + '<img src="' + imgUrl + '" alt="' + post.title + '" loading="lazy">'
-            + '<div class="nf-ep-thumb-overlay"></div>'
-            + '<div class="nf-ep-num">' + dayLabel + '</div>'
-            + (hasContent ? '<div class="nf-ep-play">▶</div>' : '')
-          + '</div>'
-          + '<div class="nf-ep-body">'
-            + '<div class="nf-ep-title">' + post.title + '</div>'
-            + '<div class="nf-ep-desc">' + (post.excerpt || '') + '</div>'
-            + '<div class="nf-ep-meta">'
-              + (post.readTime ? post.readTime + ' read' : '')
-              + (post.tags && post.tags[0] ? ' · ' + post.tags[0] : '')
-              + (!hasContent ? ' · <span class="nf-ep-lock">🔒 Coming</span>' : '')
+          + '<div class="series-card-body">'
+            + '<div class="series-card-category">Financial Literacy</div>'
+            + '<div class="series-card-title">' + series.title + '</div>'
+            + '<div class="series-card-sub">' + series.subtitle + '</div>'
+            + '<div class="series-prog-bar"><div class="series-prog-fill" style="width:' + pct + '%"></div></div>'
+            + '<div class="series-card-footer">'
+              + '<div class="series-card-prog">'
+                + (pct > 0
+                  ? '<span>' + pub.length + '</span> of ' + series.totalPosts + ' live'
+                  : 'Coming soon')
+              + '</div>'
+              + (pub.length > 0
+                ? '<div class="series-card-cta">Start Reading '
+                    + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>'
+                  + '</div>'
+                : '<div class="series-card-cta" style="color:var(--text-dim);">Notify Me</div>')
             + '</div>'
           + '</div>'
         + '</a>';
       }).join('');
-
-      return overviewCard + episodeCards;
     }
 
-    /* ── Scroll helper ── */
-    window.scrollRow = function(id, dir) {
-      var el = document.getElementById(id);
-      if (el) el.scrollBy({ left: dir * 680, behavior: 'smooth' });
-    };
+    /* ── DESTINATIONS ── */
+    var destScroll = document.getElementById('destScroll');
+    if (destScroll) {
+      destScroll.innerHTML = PH_SCENICS.map(function(s){
+        return '<div class="dest-card">'
+          + '<img src="https://images.unsplash.com/' + s.id + '?w=600&q=85&auto=format&fit=crop&crop=center" alt="' + s.place + '" loading="lazy">'
+          + '<div class="dest-card-overlay">'
+            + '<div class="dest-card-label">Destination</div>'
+            + '<div class="dest-card-place">' + s.place + '</div>'
+            + '<div class="dest-card-caption">' + s.caption + '</div>'
+          + '</div>'
+        + '</div>';
+      }).join('');
+    }
 
   })();
   </script>
