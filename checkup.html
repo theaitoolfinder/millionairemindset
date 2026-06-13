@@ -161,6 +161,571 @@
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════════
+       DISPOSABLE INCOME CALCULATOR
+  ══════════════════════════════════════════ -->
+  <section class="section" id="calculator" style="padding-top:72px;padding-bottom:80px;">
+    <div class="container">
+
+      <div class="section-header" style="text-align:center;margin-bottom:48px;">
+        <p class="label">OFW Money Tool</p>
+        <h2>Disposable Income Calculator</h2>
+        <p class="section-sub" style="max-width:580px;margin:0 auto;">I-type ang iyong buwanang kita at gastos. Aalamin natin kung may natitira ka — at kung paano mo ito gagamitin nang matalino.</p>
+      </div>
+
+      <div class="calc-layout">
+
+        <!-- ── LEFT: INPUTS ── -->
+        <div class="calc-inputs">
+
+          <!-- CASH IN -->
+          <div class="calc-card">
+            <div class="calc-card-header calc-card-header--in">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+              CASH IN — Kita Bawat Buwan
+            </div>
+            <div class="calc-rows" id="cashInRows">
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Basic Salary" value="Basic Salary" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Housing Allowance" value="Housing Allowance" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Transportation Allowance" value="Transportation Allowance" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Other Income / Overtime" value="Other Income / Overtime" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+            </div>
+            <button class="calc-add-btn" onclick="calcAddRow('cashInRows','in')">+ Magdagdag ng item</button>
+            <div class="calc-subtotal calc-subtotal--in">
+              <span>Kabuuang Kita</span>
+              <span id="totalIn">AED 0</span>
+            </div>
+          </div>
+
+          <!-- CASH OUT -->
+          <div class="calc-card" style="margin-top:20px;">
+            <div class="calc-card-header calc-card-header--out">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
+              CASH OUT — Gastos Bawat Buwan
+            </div>
+            <div class="calc-rows" id="cashOutRows">
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Remittance sa Pamilya" value="Remittance sa Pamilya" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Rent / Accommodation" value="Rent / Accommodation" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Pagkain / Groceries" value="Pagkain / Groceries" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Transport / Commute" value="Transport / Commute" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Load / Internet / Phone" value="Load / Internet / Phone" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Insurance / SSS / Pag-IBIG" value="Insurance / SSS / Pag-IBIG" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Utang / Loan Payment" value="Utang / Loan Payment" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+              <div class="calc-row">
+                <input class="calc-label-input" placeholder="Ipon / Savings" value="Ipon / Savings" />
+                <div class="calc-amount-wrap">
+                  <span class="calc-currency">AED</span>
+                  <input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />
+                </div>
+              </div>
+            </div>
+            <button class="calc-add-btn" onclick="calcAddRow('cashOutRows','out')">+ Magdagdag ng item</button>
+            <div class="calc-subtotal calc-subtotal--out">
+              <span>Kabuuang Gastos</span>
+              <span id="totalOut">AED 0</span>
+            </div>
+          </div>
+
+          <!-- Currency toggle -->
+          <div class="calc-currency-row">
+            <span style="font-size:.8rem;color:var(--text-dim);font-weight:600;">Display currency:</span>
+            <div style="display:flex;gap:6px;">
+              <button class="calc-cur-btn active" onclick="calcSetCurrency('AED',this)">AED</button>
+              <button class="calc-cur-btn" onclick="calcSetCurrency('PHP',this)">PHP</button>
+              <button class="calc-cur-btn" onclick="calcSetCurrency('USD',this)">USD</button>
+            </div>
+            <span id="rateNote" style="font-size:.72rem;color:var(--text-dim);">1 AED ≈ ₱15.5</span>
+          </div>
+
+        </div><!-- end calc-inputs -->
+
+        <!-- ── RIGHT: RESULTS ── -->
+        <div class="calc-results" id="calcResults">
+
+          <!-- Net summary -->
+          <div class="calc-net-card" id="calcNetCard">
+            <div class="calc-net-label" id="calcNetLabel">Disposable Income</div>
+            <div class="calc-net-amount" id="calcNetAmount">AED 0</div>
+            <div class="calc-net-sub" id="calcNetSub">I-fill ang iyong kita at gastos sa kaliwa</div>
+            <div class="calc-net-bar-wrap">
+              <div class="calc-net-bar-track">
+                <div class="calc-net-bar-fill" id="calcBarFill" style="width:0%"></div>
+              </div>
+              <div class="calc-net-bar-labels">
+                <span id="barLabelLeft">0% napupunta sa gastos</span>
+                <span id="barLabelRight">0% natitira</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Breakdown donut-style rows -->
+          <div class="calc-breakdown" id="calcBreakdown" style="display:none;">
+            <h4 style="font-size:.85rem;font-weight:700;margin-bottom:12px;color:var(--text);">Breakdown ng Gastos</h4>
+            <div id="breakdownRows"></div>
+          </div>
+
+          <!-- Smart advice card — shown after input -->
+          <div class="calc-advice" id="calcAdvice" style="display:none;"></div>
+
+        </div><!-- end calc-results -->
+      </div><!-- end calc-layout -->
+
+    </div>
+  </section>
+
+  <style>
+  /* ═══════════════════════════════════════════
+     CALCULATOR STYLES
+  ═══════════════════════════════════════════ */
+  .calc-layout {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 28px;
+    align-items: start;
+  }
+  @media(max-width:900px){ .calc-layout{ grid-template-columns:1fr; } }
+
+  .calc-card {
+    background: rgba(255,255,255,.88);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,.07), inset 0 1px 0 rgba(255,255,255,1);
+  }
+  .calc-card-header {
+    display: flex; align-items: center; gap: 8px;
+    font-size: .72rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    padding: 14px 20px;
+  }
+  .calc-card-header--in  { background: linear-gradient(135deg,#dcfce7,#bbf7d0); color: #15803d; }
+  .calc-card-header--out { background: linear-gradient(135deg,#fee2e2,#fecaca); color: #b91c1c; }
+
+  .calc-rows { padding: 6px 0; }
+  .calc-row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(0,0,0,.04);
+    transition: background .15s;
+  }
+  .calc-row:hover { background: rgba(0,0,0,.02); }
+  .calc-row:last-child { border-bottom: none; }
+  .calc-label-input {
+    flex: 1; background: transparent; border: none; outline: none;
+    font: 500 .84rem "Poppins", sans-serif; color: var(--text);
+    min-width: 0;
+  }
+  .calc-label-input::placeholder { color: var(--text-dim); }
+  .calc-amount-wrap {
+    display: flex; align-items: center; gap: 4px;
+    background: rgba(0,0,0,.03); border: 1.5px solid rgba(0,0,0,.07);
+    border-radius: 10px; padding: 5px 10px;
+    min-width: 130px;
+  }
+  .calc-currency { font-size: .72rem; font-weight: 700; color: var(--text-dim); }
+  .calc-amount {
+    width: 80px; background: transparent; border: none; outline: none;
+    font: 600 .9rem "Poppins", sans-serif; color: var(--text);
+    text-align: right;
+  }
+  .calc-amount::-webkit-inner-spin-button,
+  .calc-amount::-webkit-outer-spin-button { -webkit-appearance: none; }
+
+  .calc-add-btn {
+    width: 100%; padding: 10px; border: none; background: rgba(0,0,0,.03);
+    font: 600 .8rem "Poppins", sans-serif; color: var(--primary);
+    cursor: pointer; transition: background .15s;
+    border-top: 1px dashed rgba(0,0,0,.08);
+  }
+  .calc-add-btn:hover { background: rgba(204,16,16,.05); }
+
+  .calc-subtotal {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 18px; font-weight: 800; font-size: .9rem;
+  }
+  .calc-subtotal--in  { background: rgba(22,163,74,.08); color: #15803d; }
+  .calc-subtotal--out { background: rgba(220,38,38,.08); color: #b91c1c; }
+
+  .calc-currency-row {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    margin-top: 14px; padding: 12px 4px;
+  }
+  .calc-cur-btn {
+    padding: 5px 14px; border-radius: 999px;
+    border: 1.5px solid var(--border); background: rgba(255,255,255,.7);
+    font: 700 .75rem "Poppins", sans-serif; color: var(--text-dim);
+    cursor: pointer; transition: .18s;
+  }
+  .calc-cur-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
+  /* Results panel */
+  .calc-results { display: flex; flex-direction: column; gap: 18px; position: sticky; top: 80px; }
+
+  .calc-net-card {
+    background: rgba(255,255,255,.92);
+    backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgba(255,255,255,.98);
+    border-radius: 22px; padding: 28px 24px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.09), inset 0 1px 0 rgba(255,255,255,1);
+    text-align: center;
+    transition: .35s;
+  }
+  .calc-net-card.surplus { border-color: rgba(22,163,74,.3); box-shadow: 0 8px 32px rgba(22,163,74,.12), inset 0 1px 0 rgba(255,255,255,1); }
+  .calc-net-card.deficit { border-color: rgba(220,38,38,.3); box-shadow: 0 8px 32px rgba(220,38,38,.12), inset 0 1px 0 rgba(255,255,255,1); }
+  .calc-net-card.zero    { border-color: rgba(200,144,10,.3); box-shadow: 0 8px 32px rgba(200,144,10,.12), inset 0 1px 0 rgba(255,255,255,1); }
+
+  .calc-net-label { font-size:.72rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--text-dim); margin-bottom:8px; }
+  .calc-net-amount { font-size:2.4rem; font-weight:900; letter-spacing:-.03em; line-height:1; margin-bottom:6px; transition: color .3s; }
+  .calc-net-amount.surplus { color: #16a34a; }
+  .calc-net-amount.deficit { color: #dc2626; }
+  .calc-net-amount.zero    { color: #c8900a; }
+  .calc-net-sub { font-size:.8rem; color:var(--text-dim); margin-bottom:20px; }
+
+  .calc-net-bar-wrap { text-align:left; }
+  .calc-net-bar-track { height:10px; background:rgba(0,0,0,.07); border-radius:999px; overflow:hidden; margin-bottom:6px; }
+  .calc-net-bar-fill { height:100%; border-radius:999px; transition: width .5s ease, background .3s; background: linear-gradient(90deg,#dc2626,#f97316); }
+  .calc-net-bar-fill.good { background: linear-gradient(90deg,#16a34a,#22c55e); }
+  .calc-net-bar-labels { display:flex; justify-content:space-between; font-size:.68rem; color:var(--text-dim); font-weight:600; }
+
+  /* Breakdown rows */
+  .calc-breakdown {
+    background: rgba(255,255,255,.85);
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 18px; padding: 18px 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.06);
+  }
+  .bkd-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .bkd-row:last-child { margin-bottom:0; }
+  .bkd-label { flex:1; font-size:.78rem; color:var(--text); font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bkd-bar-wrap { width:100px; height:6px; background:rgba(0,0,0,.07); border-radius:999px; overflow:hidden; }
+  .bkd-bar { height:100%; border-radius:999px; }
+  .bkd-amount { font-size:.78rem; font-weight:700; color:var(--text); min-width:72px; text-align:right; }
+
+  /* Advice card */
+  .calc-advice {
+    background: rgba(255,255,255,.9);
+    border: 1px solid rgba(255,255,255,.95);
+    border-radius: 20px; padding: 22px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.07);
+  }
+  .calc-advice-title { font-size:.82rem; font-weight:800; margin-bottom:14px; }
+  .adv-step { display:flex; gap:12px; margin-bottom:14px; align-items:flex-start; }
+  .adv-step-num { width:26px; height:26px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:800; color:#fff; }
+  .adv-step-body { flex:1; }
+  .adv-step-title { font-size:.82rem; font-weight:700; color:var(--text); margin-bottom:2px; }
+  .adv-step-desc  { font-size:.76rem; color:var(--text-dim); line-height:1.5; }
+  .adv-biz-strip { margin-top:16px; padding-top:14px; border-top:1px solid rgba(0,0,0,.06); }
+  .adv-biz-label { font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--primary); margin-bottom:10px; }
+  .adv-biz-cards { display:flex; flex-direction:column; gap:8px; }
+  .adv-biz-card {
+    display:flex; align-items:center; gap:12px;
+    background: rgba(255,255,255,.85); border:1px solid rgba(0,0,0,.07);
+    border-radius:12px; padding:10px 14px; text-decoration:none;
+    transition:.18s;
+  }
+  .adv-biz-card:hover { background:rgba(255,255,255,1); border-color:var(--primary); transform:translateX(3px); }
+  .adv-biz-icon { width:36px; height:36px; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .adv-biz-info { flex:1; }
+  .adv-biz-name { font-size:.8rem; font-weight:700; color:var(--text); }
+  .adv-biz-desc { font-size:.72rem; color:var(--text-dim); }
+  .adv-biz-arrow { font-size:.9rem; color:var(--primary); font-weight:700; }
+  </style>
+
+  <script>
+  /* ═══════════════════════════════════════════
+     DISPOSABLE INCOME CALCULATOR
+  ═══════════════════════════════════════════ */
+  var calcCurrency = 'AED';
+  var RATES = { AED: 1, PHP: 15.5, USD: 0.272 };
+  var SYMBOLS = { AED: 'AED ', PHP: '₱', USD: '$' };
+
+  var BAR_COLORS = [
+    '#CC1010','#f97316','#f59e0b','#22c55e','#3b82f6',
+    '#8b5cf6','#ec4899','#14b8a6','#64748b','#a16207'
+  ];
+
+  function calcFmt(n) {
+    var r = RATES[calcCurrency];
+    var s = SYMBOLS[calcCurrency];
+    var v = Math.round(n * r);
+    return s + v.toLocaleString();
+  }
+
+  function calcSum(containerId) {
+    var rows = document.getElementById(containerId).querySelectorAll('.calc-amount');
+    var total = 0;
+    rows.forEach(function(i){ total += parseFloat(i.value) || 0; });
+    return total;
+  }
+
+  function calcUpdate() {
+    var totalIn  = calcSum('cashInRows');
+    var totalOut = calcSum('cashOutRows');
+    var net      = totalIn - totalOut;
+    var pctOut   = totalIn > 0 ? Math.min((totalOut / totalIn) * 100, 100) : 0;
+    var pctLeft  = 100 - pctOut;
+
+    document.getElementById('totalIn').textContent  = calcFmt(totalIn);
+    document.getElementById('totalOut').textContent = calcFmt(totalOut);
+    document.getElementById('calcNetAmount').textContent = calcFmt(Math.abs(net));
+
+    var netCard   = document.getElementById('calcNetCard');
+    var netAmt    = document.getElementById('calcNetAmount');
+    var netLabel  = document.getElementById('calcNetLabel');
+    var netSub    = document.getElementById('calcNetSub');
+    var barFill   = document.getElementById('calcBarFill');
+
+    netCard.className = 'calc-net-card';
+    netAmt.className  = 'calc-net-amount';
+
+    if (totalIn === 0) {
+      netLabel.textContent = 'Disposable Income';
+      netSub.textContent   = 'I-fill ang iyong kita at gastos sa kaliwa';
+      barFill.style.width  = '0%';
+      barFill.className    = 'calc-net-bar-fill';
+      document.getElementById('calcBreakdown').style.display = 'none';
+      document.getElementById('calcAdvice').style.display = 'none';
+      return;
+    }
+
+    if (net > 0) {
+      netCard.classList.add('surplus');
+      netAmt.classList.add('surplus');
+      netLabel.textContent = 'Surplus — May natitira ka!';
+      netSub.textContent   = 'Bawat buwan, may ' + calcFmt(net) + ' kang pwedeng gamitin nang matalino.';
+      barFill.className    = 'calc-net-bar-fill good';
+    } else if (net < 0) {
+      netCard.classList.add('deficit');
+      netAmt.classList.add('deficit');
+      netLabel.textContent = 'Deficit — Kulang ang kita!';
+      netSub.textContent   = 'May kakulangan na ' + calcFmt(Math.abs(net)) + ' bawat buwan. Kailangan ng aksyon.';
+      barFill.className    = 'calc-net-bar-fill';
+    } else {
+      netCard.classList.add('zero');
+      netAmt.classList.add('zero');
+      netLabel.textContent = 'Break-even — Bahagya lang!';
+      netSub.textContent   = 'Walang natitira. Mapanganib ito — walang cushion para sa emergency.';
+      barFill.className    = 'calc-net-bar-fill';
+    }
+
+    barFill.style.width = Math.min(pctOut, 100) + '%';
+    document.getElementById('barLabelLeft').textContent  = Math.round(pctOut) + '% napupunta sa gastos';
+    document.getElementById('barLabelRight').textContent = Math.max(0, Math.round(pctLeft)) + '% natitira';
+
+    /* Breakdown */
+    buildBreakdown(totalIn);
+
+    /* Advice */
+    buildAdvice(net, totalIn, totalOut);
+  }
+
+  function buildBreakdown(totalIn) {
+    if (totalIn === 0) return;
+    var wrap = document.getElementById('breakdownRows');
+    wrap.innerHTML = '';
+    var rows = document.getElementById('cashOutRows').querySelectorAll('.calc-row');
+    var colorIdx = 0;
+    rows.forEach(function(row) {
+      var label = row.querySelector('.calc-label-input').value || 'Item';
+      var amt   = parseFloat(row.querySelector('.calc-amount').value) || 0;
+      if (amt === 0) return;
+      var pct   = Math.min((amt / totalIn) * 100, 100);
+      var color = BAR_COLORS[colorIdx++ % BAR_COLORS.length];
+      var div = document.createElement('div');
+      div.className = 'bkd-row';
+      div.innerHTML = '<div class="bkd-label">' + label + '</div>'
+        + '<div class="bkd-bar-wrap"><div class="bkd-bar" style="width:' + pct + '%;background:' + color + '"></div></div>'
+        + '<div class="bkd-amount">' + calcFmt(amt) + '</div>';
+      wrap.appendChild(div);
+    });
+    document.getElementById('calcBreakdown').style.display = wrap.children.length ? 'block' : 'none';
+  }
+
+  function buildAdvice(net, totalIn, totalOut) {
+    var box = document.getElementById('calcAdvice');
+    box.style.display = 'block';
+
+    var savingsRate = totalIn > 0 ? (totalIn - totalOut) / totalIn * 100 : 0;
+
+    /* ── SURPLUS scenarios ── */
+    if (net > 0) {
+      var steps = '';
+
+      if (savingsRate < 10) {
+        steps += advStep('#f97316','1','Dagdagan ang ipon mo','Mababa pa ang savings rate mo (' + Math.round(savingsRate) + '%). Layunin ang 20% ng kita bawat buwan bago gumasta.');
+      } else if (savingsRate < 20) {
+        steps += advStep('#3b82f6','1','Magandang simula!','Nasa ' + Math.round(savingsRate) + '% ang savings rate mo. Push para maabot ang 20% o higit pa.');
+      } else {
+        steps += advStep('#16a34a','1','Excellent savings rate!','Nasa ' + Math.round(savingsRate) + '% ang savings rate mo. Ikaw ay nasa tamang landas!');
+      }
+
+      steps += advStep('#8b5cf6','2','Mag-ipon ng Emergency Fund','Magtabi ng hindi bababa sa 3–6 buwang gastos bilang emergency fund bago mag-invest.');
+      steps += advStep('#CC1010','3','Palaguin ang surplus mo','Ang ' + calcFmt(net) + ' mo bawat buwan ay pwedeng maging mas malaki sa pamamagitan ng isang side income o investment.');
+
+      box.innerHTML = '<div class="calc-advice-title" style="color:#16a34a;">Mabuti! Mayroon kang surplus. Gamitin ito nang matalino:</div>'
+        + steps + bizStrip(net, 'surplus');
+
+    /* ── DEFICIT scenario ── */
+    } else if (net < 0) {
+      var steps2 = '';
+      steps2 += advStep('#dc2626','1','Suriin ang gastos mo','Tingnan kung saan maaaring mabawasan ang gastos — lalo na ang mga hindi kinakailangan.');
+      steps2 += advStep('#f97316','2','Hanapin ng dagdag na kita','Ang kakulangan mo ay ' + calcFmt(Math.abs(net)) + ' bawat buwan. Kailangan ng additional income stream.');
+      steps2 += advStep('#3b82f6','3','Huwag mangutang para sa gastos','Ang utang para sa pang-araw-araw na gastos ay nagpapalala ng sitwasyon. May paraan para malutas ito.');
+
+      box.innerHTML = '<div class="calc-advice-title" style="color:#dc2626;">May deficit ka. Huwag mag-alala — may solusyon:</div>'
+        + steps2 + bizStrip(net, 'deficit');
+
+    /* ── BREAK-EVEN ── */
+    } else {
+      var steps3 = '';
+      steps3 += advStep('#c8900a','1','Delikado ang zero balance','Kahit isang unexpected na gastos ay maaaring magdulot ng utang. Kailangan ng safety net.');
+      steps3 += advStep('#f97316','2','Bawasan kahit maliit na gastos','Kahit AED 100 bawat buwan na naitipid ay malaking bagay sa loob ng isang taon.');
+      steps3 += advStep('#CC1010','3','Maghanap ng side income NGAYON','Hindi ka maaaring manatili sa break-even. Kailangan ng dagdag na kita para lumago.');
+
+      box.innerHTML = '<div class="calc-advice-title" style="color:#c8900a;">Break-even — Mapanganib ito. Aksyon na kailangan:</div>'
+        + steps3 + bizStrip(net, 'zero');
+    }
+  }
+
+  function advStep(color, num, title, desc) {
+    return '<div class="adv-step">'
+      + '<div class="adv-step-num" style="background:' + color + '">' + num + '</div>'
+      + '<div class="adv-step-body">'
+        + '<div class="adv-step-title">' + title + '</div>'
+        + '<div class="adv-step-desc">' + desc + '</div>'
+      + '</div></div>';
+  }
+
+  function bizStrip(net, state) {
+    var label = state === 'surplus'
+      ? 'Paano gamitin ang surplus mo:'
+      : 'Paraan para mapabilis ang recovery:';
+
+    var jcDesc = state === 'surplus'
+      ? 'Mamuhunan ng maliit, kumita nang passive. Ibenta ang health products kahit nasa abroad.'
+      : 'Mababang puhunan, mataas na potensyal. Simulan kahit may deficit pa.';
+
+    var imgDesc = state === 'surplus'
+      ? 'I-invest ang surplus sa VUL Insurance — proteksyon + investment sa isang produkto.'
+      : 'Alamin kung paano palawakin ang kita sa pamamagitan ng insurance at investments.';
+
+    var vistaDesc = state === 'surplus'
+      ? 'Ang real estate ay isa sa pinaka-solid na paraan ng pag-ipon. Maging agent o mag-invest.'
+      : 'Maging property agent para sa dagdag na komisyon — walang puhunan ang kailangan.';
+
+    return '<div class="adv-biz-strip">'
+      + '<div class="adv-biz-label">' + label + '</div>'
+      + '<div class="adv-biz-cards">'
+        + '<a href="business.html" class="adv-biz-card">'
+          + '<div class="adv-biz-icon" style="background:#dcfce7;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="3"/></svg></div>'
+          + '<div class="adv-biz-info"><div class="adv-biz-name">JC Premiere Health</div><div class="adv-biz-desc">' + jcDesc + '</div></div>'
+          + '<span class="adv-biz-arrow">→</span>'
+        + '</a>'
+        + '<a href="business.html" class="adv-biz-card">'
+          + '<div class="adv-biz-icon" style="background:#dbeafe;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>'
+          + '<div class="adv-biz-info"><div class="adv-biz-name">IMG International</div><div class="adv-biz-desc">' + imgDesc + '</div></div>'
+          + '<span class="adv-biz-arrow">→</span>'
+        + '</a>'
+        + '<a href="business.html" class="adv-biz-card">'
+          + '<div class="adv-biz-icon" style="background:#fef3c7;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>'
+          + '<div class="adv-biz-info"><div class="adv-biz-name">Vista Land</div><div class="adv-biz-desc">' + vistaDesc + '</div></div>'
+          + '<span class="adv-biz-arrow">→</span>'
+        + '</a>'
+      + '</div></div>';
+  }
+
+  function calcAddRow(containerId, type) {
+    var wrap = document.getElementById(containerId);
+    var div = document.createElement('div');
+    div.className = 'calc-row';
+    div.innerHTML = '<input class="calc-label-input" placeholder="Pangalan ng item..." />'
+      + '<div class="calc-amount-wrap">'
+        + '<span class="calc-currency">' + calcCurrency + '</span>'
+        + '<input type="number" class="calc-amount" placeholder="0" min="0" oninput="calcUpdate()" />'
+      + '</div>'
+      + '<button onclick="this.closest(\'.calc-row\').remove();calcUpdate();" style="background:none;border:none;color:#dc2626;cursor:pointer;font-size:1.1rem;padding:0 4px;line-height:1;flex-shrink:0;">×</button>';
+    wrap.appendChild(div);
+  }
+
+  function calcSetCurrency(cur, btn) {
+    calcCurrency = cur;
+    document.querySelectorAll('.calc-cur-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    var rateMap = { AED: '1 AED ≈ ₱15.5', PHP: '1 PHP ≈ AED 0.065', USD: '1 USD ≈ AED 3.67' };
+    document.getElementById('rateNote').textContent = rateMap[cur] || '';
+    /* update currency labels */
+    document.querySelectorAll('.calc-currency').forEach(function(el){ el.textContent = cur; });
+    calcUpdate();
+  }
+  </script>
+
   <!-- WHY SECTION -->
   <section class="section bg-dark2">
     <div class="container">
