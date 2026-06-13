@@ -7,6 +7,7 @@
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <meta name="description" content="Meet the OFW behind Millionaire Mindset — on a mission to help fellow Filipinos build real wealth from abroad." />
   <link rel="stylesheet" href="css/style.css" />
+  <script src="js/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 </head>
@@ -30,6 +31,29 @@
         <div class="lang-switcher">
           <button class="lang-btn" data-lang="tl" onclick="setLang('tl')">🇵🇭 FIL</button>
           <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧 EN</button>
+        </div>
+        <!-- Theme picker -->
+        <div class="nav-theme-wrap">
+          <button id="mm-theme-btn" onclick="mmToggleThemePanel(event)" aria-label="Change theme color" title="Change theme color">
+            <span id="mm-theme-dot"></span>
+          </button>
+          <div id="mm-theme-panel" role="dialog" aria-label="Choose your color theme">
+            <h5>🎨 Choose Theme</h5>
+            <div class="mm-swatches">
+              <div class="mm-swatch" data-t="brand"    title="Brand (Red/Gold)"  onclick="mmApplyTheme('brand')"></div>
+              <div class="mm-swatch" data-t="ocean"    title="Ocean Blue"        onclick="mmApplyTheme('ocean')"></div>
+              <div class="mm-swatch" data-t="forest"   title="Forest Green"      onclick="mmApplyTheme('forest')"></div>
+              <div class="mm-swatch" data-t="sunset"   title="Sunset Orange"     onclick="mmApplyTheme('sunset')"></div>
+              <div class="mm-swatch" data-t="lavender" title="Lavender"          onclick="mmApplyTheme('lavender')"></div>
+              <div class="mm-swatch" data-t="rose"     title="Rose Red"          onclick="mmApplyTheme('rose')"></div>
+              <div class="mm-swatch" data-t="sky"      title="Sky Blue"          onclick="mmApplyTheme('sky')"></div>
+              <div class="mm-swatch" data-t="teal"     title="Teal"              onclick="mmApplyTheme('teal')"></div>
+              <div class="mm-swatch" data-t="amber"    title="Amber Gold"        onclick="mmApplyTheme('amber')"></div>
+              <div class="mm-swatch" data-t="pink"     title="Pink"              onclick="mmApplyTheme('pink')"></div>
+              <div class="mm-swatch" data-t="indigo"   title="Indigo"            onclick="mmApplyTheme('indigo')"></div>
+            </div>
+            <div id="mm-theme-footer">Saves automatically ✓</div>
+          </div>
         </div>
         <button class="hamburger" onclick="toggleMenu()">&#9776;</button>
       </div>
