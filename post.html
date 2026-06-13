@@ -330,9 +330,14 @@
       navHtml += '</div>';
     }
 
+    /* Pick language: use content_tl if lang=tl and it exists, else English */
+    var lang = 'en';
+    try { lang = localStorage.getItem('mm_lang') || 'en'; } catch(e){}
+    var activeContent = (lang === 'tl' && post.content_tl) ? post.content_tl : post.content;
+
     var bodyHtml;
-    if (post.content) {
-      bodyHtml = '<div class="post-body">' + parseContent(post.content) + '</div>';
+    if (activeContent) {
+      bodyHtml = '<div class="post-body">' + parseContent(activeContent) + '</div>';
     } else {
       bodyHtml = '<div class="post-body"><div class="post-coming-soon">'
         + '<div class="coming-soon-icon">📝</div>'
