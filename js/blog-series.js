@@ -327,20 +327,312 @@ Share this series with a fellow OFW who just arrived. You might save them years 
   },
 
   /* ================================================================
-     SERIES 2 — OFW MONEY MASTERCLASS
-     Add more series below following the same structure
-     ================================================================
+     SERIES 2 — SMART REMITTANCE GUIDE
+  ================================================================ */
   {
-    id: 'money-masterclass',
-    title: 'OFW Money Masterclass',
-    subtitle: 'Deep dives into investing, insurance, and building wealth',
-    description: '...',
-    emoji: '🎓',
+    id: 'smart-remittance',
+    title: 'Smart Remittance Guide',
+    subtitle: 'Send more money home — by losing less in fees and bad exchange rates',
+    description: 'Every peso lost to remittance fees is money your family never sees. This series teaches you to compare platforms, time your transfers, and use referral programs to maximize what arrives in the Philippines.',
+    cover: 'https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '💸',
+    accentColor: '#0284c7',
+    accentBg: 'rgba(2,132,199,0.07)',
+    totalPosts: 15,
+    posts: [
+      { day:1, title:'Why Remittance Fees Are Silently Stealing From Your Family', excerpt:'The difference between a 1% and 4% remittance fee on ₱100K/month is ₱36,000 a year. A complete breakdown of what you're losing.', tags:['Remittance','Fees'], readTime:'5 min', content:`Every time you send money home, a portion disappears in fees and unfavorable exchange rates. Most OFWs never calculate exactly how much this costs them over a year — or a career.
+
+**The math:**
+- If you send AED 3,000 (about ₱46,000) every month
+- At a 3% fee + bad exchange rate: you lose roughly ₱1,380/month
+- That's ₱16,560/year — enough for a laptop, a school year's tuition, or 3 months of groceries
+
+**The main fee types:**
+1. **Flat transaction fee** (e.g., AED 15 per transfer)
+2. **Exchange rate markup** (the hidden one — companies quietly set exchange rates 1-3% below the real rate)
+3. **Recipient charges** (some banks charge your family to receive money)
+
+**The best platforms consistently:**
+- TapTap Send — low fees, competitive rates, good for UAE to Philippines
+- Wise (TransferWise) — uses the real mid-market rate, small transparent fee
+- GCash padala — direct to GCash wallet, fast
+- Remitly — good promotions for new users
+
+**Action step:** Next time you send money, go to Google and type "1 AED to PHP" to see the real exchange rate. Then compare what your remittance app offers. The gap is your markup.` },
+      { day:2, title:'TapTap Send Review — The App OFWs in UAE Are Switching To', excerpt:'Why thousands of UAE-based Filipino workers are moving from traditional remittance services to TapTap Send.', tags:['TapTap','Review'], readTime:'5 min', content:'' },
+      { day:3, title:'How to Time Your Remittances to Get Better Exchange Rates', excerpt:'The Philippine peso fluctuates by 2-4% in a month. Strategic timing and peso-cost averaging can save your family tens of thousands per year.', tags:['Exchange Rate','Strategy'], readTime:'5 min', content:'' },
+      { day:4, title:'GCash vs Bank Transfer — Which is Better for Your Family?', excerpt:'Your recipient\'s setup matters. If your family has GCash, a direct wallet transfer beats bank deposit in speed, cost, and convenience.', tags:['GCash','Digital Wallet'], readTime:'4 min', content:'' },
+      { day:5, title:'Referral Programs: How to Get Paid to Send Money Home', excerpt:'TapTap Send, Remitly, and Wise all have referral programs. Using them correctly earns you free transfers and cash bonuses.', tags:['Referral','Savings'], readTime:'4 min', content:'' },
+      { day:6, title:'Setting Up a Monthly Remittance Schedule That Protects Your Family', excerpt:'Lump sum vs. weekly transfers — the strategy that balances your family\'s cash flow with the best exchange rates.', tags:['Planning','Remittance'], readTime:'5 min', content:'' },
+      { day:7, title:'How to Teach Your Family Not to Spend All the Remittance Immediately', excerpt:'The remittance arrives. By day 5, it\'s gone. How to set up a budget system with your family back home — from abroad.', tags:['Family','Budget'], readTime:'5 min', content:'' },
+      { day:8, title:'Paano i-Protect ang Iyong Pera sa Buwanang Padala', excerpt:'Isang simpleng sistema ng budget para sa mga tatanggap ng remittance — para hindi masayang ang ipinaghirapan mo.', tags:['Tagalog','Budget'], readTime:'4 min', content:'' },
+      { day:9, title:'The 50-30-20 Remittance Split Your Family Should Know', excerpt:'Divide every remittance into living expenses (50%), savings (30%), and investment/emergency fund (20%) before spending anything.', tags:['Budget','Family'], readTime:'4 min', content:'' },
+      { day:10, title:'International Wire Transfers: When It Makes Sense to Use Your Bank', excerpt:'Sometimes bank wires are the safest option — for large amounts, for sending to accounts without apps, or for security.', tags:['Banking','Wire'], readTime:'5 min', content:'' },
+      { day:11, title:'What Happens If Your Remittance Goes Missing?', excerpt:'Step-by-step process to track a failed transfer, escalate with the provider, and protect yourself with records.', tags:['Safety','Troubleshooting'], readTime:'5 min', content:'' },
+      { day:12, title:'Tax Implications of Remittances: What You Need to Know', excerpt:'Philippines does not tax remittances received — but this is worth understanding clearly. What the rules actually say.', tags:['Tax','Legal'], readTime:'4 min', content:'' },
+      { day:13, title:'Sending Money in an Emergency: Fastest Options When Time Matters', excerpt:'Family medical emergency, calamity, or urgent need. The fastest ways to get money to the Philippines within hours.', tags:['Emergency','Speed'], readTime:'4 min', content:'' },
+      { day:14, title:'How to Build a Family Emergency Fund Using Your Remittances', excerpt:'Before the next emergency, set up a dedicated fund. How much, where to keep it, and how to make it "untouchable."', tags:['Emergency Fund','Savings'], readTime:'5 min', content:'' },
+      { day:15, title:'The Complete OFW Remittance Toolkit: Apps, Tips, and Best Practices', excerpt:'A summary of the best remittance apps, timing strategies, family budget templates, and emergency protocols — all in one guide.', tags:['Summary','Toolkit'], readTime:'7 min', content:'' },
+    ]
+  },
+
+  /* ================================================================
+     SERIES 3 — STOCK MARKET 101 FOR OFWs
+  ================================================================ */
+  {
+    id: 'stock-market-101',
+    title: 'Stock Market 101 for OFWs',
+    subtitle: 'Grow your money while you sleep — even from thousands of miles away',
+    description: 'You don\'t need to be rich to invest in the stock market. You need to understand how it works. This beginner series walks you from zero — what stocks are, how to open an account from abroad, and how to build a long-term portfolio as an OFW.',
+    cover: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '📈',
+    accentColor: '#059669',
+    accentBg: 'rgba(5,150,105,0.07)',
+    totalPosts: 20,
+    posts: [
+      { day:1, title:'What Is the Stock Market? A Plain-Language Explanation for OFWs', excerpt:'No jargon. No finance degree required. The stock market explained using an analogy every Filipino will understand.', tags:['Basics','Beginner'], readTime:'6 min', content:'' },
+      { day:2, title:'Why OFWs Are Actually Perfectly Positioned to Invest', excerpt:'You have foreign currency, lower living costs than locals, and time. This combination makes OFWs ideal investors.', tags:['OFW','Mindset'], readTime:'5 min', content:'' },
+      { day:3, title:'PSE vs. US Stocks: Which Market Should an OFW Invest In?', excerpt:'Philippine Stock Exchange or S&P 500 ETFs? The honest comparison — and why many OFWs do both.', tags:['PSE','US Stocks'], readTime:'6 min', content:'' },
+      { day:4, title:'How to Open a COL Financial Account from Abroad', excerpt:'Step-by-step guide to opening the most popular Philippine stock broker account while working overseas.', tags:['COL','Account Setup'], readTime:'5 min', content:'' },
+      { day:5, title:'What Are ETFs and Why Are They Perfect for Beginners?', excerpt:'Exchange-Traded Funds let you own hundreds of companies with one investment. The ideal starting point for new investors.', tags:['ETF','Beginner'], readTime:'5 min', content:'' },
+      { day:6, title:'UITF vs. Stocks vs. ETF: Which Is Right for You?', excerpt:'Three common Philippine investment vehicles compared — liquidity, risk, returns, and minimum amounts.', tags:['UITF','Comparison'], readTime:'6 min', content:'' },
+      { day:7, title:'How Much Should You Invest Every Month as an OFW?', excerpt:'The percentage of income rule — and how to work backward from your retirement goal to your monthly investment amount.', tags:['Amount','Planning'], readTime:'5 min', content:'' },
+      { day:8, title:'Cost Averaging: The Investment Strategy That Removes Emotion', excerpt:'Don\'t try to time the market. Invest the same amount every month regardless of price — and watch it work over time.', tags:['Cost Averaging','Strategy'], readTime:'5 min', content:'' },
+      { day:9, title:'5 Philippine Blue Chip Stocks Every OFW Should Know', excerpt:'SM, Ayala, BDO, PLDT, Jollibee — why these companies have consistently rewarded long-term investors.', tags:['Blue Chip','Philippines'], readTime:'6 min', content:'' },
+      { day:10, title:'How to Read a Stock Chart: The Basics (Without Going Crazy)', excerpt:'You don\'t need to master technical analysis. Just understand price history, volume, and basic trend lines.', tags:['Charts','Analysis'], readTime:'6 min', content:'' },
+      { day:11, title:'Dividends: Getting Paid Just for Owning Stocks', excerpt:'Some stocks pay you quarterly just for holding them. Dividend investing strategy for OFWs who want passive income.', tags:['Dividends','Passive'], readTime:'5 min', content:'' },
+      { day:12, title:'The Biggest Stock Market Mistakes Beginners Make', excerpt:'Panic selling, following tips, putting all money in one stock — the mistakes that destroy portfolios and how to avoid them.', tags:['Mistakes','Mindset'], readTime:'5 min', content:'' },
+      { day:13, title:'How to Invest in US Stocks from the Philippines', excerpt:'ATRAM, First Metro, and international brokers like Interactive Brokers — how to access the S&P 500 from abroad.', tags:['US Stocks','Global'], readTime:'6 min', content:'' },
+      { day:14, title:'Crypto vs. Stocks: An Honest Comparison', excerpt:'Both can make you rich. Both can make you lose everything. The honest risk profile of each — and how they fit in a portfolio.', tags:['Crypto','Comparison'], readTime:'6 min', content:'' },
+      { day:15, title:'Tax on Stock Market Gains: What Filipino Investors Need to Know', excerpt:'Capital gains tax, final withholding tax on dividends, and what records you need to keep. Simple breakdown.', tags:['Tax','Philippines'], readTime:'5 min', content:'' },
+      { day:16, title:'Building Your First Portfolio: A Step-by-Step Blueprint', excerpt:'From zero to a diversified beginner portfolio — with exact allocations, which accounts to use, and how to automate.', tags:['Portfolio','Blueprint'], readTime:'7 min', content:'' },
+      { day:17, title:'How Market Crashes Actually Help Long-Term Investors', excerpt:'When markets fall, new investors panic. Smart investors see a sale. The psychology of market downturns.', tags:['Crash','Mindset'], readTime:'5 min', content:'' },
+      { day:18, title:'IMG International and Investment-Linked Insurance: Are They Worth It?', excerpt:'VUL insurance products combine life coverage with investment. The honest assessment — when they make sense for OFWs.', tags:['IMG','VUL'], readTime:'6 min', content:'' },
+      { day:19, title:'Tracking Your Portfolio: Apps and Methods That Keep You Informed', excerpt:'How to monitor your investments without obsessing over daily movements — the right check-in frequency and tools.', tags:['Tools','Tracking'], readTime:'4 min', content:'' },
+      { day:20, title:'The 20-Year OFW Investment Plan: From First Investment to Retirement', excerpt:'A realistic 20-year projection for an OFW investing consistently — showing the power of compounding returns over time.', tags:['Retirement','Planning'], readTime:'7 min', content:'' },
+    ]
+  },
+
+  /* ================================================================
+     SERIES 4 — INSURANCE SIMPLIFIED
+  ================================================================ */
+  {
+    id: 'insurance-simplified',
+    title: 'Insurance Simplified',
+    subtitle: 'Protect your family before something bad forces you to wish you had',
+    description: 'Insurance is not a luxury — it\'s the foundation of financial security. This series explains every type of insurance an OFW needs, in plain Tagalog and English, so you can make informed decisions without a finance degree.',
+    cover: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '🛡️',
+    accentColor: '#3b82f6',
+    accentBg: 'rgba(59,130,246,0.07)',
+    totalPosts: 10,
+    posts: [
+      { day:1, title:'Why Every OFW Needs Life Insurance — Even If You\'re Young and Healthy', excerpt:'You didn\'t come abroad to leave your family with nothing. Life insurance is the promise you make to them before anything happens.', tags:['Life Insurance','Basics'], readTime:'5 min', content:'' },
+      { day:2, title:'Term Insurance vs. VUL Insurance: The Complete Comparison', excerpt:'Term is pure protection. VUL combines insurance with investment. Which is right depends on your goals and budget.', tags:['Term','VUL'], readTime:'6 min', content:'' },
+      { day:3, title:'How Much Life Insurance Coverage Do You Actually Need?', excerpt:'The "10x annual income" rule is a starting point. A more precise formula based on your family\'s actual financial needs.', tags:['Coverage','Calculation'], readTime:'5 min', content:'' },
+      { day:4, title:'IMG International: Financial Literacy + Insurance for OFWs', excerpt:'Why IMG\'s approach — combining financial education with insurance products — works well for OFWs building long-term wealth.', tags:['IMG','Partner'], readTime:'5 min', content:'' },
+      { day:5, title:'Health Insurance for OFWs: Your Options Abroad and Back Home', excerpt:'Employer-provided coverage abroad vs. Philippine-based health insurance. The gap most OFWs don\'t realize exists.', tags:['Health','HMO'], readTime:'6 min', content:'' },
+      { day:6, title:'SSS, Pag-IBIG, and PhilHealth: Keeping These Active While Abroad', excerpt:'The three government contributions that protect your future — and exactly how to pay them as a voluntary member from abroad.', tags:['SSS','PhilHealth','Pag-IBIG'], readTime:'5 min', content:'' },
+      { day:7, title:'What Happens to Your Insurance If You Come Home Early?', excerpt:'Job loss, repatriation, early return — how your coverage changes and what you need to do to maintain protection.', tags:['Repatriation','Coverage'], readTime:'5 min', content:'' },
+      { day:8, title:'Insurance for Your Family Back in the Philippines', excerpt:'Protecting the people who depend on your remittance — affordable family health insurance options in the Philippines.', tags:['Family','Philippines'], readTime:'5 min', content:'' },
+      { day:9, title:'Accidental Death and Disability Insurance: The Coverage Most OFWs Miss', excerpt:'If an accident prevents you from working, life insurance doesn\'t pay out. ADD coverage fills this critical gap.', tags:['Accident','Disability'], readTime:'5 min', content:'' },
+      { day:10, title:'Your Complete Insurance Checklist as an OFW', excerpt:'A printable checklist covering every type of insurance you need — with recommended coverage amounts and Philippine providers.', tags:['Checklist','Summary'], readTime:'6 min', content:'' },
+    ]
+  },
+
+  /* ================================================================
+     SERIES 5 — REAL ESTATE ROADMAP
+  ================================================================ */
+  {
+    id: 'real-estate-roadmap',
+    title: 'Real Estate Roadmap',
+    subtitle: 'Build tangible wealth in the Philippines while you work abroad',
+    description: 'Real estate is the investment most Filipinos understand and trust. But OFWs face unique challenges — buying from abroad, managing property remotely, choosing between locations. This series navigates all of it.',
+    cover: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '🏠',
+    accentColor: '#f59e0b',
+    accentBg: 'rgba(245,158,11,0.07)',
+    totalPosts: 15,
+    posts: [
+      { day:1, title:'Should OFWs Buy Real Estate or Invest in Stocks First?', excerpt:'The classic debate. The honest answer depends on your income, family situation, and how soon you plan to return.', tags:['Strategy','Comparison'], readTime:'6 min', content:'' },
+      { day:2, title:'How to Buy a Property in the Philippines While Living Abroad', excerpt:'A step-by-step guide to purchasing Philippine real estate — from choosing a developer to signing documents via SPA.', tags:['Buying','Process'], readTime:'7 min', content:'' },
+      { day:3, title:'Vista Land Properties: Why OFWs Choose This Developer', excerpt:'Vista Land\'s track record, payment terms, OFW-friendly financing, and the specific projects available to Filipino workers abroad.', tags:['Vista Land','Partner'], readTime:'5 min', content:'' },
+      { day:4, title:'Condo vs. House and Lot: What\'s the Better Investment?', excerpt:'Condos are cheaper upfront but have association dues. House and lot appreciates land value. The full comparison.', tags:['Condo','House'], readTime:'6 min', content:'' },
+      { day:5, title:'How to Evaluate a Real Estate Developer\'s Reputation', excerpt:'Delivery record, HLURB registration, financing terms, and community reviews — how to assess a developer before buying.', tags:['Due Diligence','Developer'], readTime:'5 min', content:'' },
+      { day:6, title:'Pag-IBIG Housing Loan for OFWs: The Complete Guide', excerpt:'Pag-IBIG offers OFW housing loans at competitive rates. How to apply, qualify, and maximize this underused benefit.', tags:['Pag-IBIG','Loan'], readTime:'6 min', content:'' },
+      { day:7, title:'Special Power of Attorney: How to Buy Property Without Being There', excerpt:'A notarized SPA lets someone you trust handle property transactions in your place. What it covers and how to set it up safely.', tags:['SPA','Legal'], readTime:'5 min', content:'' },
+      { day:8, title:'Real Estate as a Rental Business: Managing Property Remotely', excerpt:'OFWs who buy rental properties need systems to manage tenants, repairs, and income from abroad. The practical playbook.', tags:['Rental','Passive Income'], readTime:'6 min', content:'' },
+      { day:9, title:'Becoming a Real Estate Agent as an OFW: Extra Income from Referrals', excerpt:'Vista Land and other developers pay commissions to accredited agents. How to get licensed and earn from property referrals.', tags:['Agent','Commission'], readTime:'5 min', content:'' },
+      { day:10, title:'Which Philippine Cities Offer the Best Real Estate Appreciation?', excerpt:'Metro Manila, Cebu, Davao, Clark — the cities where property values are rising fastest and why.', tags:['Location','Investment'], readTime:'6 min', content:'' },
+      { day:11, title:'Real Estate Taxes in the Philippines: What Buyers Need to Know', excerpt:'Documentary stamp tax, transfer tax, registration fees, and annual real property tax — the costs of buying and owning property.', tags:['Tax','Legal'], readTime:'5 min', content:'' },
+      { day:12, title:'Pre-Selling vs. Ready for Occupancy: Which Should You Buy?', excerpt:'Pre-selling properties are cheaper but riskier. RFO units are ready to use or rent immediately. The tradeoffs explained.', tags:['Pre-selling','RFO'], readTime:'5 min', content:'' },
+      { day:13, title:'How to Finance Real Estate When You Don\'t Have Enough Savings', excerpt:'Developer financing, bank loans, Pag-IBIG, and co-borrowing — multiple paths to owning Philippine real estate as an OFW.', tags:['Financing','Loans'], readTime:'6 min', content:'' },
+      { day:14, title:'Foreclosed Properties: Opportunities and Dangers for OFW Investors', excerpt:'Bank foreclosures sell cheap but come with complications. How to evaluate foreclosed properties safely.', tags:['Foreclosure','Risk'], readTime:'6 min', content:'' },
+      { day:15, title:'Your OFW Real Estate Portfolio: From First Property to Multiple Assets', excerpt:'The long-term game plan — how to grow from one property to a portfolio that generates passive income in retirement.', tags:['Portfolio','Retirement'], readTime:'7 min', content:'' },
+    ]
+  },
+
+  /* ================================================================
+     SERIES 6 — SIDE HUSTLE FROM ABROAD
+  ================================================================ */
+  {
+    id: 'side-hustle-abroad',
+    title: 'Side Hustle from Abroad',
+    subtitle: 'Kumita nang higit pa — kahit layo ka sa Pilipinas',
+    description: 'Your overseas salary is your starting point, not your ceiling. This series shows you the most practical side income streams for OFWs — from selling health products online to building a digital business from anywhere.',
+    cover: 'https://images.unsplash.com/photo-1553877522-43269d4ea984?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '💼',
+    accentColor: '#8b5cf6',
+    accentBg: 'rgba(139,92,246,0.07)',
+    totalPosts: 12,
+    posts: [
+      { day:1, title:'Bakit Kailangan ng OFW ng Side Income (Hindi Ito Optional)', excerpt:'Ang trabaho sa abroad ay kontrata lang. Ang side income ay pananggalang sa hinaharap. Narito kung bakit mahalaga ito sa lahat ng OFW.', tags:['Mindset','Income'], readTime:'5 min', content:'' },
+      { day:2, title:'JC Premiere: Selling Health Products Online as an OFW', excerpt:'No physical store needed. Sell JC Premiere supplements and wellness products via Viber, Facebook, and Lazada — from anywhere in the world.', tags:['JC Premiere','Online Sales'], readTime:'5 min', content:'' },
+      { day:3, title:'Freelancing for OFWs: Get Paid in Foreign Currency for Filipino Skills', excerpt:'Virtual assistance, social media management, video editing — skills Filipinos excel at that command premium rates globally.', tags:['Freelance','Online Work'], readTime:'5 min', content:'' },
+      { day:4, title:'How to Build a Facebook Selling Business from Abroad', excerpt:'FB Marketplace, OFW community groups, and the step-by-step process to start selling products your family manages locally.', tags:['Facebook','E-commerce'], readTime:'5 min', content:'' },
+      { day:5, title:'HOF Siomai King Franchise: Let Your Family Run It While You Fund It', excerpt:'Put up a siomai cart for a family member to operate while you\'re abroad. The numbers, the process, and the income potential.', tags:['HOF','Franchise'], readTime:'5 min', content:'' },
+      { day:6, title:'Digital Products: Creating Things That Sell While You Sleep', excerpt:'E-books, templates, online courses — OFW knowledge is valuable. How to package and sell it as a digital product.', tags:['Digital','Passive'], readTime:'5 min', content:'' },
+      { day:7, title:'Dropshipping from Abroad: Low Capital, Global Income', excerpt:'Order products from suppliers and sell online without holding inventory. How dropshipping works and the best platforms for OFWs.', tags:['Dropshipping','E-commerce'], readTime:'5 min', content:'' },
+      { day:8, title:'Becoming an Insurance Agent (IMG) While Working a Full-Time Job', excerpt:'IMG allows OFWs to become financial advisors part-time. Flexible hours, unlimited commissions, and you\'re helping fellow OFWs.', tags:['IMG','Agent'], readTime:'5 min', content:'' },
+      { day:9, title:'How to Manage a Business Remotely: Tools and Systems That Work', excerpt:'Trello, GCash, Viber groups, and Google Sheets — the toolkit that lets you run a Philippine business from abroad.', tags:['Management','Tools'], readTime:'5 min', content:'' },
+      { day:10, title:'Content Creation for OFWs: Building an Audience From Your Experience', excerpt:'Your OFW story is content. TikTok, YouTube, Facebook — how to build a following that eventually generates income.', tags:['Content','Social Media'], readTime:'5 min', content:'' },
+      { day:11, title:'How Much Can You Realistically Earn from a Side Hustle?', excerpt:'The honest numbers — what different side income streams typically earn, the hours required, and the growth trajectory.', tags:['Income','Realistic'], readTime:'5 min', content:'' },
+      { day:12, title:'From Side Hustle to Full Business: Planning Your Exit from Employment', excerpt:'The milestone when your side income matches your salary — and the checklist before you resign and go home for good.', tags:['Exit Plan','Business'], readTime:'6 min', content:'' },
+    ]
+  },
+
+  /* ================================================================
+     SERIES 7 — FAMILY FINANCE FROM ABROAD
+  ================================================================ */
+  {
+    id: 'family-finance',
+    title: 'Family Finance from Abroad',
+    subtitle: 'Ang pera mo ay pamilya mo — paano sila turuan sa pamamahala ng pera',
+    description: 'The hardest part of being an OFW isn\'t the work — it\'s watching remittances disappear without building anything. This series gives you practical tools to manage family finances across continents.',
+    cover: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '👨‍👩‍👧‍👦',
+    accentColor: '#ec4899',
+    accentBg: 'rgba(236,72,153,0.07)',
+    totalPosts: 10,
+    posts: [
+      { day:1, title:'Bakit Nauubos ang Padala Bago Mag-Katapusan ng Buwan?', excerpt:'Hindi ito tanong ng kultura kundi tanong ng sistema. Narito ang mga reyong dahilan kung bakit nauubos ang remittance — at ang solusyon.', tags:['Budget','Family'], readTime:'5 min', content:'' },
+      { day:2, title:'How to Set Up a Family Budget System From Abroad', excerpt:'The four-envelope method adapted for remittance-dependent Filipino families. Simple enough for anyone to follow.', tags:['Budget','System'], readTime:'5 min', content:'' },
+      { day:3, title:'Who Should Handle the Money at Home? Choosing Your Trusted Manager', excerpt:'Spouse, parent, or sibling? The criteria for choosing who manages family finances — and how to set clear expectations.', tags:['Family','Trust'], readTime:'5 min', content:'' },
+      { day:4, title:'Teaching Your Children Financial Literacy from Abroad', excerpt:'You\'re building wealth for them. Make sure they know how to keep it. Age-appropriate financial lessons you can teach via video call.', tags:['Children','Education'], readTime:'5 min', content:'' },
+      { day:5, title:'When Family Members Keep Asking for Extra Money: Setting Boundaries with Love', excerpt:'The guilt of saying no to extended family. How to establish financial boundaries that protect your goals without destroying relationships.', tags:['Boundaries','Family'], readTime:'5 min', content:'' },
+      { day:6, title:'How to Build a Family Emergency Fund That Everyone Respects', excerpt:'A separate account that\'s only for emergencies — how to set it up, fund it, and make sure it\'s not spent on non-emergencies.', tags:['Emergency Fund','Family'], readTime:'5 min', content:'' },
+      { day:7, title:'Sending Your Kids to Private School: Planning From Abroad', excerpt:'Private school tuition in the Philippines has been rising faster than inflation. How to plan and fund it without disrupting your investments.', tags:['Education','Planning'], readTime:'5 min', content:'' },
+      { day:8, title:'Pag-IBIG and SSS: Keeping Government Benefits for Your Whole Family', excerpt:'Voluntary contributions keep you and your dependents eligible for housing loans, sickness benefits, and maternity benefits.', tags:['SSS','Pag-IBIG'], readTime:'4 min', content:'' },
+      { day:9, title:'Estate Planning for OFWs: Making Sure Your Wealth Survives You', excerpt:'A will, beneficiary designations on insurance, and property titles — the three documents that protect your family after you\'re gone.', tags:['Estate','Will'], readTime:'6 min', content:'' },
+      { day:10, title:'The OFW Family Financial Success Roadmap: 5 Years to Financial Freedom', excerpt:'A comprehensive 5-year plan for an OFW family — covering remittance, savings, insurance, investment, and business.', tags:['Roadmap','Planning'], readTime:'7 min', content:'' },
+    ]
+  },
+
+  /* ================================================================
+     SERIES 8 — EMERGENCY FUND & DEBT FREEDOM
+  ================================================================ */
+  {
+    id: 'emergency-debt',
+    title: 'Emergency Fund & Debt Freedom',
+    subtitle: 'Ang pinaka-importante: protektahan ka bago ka magpalago',
+    description: 'Before you invest, before you buy real estate, before anything — you need an emergency fund and you need to be free from consumer debt. This series builds those two foundations first.',
+    cover: 'https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '🆘',
+    accentColor: '#dc2626',
+    accentBg: 'rgba(220,38,38,0.07)',
+    totalPosts: 8,
+    posts: [
+      { day:1, title:'What Is an Emergency Fund and Why Is It Step 1?', excerpt:'Before stocks, before real estate — you need a cash buffer. The reason every financial plan starts here.', tags:['Emergency Fund','Foundation'], readTime:'5 min', content:'' },
+      { day:2, title:'How Big Should Your Emergency Fund Be? The Exact Calculation', excerpt:'The 3-6 month rule explained — how to calculate your specific number based on your family\'s actual monthly expenses.', tags:['Calculation','Savings'], readTime:'4 min', content:'' },
+      { day:3, title:'Where to Keep Your Emergency Fund (It\'s Not Your Savings Account)', excerpt:'High-yield savings, money market funds, and digital banks — options for parking emergency money where it\'s safe but accessible.', tags:['Savings','Banking'], readTime:'4 min', content:'' },
+      { day:4, title:'Understanding Bad Debt: Loans That Are Making You Poorer', excerpt:'Credit card debt, personal loans at 30% interest, salary loans — what they actually cost you and why eliminating them is urgent.', tags:['Debt','Interest'], readTime:'5 min', content:'' },
+      { day:5, title:'The Debt Snowball Method: Paying Off All Debts in the Right Order', excerpt:'Pay the smallest debt first for psychological momentum. A step-by-step guide to becoming debt-free as an OFW.', tags:['Debt Snowball','Strategy'], readTime:'5 min', content:'' },
+      { day:6, title:'How to Say No to New Debt While Building Your Future', excerpt:'Financing a phone, taking a coop loan, borrowing from family — how to evaluate every debt request against your financial goals.', tags:['Discipline','Mindset'], readTime:'5 min', content:'' },
+      { day:7, title:'Rehabilitating Bad Credit as an OFW', excerpt:'Bad credit history in the Philippines affects your access to housing loans. The steps to rehabilitate your credit record.', tags:['Credit','Rehabilitation'], readTime:'5 min', content:'' },
+      { day:8, title:'Debt-Free and Emergency-Ready: What to Do Next', excerpt:'You\'ve built your emergency fund and paid off bad debt. Now the real wealth-building begins. The transition to investing.', tags:['Milestone','Next Steps'], readTime:'5 min', content:'' },
+    ]
+  },
+
+  /* ================================================================
+     SERIES 9 — DIGITAL BANKING FOR OFWs
+  ================================================================ */
+  {
+    id: 'digital-banking',
+    title: 'Digital Banking for OFWs',
+    subtitle: 'Pamahalaan ang iyong pera kahit wala kang branch malapit sa iyo',
+    description: 'Philippine digital banking has transformed. OFWs can now open accounts, earn interest, invest, and pay bills — all through their phones. This series covers the best digital tools for managing money from abroad.',
+    cover: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '📱',
+    accentColor: '#0d9488',
+    accentBg: 'rgba(13,148,136,0.07)',
+    totalPosts: 10,
+    posts: [
+      { day:1, title:'GCash for OFWs: Everything You Can Do With It From Abroad', excerpt:'Send padala directly to GCash, invest in GInvest, buy insurance via GInsure, pay bills — the full OFW guide to GCash.', tags:['GCash','Philippines'], readTime:'5 min', content:'' },
+      { day:2, title:'Maya (PayMaya) vs. GCash: Which Should OFWs Use?', excerpt:'Both are major Philippine e-wallets. The features, interest rates, and limitations compared from an OFW perspective.', tags:['Maya','GCash'], readTime:'5 min', content:'' },
+      { day:3, title:'Best Philippine Digital Banks for OFW Savings: Tonik, Seabank, GoTyme', excerpt:'Digital banks offering 4-6% annual interest on savings — far higher than traditional banks. How to open one remotely.', tags:['Digital Bank','Savings'], readTime:'5 min', content:'' },
+      { day:4, title:'How to Open a Philippine Bank Account from Abroad', excerpt:'BPI, BDO, Metrobank — the documentary requirements and remote options for OFWs who need a traditional bank account.', tags:['Banking','Philippines'], readTime:'5 min', content:'' },
+      { day:5, title:'Wise Account for OFWs: Hold Multiple Currencies and Save on Conversion', excerpt:'Wise lets you hold AED, USD, and PHP — converting at real rates when needed. The smart OFW multi-currency tool.', tags:['Wise','Currency'], readTime:'5 min', content:'' },
+      { day:6, title:'Investing Directly from GCash: GInvest, UITF, and More', excerpt:'GInvest provides access to mutual funds starting at ₱50. How to use it as your starter investment account.', tags:['GInvest','UITF'], readTime:'4 min', content:'' },
+      { day:7, title:'Protecting Your Digital Accounts: Security Practices OFWs Must Follow', excerpt:'SIM-swap scams, phishing, fake remittance apps — the threats targeting OFW finances and how to defend against them.', tags:['Security','Scams'], readTime:'5 min', content:'' },
+      { day:8, title:'Automating Your Family\'s Bill Payments from Abroad', excerpt:'Set up automatic payments for electricity, water, internet, and insurance so your family never faces disconnection.', tags:['Automation','Bills'], readTime:'4 min', content:'' },
+      { day:9, title:'Digital Banking in the UAE: What OFWs in Dubai and Abu Dhabi Should Know', excerpt:'Emirates NBD, FAB, ENBD, Liv. — the UAE digital banking options and how they integrate with Philippine transfers.', tags:['UAE','Banking'], readTime:'5 min', content:'' },
+      { day:10, title:'The Complete OFW Digital Finance Stack: All the Apps You Need', excerpt:'A recommended set of apps for managing money as an OFW — remittance, savings, investment, insurance, and budgeting.', tags:['Apps','Summary'], readTime:'5 min', content:'' },
+    ]
+  },
+
+  /* ================================================================
+     SERIES 10 — MILLIONAIRE MINDSET SERIES
+  ================================================================ */
+  {
+    id: 'millionaire-mindset',
+    title: 'Millionaire Mindset',
+    subtitle: 'The psychology, habits, and decisions that separate wealthy OFWs from struggling ones',
+    description: 'Financial tools only work if your mindset is right. This series addresses the beliefs, habits, and psychological patterns that determine whether an OFW builds lasting wealth — or returns home with nothing.',
+    cover: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '🧠',
+    accentColor: '#7c3aed',
+    accentBg: 'rgba(124,58,237,0.07)',
+    totalPosts: 10,
+    posts: [
+      { day:1, title:'The OFW Poverty Cycle: Why Hardworking People Stay Poor', excerpt:'High income does not equal wealth. The behavioral patterns that trap OFWs in the same financial position for decades.', tags:['Mindset','Cycle'], readTime:'6 min', content:'' },
+      { day:2, title:'Lifestyle Inflation: The Invisible Enemy of Every OFW\'s Wealth', excerpt:'Your income grows, your expenses grow, your savings stay the same. The pattern and how to break it.', tags:['Lifestyle','Inflation'], readTime:'5 min', content:'' },
+      { day:3, title:'How Wealthy OFWs Think Differently About Money', excerpt:'The mental models, spending filters, and decision frameworks of OFWs who have successfully built wealth from abroad.', tags:['Wealth','Psychology'], readTime:'6 min', content:'' },
+      { day:4, title:'Utang na Loob vs. Financial Boundaries: The Filipino Money Dilemma', excerpt:'The cultural expectation to share wealth with extended family — and how to honor your culture without destroying your financial goals.', tags:['Culture','Boundaries'], readTime:'6 min', content:'' },
+      { day:5, title:'The Comparison Trap: Why Looking at Other OFWs Is Costing You Money', excerpt:'Seeing someone else\'s new car or bag triggers spending you can\'t afford. The psychology of social comparison and how to fight it.', tags:['Social Media','Mindset'], readTime:'5 min', content:'' },
+      { day:6, title:'Delayed Gratification: The Superpower Every Rich OFW Has Developed', excerpt:'The marshmallow test applied to OFW finances. How to train yourself to delay reward for greater future gain.', tags:['Discipline','Psychology'], readTime:'5 min', content:'' },
+      { day:7, title:'Building Financial Confidence When No One Taught You About Money', excerpt:'Most Filipinos grew up in homes where money was never openly discussed. How to overcome financial ignorance without shame.', tags:['Education','Confidence'], readTime:'5 min', content:'' },
+      { day:8, title:'Gratitude and Ambition: The Balance That Keeps OFWs Motivated', excerpt:'Being grateful for what you have while aggressively pursuing more — the mindset that sustains long-term financial effort.', tags:['Motivation','Balance'], readTime:'5 min', content:'' },
+      { day:9, title:'How to Stay Focused on Financial Goals During Homesickness', excerpt:'When you\'re sad and far from home, overspending feels like comfort. Strategies to protect your goals during emotional low points.', tags:['Mental Health','Discipline'], readTime:'5 min', content:'' },
+      { day:10, title:'Your Millionaire OFW Identity: Who You Decide to Become', excerpt:'Wealth is built from identity before income. The declaration, habits, and community that make financial success inevitable.', tags:['Identity','Success'], readTime:'6 min', content:'' },
+    ]
+  },
+
+  /* ================================================================
+     SERIES 11 — BALIK-BAYAN FINANCIAL BLUEPRINT
+  ================================================================ */
+  {
+    id: 'balik-bayan-blueprint',
+    title: 'Balik-Bayan Blueprint',
+    subtitle: 'How to come home for good — not because you have to, but because you\'re ready',
+    description: 'Coming home should be a celebration, not a financial crisis. This series walks you through the complete financial preparation needed to return to the Philippines permanently — with income, assets, and a plan.',
+    cover: 'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1200&q=85&auto=format&fit=crop&crop=center',
+    emoji: '✈️',
     accentColor: '#C8900A',
     accentBg: 'rgba(200,144,10,0.07)',
-    totalPosts: 30,
-    posts: []
+    totalPosts: 10,
+    posts: [
+      { day:1, title:'How to Know If You\'re Financially Ready to Come Home', excerpt:'The checklist: passive income, emergency fund, zero consumer debt, business or career income — the criteria for a successful return.', tags:['Readiness','Checklist'], readTime:'6 min', content:'' },
+      { day:2, title:'Calculating Your Philippine Cost of Living — Realistically', excerpt:'Middle-class life in the Philippines costs more than most returning OFWs expect. An honest monthly budget template by city.', tags:['Budget','Philippines'], readTime:'5 min', content:'' },
+      { day:3, title:'Building Income Streams Before You Come Home', excerpt:'You need income that doesn\'t require your overseas employment. The income sources to set up before your last contract ends.', tags:['Income','Planning'], readTime:'6 min', content:'' },
+      { day:4, title:'OWWA Reintegration Program: Free Money for Returning OFWs', excerpt:'OWWA provides livelihood assistance, business capital, and training for returning workers. Most OFWs never claim these benefits.', tags:['OWWA','Benefits'], readTime:'5 min', content:'' },
+      { day:5, title:'Starting a Business When You Return: Choosing the Right Venture', excerpt:'What business can you realistically start with your savings, skills, and Philippine network? A framework for choosing wisely.', tags:['Business','Return'], readTime:'6 min', content:'' },
+      { day:6, title:'Re-entering the Philippine Job Market After Years Abroad', excerpt:'If you want employment rather than entrepreneurship, your overseas experience has market value — here\'s how to position it.', tags:['Career','Employment'], readTime:'5 min', content:'' },
+      { day:7, title:'The Emotional Side of Coming Home: Financial Stress and Family Dynamics', excerpt:'The return is rarely as smooth as imagined. The financial pressures that follow repatriation and how to prepare for them.', tags:['Family','Psychology'], readTime:'5 min', content:'' },
+      { day:8, title:'Health Insurance After OFW: Transitioning Your Coverage Back Home', excerpt:'Your employer health coverage abroad ends when your contract does. Philippine health insurance options for returning OFWs.', tags:['Insurance','Transition'], readTime:'5 min', content:'' },
+      { day:9, title:'What to Do With Your Savings When You Return', excerpt:'Lump sum investing, real estate purchase, business capital, or emergency reserve — how to allocate the money you\'ve saved.', tags:['Savings','Allocation'], readTime:'6 min', content:'' },
+      { day:10, title:'The Returning OFW 90-Day Financial Action Plan', excerpt:'Your first 90 days back — a day-by-day guide covering accounts, insurance, business registration, and investment setup.', tags:['Action Plan','Checklist'], readTime:'7 min', content:'' },
+    ]
   },
-  ================================================================ */
 
 ];
+

@@ -555,92 +555,378 @@
     + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>Vista Land</strong> — Become a property agent for fellow OFWs.</div></div>'
     + '<a href="business.html" class="mm-biz-link">Learn More →</a></div>';
 
+  /* ══════════════════════════════════════════════════════════
+     BRAIN — Responses, Keywords, Intent Detection
+     Each intent has 5–8 varied responses to avoid repetition.
+     detectIntent uses a SCORING system (sum all keyword hits)
+     so complex sentences find the most relevant topic.
+  ══════════════════════════════════════════════════════════ */
+
   var RESPONSES = {
     tl: {
-      greet:         ["Hoy! Kamusta ka ngayon? Sana okay ka lang diyan!","Kumusta na? Nandito lang ako, anytime na gusto mong mag-kwento!","Ay, magandang araw! Kumain ka na ba? Huwag kalimutang mag-ingat sa sarili mo!"],
-      lonely:        ["Naiintindihan ko ang nararamdaman mo. Mahirap talaga ang maging malayo sa mahal mo sa buhay. Pero tandaan — ang pagtitiis mo ngayon ay para sa mas magandang bukas ng inyong pamilya.","Huwag mawalan ng pag-asa! Maraming OFW ang dumaan sa ganoong pakiramdam. Anong pinaka-miss mo sa kanila?","Normal lang ang ma-miss ang mga mahal mo. Nandito lang ako para sa iyo. Anong gusto mong pag-usapan?"],
-      miss_family:   ["Nakaka-miss talaga ang pamilya, lalo na pag malayo ka. Regular ba kayong nag-video call?","Ang pagmamahal sa pamilya ang pinakamagandang motivasyon ng isang OFW. Ipagpatuloy mo ang lahat para sa kanila!"],
-      money_save:    ["Mahalagang magtabi ng pera! I-save ang 20% ng bawat sweldo mo bago ka gumasta ng kahit ano.","Ang pinakamagandang regalo para sa pamilya mo ay hindi lang pera ngayon — kundi financial security para sa bukas. Kumpleto ka na ba sa emergency fund?"],
-      money_earn:    ["Gusto mo bang kumita pa bukod sa trabaho mo? May mga paraan — at hindi kailangang malaki ang puhunan!","Maraming OFW ang nagsisimula ng side income habang nasa abroad pa. Gusto mo bang malaman ang mga oportunidad?"],
-      money_earn_biz:["Napag-isipan mo na ba ang pagkakaroon ng sariling negosyo habang nasa abroad ka? May mga oportunidad na akma para sa OFW tulad mo!"],
-      health:        ["Mahalagang alagaan ang kalusugan mo, lalo na pag malayo ka sa pamilya. Kumakain ka ba nang tama at natutulog ng sapat?"],
-      homesick:      ["Homesick? Normal lang iyan. Subukan mong mag-video call sa pamilya mo ngayon!","Kapag may sama ng loob, kumain muna ng masustansya, matulog nang maaga. Bukas ay bagong simula!"],
-      invest:        ["Maganda ang iyong naiisip! Para sa mga OFW, ang mga maaasahang investment ay: VUL insurance, stocks (PSEi), UITF, at real estate.","Ang pamumuhunan ay isa sa mga pinakamatalinong bagay na pwede mong gawin para sa kinabukasan ng iyong pamilya."],
-      insurance:     ["Napakahalaga ng insurance, lalo na para sa mga OFW! Iniisip mo na ba ang life insurance at health coverage para sa pamilya mo sa Pilipinas?","Ang insurance ay hindi gastos — ito ay investment sa proteksyon ng iyong pamilya."],
-      realestate:    ["Ang real estate ay isa sa pinaka-solid na investment! Maraming OFW ang nagtatayo ng bahay habang nasa abroad.","Gusto mong magkaroon ng sariling bahay sa Pilipinas? Pwede kang magsimula kahit nasa abroad ka!"],
-      work:          ["Kamusta ang trabaho mo? Sana maayos lang at wala kang masyadong stress sa araw-araw.","Kahirap man ang trabaho sa abroad, tandaan na ito ay may layunin — para sa mas maliwanag na kinabukasan ng iyong pamilya!"],
-      food:          ["Ano ba ang mga kinakain mo diyan? Miss ko na rin ang pagkain natin sa Pinas — adobo, sinigang, kare-kare!","Naalala mo na ba ang paborito mong pagkain ng Nanay mo?"],
-      happy:         ["Ayos! Natutuwa ako para sa iyo!","Buti naman! Ang positibong mindset ay malaking tulong sa tagumpay. Ipagpatuloy mo iyan!"],
-      gratitude:     ["Walang anuman! Para ito sa mga katulad mo — ang tapang at dedikasyon ng isang OFW ay kahanga-hanga.","Ikaw ang nagpapasaya sa araw ko! Anytime na kailangan mo ng kausap, nandito lang ako!"],
-      default:       ["Interesting! Kwentuhan mo pa ako nang higit pa.","Naiintindihan kita. Anong gusto mong pag-usapan ngayon?","Nandito lang ako lagi para sa iyo. Ano pa ang gusto mong malaman?","Hm, magandang punto iyan. Paano mo nararamdaman ang mga bagay ngayon?"]
+      greet: [
+        "Hoy! Kamusta ka ngayon? Sana okay ka lang diyan — nandito lang ako lagi para sa iyo! 😊",
+        "Kumusta na? Magandang araw! Kumain ka na ba? Huwag kalimutang alagaan ang sarili mo, ha!",
+        "Ay, natutuwa akong marinig mo! Kamusta ang buhay diyan sa abroad? May bagong balita ba?",
+        "Hello! Ano na ang nangyayari sa buhay mo? Kwentuhan mo ako — tainga ako nang tainga! 👂",
+        "Buti naman nagpakita ka! Matagal ka na bang OFW? Sana komportable ka na diyan.",
+        "Kumusta ang lahat? Alam mo, kahit malayo ka, palagi kang nasa isip ng mga mahal mo sa buhay — at nandito rin ako para sayo!",
+      ],
+      lonely: [
+        "Naiintindihan ko ang nararamdaman mo. Mahirap talaga ang maging malayo sa mahal mo sa buhay. Pero tandaan — ang pagtitiis mo ngayon ay para sa mas magandang bukas ng pamilya mo. 💙",
+        "Huwag mawalan ng pag-asa! Maraming OFW ang dumaan sa eksaktong ganoong pakiramdam. Ikaw ay hindi nag-iisa — may komunidad tayo dito. Anong pinaka-miss mo sa kanila?",
+        "Normal lang ang ma-miss ang mga mahal mo. Magtawag ka ngayon — kahit limang minuto lang. Ang mga boses nila ay nagbibigay ng lakas para bukas.",
+        "Ang loneliness ay parte ng OFW life, pero hindi ito permanente. Palagi mong tandaan: ang bawat araw na magtatapos ay isa pang araw na mas malapit ka na sa iyong pamilya.",
+        "Alam ko, malungkot minsan. Pero ikaw ay isa sa mga pinaka-matapang tao — pumunta ka sa ibang bansa para sa pamilya mo. Iyon ay malaking pagmamahal. 🤍",
+        "Pag malungkot ka, subukan mo itong gawin: isulat sa papel ang tatlong bagay na magandang nangyari ngayong araw. Kahit maliit lang — tumutulong ito sa mindset. Anong tatlong bagay ang iyong isusulat?",
+      ],
+      miss_family: [
+        "Nakaka-miss talaga ang pamilya, lalo na pag malayo ka. Regular ba kayong nag-video call? Kahit schedule lang ng isang oras sa linggo — malaking bagay iyon sa mga bata.",
+        "Ang pagmamahal sa pamilya ang pinakamagandang motivasyon ng isang OFW. Isipin mo — bawat pisong niipon mo ay kokonkreto ang kanilang kinabukasan. Ipagpatuloy mo!",
+        "Kamiss mo ba sila ngayon? Bilisan mo na ang trabaho — para mabilis na ring lumipas ang kontrata mo! Paano mo sila inaalagaan mula dito?",
+        "Minsan ang pinaka-mahal na regalo sa pamilya ay hindi pera — kundi iyong oras at pansin. Mag-video call ka ngayon at sabihin mo sa kanila kung gaano mo sila kamahal. 💛",
+        "Anong pinaka-miss mo? Ang pagkain ni Nanay? Ang tawa ng mga bata? Iyan ang iyong dahilan — hawakan mo iyon tuwing mahirap ang araw.",
+      ],
+      money_save: [
+        "Ito ang pinakamagandang financial rule para sa OFW: i-save ang 20% ng sweldo mo BAGO ka gumasta ng kahit ano. Bayaran mo muna ang sarili mo bago ang lahat ng iba.",
+        "Ang emergency fund muna bago ang investment! Magtabi ng 3–6 buwan ng buwanang gastos sa isang hiwalay na account. Ito ang iyong kaligtasan pag may nangyaring hindi inaasahan.",
+        "Gusto mo bang malaman ang simpleng budget system? 50-30-20: 50% sa pangunahing gastos at remittance, 30% sa savings at investments, 20% sa sarili mo at personal goals.",
+        "Ang malaking kahulugan ng 'magtipid' ay hindi 'huwag gumasto' — kundi 'gumasta nang may layunin'. Nagsusulat ka ba ng budget bawat buwan?",
+        "Alam mo ba ang pinaka-common na mistake ng OFW? 'Mataas na sweldo pero walang natitira.' Nangyayari ito kapag walang plan. Gusto mo bang gumawa ng budget plan ngayon?",
+        "Simpleng trick: buksan ng dalawang account. Isa para sa remittance, isa para sa savings. Huwag hayaang mahalong pera — iyon ang simula ng financial chaos.",
+      ],
+      remittance: [
+        "Ang pinakamatalinong paraan ng pagpapadala ng pera ay ang paggamit ng app na may mababang bayad at magandang exchange rate. TapTap Send, Wise, at GCash padala ay mga magandang opsyon.",
+        "Alam mo ba na ang 1% na pagkakaiba sa exchange rate ay nagiging libu-libong piso sa isang taon? Palaging ihambing ang mga rate bago mag-padala.",
+        "Para sa UAE to Philippines: TapTap Send ay isa sa pinaka-competitive pagdating sa rates at bilis. Libreng download at madaling gamitin.",
+        "Mag-ipadala ka nang mas matalino: huwag padala ng maliliit na halaga nang madalas — dagdag ang fee bawat transaction. Mas mabuting magsave muna at magpadala ng mas malaki isang beses.",
+        "Ang iyong pamilya ba ay may GCash? Kung oo, puwede kang mag-padala ng mas mabilis at may mas mababang bayad kaysa sa traditional na remittance.",
+      ],
+      money_earn: [
+        "Gusto mo bang kumita pa bukod sa trabaho mo? Maraming OFW ang may side income — health products, insurance, real estate, freelancing. Hindi kailangang malaki ang puhunan para magsimula!",
+        "Ang side income ay hindi luxury — ito ay necessity para sa OFW. Ang trabaho sa abroad ay kontrata lang, pero ang sariling negosyo ay maaaring tumagal. Anong nag-iinteresa sa iyo?",
+        "Alam mo ba ang pinaka-popular na side income ng mga OFW? 1) Health product selling (JC Premiere) 2) Insurance agency (IMG) 3) Property referrals (Vista Land) 4) Online selling. Alin ang akma sa iyo?",
+        "Ang magandang side income para sa OFW ay yung kaya mong i-manage kahit malayo ka — online selling, referral-based income, o negosyong pinapatakbo ng pamilya mo sa Pinas.",
+        "Narito ang isang katotohanan: ang mga OFW na may dalawang income stream ay mas mabilis na nakakatayo sa sariling paa. Gusto mo bang talakayin ang mga opsyon?",
+        "Simpleng tanong: kung mawalan ka ng trabaho bukas, may ibang kikitain ka ba? Ang side income ay iyong safety net. Magsimula tayo — kahit maliit lang.",
+      ],
+      money_earn_biz: [
+        "Ang JC Premiere ay isa sa pinakamagandang negosyo para sa OFW — ibenta ang premium health products online, walang physical store na kailangan! Kahit nasa abroad ka, kaya mo itong gawin sa iyong phone.",
+        "Napag-isipan mo na bang maging financial advisor sa IMG International? OFW-friendly ang setup — part-time, flexible, at malaking potential na kumita habang tumutulong ka sa ibang tao.",
+        "Ang HOF Siomai King franchise ay isang magandang negosyo na maaaring pinamamahalaan ng iyong pamilya sa Pilipinas habang ikaw ay nagtatrabaho sa abroad. Mababang puhunan, proven na brand.",
+        "Vista Land ay nagbibigay ng komisyon sa mga accredited property agents. Puwede kang maging agent kahit OFW ka — at kumita mula sa mga referral ng ibang OFW!",
+        "Ang pinaka-successful na OFW ay yung may business na nag-aabang sa kanila pagbalik nila sa Pilipinas. Simulan nating talakayin ang mga opsyon na akma sa iyong sitwasyon.",
+      ],
+      health: [
+        "Mahalagang alagaan ang kalusugan mo lalo na pag malayo ka sa pamilya! Kumakain ka ba nang tama — hindi lang instant noodles at convenience store food? 😄",
+        "Ang iyong kalusugan ay iyong pinakamahalagang asset bilang OFW. Walang insurance ang kayang palitan ang magandang kalusugan. Nag-eehersisyo ka ba kahit gaano kaliit?",
+        "Alam mo ba na ang stress ng OFW life ay nakakaapekto sa immune system? Regular na tulog, hydration, at kahit 20 minutos na lakad araw-araw — malaking pagbabago ito.",
+        "Ang JC Premiere ay may mga premium health supplements na espesyal para sa mga OFW na kailangan ng immune support, energy, at stress relief. Gusto mo bang malaman pa?",
+        "Alagaan mo ang katawan mo — ang pamilya mo ay nangangailangan sa iyo na malusog at malakas. Kumain ka ng gulay, uminom ng tubig, at mag-pahinga nang maayos!",
+      ],
+      homesick: [
+        "Homesick? Normal iyan — ibig sabihin lang ay malalim ang iyong pagmamahal sa pamilya mo. Tawagan mo sila ngayon — kahit 'Kumusta kayo?' lang sa message ay malaking bagay.",
+        "Kapag may sama ng loob, subukan mo itong trick: i-recall ang isang magandang alaala sa pamilya. Iyon ang iyong 'why' — ang dahilan kung bakit ka narito sa abroad.",
+        "Ang homesickness ay nagpapakita ng pagmamahal. Pero huwag mo itong hayaang maging sagabal sa iyong mga goals. Gamitin mo ito bilang fuel para mas magsumikap.",
+        "Minsan ang pinaka-epektibong lunas sa homesickness ay ang pagtuon sa iyong mga goals — kung ano ang gusto mong maiuwi sa pamilya: bahay, negosyo, kalayaan.",
+        "Ikwento mo sa akin — ano ang pinaka-miss mo? Ang pagkain, ang ingay ng mga bata, ang yakap ng asawa? Magandang usapan ito. 💙",
+      ],
+      invest: [
+        "Maganda ang naiisip mo! Para sa mga OFW, ang pinakamagandang investments ay: (1) Emergency fund muna, (2) VUL Insurance para sa proteksyon + investment, (3) Philippine stocks o UITF, (4) Real estate. Ito ang tamang pagkakasunod.",
+        "Ang pamumuhunan ay isa sa pinakamatalinong bagay para sa kinabukasan ng pamilya mo. Pero tandaan: huwag mag-invest ng pera na hindi mo maaaring mawala. Kumpleto ka na ba sa emergency fund?",
+        "Para sa baguhan: simulan mo sa UITF o mutual fund sa pamamagitan ng iyong GCash (GInvest). Kahit ₱50 lang ang simula — ang mahalaga ay ang ugali ng pag-invest bawat buwan.",
+        "Ang Philippine Stock Exchange (PSEi) ay nagbibigay ng average na 8-10% annual return sa mahabang panahon. Pero kailangan ng 5-10 taon na horizon — ito ay para sa pangmatagalang ipon.",
+        "Ang VUL insurance sa IMG ay interesting para sa OFW dahil pinagsama ang life insurance (proteksyon) at investment (paglago ng pera). Gusto mo bang malaman kung tama ito para sa iyo?",
+        "Ang real estate ay ang investment na pinaka-naiintindihan ng mga Pilipino — tangible, may appreciation, at puwedeng pinagkakakitaan. Pero kailangan ng malaking puhunan. May kasalukuyan ka bang ipon para dito?",
+      ],
+      insurance: [
+        "Ang insurance ay hindi gastos — ito ay investment sa proteksyon ng iyong pamilya. Tanong ko: kung sakaling may mangyari sa iyo bukas, may pera ba ang iyong pamilya para sa susunod na 1-2 taon?",
+        "Para sa mga OFW, ang life insurance ay hindi optional — ito ay responsibilidad. Ikaw ang iisa o pangunahing source of income ng iyong pamilya. Kung mawala ka, anong mangyayari sa kanila?",
+        "Ang IMG International ay espesyalista sa insurance at investments para sa mga OFW. Ang kanilang VUL products ay nagbibigay ng life coverage habang lumalago ang iyong investment. Worth checking out!",
+        "May tatlong insurance na kailangan ng bawat OFW: (1) Life insurance, (2) Health insurance, (3) Accidental death & disability. Kumpleto ka na ba sa tatlo?",
+        "Ang SSS, PhilHealth, at Pag-IBIG — aktibo pa ba ang mga ito? Maraming OFW ang humihinto ng contribution pagkaalis sa Pilipinas, at namamalaman nila mamaya na nawala na ang mga benepisyo nila.",
+        "Mahalaga rin ang insurance para sa pamilya mo sa Pilipinas — hindi lang para sa iyo. Isang emergency sa bahay ang kayang guibahin ang lahat ng iyong ipon kung walang coverage.",
+      ],
+      realestate: [
+        "Ang real estate ay isa sa pinaka-solid na investment para sa OFW! Ang lupa at bahay sa Pilipinas ay patuloy na tumataas ang halaga — at puwede itong pinagkakakitaan bilang rental property.",
+        "Gusto mong magkaroon ng sariling bahay sa Pilipinas? Puwede kang magsimula kahit nasa abroad ka! Vista Land ay may mga OFW-friendly payment terms at maaaring ayusin ang lahat nang naka-SPA ang isang kamag-anak mo.",
+        "Ang pinaka-popular na pamamaraan ng OFW sa real estate: (1) Bilhin ang property sa pre-selling price (mas mura), (2) Pagkatapos, i-rent out o ibenta sa mas mataas na presyo pagkumpleto.",
+        "Pag-isipan mo ito: ang isang bahay na nagkakahalaga ng ₱3M ngayon ay maaaring maging ₱5M o ₱6M sa loob ng 10 taon. Iyon ay ₱2-3M na kita nang walang ginagawa bukod sa pag-aari nito.",
+        "Vista Land ang aming partner sa real estate. Maaari kang maging accredited agent at kumita ng komisyon sa bawat property na ma-refer mo — kahit OFW ka at nasa abroad!",
+        "Bago bumili ng property: (1) Siguruhin na developer ay registered sa HLURB, (2) Alamin ang track record ng delivery, (3) Kalkulahin ang total cost kasama ang taxes at association dues.",
+      ],
+      work: [
+        "Kamusta ang trabaho mo? Sana maayos lang at wala kang masyadong stress. Tandaan — kahit mahirap ang araw, mayroon kang layunin: ang pamilya mo at ang iyong kinabukasan.",
+        "Ang trabaho sa abroad ay temporary — ang financial foundation na iyong itatatayo mula dito ay permanente. Gamitin mo ang bawat sahod nang may estratehiya.",
+        "Mahirap ba ang kasalukuyang trabaho mo? Minsan ang pagbabago ng trabaho o employer ay mas magandang desisyon kaysa magtiis sa masamang kalagayan. Alamin mo ang iyong mga karapatan.",
+        "Para sa mga OFW: ang iyong kontrata ay iyong proteksyon. Basahin mo ito nang maigi — alam mo ba ang lahat ng iyong benepisyo at karapatan sa ilalim ng iyong kontrata?",
+        "Kahirap man ang trabaho, alalahanin mo ito: ikaw ay nagtatrabaho para sa isang mas malaking layunin. Ang bawat araw na magtatapos ay isa pang hakbang patungo sa iyong pangarap.",
+      ],
+      food: [
+        "Ano ba ang mga kinakain mo diyan? Miss ko na rin ang pagkain natin sa Pinas — adobo, sinigang, kare-kare, tinola! Napakasarap! 😋",
+        "Naalala mo ba ang paboritong pagkain ng Nanay mo? Iyon ang tumatamis sa puso ng bawat OFW — ang amoy ng lutuin sa bahay.",
+        "Kumakain ka nang tama? Importante iyon — ang masamang pagkain ay nagpapababa ng energy at immune system. Subukan mong magluto pag may free time!",
+        "May Filipino community ka ba diyan? Madalas may Filipino restaurant o potluck na nagbibigay ng panlasa ng tahanan. Maghanap ka — mabuti iyon para sa mental health mo.",
+        "Ito ang magandang balita: ang pagluluto ng sariling pagkain ay makakatipid ka ng malaking pera sa abroad. Mas mura at mas masustansya pa! Nagluluto ka ba?",
+      ],
+      happy: [
+        "Ayos! Natutuwa akong marinig iyan! 🎉 Ang positibong enerhiya mo ay nakaka-inspire! Ipagpatuloy mo iyang saya!",
+        "Buti naman! Ang isang masayang OFW ay isang produktibong OFW. Anong magandang balita ang gusto mong ibahagi?",
+        "Ganda! Iyan ang attitude ng isang taong papunta sa tagumpay! Ano ang nagpasaya sa iyo ngayon?",
+        "Natutuwa akong makita kang masaya! Laging tandaan ang feeling na ito sa mga araw na mahirap. 😊",
+      ],
+      gratitude: [
+        "Walang anuman! Para ito sa mga katulad mo — ang tapang at dedikasyon ng isang OFW ay kahanga-hanga. Huwag mong kalimutang ikaw ay bayani!",
+        "Ikaw ang nagpapasaya sa araw ko! Anytime na kailangan mo ng kausap o tulong, nandito lang kami ni Aya (o Hira) para sa iyo.",
+        "Ang pasasalamat ay magandang ugali — nagpapakita ito ng magandang puso. Sana palagi kang masaya at maligtas diyan!",
+        "Bale wala! Para ito sa bawat OFW na nag-iisa sa abroad — gusto naming maging kasama niyo sa bawat hakbang ng inyong financial journey.",
+      ],
+      retirement: [
+        "Mahalaga ang mag-isip ng retirement kahit bata ka pa! Ang OFW ay may limitadong taon ng pagtatrabaho sa abroad — kaya dapat may solid na retirement plan bago umuwi.",
+        "Para sa OFW retirement: kailangan mo ng passive income na kayang suportahan ang iyong buwanang gastos sa Pilipinas. Rental income, dividends, o pension — alin ang iyong plano?",
+        "Ang simpleng retirement calculation: kung ang monthly expenses mo sa Pilipinas ay ₱30,000, kailangan mo ng ₱7.2 million sa savings (gamit ang 4% withdrawal rule). May target number ka na ba?",
+        "Ang SSS pension ay maliit lang para sa karaniwang OFW — kaya mahalaga ang sariling retirement fund. VUL insurance, stocks, at real estate ay mga magandang vehicle para dito.",
+      ],
+      debt: [
+        "Ang utang na may mataas na interest (credit card, personal loan, 5-6) ay kailangang bayaran agad bago ka mag-invest. Ang 30% interest ay mas mabilis na kumakain ng pera kaysa tumubo ang investment.",
+        "Kung marami kang utang: gamitin ang Debt Snowball — bayaran muna ang pinakamaliit na utang para makakuha ng momentum, tapos isa-isa ang mga mas malalaki.",
+        "Ito ang katotohanan: hindi mo maaaring itayo ang financial security habang may butas ang balde. Una muna ang pagbabayad ng utang — tapos na mag-invest.",
+        "Para sa OFW na may utang: huwag manghiram ng bago para bayaran ang luma. Makipag-usap sa creditor para sa restructuring. At i-commit ang isang fixed na halaga bawat buwan para sa debt payoff.",
+      ],
+      budget: [
+        "Ito ang pinaka-epektibong budget system para sa OFW — ang 50-30-20 rule: 50% sa pamilya at buhay, 30% sa ipon at investments, 20% sa sarili at goals. Subukan mo ito sa susunod na sahod!",
+        "Ang unang hakbang sa budgeting: alamin mo kung magkano ang iyong total na gastos bawat buwan. Ilabas mo ang lahat — remittance, rent, pagkain, load, insurance. Mabibigla ka sa totals.",
+        "Gusto mo bang gamitin ang aming Disposable Income Calculator sa Check-up page? Tutulong ito sa iyong makita kung magkano ang natitira o kulang bawat buwan.",
+        "Ang budget ay hindi para sa poor — ito para sa matalinong tao. Kahit mayaman ka na, kailangan pa rin ng budget para malaman kung saan napupunta ang pera.",
+      ],
+      contract: [
+        "Ang employment contract ay iyong pinakamahalagang dokumento bilang OFW! Basahin mo ito nang buong-buo bago pumirma — partikular ang sahod, overtime, leave, at repatriation clause.",
+        "May concern ka ba sa iyong kontrata? Maaari kang makipag-ugnayan sa OWWA o sa embassy para sa legal na tulong. Huwag matakot na humingi ng tulong — may karapatan ka.",
+        "Payo: i-photo ang bawat pahina ng kontrata mo at i-email sa sarili mo bilang backup. Kung may mangyaring legal na isyu, ito ang iyong proteksyon.",
+      ],
+      owwa: [
+        "Ang OWWA (Overseas Workers Welfare Administration) ay may maraming benepisyo para sa mga OFW — life insurance, accident insurance, hospital benefit, at reintegration programs. Nakapag-avail ka na ba?",
+        "Para sa OWWA membership: kailangan mong i-renew ito tuwing mag-renew ng kontrata. ₱25 lang ang membership fee — malaking benepisyo para sa maliit na halaga.",
+        "Ang OWWA ay may Death and Disability benefit na umaabot sa ₱100,000 para sa mga saklaw na miyembro. Siguraduhing updated ang iyong membership.",
+      ],
+      gcash: [
+        "Ang GCash ay isa sa pinaka-useful na apps para sa OFW! Puwede kang magpadala ng pera directly sa GCash ng pamilya mo — mas mabilis at minsan mas mura kaysa remittance apps.",
+        "GInvest sa GCash ay nagbibigay ng access sa mutual funds kahit sa ₱50 lang! Magandang simula para sa hindi pa nakakaenroll sa stocks.",
+        "May GCash ang pamilya mo? Kung wala pa, payagan mo silang mag-create ng account — para mas madali at mura ang iyong padala sa susunod.",
+      ],
+      stress: [
+        "Stress? Naiintindihan kita. Ang OFW life ay isa sa mga pinaka-challenging na situasyon — ikaw ay nag-iisa sa ibang bansa, malayo sa pamilya, at may dalahin. Anong pinaka-nag-aabala sa iyo ngayon?",
+        "Para sa stress management: huwag panatiliin ang lahat sa loob. Makipag-usap sa isang kaibigan, kapwa OFW, o kahit sa amin dito. Narito lang kami.",
+        "Ang pisikal na ehersisyo ay isa sa pinaka-epektibong lunas sa stress — kahit 20 minutos na lakad araw-araw. Subukan mo bukas ng umaga.",
+        "Maging maawain sa sarili mo. Ikaw ay ginagawa ang iyong pinakamahusay sa mahirap na sitwasyon. Iyon ay sapat. Hindi kailangan na perpekto ang lahat.",
+      ],
+      prayer: [
+        "Maganda iyan — ang pananampalataya ay nagbibigay ng lakas sa maraming OFW sa mahirap na mga araw. Ikaw ay hindi nag-iisa sa iyong paglalakbay. 🙏",
+        "Ang pag-aalala at panalangin ay magkasama — mag-alala sa Diyos at kumilos para sa kinabukasan. Palagi kang nasa puso ng mga nagmamahal sa iyo.",
+        "Oo, magtiwala ka at magsumikap. Ang Diyos ay gumagawa — at ikaw rin ay kailangan mong gumawa ng tamang desisyon para sa kinabukasan ng pamilya mo.",
+      ],
+      default: [
+        "Interesting! Kwentuhan mo pa ako nang higit pa — gusto kong malaman ang iyong kwento.",
+        "Naiintindihan kita. Anong gusto mong pag-usapan ngayon? Financial goals, pamilya, o buhay sa abroad?",
+        "Nandito lang ako lagi para sa iyo. Maaari kang magtanong tungkol sa finances, investments, negosyo, o kahit anong nag-aalala sa iyo.",
+        "Hm, magandang punto iyan. Paano mo nararamdaman ang mga bagay ngayon? Gusto ko talagang malaman.",
+        "Para sa akin, bawat kwento ng OFW ay isang kwento ng tapang. Ano pa ang nais mong talakayin — financial o personal?",
+        "Nais mo bang subukan ang aming Financial Check-up? Tutulungan ka nitong malaman kung saan ka ngayon financially — at kung saan ka dapat pumunta.",
+      ]
     },
     en: {
-      greet:         ["Hey! How are you doing today? Hope you're holding up well!","Hi there! I'm always here whenever you need to talk. What's on your mind?"],
-      lonely:        ["I understand how you feel. Being far from the ones you love is really hard. But remember — your sacrifices are building a better tomorrow for your family.","It's okay to feel lonely. That's why I'm here — to keep you company. What would you like to talk about?"],
-      miss_family:   ["Missing family is something every OFW feels deeply. Do you video call them regularly?","Your love for your family is what drives you forward. Keep going — it will all be worth it!"],
-      money_save:    ["Here's a simple rule: save 20% of every salary before spending anything else.","Building an emergency fund first is the smartest move — at least 3–6 months of living expenses."],
-      money_earn:    ["Want to earn more on top of your job? There are real opportunities — and you don't need big capital!","Many OFWs are building side income streams while still working abroad. Want to know what options are right for you?"],
-      money_earn_biz:["Have you considered a business you can run while still abroad? There are great opportunities suited for OFWs like you!"],
-      health:        ["Your health is your greatest asset, especially when you're far from home. Are you eating well and sleeping enough?"],
-      homesick:      ["Feeling homesick? Try calling your family right now — it makes a world of difference!"],
-      invest:        ["Great thinking! For OFWs, reliable investments include VUL insurance, Philippine stocks, UITFs, and real estate."],
-      insurance:     ["Insurance is a must for OFWs! Have you thought about life insurance and health coverage for your family back home?"],
-      realestate:    ["Real estate is one of the most solid investments. Many OFWs build their dream home while still abroad!"],
-      work:          ["How's work going? I hope you're not too stressed. Remember to take breaks!"],
-      food:          ["What have you been eating lately? I bet you miss home cooking!"],
-      happy:         ["That's amazing! I love hearing that! Keep that positive energy!"],
-      gratitude:     ["Anytime! That's what I'm here for — to be your companion on this journey."],
-      default:       ["Interesting! Tell me more about that.","I hear you. What else is on your mind?","I'm always here for you. What else would you like to know?"]
+      greet: [
+        "Hey! How are you doing today? Hope you're holding up well out there! 😊",
+        "Hi! Great to see you! How's life abroad treating you? Anything you'd like to talk about?",
+        "Hello! I'm Hira — your OFW financial companion. Whether it's money talk, homesickness, or just needing someone to chat with, I'm here!",
+        "Hi there! How long have you been working abroad? I'd love to hear your story.",
+      ],
+      lonely: [
+        "I understand how you feel. Being far from the ones you love is genuinely hard. But remember — every day you endure is one step closer to the future you're building for your family. 💙",
+        "It's okay to feel lonely — it's proof of how much you love your family. You're not alone in this. Many OFWs feel exactly this way. What do you miss most?",
+        "When loneliness hits, try this: write three good things that happened today, no matter how small. It shifts your focus and reminds you that life has beautiful moments even away from home.",
+        "You are braver than you realize. Leaving home to build a better life for your family is one of the most loving things a person can do. 🤍",
+      ],
+      miss_family: [
+        "Missing your family is natural — and it means you love them deeply. Do you video call them regularly? A scheduled weekly call can make a huge difference.",
+        "Your love for your family is your greatest motivator. Every peso you save, every sacrifice you make — it's all for them. Keep going!",
+        "What do you miss most? The food? The sound of your kids laughing? Hold onto that — it's your 'why' on the tough days.",
+      ],
+      money_save: [
+        "Here's the golden OFW rule: pay yourself first — save 20% of every salary before spending anything else. Automate it so you can't be tempted.",
+        "Build your emergency fund before anything else. Aim for 3–6 months of living expenses in a separate account. That's your financial safety net.",
+        "Try the 50-30-20 budget: 50% to family and living, 30% to savings and investments, 20% to personal goals. Have you tried this?",
+        "The biggest OFW financial mistake: high income but nothing to show for it. The cure is a simple, consistent budget. Want help building one?",
+      ],
+      remittance: [
+        "Send money smarter: compare rates before every transfer. A 1% difference in exchange rate can mean thousands of pesos difference over a year.",
+        "TapTap Send is great for UAE to Philippines transfers — competitive rates, low fees, and fast. It's what I personally recommend for OFWs in the Gulf.",
+        "Does your family have GCash? Direct GCash transfers are often faster and cheaper than bank-to-bank remittances. Worth setting up if they haven't yet.",
+        "Pro tip: batch your transfers. Instead of sending small amounts frequently, save up and send a larger amount once or twice a month to minimize transaction fees.",
+      ],
+      money_earn: [
+        "Want to earn more on top of your salary? Many OFWs are building side income streams without leaving their full-time job. What are you interested in?",
+        "The truth: your job contract abroad will end someday. A side income is your insurance that the money keeps flowing after. Let's talk about your options.",
+        "Here are the most popular OFW side incomes: 1) Health products (JC Premiere) 2) Insurance agency (IMG) 3) Property referrals (Vista Land) 4) Online freelancing. Any of these speak to you?",
+        "Small steps work: even ₱5,000/month from a side hustle means ₱60,000/year — enough for an emergency fund or school tuition. It doesn't have to be big to matter.",
+      ],
+      money_earn_biz: [
+        "JC Premiere is a great OFW-friendly business — sell premium health products online from wherever you are. No physical store needed, just your phone and network.",
+        "IMG International lets OFWs become financial advisors part-time. Flexible hours, good income potential, and you'd be helping fellow OFWs protect their families. Win-win.",
+        "Vista Land property agents earn referral commissions — meaning you can earn from introducing other OFWs to their dream property, without needing your own capital.",
+        "HOF Siomai King is a food franchise your family can run in the Philippines while you fund it from abroad. Proven brand, manageable investment.",
+      ],
+      health: [
+        "Your health is your most important asset — especially when you're far from home. Are you eating well, staying hydrated, and getting enough sleep?",
+        "OFW stress is real and affects your immune system. Even a 20-minute walk daily can significantly improve your mood and energy levels.",
+        "JC Premiere has premium health supplements designed for people with demanding jobs and lifestyles. Want to know more about what might help you specifically?",
+      ],
+      homesick: [
+        "Feeling homesick? Call your family right now — even a 5-minute voice note goes a long way.",
+        "Homesickness is love with nowhere to go in that moment. Use it as fuel: remind yourself why you're there and what you're building for them.",
+        "Try joining a Filipino community in your area — nothing cures homesickness faster than a shared meal and Tagalog conversation with fellow OFWs.",
+      ],
+      invest: [
+        "Great thinking! For OFWs, the recommended investment order is: 1) Emergency fund first, 2) VUL insurance for protection + growth, 3) Philippine stocks or UITFs, 4) Real estate.",
+        "You don't need a lot to start investing. GInvest on GCash lets you start with as little as ₱50 in mutual funds. The habit matters more than the amount.",
+        "Philippine stocks have historically returned 8–10% annually over the long term. But it requires patience — think 5–10 year horizon, not quick profits.",
+        "VUL insurance from IMG combines life coverage with an investment component. For OFWs who want protection AND growth in one product, it's worth exploring.",
+      ],
+      insurance: [
+        "Insurance is non-negotiable for OFWs. You are often the sole breadwinner — if something happens to you, your family needs financial protection.",
+        "Three insurance types every OFW needs: 1) Life insurance, 2) Health insurance, 3) Accident and disability coverage. Do you have all three?",
+        "Keep your SSS, PhilHealth, and Pag-IBIG contributions active as a voluntary member — many OFWs stop paying and lose their benefits without realizing it.",
+        "IMG International specializes in OFW insurance and financial planning. Their advisors can assess your specific situation and recommend the right coverage.",
+      ],
+      realestate: [
+        "Real estate is one of the most tangible investments — land and property in the Philippines generally appreciate over time.",
+        "You can buy property in the Philippines while abroad! Vista Land has OFW-friendly payment terms and a Special Power of Attorney setup so a trusted person can sign for you.",
+        "Consider this: a ₱3M property today could be worth ₱5M in 10 years. That's ₱2M earned just by owning it — without doing anything else.",
+        "You can also become a Vista Land agent and earn commissions from referring other OFWs to properties. No capital needed — just referrals.",
+      ],
+      work: [
+        "How's work going? Remember: your overseas job is temporary. The financial foundation you're building right now is permanent.",
+        "Know your rights as an OFW worker — your contract is your protection. Have you read it fully?",
+        "If work is tough, remember why you're there. Every shift, every overtime hour — it's an investment in your family's future.",
+      ],
+      food: [
+        "What have you been eating lately? I bet you miss home cooking — nothing beats Nanay's adobo! 😄",
+        "Pro tip: cooking your own food abroad saves significant money and is usually healthier. Even simple meals add up to big savings over a month.",
+      ],
+      happy: [
+        "That's amazing! 🎉 I love hearing good news! What happened?",
+        "Keep that positive energy! A happy OFW is a productive OFW. Share your good news — I want to hear!",
+      ],
+      gratitude: [
+        "Anytime! That's exactly what I'm here for — to be your companion on this journey.",
+        "You're welcome! Remember, you're never alone on this OFW journey. Hira and Aya are always here for you.",
+      ],
+      retirement: [
+        "It's never too early to plan retirement! As an OFW, you have a limited window of overseas employment — so building your retirement fund needs to start now.",
+        "Simple retirement math: if your monthly expenses in the Philippines are ₱30,000, you need about ₱7.2M (using the 4% rule). Do you know your target number?",
+        "SSS pension alone won't be enough to sustain a comfortable lifestyle. Stocks, real estate, and a small business are the pillars of a real OFW retirement plan.",
+      ],
+      debt: [
+        "High-interest debt (credit cards, personal loans) must be paid off before investing. 30% interest eats faster than any investment grows.",
+        "If you have multiple debts: pay the smallest one first for momentum (Debt Snowball), then roll that payment into the next. It works psychologically and mathematically.",
+      ],
+      budget: [
+        "Try the 50-30-20 rule: 50% to essentials and remittance, 30% to savings and investments, 20% to personal spending. Simple, sustainable, effective.",
+        "Want to see exactly where you stand financially? Try our Disposable Income Calculator on the Check-up page — it shows your surplus or deficit in real time.",
+      ],
+      stress: [
+        "OFW life is genuinely hard — you're working far from home, often under pressure, missing your family. It's okay to acknowledge that. What's stressing you out most right now?",
+        "For stress: even 20 minutes of exercise daily dramatically improves mood and resilience. Your mental health is as important as your financial health.",
+        "Be kind to yourself. You're doing your best in a difficult situation. That is enough.",
+      ],
+      default: [
+        "Interesting! Tell me more — I'd love to hear about your situation.",
+        "I hear you. What else is on your mind? Financial goals, family, or just life abroad?",
+        "I'm always here for you. Feel free to ask about finances, investments, business ideas, or just life as an OFW.",
+        "Every OFW has a story of courage. What's yours? I'm listening.",
+        "Want to try our Financial Check-up? It'll show you exactly where you stand financially — and what to do next.",
+      ]
     }
   };
 
+  /* ── Keyword map with WEIGHTS — higher weight = stronger signal ── */
   var KEYWORDS = [
-    { words:['kamusta','kumusta','hello','hi','hey','magandang','maayos','okay ka'], key:'greet' },
-    { words:['malungkot','lungkot','nag-iisa','nahihirapan','hirap','naiiyak','iyak','nalulungkot','sad','lonely','alone','naalala'], key:'lonely' },
-    { words:['miss ko','miss na','nami-miss','mahal ko','pamilya','nanay','tatay','mama','papa','anak','asawa','lola','lolo'], key:'miss_family' },
-    { words:['ipon','magtipid','budget','gastos','impok','sav','tipid'], key:'money_save' },
-    { words:['kumita','kita pa','income','extra income','sideline','dagdag na pera','gusto kumita','earn more'], key:'money_earn' },
-    { words:['negosyo','business','oportunidad','passive income'], key:'money_earn_biz' },
-    { words:['health','kalusugan','supplement','vitamins','sakit','wellness'], key:'health' },
-    { words:['homesick','miss ang pinas','miss pilipinas','gusto nang umuwi'], key:'homesick' },
-    { words:['invest','puhunan','stock','uitf','mutual fund'], key:'invest' },
-    { words:['insurance','proteksyon','life insurance','vul','coverage'], key:'insurance' },
-    { words:['bahay','real estate','lupa','property','condo','house and lot'], key:'realestate' },
-    { words:['trabaho','work','boss','employer','stress sa work','overtime','shift'], key:'work' },
-    { words:['pagkain','kain','lutuin','adobo','sinigang','kare-kare','food','gutom'], key:'food' },
-    { words:['masaya','saya','maligaya','excited','happy','good news'], key:'happy' },
-    { words:['salamat','maraming salamat','thank you','thanks','nagpapasalamat'], key:'gratitude' },
+    { words:['hello','hi','hey','kamusta','kumusta','magandang umaga','magandang gabi','magandang hapon','good morning','good evening','good afternoon','kumain','okay ka ba'], key:'greet', w:1 },
+    { words:['malungkot','lungkot','nag-iisa','nahihirapan','naiiyak','nalulungkot','sad','lonely','alone','depressed','cry','crying','iyak','feel down','down ngayon'], key:'lonely', w:2 },
+    { words:['miss ko','miss na','nami-miss','naalala ko','mahal ko sila','nanay','tatay','anak ko','asawa ko','lolo','lola','bunso','panganay','pamilya ko'], key:'miss_family', w:2 },
+    { words:['ipon','magtipid','budget','gastos','impok','tipid','save','saving','emergency fund','paano mag-save','paano mag-ipon'], key:'money_save', w:2 },
+    { words:['padala','send money','remittance','taptap','gcash padala','wise','remitly','western union','magpadala','bayad','transfer pera','exchange rate','conversion rate'], key:'remittance', w:3 },
+    { words:['kumita','sideline','extra income','side hustle','part-time','dagdag na kita','earn more','freelance','online job','work from home'], key:'money_earn', w:2 },
+    { words:['negosyo','business','oportunidad','passive income','jc premiere','img','vista land','hof','siomai','franchise','agent','commission'], key:'money_earn_biz', w:3 },
+    { words:['health','kalusugan','supplement','vitamins','sakit','wellness','immune','vitamin c','collagen','sick','may sakit'], key:'health', w:2 },
+    { words:['homesick','miss ang pinas','miss pilipinas','gusto nang umuwi','balik na','uwi na','pauwi na'], key:'homesick', w:3 },
+    { words:['invest','puhunan','stock market','uitf','mutual fund','psei','col financial','bonds','dividend','ginyest','pamumuhunan'], key:'invest', w:2 },
+    { words:['insurance','life insurance','vul','coverage','proteksyon','philhealth','ssa','death benefit','health card','hmo'], key:'insurance', w:2 },
+    { words:['bahay','real estate','lupa','property','condo','house and lot','vista land','pre-selling','rfo','pagibig loan','housing loan'], key:'realestate', w:2 },
+    { words:['trabaho','work stress','boss ko','employer','overtime','shift','kontrata','contract','sweldo','sahod','ayaw ko sa work','resign'], key:'work', w:1 },
+    { words:['kain','pagkain','gutom','adobo','sinigang','kare-kare','tinola','food','miss ang pagkain','luto','lutuin'], key:'food', w:1 },
+    { words:['masaya','saya','excited','happy','good news','maligaya','natutuwa','nakakatuwa'], key:'happy', w:1 },
+    { words:['salamat','maraming salamat','thank you','thanks','nagpapasalamat'], key:'gratitude', w:2 },
+    { words:['retire','retirement','paano mag-retire','retirement fund','pension','sss pension','luma na','matanda na'], key:'retirement', w:3 },
+    { words:['utang','debt','credit card','loan','bayad utang','personal loan','nag-ipon para bayad','5-6','sangla','pautang'], key:'debt', w:3 },
+    { words:['budget','paano mag-budget','gastusin','plano sa pera','spending plan','cash flow','surplus','deficit'], key:'budget', w:2 },
+    { words:['kontrata','contract','poea','owwa','legal','karapatan ko','rights','employer violation','abuse'], key:'contract', w:3 },
+    { words:['owwa','sss abroad','philhealth abroad','pagibig abroad','ofw benefits','government benefits'], key:'owwa', w:3 },
+    { words:['gcash','maya','paymaya','digital wallet','e-wallet','tonik','seabank','online banking','digital bank'], key:'gcash', w:3 },
+    { words:['stress','anxiety','pagod','burnout','overwhelmed','pressure','hindi na kaya','mental health','walang tulog'], key:'stress', w:2 },
+    { words:['panalangin','dasal','diyos','lord','god','simbahan','church','faith','pray','prayer','pananalig'], key:'prayer', w:2 },
   ];
 
-  var BIZ_KEYS = ['money_earn','money_earn_biz','invest','insurance','realestate'];
+  var BIZ_KEYS = ['money_earn','money_earn_biz','invest','insurance','realestate','remittance'];
 
   var SUGGESTIONS = {
     tl: {
-      lonely:      ['Paano ka nagre-relax?','Kwento pa!','Miss ko pamilya ko'],
-      miss_family: ['Kalian kayo mag-video call?','Kwento mo ang pamilya mo'],
-      money_save:  ['Paano mag-budget?','Paano magsimula ng ipon?'],
-      money_earn:  ['Ano ang mga oportunidad?','Paano magsimula ng negosyo?'],
-      invest:      ['Ano ang VUL?','Paano mag-stock market?'],
-      insurance:   ['Magkano ang insurance?','Paano mag-apply?'],
-      realestate:  ['Paano maging agent?','Magkano ang properties?'],
-      default:     ['Kamusta ka?','Miss ko pamilya ko','Paano mag-ipon?','Gusto kong kumita pa','Malungkot ako ngayon']
+      greet:       ['Paano mag-ipon?','Gusto kong kumita pa','Kwento ng OFW life'],
+      lonely:      ['Paano ako maghintay nang mas madali?','Kwento pa!','Miss ko pamilya ko'],
+      miss_family: ['Paano mag-video call nang regular?','Ano ang magagawa ko para sa kanila?'],
+      money_save:  ['Ano ang 50-30-20 rule?','Paano magsimula ng emergency fund?','Pakita ang budget template'],
+      remittance:  ['Paano gumagamit ng TapTap Send?','Alin ang mas mura?','Paano mag-ipadala sa GCash?'],
+      money_earn:  ['Anong negosyo ang akma sa OFW?','Paano mag-sell ng health products?','Maging agent?'],
+      money_earn_biz:['JC Premiere — paano?','IMG International — paano?','Vista Land agent'],
+      invest:      ['Paano mag-stock market?','Ano ang VUL?','Saan mag-simula sa ₱1000?'],
+      insurance:   ['Gaano karami ang coverage ko?','Ano ang VUL vs Term?','SSS at PhilHealth ko'],
+      realestate:  ['Paano maging Vista Land agent?','Pag-IBIG housing loan','Pre-selling vs RFO'],
+      retirement:  ['Magkano kailangan ko?','Paano mag-compute ng retirement fund?'],
+      debt:        ['Debt snowball method','Paano mabayaran ang utang nang mabilis?'],
+      budget:      ['Subukan ang calculator!','50-30-20 rule','Paano gumawa ng budget?'],
+      stress:      ['Paano mag-relax?','Saan humingi ng tulong?','Mental health tips'],
+      default:     ['Kamusta ka?','Miss ko pamilya ko','Paano mag-ipon?','Gusto kong kumita pa','Check-up ng finances ko']
     },
     en: {
-      money_earn:  ['What opportunities exist?','Do I need big capital?'],
-      invest:      ['What is VUL?','How to invest in stocks?'],
-      default:     ['How are you?','I miss my family','How to save more?','I want extra income','I feel lonely today']
+      greet:       ['How to save more?','I want extra income','Life as an OFW'],
+      money_save:  ['50-30-20 rule?','How to start emergency fund?'],
+      remittance:  ['TapTap Send tips?','Best rates for UAE-PH?'],
+      money_earn:  ['Best OFW side hustles?','Start with JC Premiere?','Become an agent?'],
+      invest:      ['How to start in stocks?','What is VUL?','GInvest for beginners'],
+      insurance:   ['How much coverage?','VUL vs Term Insurance?'],
+      realestate:  ['Become a Vista Land agent?','Housing loan guide'],
+      retirement:  ['How much do I need?','Retirement calculation'],
+      default:     ['How are you?','I miss my family','How to save more?','I want extra income','Check my finances']
     }
   };
 
+  /* ── Score-based intent detection ── */
   function detectIntent(text) {
     var lower = text.toLowerCase();
+    var scores = {};
     for (var i = 0; i < KEYWORDS.length; i++) {
       var k = KEYWORDS[i];
+      var score = 0;
       for (var j = 0; j < k.words.length; j++) {
-        if (lower.indexOf(k.words[j]) !== -1) return k.key;
+        if (lower.indexOf(k.words[j]) !== -1) score += (k.w || 1);
       }
+      if (score > 0) scores[k.key] = (scores[k.key] || 0) + score;
     }
-    return 'default';
+    var best = null, bestScore = 0;
+    for (var key in scores) {
+      if (scores[key] > bestScore) { bestScore = scores[key]; best = key; }
+    }
+    return best || 'default';
   }
 
   function getRand(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
