@@ -366,27 +366,6 @@
     dispatched:      'act-deliver',
   };
 
-  // ── Render stats ──────────────────────────────────────────────────────
-  function renderStats() {
-    var orders = loadOrders();
-    var counts = { pending_payment:0, paid:0, packing:0, dispatched:0, delivered:0, cancelled:0 };
-    var totalRev = 0;
-    orders.forEach(function(o){
-      if (counts[o.status] !== undefined) counts[o.status]++;
-      if (o.status === 'delivered') totalRev += o.total || 0;
-    });
-    document.getElementById('statsRow').innerHTML =
-      stat('Total Orders', orders.length, '')
-    + stat('Pending Payment', counts.pending_payment, counts.pending_payment > 0 ? 'amber' : '')
-    + stat('To Pack / Ship', counts.paid + counts.packing, '')
-    + stat('In Transit', counts.dispatched, '')
-    + stat('Delivered', counts.delivered, 'green')
-    + stat('Revenue (Delivered)', '&#8369;' + totalRev.toLocaleString(), 'green');
-  }
-  function stat(label, val, cls) {
-    return '<div class="stat-card"><div class="stat-label">'+label+'</div><div class="stat-val '+(cls||'")>'+val+'</div></div>').replace('">', '" >');
-  }
-  // cleaner stat builder
   function statCard(label, val, cls) {
     return '<div class="stat-card"><div class="stat-label">'+label+'</div><div class="stat-val'+(cls?' '+cls:'')+'">'+val+'</div></div>';
   }
@@ -422,7 +401,16 @@
 
     var el = document.getElementById('ordersList');
     if (!orders.length) {
-      el.innerHTML = '<div class="empty-state"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M15 17h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-4"/><rect x="9" y="3" width="6" height="18" rx="1"/></svg><p>No orders found.</p></div>';
+      var allCount = loadOrders().length;
+      var isFiltered = document.getElementById('filterStatus').value || (document.getElementById('filterSearch').value||'').trim();
+      el.innerHTML = '<div class="empty-state">'
+        + '<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#ddd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>'
+        + (isFiltered
+            ? '<p>No orders match this filter.</p>'
+            : '<p style="font-weight:700;font-size:1rem;color:#444;margin-bottom:4px;">No orders yet</p>'
+              + '<p style="font-size:.82rem;color:#888;max-width:320px;">Orders placed by customers through the <a href="cart.html" target="_blank" style="color:#CC1010;">Shop checkout</a> will appear here automatically.</p>'
+              + '<button onclick="seedTestOrder()" style="margin-top:16px;background:#CC1010;color:#fff;border:none;border-radius:10px;padding:10px 22px;font:700 .82rem Poppins,sans-serif;cursor:pointer;">+ Add Test Order</button>')
+        + '</div>';
       return;
     }
 
@@ -520,6 +508,39 @@
     orders[idx].notes = val.trim();
     saveOrders(orders);
     showToast('Note saved.');
+  }
+
+  // ── Seed a test order (dev / demo) ───────────────────────────────────
+  function seedTestOrder() {
+    var now = new Date();
+    var ref = 'MM-TEST' + Math.random().toString(36).toUpperCase().slice(2,6);
+    var order = {
+      ref: ref,
+      date: now.toLocaleDateString('en-PH', {year:'numeric',month:'long',day:'numeric'}),
+      timestamp: now.toISOString(),
+      name: 'Juan dela Cruz (Test)',
+      email: 'juantest@example.com',
+      phone: '+63 917 000 0000',
+      address: '123 Test Street, Makati City',
+      zip: '1200',
+      items: [
+        { id:1, name:'OFW Financial Freedom Planner', sku:'MM-PLAN-001', price:299, qty:1, delivery:'email_24h' },
+        { id:3, name:'OFW Investment Starter Kit',   sku:'MM-INV-001',  price:499, qty:1, delivery:'email_24h' },
+      ],
+      total: 798,
+      payment: 'GCash',
+      paymentId: 'gcash',
+      status: 'pending_payment',
+      trackingNumber: '',
+      notes: 'This is a test order — safe to delete.',
+    };
+    try {
+      var orders = JSON.parse(localStorage.getItem('mm_orders') || '[]');
+      orders.unshift(order);
+      localStorage.setItem('mm_orders', JSON.stringify(orders));
+    } catch(e){}
+    renderStats();
+    renderOrders();
   }
 
   // ── Export CSV ────────────────────────────────────────────────────────
