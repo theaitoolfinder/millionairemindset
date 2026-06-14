@@ -30,9 +30,7 @@ function mmApplyTheme(name) {
   }
   // Persist
   try { localStorage.setItem('mm_theme_v1', name); } catch(e){}
-  // Update dot
-  var dot = document.getElementById('mm-theme-dot');
-  if (dot) dot.style.background = t.p;
+  // Dot color follows --primary via CSS automatically — no inline style needed
   // Update swatch active state
   document.querySelectorAll('.mm-swatch').forEach(function(s){
     s.classList.toggle('active', s.dataset.t === name);
@@ -58,13 +56,10 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// Init dot color on load
+// Init swatches active state on load (dot color handled by CSS var(--primary))
 document.addEventListener('DOMContentLoaded', function(){
   try {
     var saved = localStorage.getItem('mm_theme_v1') || 'brand';
-    var t = MM_THEMES[saved] || MM_THEMES.brand;
-    var dot = document.getElementById('mm-theme-dot');
-    if (dot) dot.style.background = t.p;
     document.querySelectorAll('.mm-swatch').forEach(function(s){
       s.classList.toggle('active', s.dataset.t === saved);
     });

@@ -1402,4 +1402,7 @@
     }, 2500);
   })();
 
+  /* ── Init: render character in FAB immediately on load ── */
+  renderChar();
+
 })();
