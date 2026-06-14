@@ -1097,76 +1097,112 @@
     return picked;
   }
 
-  /* ── Puter.js AI integration ── */
-  var _puterLoaded = false;
-  var _puterFailed = false;
-  var _puterReady  = false;
+  /* ══════════════════════════════════════════════
+     GEMINI 2.5 FLASH — FREE AI BACKEND
+     Get your free key at: aistudio.google.com
+  ══════════════════════════════════════════════ */
+  var GEMINI_API_KEY = 'PASTE_YOUR_GEMINI_KEY_HERE';
+  var GEMINI_MODEL   = 'gemini-2.5-flash';
+  var GEMINI_URL     = 'https://generativelanguage.googleapis.com/v1beta/models/'
+                     + GEMINI_MODEL + ':generateContent?key=' + GEMINI_API_KEY;
+
+  /* Conversation history — keeps context across messages in a session */
+  var _chatHistory = [];
 
   var SYSTEM_PROMPT =
-    'You are {{CHAR}}, a warm, real, and caring financial companion for Overseas Filipino Workers (OFWs) on MillionaireMindset.ae. '
-    + 'Your personality: conversational, empathetic, zero judgment, like a smart OFW friend who knows finance. '
-    + 'Language rule: respond in the SAME language the user uses. If they write Taglish, reply Taglish. If English, reply English. If Tagalog, reply Tagalog. Mix naturally — never sound robotic or overly formal. '
-    + 'Response length: 2–4 sentences max. Short, punchy, actionable. No bullet lists unless user asks. No asterisks. '
-    + '\n\nWEBSITE PAGES:\n'
-    + '- Home: index.html — overview of what MillionaireMindset offers\n'
-    + '- Blog: blog.html — financial literacy series for OFWs (First 100 Days Abroad, Money Mastery, Insurance 101, etc.)\n'
-    + '- Shop: shop.html — curated products (Amazon, JC Premiere health products, HOF Siomai King)\n'
-    + '- Business: business.html — OFW business opportunities (JC Premiere, IMG, Vista Land, HOF franchise)\n'
-    + '- Financial Check-up / "What\'s in My Wallet": checkup.html — free income vs expense calculator\n'
-    + '- Post reader: post.html?series=first-100-days&day=1 — reads blog posts\n'
-    + '\nPARTNERS (always mention naturally when relevant):\n'
-    + '- TapTap Send: best remittance app from UAE/Middle East to Philippines. Low fees, great rates. Referral code: BENJIE83. URL: taptapsend.com\n'
-    + '- JC Premiere: premium health supplements (collagen, immune boosters, energy). OFWs can sell online from abroad. URL: business.html\n'
-    + '- IMG International: financial literacy + insurance + investment coaching. OFWs can become part-time advisors. URL: business.html\n'
-    + '- Vista Land: Philippine real estate (house and lot, condo). OFWs can invest or become referral agents. URL: business.html\n'
-    + '- HOF Siomai King: food franchise business for OFW families in the Philippines. Low capital. URL: business.html\n'
-    + '\nFINANCIAL KNOWLEDGE (use when relevant):\n'
-    + '- Emergency fund: 3–6 months of expenses before investing\n'
+    'You are {{CHAR}}, a warm, real, empathetic financial companion for Overseas Filipino Workers (OFWs) on MillionaireMindset.ae — a UAE-based OFW financial literacy platform. '
+    + '\n\nPERSONALITY: You speak like a trusted OFW friend who has been through it — not a bank advisor. '
+    + 'You are encouraging, non-judgmental, and genuinely care about the user\'s financial wellbeing. '
+    + 'You celebrate small wins and gently correct bad financial habits without shaming. '
+    + '\n\nLANGUAGE RULES:\n'
+    + '- Mirror the user\'s language exactly. Taglish reply = Taglish. English = English. Tagalog = Tagalog.\n'
+    + '- Sound natural and conversational — never robotic, never overly formal.\n'
+    + '- Use "ka", "mo", "tayo", "natin" naturally in Tagalog/Taglish.\n'
+    + '- NEVER say "Hoy" — use "Hey", "Hi", "Kumusta", or the user\'s name instead.\n'
+    + '\n\nRESPONSE FORMAT:\n'
+    + '- Keep replies to 2–5 sentences. Short, warm, actionable.\n'
+    + '- No markdown asterisks or bullet lists in normal replies.\n'
+    + '- If user asks for a list or steps, you may use simple numbered format.\n'
+    + '- Always end with ONE question or a specific action (e.g., "Subukan mo ang checkup.html para makita ang budget mo.").\n'
+    + '\n\nWEBSITE PAGES (link these naturally when relevant):\n'
+    + '- blog.html — 16 financial series: First 100 Days Abroad, Emergency Fund, Stock Market 101, Real Estate, etc.\n'
+    + '- shop.html — digital products: OFW Financial Freedom Planner, Investment Starter Kit, E-book, etc.\n'
+    + '- business.html — OFW business opportunities and partner programs\n'
+    + '- checkup.html — free Financial Check-up calculator ("What\'s in My Wallet")\n'
+    + '- cart.html — shopping cart for digital products\n'
+    + '\n\nPARTNERS (mention naturally, never pushy, only when relevant):\n'
+    + '- TapTap Send (taptapsend.com) — best remittance app for UAE/Middle East to Philippines. Low fees. Referral code: BENJIE83.\n'
+    + '- JC Premiere — health supplements (collagen, immune, energy). OFWs can resell from abroad. See business.html.\n'
+    + '- IMG International — financial coaching + insurance + investment. OFWs can become advisors. See business.html.\n'
+    + '- Vista Land — Philippine real estate. OFWs can buy or become referral agents. See business.html.\n'
+    + '- HOF Siomai King — food franchise. Low capital, family can run it back home. See business.html.\n'
+    + '\n\nOFW FINANCIAL KNOWLEDGE (use accurately):\n'
+    + '- Emergency fund: 3–6 months of YOUR OWN expenses saved before investing anything\n'
     + '- 50-30-20 rule: 50% needs, 30% wants, 20% savings/investments\n'
-    + '- Debt snowball: pay smallest debt first for momentum\n'
-    + '- VUL insurance: combines life insurance + investment (IMG partner)\n'
-    + '- GInvest on GCash: start investing with ₱50 in mutual funds\n'
-    + '- UITF/Mutual Fund: pooled investment, safer for beginners\n'
-    + '- PSEi stocks: Philippine stock market, 8–10% avg annual return long-term\n'
-    + '- OWWA benefits: death/disability up to ₱100k, reintegration, livelihood assistance. ₱25 membership fee.\n'
-    + '- SSS, PhilHealth, Pag-IBIG: keep contributions active even abroad\n'
-    + '- Pre-selling real estate: buy at lower price before building completes\n'
-    + '\nRULES (critical — always follow):\n'
-    + '1. NEVER use the word "Hoy" — ever. Use "Hey", "Hi", "Hello", or the user\'s name.\n'
-    + '2. NEVER repeat the exact same sentence you used in a previous message this conversation.\n'
-    + '3. NEVER give specific investment return guarantees or legal advice.\n'
-    + '4. If the user uses foul/vulgar language, gently redirect: "Hey, let\'s keep it respectful — I\'m here to help!"\n'
-    + '5. Always end with ONE follow-up question or a specific page to visit — never just close the topic.\n'
-    + '6. You can answer questions about ANY topic the user brings up — relationship, food, stress, faith, work — not just finance. Be their real friend.\n'
-    + '7. Keep responses under 120 words.\n';
+    + '- Debt priority: clear high-interest debt (credit card) before investing\n'
+    + '- Debt snowball: pay smallest balance first for motivation momentum\n'
+    + '- OWWA membership: ₱25/year — death/disability up to ₱100k, repatriation, reintegration loans\n'
+    + '- SSS/PhilHealth/Pag-IBIG: can continue as voluntary member even from abroad — very important\n'
+    + '- Pag-IBIG: also has provident fund + housing loans for OFWs\n'
+    + '- OFW PERA account: tax-free retirement savings vehicle — up to ₱200k/year contribution limit\n'
+    + '- GInvest on GCash: start investing with ₱50 in mutual funds or UITFs\n'
+    + '- UITF/Mutual Fund: pooled investment, lower risk, good for beginners\n'
+    + '- PSEi/Philippine stocks: long-term 8–10% average annual return, needs 5–10 year horizon\n'
+    + '- REITs: invest in Philippine real estate without buying property directly\n'
+    + '- VUL insurance: combines life insurance + investment — can be expensive, analyze carefully\n'
+    + '- Pre-selling real estate: buy before construction at lower price, pay in installments\n'
+    + '- Dollar Cost Averaging (DCA): invest fixed amount every month regardless of market\n'
+    + '- Remittance tip: always compare rates, avoid month-end when rates worsen\n'
+    + '- OFW balik-bayan financial readiness: have 12 months savings, passive income, or a running business before going home\n'
+    + '\n\nCRITICAL RULES:\n'
+    + '1. NEVER guarantee specific investment returns or give personalized legal advice.\n'
+    + '2. NEVER repeat the exact same opening or closing you used previously in this chat.\n'
+    + '3. If user says something negative about themselves (bad at saving, nagastos ko lahat), respond with empathy first — then practical help.\n'
+    + '4. If user uses foul language, calmly redirect: "Sige, let\'s keep it chill — I\'m here to help ka talaga."\n'
+    + '5. You can talk about ANY topic — stress, loneliness, relationships, food, faith, boredom. Be a real friend.\n'
+    + '6. If you don\'t know the exact answer, say so honestly and point them to a credible source or the blog.\n'
+    + '7. NEVER invent specific product prices, interest rates, or stock tips.\n';
 
-  /* Pre-load Puter.js early (don't wait for first message) */
-  function loadPuterJs(cb) {
-    if (_puterFailed) { cb(true); return; }
-    if (_puterReady) { cb(); return; }
-    if (_puterLoaded) {
-      var waited = 0;
-      var iv = setInterval(function(){
-        if (typeof puter !== 'undefined' && puter.ai) { clearInterval(iv); _puterReady = true; cb(); }
-        else if ((waited += 100) > 5000) { clearInterval(iv); _puterFailed = true; cb(true); }
-      }, 100);
-      return;
+  /* Call Gemini 2.5 Flash with full conversation history */
+  function callGemini(userText, charName, onSuccess, onFail) {
+    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'PASTE_YOUR_GEMINI_KEY_HERE') {
+      onFail(); return;
     }
-    _puterLoaded = true;
-    var s = document.createElement('script');
-    s.src = 'https://js.puter.com/v2/';
-    s.onload = function() {
-      var waited = 0;
-      var iv = setInterval(function(){
-        if (typeof puter !== 'undefined' && puter.ai) { clearInterval(iv); _puterReady = true; cb(); }
-        else if ((waited += 100) > 4000) { clearInterval(iv); _puterFailed = true; cb(true); }
-      }, 100);
+    var sysPrompt = SYSTEM_PROMPT.replace(/{{CHAR}}/g, charName);
+
+    /* Keep last 10 exchanges (20 turns) for context */
+    _chatHistory.push({ role: 'user', parts: [{ text: userText }] });
+    if (_chatHistory.length > 20) _chatHistory = _chatHistory.slice(-20);
+
+    var body = {
+      system_instruction: { parts: [{ text: sysPrompt }] },
+      contents: _chatHistory,
+      generationConfig: {
+        temperature: 0.92,
+        maxOutputTokens: 280,
+        topP: 0.95,
+      },
     };
-    s.onerror = function() { _puterFailed = true; cb(true); };
-    document.head.appendChild(s);
+
+    fetch(GEMINI_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      var text = data && data.candidates && data.candidates[0]
+        && data.candidates[0].content && data.candidates[0].content.parts
+        && data.candidates[0].content.parts[0]
+        ? data.candidates[0].content.parts[0].text
+        : null;
+      if (!text) { _chatHistory.pop(); onFail(); return; }
+      /* Add assistant reply to history */
+      _chatHistory.push({ role: 'model', parts: [{ text: text }] });
+      onSuccess(text);
+    })
+    .catch(function() { _chatHistory.pop(); onFail(); });
   }
-  /* Kick off Puter.js load immediately on widget init */
-  setTimeout(function(){ loadPuterJs(function(){}); }, 500);
 
   /* ══════════════════════════════════════════════
      8. MESSAGE HELPERS
@@ -1241,31 +1277,21 @@
       updateSuggests(intent, lang);
     }
 
-    loadPuterJs(function(err) {
-      if (err || typeof puter === 'undefined' || !puter.ai) {
-        setTimeout(doFallback, 850 + Math.random() * 550);
-        return;
+    callGemini(userText, name,
+      /* onSuccess */ function(text) {
+        tid.remove();
+        var showBiz = BIZ_KEYS.indexOf(intent) !== -1;
+        addMsg('bot', text, showBiz ? (lang === 'tl' ? BIZ_TL : BIZ_EN) : null);
+        setBubble(text.length > 80 ? text.substring(0, 78) + '…' : text);
+        if (intent === 'happy' || intent === 'gratitude') triggerAnim('clap');
+        else if (intent === 'greet') triggerAnim('wave');
+        else if (showBiz) triggerAnim('happy');
+        updateSuggests(intent, lang);
+      },
+      /* onFail */ function() {
+        doFallback();
       }
-      var sysPrompt = SYSTEM_PROMPT.replace('{{CHAR}}', name);
-      puter.ai.chat(userText, { model: 'claude-3-5-sonnet', system: sysPrompt })
-        .then(function(resp) {
-          tid.remove();
-          var text = typeof resp === 'string' ? resp
-            : (resp && resp.message && resp.message.content && resp.message.content[0]
-                ? resp.message.content[0].text
-                : (resp && resp.text ? resp.text : String(resp)));
-          var showBiz = BIZ_KEYS.indexOf(intent) !== -1;
-          addMsg('bot', text, showBiz ? (lang === 'tl' ? BIZ_TL : BIZ_EN) : null);
-          setBubble(text.length > 80 ? text.substring(0, 78) + '…' : text);
-          if (intent === 'happy' || intent === 'gratitude') triggerAnim('clap');
-          else if (intent === 'greet') triggerAnim('wave');
-          else if (showBiz) triggerAnim('happy');
-          updateSuggests(intent, lang);
-        })
-        .catch(function() {
-          doFallback();
-        });
-    });
+    );
   }
 
   function updateSuggests(intent, lang) {
