@@ -32,6 +32,7 @@ const PRODUCTS = [
     image: '',
     buyLink: '',
     isExternal: false,
+    comingSoon: true,
   },
 
   {
@@ -45,6 +46,7 @@ const PRODUCTS = [
     image: '',
     buyLink: '',
     isExternal: false,
+    comingSoon: true,
   },
 
   {
@@ -58,6 +60,7 @@ const PRODUCTS = [
     image: '',
     buyLink: '',
     isExternal: false,
+    comingSoon: true,
   },
 
   {
@@ -71,6 +74,7 @@ const PRODUCTS = [
     image: '',
     buyLink: '',
     isExternal: false,
+    comingSoon: true,
   },
 
   {
@@ -84,6 +88,7 @@ const PRODUCTS = [
     image: '',
     buyLink: '',
     isExternal: false,
+    comingSoon: true,
   },
 
   {
@@ -97,6 +102,7 @@ const PRODUCTS = [
     image: '',
     buyLink: '',
     isExternal: false,
+    comingSoon: true,
   },
 
   /* ── ADD NEW PRODUCT HERE ────────────────────────────────────────────────
