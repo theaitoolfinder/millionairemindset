@@ -502,15 +502,36 @@
   }
   .ks-filter-btn.active, .ks-filter-btn:hover { border-color:#CC1010; color:#CC1010; background:rgba(204,16,16,.05); }
 
-  /* ─── Posts grid ─── */
-  .ks-board {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    align-items: start;
+  /* ─── Double carousel ─── */
+  .ks-carousel-wrap {
+    position: relative;
+    margin: 0 -4px;
   }
-  @media(max-width:900px){ .ks-board { grid-template-columns: repeat(2, 1fr); } }
-  @media(max-width:640px){ .ks-board { grid-template-columns: 1fr; } }
+  .ks-carousel-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 8px 4px 16px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .ks-carousel-row::-webkit-scrollbar { display: none; }
+  .ks-carousel-row + .ks-carousel-row { margin-top: 4px; }
+
+  /* Arrow buttons */
+  .ks-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 38px; height: 38px; border-radius: 50%;
+    background: #fff; border: 1.5px solid rgba(0,0,0,.1);
+    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+    cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center;
+    transition: all .2s; color: var(--text);
+  }
+  .ks-arrow:hover { background: #CC1010; color: #fff; border-color: #CC1010; }
+  .ks-arrow-left  { left: -18px; }
+  .ks-arrow-right { right: -18px; }
+  @media(max-width:640px){ .ks-arrow { display: none; } }
 
   /* ─── Story card ─── */
   .ks-card {
@@ -523,11 +544,29 @@
     transition: transform .2s, box-shadow .2s;
     position: relative;
     overflow: hidden;
+    /* Fixed card size */
+    flex: 0 0 300px;
+    width: 300px;
+    scroll-snap-align: start;
+    height: 360px; /* fixed height — expand button shows more */
   }
+  @media(max-width:640px){ .ks-card { flex: 0 0 270px; width: 270px; } }
 
   .ks-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,0,0,.1); }
-  /* red accent bar */
   .ks-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#CC1010,#C8900A); }
+
+  /* Expanded card */
+  .ks-card.expanded { height: auto; z-index: 5; }
+
+  /* Read more / collapse */
+  .ks-read-more {
+    margin-top: auto; padding-top: 8px;
+    background: none; border: none; cursor: pointer;
+    font: 600 .72rem 'Poppins', sans-serif;
+    color: #CC1010; text-align: left; display: flex; align-items: center; gap: 4px;
+  }
+  .ks-read-more svg { transition: transform .2s; }
+  .ks-card.expanded .ks-read-more svg { transform: rotate(180deg); }
 
   /* ─── Stamp on card ─── */
   .ks-card-stamp-wrap { display:flex; justify-content:flex-end; margin-bottom:12px; }
@@ -734,11 +773,19 @@
         </div>
       </div>
 
-      <!-- Board -->
-      <div class="ks-board" id="ks-board"></div>
-      <div class="ks-load-more-wrap" id="ks-load-more-wrap" style="display:none;">
-        <button class="ks-load-more" onclick="ksLoadMore()">Load More Stories</button>
+      <!-- Double Carousel -->
+      <div class="ks-carousel-wrap" id="ks-carousel-wrap">
+        <button class="ks-arrow ks-arrow-left"  onclick="ksScrollBoth(-1)" aria-label="Scroll left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="ks-carousel-row" id="ks-row-1"></div>
+        <div class="ks-carousel-row" id="ks-row-2"></div>
+        <button class="ks-arrow ks-arrow-right" onclick="ksScrollBoth(1)"  aria-label="Scroll right">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
       </div>
+      <!-- legacy board kept for filter compat -->
+      <div id="ks-board" style="display:none;"></div>
     </div>
   </section>
 
@@ -890,7 +937,7 @@
     {id:'s45',denom:'₱120',label:'Bangus',cat:'symbols',img:'https://pixabay.com/get/gde58181c213941425f9a900b85f39df78a6cab8325610de8c1674d6ee91ee8f76b322c1c3d9826e0febc73cb146b2d7ad7bf817361a8deff9d59f022913f466a_640.jpg'},
     {id:'s46',denom:'₱125',label:'Coconut Tree',cat:'symbols',img:'https://pixabay.com/get/g18d5dd3fa5bffd970b5bb912adc98ceac174f3b70932f7b0559277ac6ce9e5b988881fe7c791f960a611d3ea44ef66b7958931d4ff89c748b2ed92b15d6b76dc_640.jpg'},
     {id:'s47',denom:'₱130',label:'Jeepney',cat:'culture',img:'https://pixabay.com/get/g51f199a2e6f54faf48dd091a49972b84bf11dae120027b70c7cbc83d136a3ca4fef0e7d1aa4a5804047f920a8e8616038109e68363541e7a62fac9203a5c26cd_640.jpg'},
-    {id:'s48',denom:'₱135',label:'Festival Costume',cat:'culture',img:'https://pixabay.com/get/g667065467aeb76eac6b1023fcfc318db4f57b936dfe797f0640bcce5d90c80760ea68dcebf91b9a2fc1ee75a83c41df7714081fac375e32b63925b212e07559d_640.jpg'},
+    {id:'s48',denom:'₱135',label:'Festival Costume',cat:'culture',img:'https://pixabay.com/get/g0ba39b2c605aa6c4cac3bbfdece9559e888e4f012721118467666841f36d8a485d562d9f178e6664e212069fdf3435d9_640.jpg'},
     {id:'s49',denom:'₱140',label:'Kalesa',cat:'culture',img:'https://pixabay.com/get/g8e41dee6ea45b86557fd978fff83614677779ccf432996c200b47c4505a166a1f433bd723a1d9efaa0e52ec9251590e863e8cd542d4871e8a40ca8026df80265_640.jpg'},
     {id:'s50',denom:'₱150',label:'Palengke',cat:'culture',img:'https://pixabay.com/get/gb1294dbf2232a1f3a0c13b7cd336faba85d65a87b686fe887875afb0ad789389c88bb8d74b72cea6ec0fa9974f50c4da65fbcb5a9cdabefadadb54616e238c1a_640.jpg'},
     {id:'s51',denom:'₱160',label:'Philippine Tarsier',cat:'wildlife',img:'https://pixabay.com/get/gfa8408b86ff7e99aa07e6a8c6571305f47bdf01a84905098e7432e3e6d1543dbd4fed4ce8656e8582d4ca9d2529f9c951dbc376eb0769514215fd3daddf03cec_640.jpg'},
@@ -1002,45 +1049,87 @@
     return allPosts.filter(function(p){ return p.loc === activeFilter; });
   }
 
+  function cardHtml(p) {
+    var s = stampByid(p.stamp);
+    var artHtml = stampArt(s, 64, 52);
+    var locLabel = LOC_MAP[p.loc] || '🌍 Abroad';
+    return '<div class="ks-card" id="card-'+p.id+'">'
+      + '<div class="ks-card-stamp-wrap"><div class="ks-stamp">'+artHtml+'<div class="ks-stamp-foot"><span class="ks-stamp-denom">'+s.denom+'</span><span class="ks-stamp-country">PILIPINAS</span></div></div></div>'
+      + '<div class="ks-card-meta">'
+        + '<div class="ks-card-avatar" style="background:'+avatarColor(p.initials)+'">'+p.initials+'</div>'
+        + '<div class="ks-card-info"><div class="ks-card-author">'+escHtml(p.author)+'</div><div class="ks-card-loc"><span>'+locLabel+'</span></div></div>'
+        + '<div class="ks-card-date">'+p.date+'</div>'
+      + '</div>'
+      + '<div class="ks-card-story" id="story-'+p.id+'">"'+escHtml(p.story)+'"</div>'
+      + '<div class="ks-card-footer">'
+        + '<button class="ks-heart-btn'+(p.liked?' liked':'')+'" onclick="ksLike(\''+p.id+'\')" id="heart-'+p.id+'">'
+        + '<svg width="13" height="13" viewBox="0 0 24 24" fill="'+(p.liked?'#CC1010':'none')+'" stroke="#CC1010" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'
+        + ' <span id="like-count-'+p.id+'">'+p.likes+'</span>'
+        + '</button>'
+        + (p.tag ? '<span class="ks-card-tag">'+escHtml(p.tag)+'</span>' : '')
+      + '</div>'
+      + '<button class="ks-read-more" onclick="ksToggleExpand(\''+p.id+'\')" id="expand-'+p.id+'">'
+        + '<span id="expand-label-'+p.id+'">Read more</span>'
+        + '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>'
+      + '</button>'
+    + '</div>';
+  }
+
   function renderBoard() {
-    var board = document.getElementById('ks-board');
-    var wrap  = document.getElementById('ks-load-more-wrap');
+    var row1 = document.getElementById('ks-row-1');
+    var row2 = document.getElementById('ks-row-2');
     var posts = filteredPosts();
-    var slice = posts.slice(0, visibleCount);
 
     document.getElementById('ks-post-count').textContent = allPosts.length;
     document.getElementById('ks-sub-count').textContent = getSubCount().toLocaleString();
 
-    if (slice.length === 0) {
-      board.innerHTML = '<div class="ks-empty-state" style="grid-column:1/-1"><div class="ks-big-stamp">📮</div><div class="ks-empty-title">No stories from this location yet</div><p>Be the first OFW from this country to share your story!</p></div>';
-      wrap.style.display = 'none';
+    if (posts.length === 0) {
+      row1.innerHTML = '<div class="ks-card" style="align-items:center;justify-content:center;text-align:center;color:#aaa;height:200px;"><div style="font-size:2rem;margin-bottom:8px;">📮</div><div style="font-weight:700;margin-bottom:4px;">No stories yet</div><p style="font-size:.8rem;">Be the first to share from this location!</p></div>';
+      row2.innerHTML = '';
       return;
     }
 
-    board.innerHTML = slice.map(function(p){
-      var s = stampByid(p.stamp);
-      var artHtml = stampArt(s, 64, 52);
-      var locLabel = LOC_MAP[p.loc] || '🌍 Abroad';
-      return '<div class="ks-card" id="card-'+p.id+'">'
-        + '<div class="ks-card-stamp-wrap"><div class="ks-stamp">'+artHtml+'<div class="ks-stamp-foot"><span class="ks-stamp-denom">'+s.denom+'</span><span class="ks-stamp-country">PILIPINAS</span></div></div></div>'
-        + '<div class="ks-card-meta">'
-          + '<div class="ks-card-avatar" style="background:'+avatarColor(p.initials)+'">'+p.initials+'</div>'
-          + '<div class="ks-card-info"><div class="ks-card-author">'+escHtml(p.author)+'</div><div class="ks-card-loc"><span>'+locLabel+'</span></div></div>'
-          + '<div class="ks-card-date">'+p.date+'</div>'
-        + '</div>'
-        + '<div class="ks-card-story">"'+escHtml(p.story)+'"</div>'
-        + '<div class="ks-card-footer">'
-          + '<button class="ks-heart-btn'+(p.liked?' liked':'')+'" onclick="ksLike(\''+p.id+'\')" id="heart-'+p.id+'">'
-          + '<svg width="13" height="13" viewBox="0 0 24 24" fill="'+(p.liked?'#CC1010':'none')+'" stroke="#CC1010" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'
-          + ' <span id="like-count-'+p.id+'">'+p.likes+'</span>'
-          + '</button>'
-          + (p.tag ? '<span class="ks-card-tag">'+escHtml(p.tag)+'</span>' : '')
-        + '</div>'
-      + '</div>';
-    }).join('');
+    // Split posts into two rows
+    var half = Math.ceil(posts.length / 2);
+    var top  = posts.slice(0, half);
+    var bot  = posts.slice(half);
 
-    wrap.style.display = posts.length > visibleCount ? 'block' : 'none';
+    row1.innerHTML = top.map(cardHtml).join('');
+    row2.innerHTML = bot.map(cardHtml).join('');
   }
+
+  window.ksToggleExpand = function(pid) {
+    var card  = document.getElementById('card-' + pid);
+    var label = document.getElementById('expand-label-' + pid);
+    if (!card) return;
+    var expanded = card.classList.toggle('expanded');
+    label.textContent = expanded ? 'Show less' : 'Read more';
+  };
+
+  // Sync-scroll both rows together
+  window.ksScrollBoth = function(dir) {
+    var r1 = document.getElementById('ks-row-1');
+    var r2 = document.getElementById('ks-row-2');
+    var amount = 316 * 2; // ~2 cards
+    [r1, r2].forEach(function(r){ if(r) r.scrollBy({ left: dir * amount, behavior: 'smooth' }); });
+  };
+
+  // Keep rows synced on manual scroll
+  (function syncRows(){
+    var rows = ['ks-row-1','ks-row-2'];
+    var syncing = false;
+    rows.forEach(function(id, i){
+      var el = document.getElementById(id);
+      if (!el) return;
+      el.addEventListener('scroll', function(){
+        if (syncing) return;
+        syncing = true;
+        var other = document.getElementById(rows[1-i]);
+        if (other) other.scrollLeft = el.scrollLeft;
+        requestAnimationFrame(function(){ syncing = false; });
+      });
+    });
+  })();
 
   function avatarColor(letter) {
     var colors = ['linear-gradient(135deg,#CC1010,#A80D0D)','linear-gradient(135deg,#C8900A,#A07208)','linear-gradient(135deg,#059669,#047857)','linear-gradient(135deg,#3b82f6,#2563eb)','linear-gradient(135deg,#7c3aed,#5b21b6)'];
