@@ -192,9 +192,79 @@
     #wb-head, #wb-actions { display:none !important; }
     .waybill { page-break-inside:avoid; }
   }
+  /* ── Admin login gate ── */
+  #adm-gate {
+    position:fixed; inset:0; background:#f2f4f7;
+    display:flex; align-items:center; justify-content:center;
+    z-index:9999;
+  }
+  .adm-gate-card {
+    background:#fff; border-radius:20px;
+    box-shadow:0 8px 40px rgba(0,0,0,.14);
+    padding:40px 36px; width:100%; max-width:380px; text-align:center;
+  }
+  .adm-gate-logo {
+    font-size:1.1rem; font-weight:800; color:#111; margin-bottom:6px;
+  }
+  .adm-gate-logo span { color:#CC1010; }
+  .adm-gate-sub { font-size:.78rem; color:#888; margin-bottom:28px; }
+  .adm-gate-label { display:block; text-align:left; font-size:.72rem; font-weight:600; color:#555; margin-bottom:5px; }
+  .adm-gate-input {
+    width:100%; padding:11px 14px; border:1.5px solid #e5e7eb; border-radius:10px;
+    font:500 .9rem 'Poppins',sans-serif; outline:none; margin-bottom:16px;
+    transition:border-color .2s;
+  }
+  .adm-gate-input:focus { border-color:#CC1010; }
+  .adm-gate-btn {
+    width:100%; padding:12px; background:#CC1010; color:#fff; border:none;
+    border-radius:10px; font:700 .9rem 'Poppins',sans-serif; cursor:pointer;
+    transition:background .2s;
+  }
+  .adm-gate-btn:hover { background:#a80d0d; }
+  .adm-gate-err { color:#CC1010; font-size:.75rem; margin-top:10px; display:none; }
   </style>
 </head>
 <body>
+
+  <!-- Admin login gate -->
+  <div id="adm-gate">
+    <div class="adm-gate-card">
+      <div class="adm-gate-logo">Millionaire<span>Mindset</span></div>
+      <div class="adm-gate-sub">Admin Panel — Authorized Access Only</div>
+      <label class="adm-gate-label" for="adm-user">Username</label>
+      <input class="adm-gate-input" type="text" id="adm-user" placeholder="admin" autocomplete="username" />
+      <label class="adm-gate-label" for="adm-pass">Password</label>
+      <input class="adm-gate-input" type="password" id="adm-pass" placeholder="••••••••" autocomplete="current-password"
+             onkeydown="if(event.key==='Enter')admLogin()" />
+      <button class="adm-gate-btn" onclick="admLogin()">Sign In</button>
+      <div class="adm-gate-err" id="adm-gate-err">Incorrect username or password.</div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var KEY = 'mm_admin_auth';
+    var ADMIN_USER = 'admin';
+    var ADMIN_PASS = 'MM@admin2026';
+    function admLogin() {
+      var u = document.getElementById('adm-user').value.trim();
+      var p = document.getElementById('adm-pass').value;
+      if (u === ADMIN_USER && p === ADMIN_PASS) {
+        sessionStorage.setItem(KEY, '1');
+        document.getElementById('adm-gate').style.display = 'none';
+      } else {
+        var err = document.getElementById('adm-gate-err');
+        err.style.display = 'block';
+        document.getElementById('adm-pass').value = '';
+        document.getElementById('adm-pass').focus();
+      }
+    }
+    window.admLogin = admLogin;
+    // Auto-unlock if already authenticated this session
+    if (sessionStorage.getItem(KEY) === '1') {
+      document.getElementById('adm-gate').style.display = 'none';
+    }
+  })();
+  </script>
 
   <header class="adm-header">
     <div class="adm-header-brand">Millionaire<span>Mindset</span> Admin</div>
@@ -202,8 +272,15 @@
       <button class="adm-nav-btn active" onclick="showTab('orders')">Orders</button>
       <button class="adm-nav-btn" onclick="showTab('inventory')">Inventory</button>
       <a href="index.html" style="text-decoration:none;"><button class="adm-nav-btn">Site</button></a>
+      <button class="adm-nav-btn" onclick="admSignOut()" style="background:rgba(255,255,255,.08);opacity:.8;">Sign Out</button>
     </nav>
   </header>
+  <script>
+  function admSignOut() {
+    sessionStorage.removeItem('mm_admin_auth');
+    location.reload();
+  }
+  </script>
 
   <div class="adm-body">
 
