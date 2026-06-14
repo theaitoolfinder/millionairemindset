@@ -78,57 +78,63 @@
     50%      { transform: scale(1.3); opacity:.7; }
   }
 
-  /* tooltip */
-  /* ── Callout bubble (replaces old tooltip) ── */
+  /* ── Speech bubble (floats left of character) ── */
   #mm-chat-callout {
-    position: absolute; bottom: 86px; right: 0;
-    width: 260px;
+    position: absolute;
+    bottom: 18px;
+    right: 84px;
+    max-width: 230px;
+    min-width: 150px;
     background: #fff;
-    border: 1px solid var(--border-soft);
-    border-radius: 18px 18px 4px 18px;
-    box-shadow: 0 8px 32px rgba(0,0,0,.13);
-    padding: 14px 16px 12px;
+    border-radius: 18px 18px 18px 4px;
+    box-shadow: 0 6px 28px rgba(0,0,0,.14), 0 1px 4px rgba(0,0,0,.08);
+    padding: 12px 14px 10px;
     opacity: 0; pointer-events: none;
-    transform: translateY(10px) scale(.96);
-    transition: opacity .28s, transform .28s cubic-bezier(.34,1.2,.64,1);
+    transform: translateX(10px) scale(.93);
+    transform-origin: bottom right;
+    transition: opacity .3s cubic-bezier(.4,0,.2,1),
+                transform .3s cubic-bezier(.34,1.4,.64,1);
   }
-  #mm-chat-callout.show { opacity:1; pointer-events:auto; transform: translateY(0) scale(1); }
+  #mm-chat-callout.show {
+    opacity: 1; pointer-events: auto;
+    transform: translateX(0) scale(1);
+  }
+  /* tail pointing right toward the character */
   #mm-chat-callout::after {
-    content:''; position:absolute; bottom:-9px; right:20px;
-    border-width:9px 9px 0; border-style:solid;
-    border-color:#fff transparent transparent;
-    filter: drop-shadow(0 2px 2px rgba(0,0,0,.08));
+    content: ''; position: absolute;
+    bottom: 14px; right: -8px;
+    border-width: 8px 0 8px 9px;
+    border-style: solid;
+    border-color: transparent transparent transparent #fff;
+    filter: drop-shadow(2px 0 2px rgba(0,0,0,.06));
   }
-  .mm-callout-av {
-    display:flex; align-items:center; gap:8px; margin-bottom:8px;
-  }
-  .mm-callout-av-dot {
-    width:32px; height:32px; border-radius:50%;
-    background: linear-gradient(135deg,var(--primary),var(--primary-2));
-    display:flex; align-items:center; justify-content:center;
-    color:#fff; font-weight:700; font-size:13px; flex-shrink:0;
-  }
-  .mm-callout-name { font-weight:700; font-size:.82rem; color:var(--text); }
-  .mm-callout-sub  { font-size:.72rem; color:var(--text-dim); }
-  .mm-callout-msgs { display:flex; flex-direction:column; gap:6px; }
-  .mm-callout-msg {
-    font-size:.81rem; line-height:1.45; color:var(--text);
-    background: var(--bg); border-radius:10px; padding:8px 10px;
-    opacity:0; transform:translateY(6px);
-    transition: opacity .3s, transform .3s;
-  }
-  .mm-callout-msg.visible { opacity:1; transform:translateY(0); }
-  .mm-callout-cta {
-    margin-top:10px; width:100%; padding:8px;
-    background: var(--primary); color:#fff;
-    border:none; border-radius:10px; font-size:.8rem; font-weight:700;
-    cursor:pointer; transition: background .2s;
-  }
-  .mm-callout-cta:hover { background: var(--primary-2); }
   #mm-callout-close {
-    position:absolute; top:8px; right:10px;
-    background:none; border:none; cursor:pointer;
-    color:var(--text-dim); font-size:15px; line-height:1; padding:2px 6px;
+    position: absolute; top: 6px; right: 8px;
+    background: none; border: none; cursor: pointer;
+    color: rgba(0,0,0,.3); font-size: 14px; line-height: 1;
+    padding: 2px 5px; border-radius: 50%;
+    transition: color .15s, background .15s;
+  }
+  #mm-callout-close:hover { color: rgba(0,0,0,.7); background: rgba(0,0,0,.06); }
+  /* char name chip above bubble */
+  #mm-callout-char-name {
+    font-size: .68rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .07em; color: #CC1010; margin-bottom: 5px;
+    display: block;
+  }
+  .mm-callout-msgs { display: flex; flex-direction: column; gap: 4px; }
+  .mm-callout-msg {
+    font-size: .82rem; line-height: 1.5; color: #1a0505;
+    opacity: 0; transform: translateY(5px);
+    transition: opacity .35s, transform .35s;
+  }
+  .mm-callout-msg.visible { opacity: 1; transform: translateY(0); }
+  /* pulse dot beside name */
+  #mm-callout-pulse {
+    display: inline-block; width: 7px; height: 7px;
+    border-radius: 50%; background: #22c55e;
+    margin-right: 5px; vertical-align: middle;
+    animation: mm-pulse 1.6s infinite;
   }
 
   /* ── Panel ── */
@@ -518,15 +524,8 @@
 
     <div id="mm-chat-callout">
       <button id="mm-callout-close" onclick="mmCloseCallout()" aria-label="Close">✕</button>
-      <div class="mm-callout-av">
-        <div class="mm-callout-av-dot" id="mm-callout-av-dot">H</div>
-        <div>
-          <div class="mm-callout-name" id="mm-callout-char-name">Hira</div>
-          <div class="mm-callout-sub">OFW Financial Guide</div>
-        </div>
-      </div>
+      <span id="mm-callout-pulse"></span><span id="mm-callout-char-name">Hira</span>
       <div class="mm-callout-msgs" id="mm-callout-msgs"></div>
-      <button class="mm-callout-cta" onclick="mmToggleChat()">Open Chat →</button>
     </div>
   `;
   document.body.appendChild(widget);
@@ -1357,53 +1356,50 @@
   };
 
   (function autoCallout(){
-    var SESSION_KEY = 'mm_chat_started';
-    var alreadyStarted = false;
-    try { alreadyStarted = !!sessionStorage.getItem(SESSION_KEY); } catch(e){}
-    if (alreadyStarted) return;
-
-    var OPENERS = [
-      ['Hey! Ako si Hira — your OFW money buddy. 👋', 'Kausap mo ako anytime — pera, investments, or kahit life abroad!'],
-      ['Hi! Welcome to MillionaireMindset. 😊', 'Need help with budgeting, remittance, or gusto mong mag-invest? Just type!'],
-      ['Hey! I\'m Hira — your finance-savvy OFW friend. 🤝', 'What\'s your biggest money challenge right now? I\'m listening.'],
+    /* Small talk messages that rotate on each page load */
+    var SMALL_TALK = [
+      'Hey! Kumusta ka ngayon? 👋',
+      'May tanong ka sa finances? I\'m here! 💡',
+      'OFW ka ba? Let\'s talk money! 💰',
+      'Need a financial buddy? That\'s me! 😊',
+      'Gusto mo bang mag-invest? I can help! 📈',
+      'How\'s your savings goal going? 🎯',
+      'Miss na miss ko kang kausapin! 🤝',
+      'Pera talk? Let\'s go! I\'m ready. 🚀',
+      'Anong plano mo para sa sweldo mo? 💼',
+      'I\'m here whenever you need financial advice! ✨',
     ];
 
-    var set = OPENERS[Math.floor(Math.random() * OPENERS.length)];
+    var msg = SMALL_TALK[Math.floor(Math.random() * SMALL_TALK.length)];
 
     setTimeout(function(){
-      var callout  = document.getElementById('mm-chat-callout');
-      var msgWrap  = document.getElementById('mm-callout-msgs');
-      var nameEl   = document.getElementById('mm-callout-char-name');
-      var avDot    = document.getElementById('mm-callout-av-dot');
-      if (!callout || !msgWrap) return;
+      var callout = document.getElementById('mm-chat-callout');
+      var msgWrap = document.getElementById('mm-callout-msgs');
+      var nameEl  = document.getElementById('mm-callout-char-name');
+      if (!callout || !msgWrap || isOpen) return;
 
       var name = currentChar === 'hira' ? 'Hira' : 'Aya';
       if (nameEl) nameEl.textContent = name;
-      if (avDot)  avDot.textContent  = name[0];
+
+      /* Clear previous messages */
+      msgWrap.innerHTML = '';
+
+      var m = document.createElement('div');
+      m.className = 'mm-callout-msg';
+      m.textContent = msg;
+      msgWrap.appendChild(m);
 
       callout.classList.add('show');
-      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch(e){}
 
-      /* Show messages one by one with a delay */
-      function showMsg(idx) {
-        if (idx >= set.length) return;
-        var m = document.createElement('div');
-        m.className = 'mm-callout-msg';
-        m.textContent = set[idx];
-        msgWrap.appendChild(m);
-        /* Trigger CSS transition */
-        requestAnimationFrame(function(){
-          requestAnimationFrame(function(){ m.classList.add('visible'); });
-        });
-        setTimeout(function(){ showMsg(idx + 1); }, 1400);
-      }
-      showMsg(0);
+      requestAnimationFrame(function(){
+        requestAnimationFrame(function(){ m.classList.add('visible'); });
+      });
 
-      /* Auto-hide after 18s if user doesn't interact */
+      /* Auto-hide after 7s if user hasn't opened chat */
       setTimeout(function(){
         if (callout && !isOpen) callout.classList.remove('show');
-      }, 18000);
-    }, 2000);
+      }, 7000);
+    }, 2500);
   })();
 
 })();
