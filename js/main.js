@@ -126,7 +126,7 @@ window.addEventListener('scroll', () => {
     root.style.setProperty('--glow-xl',   'hsla('+h+','+s+'%,43%,.48)');
     root.style.setProperty('--tint-bg',   'hsla('+h+','+Math.max(s-10,8)+'%,95%,.65)');
 
-    var dotColor = 'hsl('+h+',72%,43%)';
+    var dotColor = 'hsl('+h+','+s+'%,43%)';
     syncNavDot(dotColor);
     _activeIdx = (swatchIdx !== undefined) ? swatchIdx : -2; /* -2 = wheel custom */
     syncSwatchActive();
