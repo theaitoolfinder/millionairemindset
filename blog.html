@@ -465,213 +465,738 @@
 
   <hr class="blog-divider">
 
-  <!-- ══ PHILIPPINES GALLERY ══ -->
-  <section class="blog-section">
+  <!-- ══ HI, KUMUSTA SELF? COMMUNITY BOARD ══ -->
+  <style>
+  /* ─── Page bg variable for stamp perforations ─── */
+  :root { --ks-page-bg: #f5f1eb; }
+
+  /* ─── Section shell ─── */
+  #ks-section { background: linear-gradient(180deg, #fdf8f2 0%, #f5f1eb 100%); }
+  .ks-section-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:28px; }
+  .ks-eyebrow { font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:.12em; color:#CC1010; margin-bottom:6px; }
+  .ks-title { font-size:2rem; font-weight:900; line-height:1.1; color:var(--text); letter-spacing:-.02em; }
+  .ks-subtitle { font-size:.88rem; color:var(--text-dim); margin-top:6px; max-width:480px; }
+  .ks-stats { display:flex; gap:20px; }
+  .ks-stat { text-align:right; }
+  .ks-stat-n { font-size:1.4rem; font-weight:900; color:#CC1010; line-height:1; }
+  .ks-stat-l { font-size:.68rem; color:var(--text-dim); font-weight:600; text-transform:uppercase; letter-spacing:.06em; }
+
+  /* ─── Action bar ─── */
+  .ks-action-bar { display:flex; align-items:center; gap:12px; margin-bottom:28px; flex-wrap:wrap; }
+  .ks-post-btn {
+    display:inline-flex; align-items:center; gap:8px;
+    background:linear-gradient(135deg,#CC1010,#A80D0D);
+    color:#fff; border:none; border-radius:999px;
+    padding:11px 24px; font:700 .88rem "Poppins",sans-serif;
+    cursor:pointer; transition:transform .2s, box-shadow .2s;
+    box-shadow:0 4px 14px rgba(204,16,16,.35);
+  }
+  .ks-post-btn:hover { transform:translateY(-2px); box-shadow:0 6px 20px rgba(204,16,16,.4); }
+  .ks-sub-hint { font-size:.75rem; color:var(--text-dim); }
+  .ks-sub-hint a { color:#CC1010; text-decoration:none; font-weight:600; }
+  .ks-filter-row { display:flex; gap:8px; flex-wrap:wrap; }
+  .ks-filter-btn {
+    padding:5px 14px; border-radius:999px; font:600 .74rem "Poppins",sans-serif;
+    border:1.5px solid rgba(0,0,0,.14); background:transparent;
+    color:var(--text-dim); cursor:pointer; transition:.18s;
+  }
+  .ks-filter-btn.active, .ks-filter-btn:hover { border-color:#CC1010; color:#CC1010; background:rgba(204,16,16,.05); }
+
+  /* ─── Posts grid ─── */
+  .ks-board { columns:3 280px; column-gap:20px; }
+  @media(max-width:640px){ .ks-board { columns:1; } }
+  @media(max-width:900px){ .ks-board { columns:2 260px; } }
+
+  /* ─── Story card ─── */
+  .ks-card {
+    break-inside: avoid;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.07), 0 1px 4px rgba(0,0,0,.04);
+    padding: 18px;
+    margin-bottom: 20px;
+    transition: transform .2s, box-shadow .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .ks-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,0,0,.1); }
+  /* red accent bar */
+  .ks-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#CC1010,#C8900A); }
+
+  /* ─── Stamp on card ─── */
+  .ks-card-stamp-wrap { display:flex; justify-content:flex-end; margin-bottom:12px; }
+  .ks-stamp {
+    position: relative;
+    background: white;
+    padding: 5px 5px 18px;
+    width: 74px;
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,.22)) drop-shadow(0 1px 2px rgba(0,0,0,.12));
+    cursor: default;
+    flex-shrink: 0;
+    transform: rotate(2deg);
+  }
+  .ks-stamp::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle 4px at 4px 50%, var(--ks-page-bg) 99%, transparent) -4px 0 / 8px 8px repeat-y,
+      radial-gradient(circle 4px at calc(100% - 4px) 50%, var(--ks-page-bg) 99%, transparent) calc(100% + 4px) 0 / 8px 8px repeat-y,
+      radial-gradient(circle 4px at 50% 4px, var(--ks-page-bg) 99%, transparent) 0 -4px / 8px 8px repeat-x,
+      radial-gradient(circle 4px at 50% calc(100% - 4px), var(--ks-page-bg) 99%, transparent) 0 calc(100% + 4px) / 8px 8px repeat-x;
+  }
+  .ks-stamp-img { width:64px; height:52px; object-fit:cover; display:block; }
+  .ks-stamp-foot {
+    position:absolute; bottom:2px; left:0; right:0;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:0 5px;
+  }
+  .ks-stamp-denom { font-size:.48rem; font-weight:800; color:#1a1010; line-height:1; }
+  .ks-stamp-country { font-size:.42rem; font-weight:700; letter-spacing:.04em; color:#1a1010; text-transform:uppercase; }
+
+  /* ─── Card body ─── */
+  .ks-card-meta { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  .ks-card-avatar {
+    width:34px; height:34px; border-radius:50%; flex-shrink:0;
+    background:linear-gradient(135deg,#CC1010,#C8900A);
+    color:#fff; font-weight:800; font-size:.85rem;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .ks-card-info { flex:1; min-width:0; }
+  .ks-card-author { font-weight:700; font-size:.82rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .ks-card-loc { font-size:.72rem; color:var(--text-dim); display:flex; align-items:center; gap:4px; }
+  .ks-card-date { font-size:.68rem; color:var(--text-dim); flex-shrink:0; }
+  .ks-card-story { font-size:.85rem; line-height:1.65; color:var(--text); margin-bottom:14px; }
+  .ks-card-footer { display:flex; align-items:center; gap:12px; }
+  .ks-heart-btn {
+    display:flex; align-items:center; gap:5px;
+    background:none; border:1.5px solid rgba(0,0,0,.1);
+    border-radius:999px; padding:4px 12px;
+    font:600 .74rem "Poppins",sans-serif; color:var(--text-dim);
+    cursor:pointer; transition:.18s;
+  }
+  .ks-heart-btn:hover, .ks-heart-btn.liked { border-color:#CC1010; color:#CC1010; background:rgba(204,16,16,.05); }
+  .ks-heart-btn.liked svg { fill:#CC1010; }
+  .ks-card-tag {
+    font-size:.68rem; font-weight:700; letter-spacing:.04em;
+    background:rgba(200,144,10,.1); color:#A07208;
+    border-radius:999px; padding:3px 10px; text-transform:uppercase;
+  }
+
+  /* ─── Stamp picker (inside post modal) ─── */
+  .ks-stamp-grid {
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(70px,1fr)); gap:10px;
+    max-height:300px; overflow-y:auto; padding:4px;
+  }
+  .ks-stamp-grid::-webkit-scrollbar { width:4px; }
+  .ks-stamp-grid::-webkit-scrollbar-thumb { background:rgba(204,16,16,.2); border-radius:4px; }
+  .ks-stamp-pick {
+    position: relative;
+    background: white;
+    padding: 4px 4px 16px;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,.2));
+    cursor: pointer;
+    transition: transform .18s;
+    border: 2.5px solid transparent;
+  }
+  .ks-stamp-pick::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle 3.5px at 3.5px 50%, #f0ebe3 99%, transparent) -3.5px 0 / 7px 7px repeat-y,
+      radial-gradient(circle 3.5px at calc(100% - 3.5px) 50%, #f0ebe3 99%, transparent) calc(100% + 3.5px) 0 / 7px 7px repeat-y,
+      radial-gradient(circle 3.5px at 50% 3.5px, #f0ebe3 99%, transparent) 0 -3.5px / 7px 7px repeat-x,
+      radial-gradient(circle 3.5px at 50% calc(100% - 3.5px), #f0ebe3 99%, transparent) 0 calc(100% + 3.5px) / 7px 7px repeat-x;
+  }
+  .ks-stamp-pick:hover { transform:scale(1.08) rotate(-1deg); }
+  .ks-stamp-pick.selected { border-color:#CC1010; }
+  .ks-stamp-pick.selected::after { content:'✓'; position:absolute; top:2px; right:4px; color:#CC1010; font-weight:900; font-size:.7rem; }
+  .ks-stamp-pick img { width:62px; height:50px; object-fit:cover; display:block; }
+  .ks-stamp-pick-foot { position:absolute; bottom:1px; left:0; right:0; display:flex; justify-content:space-between; padding:0 4px; }
+  .ks-stamp-pick-foot span { font-size:.42rem; font-weight:800; color:#1a0505; }
+
+  /* ─── Modals ─── */
+  .ks-modal-overlay {
+    position:fixed; inset:0; z-index:10000;
+    background:rgba(0,0,0,.55); backdrop-filter:blur(4px);
+    display:flex; align-items:center; justify-content:center; padding:20px;
+    opacity:0; pointer-events:none; transition:opacity .25s;
+  }
+  .ks-modal-overlay.open { opacity:1; pointer-events:auto; }
+  .ks-modal {
+    background:#fff; border-radius:24px;
+    box-shadow:0 24px 64px rgba(0,0,0,.22);
+    width:100%; max-width:480px;
+    max-height:90vh; overflow-y:auto;
+    transform:translateY(24px) scale(.97);
+    transition:transform .28s cubic-bezier(.34,1.4,.64,1);
+    padding:28px;
+  }
+  .ks-modal-overlay.open .ks-modal { transform:translateY(0) scale(1); }
+  .ks-modal-wide { max-width:600px; }
+  .ks-modal-head { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:20px; }
+  .ks-modal-title { font-size:1.2rem; font-weight:900; color:var(--text); }
+  .ks-modal-sub { font-size:.8rem; color:var(--text-dim); margin-top:4px; }
+  .ks-modal-close { background:rgba(0,0,0,.06); border:none; border-radius:50%; width:32px; height:32px; cursor:pointer; font-size:1rem; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:.18s; }
+  .ks-modal-close:hover { background:rgba(0,0,0,.12); }
+  .ks-form-label { font-size:.8rem; font-weight:700; color:var(--text); margin-bottom:6px; display:block; }
+  .ks-form-group { margin-bottom:16px; }
+  .ks-input, .ks-textarea, .ks-select {
+    width:100%; padding:10px 14px;
+    border:1.5px solid rgba(0,0,0,.14); border-radius:12px;
+    font:14px "Poppins",sans-serif; color:var(--text);
+    background:#fafafa; outline:none; transition:.2s;
+    box-sizing:border-box;
+  }
+  .ks-input:focus, .ks-textarea:focus, .ks-select:focus { border-color:#CC1010; background:#fff; }
+  .ks-textarea { resize:vertical; min-height:100px; }
+  .ks-toggle-row { display:flex; align-items:center; gap:12px; }
+  .ks-toggle { position:relative; width:42px; height:24px; flex-shrink:0; }
+  .ks-toggle input { opacity:0; width:0; height:0; position:absolute; }
+  .ks-toggle-track {
+    position:absolute; inset:0; background:#ddd; border-radius:12px; cursor:pointer; transition:.2s;
+  }
+  .ks-toggle-track::after { content:''; position:absolute; left:3px; top:3px; width:18px; height:18px; border-radius:50%; background:#fff; transition:.2s; box-shadow:0 1px 4px rgba(0,0,0,.2); }
+  .ks-toggle input:checked + .ks-toggle-track { background:#CC1010; }
+  .ks-toggle input:checked + .ks-toggle-track::after { left:calc(100% - 21px); }
+  .ks-toggle-label { font-size:.82rem; color:var(--text); }
+  .ks-submit-btn {
+    width:100%; padding:13px; border:none; border-radius:14px;
+    background:linear-gradient(135deg,#CC1010,#A80D0D);
+    color:#fff; font:700 .95rem "Poppins",sans-serif;
+    cursor:pointer; transition:.2s; margin-top:8px;
+    box-shadow:0 4px 14px rgba(204,16,16,.3);
+  }
+  .ks-submit-btn:hover { box-shadow:0 6px 20px rgba(204,16,16,.4); transform:translateY(-1px); }
+  .ks-submit-btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+  .ks-divider-text { text-align:center; font-size:.75rem; color:var(--text-dim); margin:16px 0; position:relative; }
+  .ks-divider-text::before, .ks-divider-text::after { content:''; position:absolute; top:50%; width:38%; height:1px; background:rgba(0,0,0,.1); }
+  .ks-divider-text::before { left:0; }
+  .ks-divider-text::after { right:0; }
+  .ks-stamp-section-label { font-size:.8rem; font-weight:700; color:var(--text); margin-bottom:10px; }
+  .ks-stamp-cat-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px; }
+  .ks-cat-tab { padding:4px 12px; border-radius:999px; font:600 .7rem "Poppins",sans-serif; border:1.5px solid rgba(0,0,0,.12); background:transparent; color:var(--text-dim); cursor:pointer; transition:.15s; }
+  .ks-cat-tab.active { background:#CC1010; color:#fff; border-color:#CC1010; }
+  .ks-empty-state { text-align:center; padding:48px 24px; color:var(--text-dim); }
+  .ks-empty-state .ks-big-stamp { font-size:4rem; margin-bottom:12px; }
+  .ks-empty-title { font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:8px; }
+  .ks-load-more-wrap { text-align:center; margin-top:8px; }
+  .ks-load-more { background:none; border:1.5px solid rgba(0,0,0,.14); border-radius:999px; padding:9px 24px; font:600 .8rem "Poppins",sans-serif; color:var(--text-dim); cursor:pointer; transition:.18s; }
+  .ks-load-more:hover { border-color:#CC1010; color:#CC1010; }
+  </style>
+
+  <section class="blog-section" id="ks-section">
     <div class="blog-container">
-      <div class="blog-section-head">
+
+      <!-- Header -->
+      <div class="ks-section-head">
         <div>
-          <span class="blog-section-eyebrow">Our Home</span>
-          <h2 class="blog-section-title">Ang Ating Magandang Pilipinas</h2>
+          <div class="ks-eyebrow">📮 Community Board</div>
+          <h2 class="ks-title">Hi, Kumusta Self?</h2>
+          <p class="ks-subtitle">A safe space for OFWs to share their real stories — seal it with a Philippine postage stamp and send it to the world.</p>
         </div>
-        <p class="blog-section-link" style="color:var(--text-dim);font-size:.78rem;font-weight:500;">Tap any photo to view full size &amp; share</p>
-      </div>
-
-      <!-- PALAWAN -->
-      <div class="ph-place">
-        <div class="ph-place-name">🏝️ Palawan <span>El Nido · Coron · Puerto Princesa</span></div>
-        <div class="ph-grid">
-          <div class="ph-photo ph-main" onclick="mmGallery('Palawan','El Nido — Crystal-clear lagoons and towering limestone cliffs',0)">
-            <img src="https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?w=900&q=90&auto=format&fit=crop" alt="El Nido Palawan" loading="lazy">
-            <div class="ph-expand">⤢</div>
+        <div class="ks-stats">
+          <div class="ks-stat">
+            <div class="ks-stat-n" id="ks-post-count">—</div>
+            <div class="ks-stat-l">Stories Shared</div>
           </div>
-          <div class="ph-photo" onclick="mmGallery('Palawan','Coron — Kayangan Lake, isa sa pinakamalinis na lawa sa Pilipinas',1)">
-            <img src="https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=600&q=85&auto=format&fit=crop" alt="Coron Palawan" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Palawan','Palawan — Talampas at tubig na walang kapantay',2)">
-            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=85&auto=format&fit=crop" alt="Palawan beach" loading="lazy">
-            <div class="ph-expand">⤢</div>
+          <div class="ks-stat">
+            <div class="ks-stat-n" id="ks-sub-count">—</div>
+            <div class="ks-stat-l">Subscribers</div>
           </div>
         </div>
       </div>
 
-      <!-- SIARGAO -->
-      <div class="ph-place">
-        <div class="ph-place-name">🏄 Siargao <span>Cloud 9 · Sugba Lagoon · General Luna</span></div>
-        <div class="ph-grid">
-          <div class="ph-photo ph-main" onclick="mmGallery('Siargao','Cloud 9 — World-famous surfing break ng Pilipinas',0)">
-            <img src="https://images.unsplash.com/photo-1605106702842-01a887a31122?w=900&q=90&auto=format&fit=crop" alt="Siargao surfing" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Siargao','Siargao — Coconut Road, iconic palm-lined road ng isla',1)">
-            <img src="https://images.unsplash.com/photo-1597149305953-b69c47f9c7e9?w=600&q=85&auto=format&fit=crop" alt="Siargao coconut road" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Siargao','Sugba Lagoon — Hidden paradise sa Siargao',2)">
-            <img src="https://images.unsplash.com/photo-1614531341773-3bff53b4a443?w=600&q=85&auto=format&fit=crop" alt="Siargao lagoon" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
+      <!-- Action bar -->
+      <div class="ks-action-bar">
+        <button class="ks-post-btn" onclick="ksClickPost()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Share Your Story
+        </button>
+        <span class="ks-sub-hint">Subscribe first to post · <a href="#" onclick="ksShowSubscribe(event)">Join free →</a></span>
+        <div class="ks-filter-row" style="margin-left:auto;">
+          <button class="ks-filter-btn active" onclick="ksFilter('all',this)">All</button>
+          <button class="ks-filter-btn" onclick="ksFilter('uae',this)">🇦🇪 UAE</button>
+          <button class="ks-filter-btn" onclick="ksFilter('hk',this)">🇭🇰 HK</button>
+          <button class="ks-filter-btn" onclick="ksFilter('sg',this)">🇸🇬 SG</button>
+          <button class="ks-filter-btn" onclick="ksFilter('uk',this)">🇬🇧 UK</button>
+          <button class="ks-filter-btn" onclick="ksFilter('other',this)">🌍 Other</button>
         </div>
       </div>
 
-      <!-- BORACAY -->
-      <div class="ph-place">
-        <div class="ph-place-name">🌅 Boracay <span>White Beach · Station 1–3 · Diniwid</span></div>
-        <div class="ph-grid">
-          <div class="ph-photo ph-main" onclick="mmGallery('Boracay','White Beach — Ang pinakasikat na dalampasigan ng Pilipinas',0)">
-            <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?w=900&q=90&auto=format&fit=crop" alt="Boracay White Beach" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Boracay','Boracay sunset — Wala nang mas magandang paalam sa araw',1)">
-            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=85&auto=format&fit=crop" alt="Boracay sunset" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Boracay','Boracay — Asul na tubig at puting buhangin',2)">
-            <img src="https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=85&auto=format&fit=crop" alt="Boracay sea" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-        </div>
+      <!-- Board -->
+      <div class="ks-board" id="ks-board"></div>
+      <div class="ks-load-more-wrap" id="ks-load-more-wrap" style="display:none;">
+        <button class="ks-load-more" onclick="ksLoadMore()">Load More Stories</button>
       </div>
-
-      <!-- BANAUE -->
-      <div class="ph-place">
-        <div class="ph-place-name">🌾 Banaue <span>Rice Terraces · Batad · Hapao</span></div>
-        <div class="ph-grid">
-          <div class="ph-photo ph-main" onclick="mmGallery('Banaue','Banaue Rice Terraces — Ika-walong kababalaghan ng mundo, gawa ng mga kamay',0)">
-            <img src="https://images.unsplash.com/photo-1591871937573-74dbba515c4c?w=900&q=90&auto=format&fit=crop" alt="Banaue Rice Terraces" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Banaue','Batad — Isang amphitheater ng mga palayan na libu-libong taon na',1)">
-            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=85&auto=format&fit=crop" alt="Batad terraces" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Banaue','Ifugao heritage — Kultura at tradisyon ng mga ninuno',2)">
-            <img src="https://images.unsplash.com/photo-1569288068-6de98e73f66c?w=600&q=85&auto=format&fit=crop" alt="Ifugao Banaue" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- BOHOL -->
-      <div class="ph-place">
-        <div class="ph-place-name">🍫 Bohol <span>Chocolate Hills · Panglao · Tarsier</span></div>
-        <div class="ph-grid">
-          <div class="ph-photo ph-main" onclick="mmGallery('Bohol','Chocolate Hills — Over 1,200 cone-shaped hills, natural wonder ng Pilipinas',0)">
-            <img src="https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=900&q=90&auto=format&fit=crop" alt="Chocolate Hills Bohol" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Bohol','Panglao Island — Crystal clear waters at white sand beaches',1)">
-            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=85&auto=format&fit=crop" alt="Panglao Bohol" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Bohol','Loboc River — Cruise sa ilog habang kumakain ng lutong Pilipino',2)">
-            <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=85&auto=format&fit=crop" alt="Bohol nature" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CEBU -->
-      <div class="ph-place">
-        <div class="ph-place-name">🐋 Cebu <span>Kawasan Falls · Whale Shark · Oslob</span></div>
-        <div class="ph-grid">
-          <div class="ph-photo ph-main" onclick="mmGallery('Cebu','Kawasan Falls — Makulay na asul na tubig sa puso ng Cebu',0)">
-            <img src="https://images.unsplash.com/photo-1618442342786-f41a8ef48d51?w=900&q=90&auto=format&fit=crop" alt="Kawasan Falls Cebu" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Cebu','Oslob — Whale shark watching, karanasang hindi malilimutan',1)">
-            <img src="https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=600&q=85&auto=format&fit=crop" alt="Cebu ocean" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Cebu','Malapascua Island — Paradise ng mga diver sa Cebu',2)">
-            <img src="https://images.unsplash.com/photo-1528702748617-c64d49f918af?w=600&q=85&auto=format&fit=crop" alt="Cebu island" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- BATANES -->
-      <div class="ph-place">
-        <div class="ph-place-name">🌬️ Batanes <span>Batan · Sabtang · Itbayat</span></div>
-        <div class="ph-grid">
-          <div class="ph-photo ph-main" onclick="mmGallery('Batanes','Vayang Rolling Hills — Berde at malawak na kabundukan sa Batanes',0)">
-            <img src="https://images.unsplash.com/photo-1617183016897-35e50c12a4fc?w=900&q=90&auto=format&fit=crop" alt="Batanes rolling hills" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Batanes','Sabtang Island — Nayon na parang lumabas sa isang pelikula',1)">
-            <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&q=85&auto=format&fit=crop" alt="Batanes coast" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-          <div class="ph-photo" onclick="mmGallery('Batanes','Basco Lighthouse — Nagbabantay sa pinakadulong isla ng Pilipinas',2)">
-            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=85&auto=format&fit=crop" alt="Batanes lighthouse area" loading="lazy">
-            <div class="ph-expand">⤢</div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 
-  <!-- ══ LIGHTBOX ══ -->
-  <div id="mmLightbox" class="mm-lightbox" onclick="mmLbClose(event)">
-    <button class="mm-lb-close" onclick="mmLbClose()">✕</button>
-    <button class="mm-lb-share" onclick="mmLbShare()">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-      Share
-    </button>
-    <div class="mm-lb-inner">
-      <img id="mmLbImg" src="" alt="">
-      <div class="mm-lb-caption" id="mmLbCaption"></div>
+  <!-- ── Subscribe Modal ── -->
+  <div class="ks-modal-overlay" id="ks-sub-modal">
+    <div class="ks-modal">
+      <div class="ks-modal-head">
+        <div>
+          <div class="ks-modal-title">📮 Join the Community</div>
+          <div class="ks-modal-sub">Subscribe free to share your story and read others.</div>
+        </div>
+        <button class="ks-modal-close" onclick="ksCloseModal('ks-sub-modal')">✕</button>
+      </div>
+      <div class="ks-form-group">
+        <label class="ks-form-label">Your Name (or Nickname)</label>
+        <input class="ks-input" id="ks-sub-name" type="text" placeholder="e.g. Maria, Kuya Jun, OFW Mom" />
+      </div>
+      <div class="ks-form-group">
+        <label class="ks-form-label">Email Address</label>
+        <input class="ks-input" id="ks-sub-email" type="email" placeholder="yourname@email.com" />
+      </div>
+      <button class="ks-submit-btn" onclick="ksDoSubscribe()">Subscribe & Start Posting →</button>
+      <p style="text-align:center;font-size:.72rem;color:var(--text-dim);margin-top:12px;">No spam ever. Unsubscribe anytime.</p>
     </div>
   </div>
+
+  <!-- ── Post Modal ── -->
+  <div class="ks-modal-overlay" id="ks-post-modal">
+    <div class="ks-modal ks-modal-wide">
+      <div class="ks-modal-head">
+        <div>
+          <div class="ks-modal-title">✍️ Share Your Story</div>
+          <div class="ks-modal-sub">Seal it with a Philippine postage stamp.</div>
+        </div>
+        <button class="ks-modal-close" onclick="ksCloseModal('ks-post-modal')">✕</button>
+      </div>
+
+      <div class="ks-form-group">
+        <label class="ks-form-label">Your Story <span style="font-weight:400;color:var(--text-dim)">(min. 20 characters)</span></label>
+        <textarea class="ks-textarea" id="ks-story-text" placeholder="Kumusta self? Matagal na tayong hindi nag-uusap... Share mo dito kung paano ka — struggles, wins, life abroad, dreams for home."></textarea>
+      </div>
+
+      <div class="ks-form-group">
+        <div class="ks-toggle-row">
+          <label class="ks-toggle">
+            <input type="checkbox" id="ks-anon-toggle" onchange="ksToggleAnon(this)">
+            <span class="ks-toggle-track"></span>
+          </label>
+          <span class="ks-toggle-label">Post anonymously (use an alias)</span>
+        </div>
+        <div id="ks-alias-wrap" style="display:none;margin-top:10px;">
+          <input class="ks-input" id="ks-alias-input" type="text" placeholder="e.g. OFW from Cebu, Nanay sa Dubai, Anonymous" />
+        </div>
+      </div>
+
+      <div class="ks-form-group">
+        <label class="ks-form-label">Where are you right now?</label>
+        <select class="ks-select" id="ks-location">
+          <option value="uae">🇦🇪 UAE / Dubai / Abu Dhabi</option>
+          <option value="hk">🇭🇰 Hong Kong</option>
+          <option value="sg">🇸🇬 Singapore</option>
+          <option value="uk">🇬🇧 United Kingdom</option>
+          <option value="us">🇺🇸 United States</option>
+          <option value="sa">🇸🇦 Saudi Arabia</option>
+          <option value="kw">🇰🇼 Kuwait</option>
+          <option value="qa">🇶🇦 Qatar</option>
+          <option value="jp">🇯🇵 Japan</option>
+          <option value="kr">🇰🇷 South Korea</option>
+          <option value="au">🇦🇺 Australia</option>
+          <option value="ca">🇨🇦 Canada</option>
+          <option value="it">🇮🇹 Italy</option>
+          <option value="de">🇩🇪 Germany</option>
+          <option value="other">🌍 Other Country</option>
+        </select>
+      </div>
+
+      <div class="ks-form-group">
+        <div class="ks-stamp-section-label">📮 Choose Your Philippine Postage Stamp</div>
+        <div class="ks-stamp-cat-tabs">
+          <button class="ks-cat-tab active" onclick="ksFilterStamps('all',this)">All</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('nature',this)">Nature</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('marine',this)">Marine</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('heritage',this)">Heritage</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('festival',this)">Festival</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('culture',this)">Culture</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('wildlife',this)">Wildlife</button>
+        </div>
+        <div class="ks-stamp-grid" id="ks-stamp-picker"></div>
+        <p id="ks-stamp-hint" style="font-size:.72rem;color:#CC1010;margin-top:6px;display:none;">Please choose a stamp to continue.</p>
+      </div>
+
+      <button class="ks-submit-btn" id="ks-submit-btn" onclick="ksSubmitPost()">Post to Community Board 📮</button>
+    </div>
+  </div>
+
   <script>
   (function(){
-    var _place = '', _caption = '';
-    window.mmGallery = function(place, caption, idx) {
-      var lb = document.getElementById('mmLightbox');
-      var img = document.getElementById('mmLbImg');
-      var cap = document.getElementById('mmLbCaption');
-      // Find the clicked photo's src from the ph-place that matches
-      var places = document.querySelectorAll('.ph-place');
-      var photos = null;
-      for(var i=0;i<places.length;i++){
-        var name = places[i].querySelector('.ph-place-name');
-        if(name && name.textContent.indexOf(place) !== -1){
-          photos = places[i].querySelectorAll('.ph-photo img');
-          break;
-        }
-      }
-      if(!photos || !photos[idx]) return;
-      var src = photos[idx].src.replace(/w=\d+/, 'w=1600').replace(/q=\d+/, 'q=95');
-      img.src = src;
-      cap.textContent = caption;
-      _place = place; _caption = caption;
-      lb.classList.add('show');
-      document.body.style.overflow = 'hidden';
+  'use strict';
+
+  /* ═══════════════════════════════════════════
+     STAMP CATALOG — 50 Philippine-themed stamps
+  ═══════════════════════════════════════════ */
+  var STAMPS = [
+    // ── NATURE (14) ──
+    {id:'s01',denom:'₱1',label:'El Nido',cat:'nature',img:'photo-1518509562904-e7ef99cdcc86'},
+    {id:'s02',denom:'₱2',label:'Coron',cat:'nature',img:'photo-1559494007-9f5847c49d94'},
+    {id:'s03',denom:'₱3',label:'Batanes',cat:'nature',img:'photo-1617183016897-35e50c12a4fc'},
+    {id:'s04',denom:'₱4',label:'Siargao',cat:'nature',img:'photo-1605106702842-01a887a31122'},
+    {id:'s05',denom:'₱5',label:'Bohol Hills',cat:'nature',img:'photo-1559592413-7cec4d0cae2b'},
+    {id:'s06',denom:'₱6',label:'Mt. Pulag',cat:'nature',img:'photo-1506905925346-21bda4d32df4'},
+    {id:'s07',denom:'₱7',label:'Kawasan',cat:'nature',img:'photo-1618442342786-f41a8ef48d51'},
+    {id:'s08',denom:'₱8',label:'Palawan',cat:'nature',img:'photo-1544551763-46a013bb70d5'},
+    {id:'s09',denom:'₱9',label:'Mayon Volcano',cat:'nature',img:'photo-1462275646964-a0e3386b89fa'},
+    {id:'s10',denom:'₱10',label:'Sagada',cat:'nature',img:'photo-1501854140801-50d01698950b'},
+    {id:'s11',denom:'₱11',label:'Rice Terraces',cat:'nature',img:'photo-1552083375-1447ce886485'},
+    {id:'s12',denom:'₱12',label:'Camiguin',cat:'nature',img:'photo-1504711434969-e33886168f5c'},
+    {id:'s13',denom:'₱13',label:'Davao Peak',cat:'nature',img:'photo-1493246507139-91e8fad9978e'},
+    {id:'s14',denom:'₱15',label:'Hundred Islands',cat:'nature',img:'photo-1476514525535-07fb3b4ae5f1'},
+    // ── MARINE (10) ──
+    {id:'s15',denom:'₱16',label:'Tubbataha Reef',cat:'marine',img:'photo-1498623116890-37e912163d5d'},
+    {id:'s16',denom:'₱17',label:'Whale Shark',cat:'marine',img:'photo-1555400038-63f5ba517a47'},
+    {id:'s17',denom:'₱18',label:'Coral Garden',cat:'marine',img:'photo-1585847406871-c2b0e748e8a4'},
+    {id:'s18',denom:'₱19',label:'Sea Turtle',cat:'marine',img:'photo-1596422846543-75c6fc197f11'},
+    {id:'s19',denom:'₱20',label:'Diver',cat:'marine',img:'photo-1528702748617-c64d49f918af'},
+    {id:'s20',denom:'₱21',label:'Blue Waters',cat:'marine',img:'photo-1507525428034-b723cf961d3e'},
+    {id:'s21',denom:'₱22',label:'Sea Life',cat:'marine',img:'photo-1559592413-7cec4d0cae2b'},
+    {id:'s22',denom:'₱24',label:'Octopus',cat:'marine',img:'photo-1575517111478-7f6afd0973db'},
+    {id:'s23',denom:'₱25',label:'Mangroves',cat:'marine',img:'photo-1464822759023-fed622ff2c3b'},
+    {id:'s24',denom:'₱28',label:'Sunset Coast',cat:'marine',img:'photo-1507525428034-b723cf961d3e'},
+    // ── HERITAGE (8) ──
+    {id:'s25',denom:'₱30',label:'Intramuros',cat:'heritage',img:'photo-1513635269975-59663e0ac1ad'},
+    {id:'s26',denom:'₱32',label:'Fort Santiago',cat:'heritage',img:'photo-1524231757912-21f4fe3a7200'},
+    {id:'s27',denom:'₱35',label:'Vigan City',cat:'heritage',img:'photo-1555881400-74d7acaacd8b'},
+    {id:'s28',denom:'₱36',label:'Paoay Church',cat:'heritage',img:'photo-1566438480900-0609be27a4be'},
+    {id:'s29',denom:'₱40',label:'Miag-ao',cat:'heritage',img:'photo-1589824572842-bbef49a4c889'},
+    {id:'s30',denom:'₱45',label:'Quiapo',cat:'heritage',img:'photo-1596422846543-75c6fc197f11'},
+    {id:'s31',denom:'₱50',label:'Rizal Shrine',cat:'heritage',img:'photo-1519677584237-752f8853252e'},
+    {id:'s32',denom:'₱55',label:'Mactan Shrine',cat:'heritage',img:'photo-1526778548025-fa2f459cd5c1'},
+    // ── FESTIVAL (8) ──
+    {id:'s33',denom:'₱60',label:'Sinulog',cat:'festival',img:'photo-1533174072545-7a4b6ad7a6c3'},
+    {id:'s34',denom:'₱65',label:'Ati-Atihan',cat:'festival',img:'photo-1580130601254-05fa235abeab'},
+    {id:'s35',denom:'₱70',label:'Pahiyas',cat:'festival',img:'photo-1533139502658-0198f920d8e7'},
+    {id:'s36',denom:'₱75',label:'Kadayawan',cat:'festival',img:'photo-1549451371-64aa98a6f660'},
+    {id:'s37',denom:'₱80',label:'MassKara',cat:'festival',img:'photo-1520637836862-4d197d17c93a'},
+    {id:'s38',denom:'₱85',label:'Panagbenga',cat:'festival',img:'photo-1490750967868-88df5691cc6b'},
+    {id:'s39',denom:'₱90',label:'Lantern Fest',cat:'festival',img:'photo-1504196606672-aef5c9cefc92'},
+    {id:'s40',denom:'₱95',label:'Dinagyang',cat:'festival',img:'photo-1519326844852-704caea5679e'},
+    // ── CULTURE (5) ──
+    {id:'s41',denom:'₱100',label:'Jeepney',cat:'culture',img:'photo-1567521464027-f127ff144326'},
+    {id:'s42',denom:'₱105',label:'Barong Tagalog',cat:'culture',img:'photo-1551803091-e20673f15770'},
+    {id:'s43',denom:'₱110',label:'Adobo',cat:'culture',img:'photo-1565299624946-b28f40a0ae38'},
+    {id:'s44',denom:'₱115',label:'Sari-Sari Store',cat:'culture',img:'photo-1519985176271-adb1088fa94c'},
+    {id:'s45',denom:'₱120',label:'Kalesa',cat:'culture',img:'photo-1558618666-fcd25c85cd64'},
+    // ── WILDLIFE (5) ──
+    {id:'s46',denom:'₱125',label:'Philippine Tarsier',cat:'wildlife',img:'photo-1557050543-4d5f4e07ef46'},
+    {id:'s47',denom:'₱130',label:'Philippine Eagle',cat:'wildlife',img:'photo-1551085254-e96b210db58a'},
+    {id:'s48',denom:'₱135',label:'Tamaraw',cat:'wildlife',img:'photo-1474511320723-9a56873867b5'},
+    {id:'s49',denom:'₱140',label:'Butanding',cat:'wildlife',img:'photo-1547036967-23d11aacaee0'},
+    {id:'s50',denom:'₱150',label:'Pawikan',cat:'wildlife',img:'photo-1596422846543-75c6fc197f11'},
+  ];
+
+  /* ═══════════════════════════════════════════
+     SEED POSTS — shown if no user posts yet
+  ═══════════════════════════════════════════ */
+  var SEED_POSTS = [
+    {
+      id:'seed1', author:'Nanay sa Dubai', initials:'N', loc:'uae',
+      stamp:'s01', story:'Kumusta self? 4 years na tayo dito sa Dubai. Naaalala ko pa yung umiyak tayo sa airport — ayaw nating umalis pero wala tayo pagpipilian. Ngayon, may bahay na tayong naitayo sa Cavite. Hindi perpekto ang buhay pero worth it ang lahat ng sacrifice. Keep going, self! 💙',
+      date:'Jun 10, 2026', likes:42, liked:false, tag:'Resilience'
+    },
+    {
+      id:'seed2', author:'OFW Helper – HK', initials:'O', loc:'hk',
+      stamp:'s05', story:'Dear self, naalala mo ba yung sabi ng mga kamag-anak na "Huwag ka nang umalis, mahirap buhay abroad"? Ngayon 3 anak mo nasa college. Ni-remember mo yung goal. Hindi ka nalinlang sa dali. Ipagpatuloy mo.',
+      date:'Jun 8, 2026', likes:38, liked:false, tag:'Family'
+    },
+    {
+      id:'seed3', author:'Kuya Joel', initials:'K', loc:'sg',
+      stamp:'s15', story:'Singapore is beautiful but lonely. Lalo na pag birthday ng mga anak. Video call lang. Pero alam ko na ang sacrifice na ito ay may kahulugan. May investment account na tayo. Slowly building the future. Kaya mo yan, self! 🇸🇬',
+      date:'Jun 6, 2026', likes:61, liked:false, tag:'Hope'
+    },
+    {
+      id:'seed4', author:'Anonymous', initials:'A', loc:'uk',
+      stamp:'s33', story:'Sa lahat ng OFW dyan, hindi ako alone. Nag-cry ako kanina habang kinakain ang instant noodles at tinitingnan ang pictures ng pamilya ko. Pero bukas magtatrabaho ulit at isasave yung para sa kanila. Para sa sarili ko rin. We are enough. 🫶',
+      date:'Jun 5, 2026', likes:89, liked:false, tag:'Courage'
+    },
+    {
+      id:'seed5', author:'Ate Marie', initials:'A', loc:'uae',
+      stamp:'s25', story:'10 years na akong OFW. Natutuwa na ako ngayon kasi ang anak ko, 22 years old na, employed na sa isang magandang company sa Maynila. Lahat ng uwing may luha, lahat ng holiday na hindi ko naranasan kasama sila — sulit. Kumusta ka, self? Proud na proud ako sa iyo! ❤️',
+      date:'Jun 3, 2026', likes:124, liked:false, tag:'Achievement'
+    },
+    {
+      id:'seed6', author:'OFW Engineer', initials:'O', loc:'sa',
+      stamp:'s11', story:'Sa Saudi na ako 6 years. Hindi basta-basta pero may natutunan tayo: mag-ipon ng emergency fund MUNA. Nang hindi ako makatrabaho ng 2 buwan dahil sa medical, hindi kami nagutom ng pamilya ko. Financial preparedness saves lives. Ingatan mo ang sarili mo, self.',
+      date:'Jun 1, 2026', likes:77, liked:false, tag:'Finance'
+    },
+    {
+      id:'seed7', author:'Nurse sa UK', initials:'N', loc:'uk',
+      stamp:'s41', story:'Kumusta self? 2 years na sa NHS. Grabe ang journey — IELTS, CBT, OSCEs, deployment. Ngayon midwife supervisor na ako. Ikaw na yung tinakot nila na "wag umalis." Ngayon sila ang nagtatanong kung paano puwede rin. Hold on sa dream. 💪',
+      date:'May 28, 2026', likes:95, liked:false, tag:'Career'
+    },
+    {
+      id:'seed8', author:'OFW Mom', initials:'O', loc:'hk',
+      stamp:'s46', story:'Yung pinakamasakit sa OFW life? Hindi yung malayo sa pamilya — natutulungan tayo ng technology. Yung pinakamasakit ay yung makita mong lumaki ang anak mo sa video call lang. Pero alam nila na kaya nating gawin ito dahil mahal natin sila nang sobra. Kumain ka na, self. 🍱',
+      date:'May 25, 2026', likes:108, liked:false, tag:'Family'
+    },
+  ];
+
+  /* ═══════════════════════════════════════════
+     STATE
+  ═══════════════════════════════════════════ */
+  var allPosts       = [];
+  var visibleCount   = 6;
+  var activeFilter   = 'all';
+  var selectedStamp  = null;
+  var activeStampCat = 'all';
+
+  /* ═══════════════════════════════════════════
+     HELPERS
+  ═══════════════════════════════════════════ */
+  var LOC_MAP = {
+    uae:'🇦🇪 UAE', hk:'🇭🇰 Hong Kong', sg:'🇸🇬 Singapore',
+    uk:'🇬🇧 UK', us:'🇺🇸 USA', sa:'🇸🇦 Saudi Arabia',
+    kw:'🇰🇼 Kuwait', qa:'🇶🇦 Qatar', jp:'🇯🇵 Japan',
+    kr:'🇰🇷 Korea', au:'🇦🇺 Australia', ca:'🇨🇦 Canada',
+    it:'🇮🇹 Italy', de:'🇩🇪 Germany', other:'🌍 Abroad'
+  };
+
+  function stampImg(id, w, h) {
+    var s = STAMPS.find(function(x){ return x.id === id; });
+    if (!s) s = STAMPS[0];
+    return 'https://images.unsplash.com/' + s.img + '?w=' + (w||80) + '&q=80&auto=format&fit=crop';
+  }
+  function stampByid(id) { return STAMPS.find(function(x){ return x.id === id; }) || STAMPS[0]; }
+
+  function loadPosts() {
+    try {
+      var stored = localStorage.getItem('mm_ks_posts');
+      if (stored) allPosts = JSON.parse(stored);
+      else allPosts = JSON.parse(JSON.stringify(SEED_POSTS));
+    } catch(e) { allPosts = JSON.parse(JSON.stringify(SEED_POSTS)); }
+  }
+  function savePosts() {
+    try { localStorage.setItem('mm_ks_posts', JSON.stringify(allPosts)); } catch(e){}
+  }
+  function isSubscribed() {
+    try { return !!localStorage.getItem('mm_ks_subscribed'); } catch(e){ return false; }
+  }
+  function getSubCount() {
+    try { return parseInt(localStorage.getItem('mm_ks_sub_count') || '1823'); } catch(e){ return 1823; }
+  }
+  function incSubCount() {
+    try { localStorage.setItem('mm_ks_sub_count', String(getSubCount() + 1)); } catch(e){}
+  }
+
+  /* ═══════════════════════════════════════════
+     RENDER BOARD
+  ═══════════════════════════════════════════ */
+  function filteredPosts() {
+    if (activeFilter === 'all') return allPosts;
+    return allPosts.filter(function(p){ return p.loc === activeFilter; });
+  }
+
+  function renderBoard() {
+    var board = document.getElementById('ks-board');
+    var wrap  = document.getElementById('ks-load-more-wrap');
+    var posts = filteredPosts();
+    var slice = posts.slice(0, visibleCount);
+
+    document.getElementById('ks-post-count').textContent = allPosts.length;
+    document.getElementById('ks-sub-count').textContent = getSubCount().toLocaleString();
+
+    if (slice.length === 0) {
+      board.innerHTML = '<div class="ks-empty-state" style="grid-column:1/-1"><div class="ks-big-stamp">📮</div><div class="ks-empty-title">No stories from this location yet</div><p>Be the first OFW from this country to share your story!</p></div>';
+      wrap.style.display = 'none';
+      return;
+    }
+
+    board.innerHTML = slice.map(function(p){
+      var s = stampByid(p.stamp);
+      var imgUrl = stampImg(p.stamp, 90, 72);
+      var locLabel = LOC_MAP[p.loc] || '🌍 Abroad';
+      return '<div class="ks-card" id="card-'+p.id+'">'
+        + '<div class="ks-card-stamp-wrap"><div class="ks-stamp"><img class="ks-stamp-img" src="'+imgUrl+'" alt="'+s.label+'" loading="lazy"><div class="ks-stamp-foot"><span class="ks-stamp-denom">'+s.denom+'</span><span class="ks-stamp-country">PILIPINAS</span></div></div></div>'
+        + '<div class="ks-card-meta">'
+          + '<div class="ks-card-avatar" style="background:'+avatarColor(p.initials)+'">'+p.initials+'</div>'
+          + '<div class="ks-card-info"><div class="ks-card-author">'+escHtml(p.author)+'</div><div class="ks-card-loc"><span>'+locLabel+'</span></div></div>'
+          + '<div class="ks-card-date">'+p.date+'</div>'
+        + '</div>'
+        + '<div class="ks-card-story">"'+escHtml(p.story)+'"</div>'
+        + '<div class="ks-card-footer">'
+          + '<button class="ks-heart-btn'+(p.liked?' liked':'')+'" onclick="ksLike(\''+p.id+'\')" id="heart-'+p.id+'">'
+          + '<svg width="13" height="13" viewBox="0 0 24 24" fill="'+(p.liked?'#CC1010':'none')+'" stroke="#CC1010" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'
+          + ' <span id="like-count-'+p.id+'">'+p.likes+'</span>'
+          + '</button>'
+          + (p.tag ? '<span class="ks-card-tag">'+escHtml(p.tag)+'</span>' : '')
+        + '</div>'
+      + '</div>';
+    }).join('');
+
+    wrap.style.display = posts.length > visibleCount ? 'block' : 'none';
+  }
+
+  function avatarColor(letter) {
+    var colors = ['linear-gradient(135deg,#CC1010,#A80D0D)','linear-gradient(135deg,#C8900A,#A07208)','linear-gradient(135deg,#059669,#047857)','linear-gradient(135deg,#3b82f6,#2563eb)','linear-gradient(135deg,#7c3aed,#5b21b6)'];
+    var idx = (letter || 'A').charCodeAt(0) % colors.length;
+    return colors[idx];
+  }
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  /* ═══════════════════════════════════════════
+     STAMP PICKER
+  ═══════════════════════════════════════════ */
+  function renderStampPicker() {
+    var grid = document.getElementById('ks-stamp-picker');
+    var stamps = activeStampCat === 'all' ? STAMPS : STAMPS.filter(function(s){ return s.cat === activeStampCat; });
+    grid.innerHTML = stamps.map(function(s){
+      var sel = selectedStamp === s.id ? ' selected' : '';
+      var imgUrl = 'https://images.unsplash.com/' + s.img + '?w=90&q=75&auto=format&fit=crop';
+      return '<div class="ks-stamp-pick'+sel+'" id="pick-'+s.id+'" onclick="ksSelectStamp(\''+s.id+'\')" title="'+s.label+'">'
+        + '<img src="'+imgUrl+'" alt="'+s.label+'" loading="lazy">'
+        + '<div class="ks-stamp-pick-foot"><span>'+s.denom+'</span><span>'+s.label+'</span></div>'
+      + '</div>';
+    }).join('');
+  }
+
+  window.ksSelectStamp = function(id) {
+    selectedStamp = id;
+    renderStampPicker();
+    document.getElementById('ks-stamp-hint').style.display = 'none';
+  };
+  window.ksFilterStamps = function(cat, btn) {
+    activeStampCat = cat;
+    document.querySelectorAll('.ks-cat-tab').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    renderStampPicker();
+  };
+
+  /* ═══════════════════════════════════════════
+     ACTIONS
+  ═══════════════════════════════════════════ */
+  window.ksFilter = function(loc, btn) {
+    activeFilter = loc; visibleCount = 6;
+    document.querySelectorAll('.ks-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    renderBoard();
+  };
+  window.ksLoadMore = function() { visibleCount += 6; renderBoard(); };
+
+  window.ksLike = function(id) {
+    var p = allPosts.find(function(x){ return x.id === id; });
+    if (!p) return;
+    p.liked = !p.liked;
+    p.likes += p.liked ? 1 : -1;
+    savePosts();
+    var btn = document.getElementById('heart-' + id);
+    if (btn) {
+      btn.classList.toggle('liked', p.liked);
+      btn.querySelector('svg').setAttribute('fill', p.liked ? '#CC1010' : 'none');
+      btn.querySelector('span').textContent = p.likes;
+    }
+  };
+
+  window.ksClickPost = function() {
+    if (!isSubscribed()) { ksOpenModal('ks-sub-modal'); return; }
+    selectedStamp = null;
+    renderStampPicker();
+    document.getElementById('ks-story-text').value = '';
+    document.getElementById('ks-anon-toggle').checked = false;
+    document.getElementById('ks-alias-wrap').style.display = 'none';
+    ksOpenModal('ks-post-modal');
+  };
+  window.ksShowSubscribe = function(e) { e.preventDefault(); ksOpenModal('ks-sub-modal'); };
+
+  window.ksToggleAnon = function(cb) {
+    document.getElementById('ks-alias-wrap').style.display = cb.checked ? 'block' : 'none';
+  };
+
+  window.ksDoSubscribe = function() {
+    var name  = (document.getElementById('ks-sub-name').value || '').trim();
+    var email = (document.getElementById('ks-sub-email').value || '').trim();
+    if (!name)  { document.getElementById('ks-sub-name').focus(); return; }
+    if (!email || !email.includes('@')) { document.getElementById('ks-sub-email').focus(); return; }
+    try {
+      localStorage.setItem('mm_ks_subscribed', JSON.stringify({name:name, email:email, date: new Date().toISOString()}));
+      incSubCount();
+    } catch(e){}
+    ksCloseModal('ks-sub-modal');
+    setTimeout(function(){
+      renderBoard();
+      selectedStamp = null;
+      renderStampPicker();
+      document.getElementById('ks-story-text').value = '';
+      document.getElementById('ks-anon-toggle').checked = false;
+      document.getElementById('ks-alias-wrap').style.display = 'none';
+      ksOpenModal('ks-post-modal');
+    }, 320);
+  };
+
+  window.ksSubmitPost = function() {
+    var story = (document.getElementById('ks-story-text').value || '').trim();
+    var anon  = document.getElementById('ks-anon-toggle').checked;
+    var alias = (document.getElementById('ks-alias-input').value || '').trim();
+    var loc   = document.getElementById('ks-location').value;
+    var btn   = document.getElementById('ks-submit-btn');
+
+    if (story.length < 20) { document.getElementById('ks-story-text').focus(); return; }
+    if (!selectedStamp) { document.getElementById('ks-stamp-hint').style.display = 'block'; return; }
+
+    var sub = null;
+    try { sub = JSON.parse(localStorage.getItem('mm_ks_subscribed') || 'null'); } catch(e){}
+    var authorName = anon ? (alias || 'Anonymous OFW') : (sub ? sub.name : 'OFW Community');
+    var initials = authorName.charAt(0).toUpperCase();
+
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var d = new Date();
+    var dateStr = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+
+    var newPost = {
+      id: 'post-' + Date.now(),
+      author: authorName,
+      initials: initials,
+      loc: loc,
+      stamp: selectedStamp,
+      story: story,
+      date: dateStr,
+      likes: 0,
+      liked: false,
+      tag: ''
     };
-    window.mmLbClose = function(e) {
-      if(e && e.target !== document.getElementById('mmLightbox') && !e.target.classList.contains('mm-lb-close')) return;
-      document.getElementById('mmLightbox').classList.remove('show');
-      document.body.style.overflow = '';
-    };
-    window.mmLbShare = function() {
-      var img = document.getElementById('mmLbImg');
-      var text = '🇵🇭 ' + _place + ' — ' + _caption + '\n\nDiscover the Philippines on Millionaire Mindset: ' + window.location.href;
-      if(navigator.share){
-        navigator.share({ title: 'Ang Magandang ' + _place, text: text, url: window.location.href });
-      } else {
-        navigator.clipboard.writeText(text).then(function(){
-          var btn = document.querySelector('.mm-lb-share');
-          btn.textContent = '✓ Copied!';
-          setTimeout(function(){ btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Share'; }, 2000);
-        });
-      }
-    };
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape') { document.getElementById('mmLightbox').classList.remove('show'); document.body.style.overflow=''; }
-    });
+
+    allPosts.unshift(newPost);
+    savePosts();
+    btn.textContent = '✓ Posted!';
+    btn.disabled = true;
+    setTimeout(function(){
+      ksCloseModal('ks-post-modal');
+      renderBoard();
+      btn.textContent = 'Post to Community Board 📮';
+      btn.disabled = false;
+      var board = document.getElementById('ks-board');
+      if (board) board.scrollIntoView({behavior:'smooth', block:'start'});
+    }, 900);
+  };
+
+  /* ═══════════════════════════════════════════
+     MODAL HELPERS
+  ═══════════════════════════════════════════ */
+  window.ksOpenModal  = function(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow='hidden'; };
+  window.ksCloseModal = function(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow=''; };
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ document.querySelectorAll('.ks-modal-overlay.open').forEach(function(m){ m.classList.remove('open'); }); document.body.style.overflow=''; }});
+  document.querySelectorAll('.ks-modal-overlay').forEach(function(ov){
+    ov.addEventListener('click', function(e){ if(e.target === ov) { ov.classList.remove('open'); document.body.style.overflow=''; }});
+  });
+
+  /* ═══════════════════════════════════════════
+     INIT
+  ═══════════════════════════════════════════ */
+  loadPosts();
+  renderBoard();
+
   })();
   </script>
+
 
   <hr class="blog-divider">
 
