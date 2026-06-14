@@ -516,38 +516,13 @@
   }
   .ks-filter-btn.active, .ks-filter-btn:hover { border-color:#CC1010; color:#CC1010; background:rgba(204,16,16,.05); }
 
-  /* ─── Double carousel ─── */
-  .ks-carousel-wrap {
-    position: relative;
-    margin: 0 -4px;
+  /* ─── Story grid + load more ─── */
+  .ks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-top: 4px;
   }
-  .ks-carousel-row {
-    display: flex;
-    align-items: flex-start; /* prevent expanded card from stretching siblings */
-    gap: 16px;
-    overflow-x: auto;
-    overflow-y: visible;
-    padding: 8px 4px 20px;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .ks-carousel-row::-webkit-scrollbar { display: none; }
-  .ks-carousel-row + .ks-carousel-row { margin-top: 8px; }
-
-  /* Arrow buttons */
-  .ks-arrow {
-    position: absolute; top: 50%; transform: translateY(-50%);
-    width: 40px; height: 40px; border-radius: 50%;
-    background: #fff; border: 1.5px solid var(--border-soft, rgba(0,0,0,.1));
-    box-shadow: 0 2px 12px rgba(0,0,0,.13);
-    cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center;
-    transition: all .2s; color: var(--text);
-  }
-  .ks-arrow:hover { background: var(--primary,#CC1010); color: #fff; border-color: var(--primary,#CC1010); }
-  .ks-arrow-left  { left: -20px; }
-  .ks-arrow-right { right: -20px; }
-  @media(max-width:680px){ .ks-arrow { display: none; } }
 
   /* ─── Story card ─── */
   .ks-card {
@@ -560,34 +535,30 @@
     transition: transform .2s, box-shadow .2s;
     position: relative;
     overflow: hidden;
-    flex: 0 0 300px;
-    width: 300px;
-    scroll-snap-align: start;
-    height: 360px;
-    /* clip text at fixed height */
+    /* no fixed height — card grows with content */
   }
-  @media(max-width:640px){ .ks-card { flex: 0 0 270px; width: 270px; } }
 
   .ks-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,0,0,.1); }
   .ks-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--primary,#CC1010),#C8900A); }
 
-  /* Expanded card — overrides fixed height, lets card grow downward */
-  .ks-card.expanded {
-    height: auto;
-    overflow: visible;
-    z-index: 5;
-    box-shadow: 0 10px 40px rgba(0,0,0,.15);
-  }
-
   /* Read more / collapse */
   .ks-read-more {
-    margin-top: auto; padding-top: 8px;
+    margin-top: 10px;
     background: none; border: none; cursor: pointer;
     font: 600 .72rem 'Poppins', sans-serif;
     color: var(--primary,#CC1010); text-align: left; display: flex; align-items: center; gap: 4px;
   }
   .ks-read-more svg { transition: transform .2s; }
   .ks-card.expanded .ks-read-more svg { transform: rotate(180deg); }
+
+  /* Story text clamping */
+  .ks-card-story { flex:1; font-size:.85rem; line-height:1.65; color:var(--text); margin-bottom:4px; }
+  .ks-card-story.clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 
   /* ─── Stamp on card ─── */
   .ks-card-stamp-wrap { display:flex; justify-content:flex-end; margin-bottom:12px; }
@@ -634,7 +605,6 @@
   .ks-card-author { font-weight:700; font-size:.82rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .ks-card-loc { font-size:.72rem; color:var(--text-dim); display:flex; align-items:center; gap:4px; }
   .ks-card-date { font-size:.68rem; color:var(--text-dim); flex-shrink:0; }
-  .ks-card-story { flex:1; font-size:.85rem; line-height:1.65; color:var(--text); margin-bottom:14px; }
   .ks-card-footer { display:flex; align-items:center; gap:12px; }
   .ks-heart-btn {
     display:flex; align-items:center; gap:5px;
@@ -752,7 +722,7 @@
   .ks-empty-title { font-size:1.05rem; font-weight:700; color:var(--text); margin-bottom:8px; }
   .ks-load-more-wrap { text-align:center; margin-top:8px; }
   .ks-load-more { background:none; border:1.5px solid rgba(0,0,0,.14); border-radius:999px; padding:9px 24px; font:600 .8rem "Poppins",sans-serif; color:var(--text-dim); cursor:pointer; transition:.18s; }
-  .ks-load-more:hover { border-color:#CC1010; color:#CC1010; }
+  .ks-load-more:hover { border-color:var(--primary,#CC1010); color:var(--primary,#CC1010); }
   </style>
 
   <section class="blog-section" id="ks-section">
@@ -794,19 +764,11 @@
         </div>
       </div>
 
-      <!-- Double Carousel -->
-      <div class="ks-carousel-wrap" id="ks-carousel-wrap">
-        <button class="ks-arrow ks-arrow-left"  onclick="ksScrollBoth(-1)" aria-label="Scroll left">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-        </button>
-        <div class="ks-carousel-row" id="ks-row-1"></div>
-        <div class="ks-carousel-row" id="ks-row-2"></div>
-        <button class="ks-arrow ks-arrow-right" onclick="ksScrollBoth(1)"  aria-label="Scroll right">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
+      <!-- Story grid -->
+      <div class="ks-grid" id="ks-board"></div>
+      <div class="ks-load-more-wrap" id="ks-load-more-wrap" style="display:none;margin-top:24px;">
+        <button class="ks-load-more" onclick="ksLoadMore()">Load more</button>
       </div>
-      <!-- legacy board kept for filter compat -->
-      <div id="ks-board" style="display:none;"></div>
     </div>
   </section>
 
@@ -1081,7 +1043,7 @@
         + '<div class="ks-card-info"><div class="ks-card-author">'+escHtml(p.author)+'</div><div class="ks-card-loc"><span>'+locLabel+'</span></div></div>'
         + '<div class="ks-card-date">'+p.date+'</div>'
       + '</div>'
-      + '<div class="ks-card-story" id="story-'+p.id+'">"'+escHtml(p.story)+'"</div>'
+      + '<div class="ks-card-story clamped" id="story-'+p.id+'">"'+escHtml(p.story)+'"</div>'
       + '<div class="ks-card-footer">'
         + '<button class="ks-heart-btn'+(p.liked?' liked':'')+'" onclick="ksLike(\''+p.id+'\')" id="heart-'+p.id+'">'
         + '<svg width="13" height="13" viewBox="0 0 24 24" fill="'+(p.liked?'#CC1010':'none')+'" stroke="#CC1010" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>'
@@ -1097,62 +1059,51 @@
   }
 
   function renderBoard() {
-    var row1 = document.getElementById('ks-row-1');
-    var row2 = document.getElementById('ks-row-2');
-    var posts = filteredPosts();
+    var board = document.getElementById('ks-board');
+    var posts  = filteredPosts();
 
     document.getElementById('ks-post-count').textContent = allPosts.length;
-    document.getElementById('ks-sub-count').textContent = getSubCount().toLocaleString();
+    document.getElementById('ks-sub-count').textContent  = getSubCount().toLocaleString();
 
     if (posts.length === 0) {
-      row1.innerHTML = '<div class="ks-card" style="align-items:center;justify-content:center;text-align:center;color:#aaa;height:200px;"><div style="font-size:2rem;margin-bottom:8px;">📮</div><div style="font-weight:700;margin-bottom:4px;">No stories yet</div><p style="font-size:.8rem;">Be the first to share from this location!</p></div>';
-      row2.innerHTML = '';
+      board.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px 0;color:#aaa;">'
+        + '<div style="font-size:2.5rem;margin-bottom:10px;">📮</div>'
+        + '<div style="font-weight:700;margin-bottom:4px;">No stories yet</div>'
+        + '<p style="font-size:.82rem;">Be the first to share from this location!</p></div>';
+      updateLoadMoreBtn(0, 0);
       return;
     }
 
-    // Split posts into two rows
-    var half = Math.ceil(posts.length / 2);
-    var top  = posts.slice(0, half);
-    var bot  = posts.slice(half);
+    var visible = posts.slice(0, visibleCount);
+    board.innerHTML = visible.map(cardHtml).join('');
+    updateLoadMoreBtn(visible.length, posts.length);
+  }
 
-    row1.innerHTML = top.map(cardHtml).join('');
-    row2.innerHTML = bot.map(cardHtml).join('');
+  function updateLoadMoreBtn(shown, total) {
+    var wrap = document.getElementById('ks-load-more-wrap');
+    if (!wrap) return;
+    if (shown >= total) {
+      wrap.style.display = 'none';
+    } else {
+      wrap.style.display = 'block';
+      var btn = wrap.querySelector('.ks-load-more');
+      if (btn) btn.textContent = 'Load more (' + (total - shown) + ' remaining)';
+    }
   }
 
   window.ksToggleExpand = function(pid) {
-    var card  = document.getElementById('card-' + pid);
+    var story = document.getElementById('story-' + pid);
     var label = document.getElementById('expand-label-' + pid);
-    if (!card) return;
-    var expanded = card.classList.toggle('expanded');
-    label.textContent = expanded ? 'Show less' : 'Read more';
+    if (!story) return;
+    var nowClamped = story.classList.toggle('clamped');
+    // clamped = collapsed (show less text), so button says "Read more"
+    if (label) label.textContent = nowClamped ? 'Read more' : 'Show less';
+    var btn = document.getElementById('expand-' + pid);
+    if (btn) {
+      var svg = btn.querySelector('svg');
+      if (svg) svg.style.transform = nowClamped ? '' : 'rotate(180deg)';
+    }
   };
-
-  // Sync-scroll both rows together
-  window.ksScrollBoth = function(dir) {
-    var r1 = document.getElementById('ks-row-1');
-    var r2 = document.getElementById('ks-row-2');
-    var amount = 316; // 1 card width + gap
-    [r1, r2].forEach(function(r){
-      if (r) r.scrollBy({ left: dir * amount, behavior: 'smooth' });
-    });
-  };
-
-  // Keep rows synced on manual scroll — set up after DOM ready
-  document.addEventListener('DOMContentLoaded', function() {
-    var rows = ['ks-row-1','ks-row-2'];
-    var syncing = false;
-    rows.forEach(function(id, i) {
-      var el = document.getElementById(id);
-      if (!el) return;
-      el.addEventListener('scroll', function() {
-        if (syncing) return;
-        syncing = true;
-        var other = document.getElementById(rows[1 - i]);
-        if (other) other.scrollLeft = el.scrollLeft;
-        requestAnimationFrame(function() { syncing = false; });
-      });
-    });
-  });
 
   function avatarColor(letter) {
     var colors = ['linear-gradient(135deg,#CC1010,#A80D0D)','linear-gradient(135deg,#C8900A,#A07208)','linear-gradient(135deg,#059669,#047857)','linear-gradient(135deg,#3b82f6,#2563eb)','linear-gradient(135deg,#7c3aed,#5b21b6)'];
