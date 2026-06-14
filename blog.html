@@ -503,22 +503,28 @@
   .ks-filter-btn.active, .ks-filter-btn:hover { border-color:#CC1010; color:#CC1010; background:rgba(204,16,16,.05); }
 
   /* ─── Posts grid ─── */
-  .ks-board { columns:3 280px; column-gap:20px; }
-  @media(max-width:640px){ .ks-board { columns:1; } }
-  @media(max-width:900px){ .ks-board { columns:2 260px; } }
+  .ks-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+  @media(max-width:900px){ .ks-board { grid-template-columns: repeat(2, 1fr); } }
+  @media(max-width:640px){ .ks-board { grid-template-columns: 1fr; } }
 
   /* ─── Story card ─── */
   .ks-card {
-    break-inside: avoid;
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 2px 16px rgba(0,0,0,.07), 0 1px 4px rgba(0,0,0,.04);
     padding: 18px;
-    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
     transition: transform .2s, box-shadow .2s;
     position: relative;
     overflow: hidden;
   }
+
   .ks-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,0,0,.1); }
   /* red accent bar */
   .ks-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#CC1010,#C8900A); }
@@ -568,7 +574,7 @@
   .ks-card-author { font-weight:700; font-size:.82rem; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .ks-card-loc { font-size:.72rem; color:var(--text-dim); display:flex; align-items:center; gap:4px; }
   .ks-card-date { font-size:.68rem; color:var(--text-dim); flex-shrink:0; }
-  .ks-card-story { font-size:.85rem; line-height:1.65; color:var(--text); margin-bottom:14px; }
+  .ks-card-story { flex:1; font-size:.85rem; line-height:1.65; color:var(--text); margin-bottom:14px; }
   .ks-card-footer { display:flex; align-items:center; gap:12px; }
   .ks-heart-btn {
     display:flex; align-items:center; gap:5px;

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — Orders &amp; Waybills | Millionaire Mindset</title>
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'Poppins',Arial,sans-serif; background:#f4f6f9; color:#111; min-height:100vh; }
+
+    /* ── Admin header ── */
+    .admin-header {
+      background:#CC1010; color:#fff; padding:14px 24px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .admin-header h1 { font-size:1.1rem; font-weight:800; }
+    .admin-header span { font-size:.75rem; opacity:.8; }
+
+    /* ── Order list ── */
+    .admin-wrap { max-width:960px; margin:32px auto; padding:0 20px 60px; }
+    .admin-title { font-size:1.4rem; font-weight:800; margin-bottom:20px; }
+    .order-count { font-size:.82rem; color:#888; margin-bottom:16px; }
+    .order-card {
+      background:#fff; border-radius:16px; padding:20px 24px;
+      box-shadow:0 2px 12px rgba(0,0,0,.07); margin-bottom:16px;
+      border-left:4px solid #CC1010;
+    }
+    .order-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:12px; flex-wrap:wrap; gap:8px; }
+    .order-ref { font-size:1rem; font-weight:800; letter-spacing:.04em; }
+    .order-date { font-size:.75rem; color:#888; }
+    .order-details { display:grid; grid-template-columns:1fr 1fr; gap:8px 24px; font-size:.82rem; margin-bottom:14px; }
+    .order-details dt { color:#888; font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; }
+    .order-details dd { font-weight:600; color:#111; }
+    .order-items-table { width:100%; border-collapse:collapse; font-size:.8rem; margin-bottom:14px; }
+    .order-items-table th { text-align:left; color:#888; font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; padding:4px 6px; border-bottom:1px solid #eee; }
+    .order-items-table td { padding:5px 6px; border-bottom:1px solid #f5f5f5; }
+    .order-total { text-align:right; font-weight:700; font-size:.9rem; color:#CC1010; margin-bottom:14px; }
+    .btn-print-waybill {
+      background:#CC1010; color:#fff; border:none; border-radius:10px;
+      padding:9px 20px; font:600 .82rem 'Poppins',sans-serif; cursor:pointer;
+      transition:background .2s;
+    }
+    .btn-print-waybill:hover { background:#a80d0d; }
+    .empty-state { text-align:center; padding:60px 20px; color:#aaa; font-size:.9rem; }
+
+    /* ── Waybill print overlay ── */
+    #waybill-overlay {
+      display:none; position:fixed; inset:0; z-index:950;
+      background:rgba(0,0,0,.55); backdrop-filter:blur(4px);
+      align-items:center; justify-content:center;
+    }
+    #waybill-overlay.open { display:flex; }
+    #waybill-modal {
+      background:#fff; border-radius:20px; width:min(540px,95vw);
+      box-shadow:0 20px 60px rgba(0,0,0,.25); overflow:hidden;
+      max-height:92vh; overflow-y:auto;
+    }
+    #waybill-modal-head {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:16px 22px 12px; background:#CC1010; color:#fff;
+    }
+    #waybill-modal-head h3 { font-size:.95rem; font-weight:800; margin:0; }
+    #waybill-modal-close {
+      background:rgba(255,255,255,.2); border:none; border-radius:50%;
+      width:30px; height:30px; color:#fff; font-size:16px; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .waybill { font-family:'Poppins',Arial,sans-serif; font-size:12px; color:#111; padding:24px; }
+    .waybill-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; }
+    .waybill-logo { font-size:16px; font-weight:900; color:#CC1010; }
+    .waybill-logo span { color:#C8900A; }
+    .waybill-ref { text-align:right; }
+    .waybill-ref-no { font-size:18px; font-weight:800; letter-spacing:.04em; }
+    .waybill-ref-label { font-size:10px; color:#666; text-transform:uppercase; letter-spacing:.08em; }
+    .waybill-divider { border:none; border-top:1px solid #ddd; margin:12px 0; }
+    .waybill-parties { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:14px; }
+    .waybill-party h4 { font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:#888; margin-bottom:4px; font-weight:700; }
+    .waybill-party p { margin:0; line-height:1.5; font-size:11.5px; }
+    .waybill-party strong { font-weight:700; }
+    .waybill-items { width:100%; border-collapse:collapse; margin-bottom:14px; }
+    .waybill-items th { font-size:9px; text-transform:uppercase; letter-spacing:.08em; color:#888; font-weight:700; padding:4px 6px; border-bottom:1px solid #ddd; text-align:left; }
+    .waybill-items td { padding:5px 6px; font-size:11px; border-bottom:1px solid #f0f0f0; }
+    .waybill-total-row { display:flex; justify-content:flex-end; gap:8px; font-weight:700; margin-top:8px; }
+    .waybill-barcode { text-align:center; margin-top:14px; }
+    .waybill-barcode-lines { display:flex; justify-content:center; gap:1.5px; align-items:flex-end; margin-bottom:4px; }
+    .waybill-barcode-lines span { background:#111; display:inline-block; height:32px; width:2px; }
+    .waybill-barcode-lines span:nth-child(2n) { height:24px; width:1px; }
+    .waybill-barcode-lines span:nth-child(3n) { height:36px; width:3px; }
+    .waybill-barcode-num { font-size:10px; letter-spacing:.15em; font-weight:700; }
+    .waybill-footer-line { display:flex; justify-content:space-between; font-size:9px; color:#999; margin-top:10px; }
+    #waybill-actions { display:flex; gap:10px; padding:16px 22px; background:#f8f8f8; }
+    .wb-btn { flex:1; padding:10px; border-radius:10px; border:none; font:600 13px 'Poppins',sans-serif; cursor:pointer; transition:all .2s; }
+    .wb-btn-print { background:#CC1010; color:#fff; }
+    .wb-btn-print:hover { background:#a80d0d; }
+    .wb-btn-close { background:rgba(0,0,0,.07); color:#111; }
+    .wb-btn-close:hover { background:rgba(0,0,0,.13); }
+
+    @media print {
+      body > *:not(#waybill-overlay) { display:none !important; }
+      #waybill-overlay { position:static; background:none; display:block !important; }
+      #waybill-modal { box-shadow:none; border-radius:0; max-height:none; }
+      #waybill-modal-head, #waybill-actions, #waybill-modal-close { display:none !important; }
+      .waybill { page-break-inside:avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-header">
+    <h1>Millionaire Mindset — Admin Orders</h1>
+    <span>Waybill &amp; Order Management</span>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="admin-title">All Orders</div>
+    <div class="order-count" id="order-count"></div>
+    <div id="orders-list"></div>
+  </div>
+
+  <!-- Waybill print modal -->
+  <div id="waybill-overlay">
+    <div id="waybill-modal">
+      <div id="waybill-modal-head">
+        <h3>Shipping Waybill</h3>
+        <button id="waybill-modal-close" onclick="closeWaybill()">&#x2715;</button>
+      </div>
+      <div id="waybill-print-area"></div>
+      <div id="waybill-actions">
+        <button class="wb-btn wb-btn-print" onclick="window.print()">Print Waybill</button>
+        <button class="wb-btn wb-btn-close" onclick="closeWaybill()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    var orders = [];
+    try { orders = JSON.parse(localStorage.getItem('mm_orders') || '[]'); } catch(e){}
+
+    var list = document.getElementById('orders-list');
+    var countEl = document.getElementById('order-count');
+    countEl.textContent = orders.length + ' order' + (orders.length !== 1 ? 's' : '') + ' found';
+
+    if (!orders.length) {
+      list.innerHTML = '<div class="empty-state">No orders yet. Orders placed by customers will appear here.</div>';
+      return;
+    }
+
+    orders.forEach(function(o, i) {
+      var itemRows = (o.items||[]).map(function(ci){
+        return '<tr><td>'+esc(ci.name)+'</td><td style="text-align:center">'+ci.qty+'</td><td style="text-align:right">&#8369;'+(ci.price*ci.qty).toLocaleString()+'</td></tr>';
+      }).join('') || '<tr><td colspan="3" style="color:#aaa">No item details</td></tr>';
+
+      var el = document.createElement('div');
+      el.className = 'order-card';
+      el.innerHTML =
+        '<div class="order-top"><span class="order-ref">' + esc(o.ref) + '</span><span class="order-date">' + esc(o.date) + '</span></div>'
+        + '<dl class="order-details">'
+          + '<dt>Name</dt><dd>' + esc(o.name) + '</dd>'
+          + '<dt>Payment</dt><dd>' + esc(o.payment||'—') + '</dd>'
+          + '<dt>Email</dt><dd>' + esc(o.email) + '</dd>'
+          + '<dt>Phone</dt><dd>' + esc(o.phone||'—') + '</dd>'
+          + '<dt>Address</dt><dd>' + esc(o.address) + (o.zip ? ', ' + esc(o.zip) : '') + '</dd>'
+        + '</dl>'
+        + '<table class="order-items-table"><thead><tr><th>Item</th><th>Qty</th><th style="text-align:right">Amount</th></tr></thead><tbody>' + itemRows + '</tbody></table>'
+        + '<div class="order-total">Total: &#8369;' + (o.total||0).toLocaleString() + '</div>'
+        + '<button class="btn-print-waybill" onclick="printWaybill(' + i + ')">Print Waybill</button>';
+      list.appendChild(el);
+    });
+
+    window.printWaybill = function(idx) {
+      var o = orders[idx];
+      var now = new Date();
+      var itemRows = (o.items||[]).map(function(ci){
+        return '<tr><td>'+esc(ci.name)+'</td><td style="text-align:center">'+ci.qty+'</td><td style="text-align:right">&#8369;'+(ci.price*ci.qty).toLocaleString()+'</td></tr>';
+      }).join('') || '<tr><td colspan="3" style="color:#aaa">No item details</td></tr>';
+
+      var bcLines = '';
+      for (var i = 0; i < 40; i++) bcLines += '<span></span>';
+
+      document.getElementById('waybill-print-area').innerHTML =
+        '<div class="waybill">'
+          + '<div class="waybill-header">'
+            + '<div><div class="waybill-logo">Millionaire<span>Mindset</span></div><div style="font-size:10px;color:#888;margin-top:2px;">millionairemindset.ae</div></div>'
+            + '<div class="waybill-ref"><div class="waybill-ref-no">' + esc(o.ref) + '</div><div class="waybill-ref-label">Order Reference</div></div>'
+          + '</div>'
+          + '<hr class="waybill-divider">'
+          + '<div class="waybill-parties">'
+            + '<div class="waybill-party"><h4>Ship To</h4><p><strong>' + esc(o.name) + '</strong><br>' + esc(o.address) + (o.zip ? ', ' + esc(o.zip) : '') + '<br>' + esc(o.phone || o.email) + '</p></div>'
+            + '<div class="waybill-party"><h4>Order Info</h4><p>Date: <strong>' + esc(o.date) + '</strong><br>Payment: ' + esc(o.payment||'Pending') + '<br>Email: ' + esc(o.email) + '</p></div>'
+          + '</div>'
+          + '<table class="waybill-items"><thead><tr><th>Item</th><th style="text-align:center">Qty</th><th style="text-align:right">Amount</th></tr></thead><tbody>' + itemRows + '</tbody></table>'
+          + '<div class="waybill-total-row"><span>Total:</span><span>&#8369;' + (o.total||0).toLocaleString() + '</span></div>'
+          + '<div class="waybill-barcode"><div class="waybill-barcode-lines">' + bcLines + '</div><div class="waybill-barcode-num">' + esc(o.ref) + '</div></div>'
+          + '<div class="waybill-footer-line"><span>Millionaire Mindset &copy; ' + now.getFullYear() + '</span><span>Admin Copy — Do Not Share</span></div>'
+        + '</div>';
+
+      document.getElementById('waybill-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+
+    window.closeWaybill = function() {
+      document.getElementById('waybill-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    };
+
+    function esc(str) {
+      return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  })();
+  </script>
+</body>
+</html>

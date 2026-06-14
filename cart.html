@@ -106,8 +106,14 @@
               <option>PayPal</option>
               <option>Western Union</option>
             </select>
-            <button type="submit" class="btn-primary" style="width:100%; margin-top:8px;">Place Order &amp; Generate Waybill</button>
+            <button type="submit" class="btn-primary" style="width:100%; margin-top:8px;">Place Order</button>
           </form>
+          <!-- Order success message (hidden until order placed) -->
+          <div id="order-success" style="display:none; margin-top:20px; padding:18px; background:#f0fdf4; border-radius:14px; border:1.5px solid #bbf7d0; text-align:center;">
+            <div style="font-size:2rem; margin-bottom:8px;">&#10003;</div>
+            <div style="font-weight:700; font-size:1rem; color:#16a34a; margin-bottom:6px;">Order Placed!</div>
+            <div style="font-size:.85rem; color:#555; line-height:1.5;">Your order reference is <strong id="order-ref-display"></strong>.<br>You will receive payment instructions via email within 24 hours.</div>
+          </div>
           <p class="checkout-note">After placing your order, you'll receive payment instructions via email within 24 hours.</p>
         </div>
       </div>
@@ -273,24 +279,28 @@
           + '<div class="waybill-footer"><span>Millionaire Mindset &copy; ' + now.getFullYear() + '</span><span>Keep this slip for reference</span></div>'
         + '</div>';
 
-      // Show modal
-      document.getElementById('waybill-overlay').classList.add('open');
-      document.body.style.overflow = 'hidden';
-
-      // Save order to localStorage
+      // Save order to localStorage (for admin waybill)
       try {
         var orders = JSON.parse(localStorage.getItem('mm_orders') || '[]');
-        orders.unshift({ref:ref, date:dateStr, name:name, email:email, address:address, items:cartItems, total:total, payment:payment});
+        orders.unshift({ref:ref, date:dateStr, name:name, email:email, phone:phone, address:address, zip:zip, items:cartItems, total:total, payment:payment});
         localStorage.setItem('mm_orders', JSON.stringify(orders.slice(0,50)));
         localStorage.setItem('mm_cart','[]');
       } catch(ex){}
+
+      // Show customer success message (NOT the waybill — that's admin only)
+      var form = document.getElementById('checkoutForm');
+      if (form) form.style.display = 'none';
+      var success = document.getElementById('order-success');
+      if (success) { success.style.display = 'block'; document.getElementById('order-ref-display').textContent = ref; }
+      var note = document.querySelector('.checkout-note');
+      if (note) note.style.display = 'none';
+      // Refresh cart display
+      if (typeof renderCart === 'function') renderCart();
     };
 
     window.closeWaybill = function() {
       document.getElementById('waybill-overlay').classList.remove('open');
       document.body.style.overflow = '';
-      // Refresh cart display
-      if (typeof renderCart === 'function') renderCart();
     };
   })();
   </script>
