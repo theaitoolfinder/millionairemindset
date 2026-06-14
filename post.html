@@ -159,6 +159,28 @@
     .series-prog-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: 999px; }
     .series-prog-label { font-size: 0.78rem; color: var(--text-dim); display: flex; justify-content: space-between; }
 
+    /* Mark Complete */
+    .mark-complete-bar {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      padding: 16px 20px; margin-bottom: 24px;
+      background: rgba(255,255,255,0.75); backdrop-filter: blur(12px);
+      border: 1px solid var(--border); border-radius: 14px;
+    }
+    .mark-complete-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 10px; border: none;
+      background: var(--primary); color: #fff; font: 600 13.5px 'Poppins',sans-serif;
+      cursor: pointer; transition: background .2s, transform .15s;
+    }
+    .mark-complete-btn:hover { background: var(--primary-2); transform: translateY(-1px); }
+    .mark-next-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 18px; border-radius: 10px;
+      background: var(--primary-light); color: var(--primary);
+      font: 600 13px 'Poppins',sans-serif; transition: background .2s;
+    }
+    .mark-next-btn:hover { background: var(--border); }
+
     /* Notify me */
     .notify-card {
       background: rgba(255,248,225,0.8); backdrop-filter: blur(16px);
@@ -335,6 +357,20 @@
     try { lang = localStorage.getItem('mm_lang') || 'en'; } catch(e){}
     var activeContent = (lang === 'tl' && post.content_tl) ? post.content_tl : post.content;
 
+    // Build mark-complete bar HTML
+    var nextPostForComplete = series.posts.find(function(p){ return p.day === day + 1; });
+    var markCompleteHtml = '<div class="mark-complete-bar">'
+      + '<button id="mark-complete-btn" class="mark-complete-btn" onclick="markEpComplete()">'
+        + '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 8 12 12 15 15"/></svg>'
+        + ' Mark as Complete'
+      + '</button>'
+      + (nextPostForComplete
+          ? '<a id="ep-next-btn" href="post.html?series=' + seriesId + '&day=' + nextPostForComplete.day + '" class="mark-next-btn" style="display:none;">'
+              + 'Next Episode <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>'
+            + '</a>'
+          : '')
+      + '</div>';
+
     var bodyHtml;
     if (activeContent) {
       bodyHtml = '<div class="post-body">' + parseContent(activeContent) + '</div>';
@@ -381,18 +417,53 @@
       + '</div>'
       + '<div class="post-tags">' + tagsHtml + '</div>'
       + bodyHtml
+      + (post.content ? markCompleteHtml : '')
       + navHtml
       + '<div class="series-progress-card">'
         + '<h4>' + series.emoji + ' ' + series.title + ' — Your Progress</h4>'
-        + '<div class="series-prog-bar"><div class="series-prog-fill" style="width:' + pct + '%;"></div></div>'
-        + '<div class="series-prog-label"><span>Day ' + day + ' of ' + series.totalPosts + '</span><span>' + pct + '% complete</span></div>'
-        + '<a href="blog.html#series-' + seriesId + '" style="display:inline-block;margin-top:14px;font-size:0.84rem;color:var(--primary);font-weight:600;">View all ' + series.totalPosts + ' lessons →</a>'
+        + '<div class="series-prog-bar"><div class="series-prog-fill" id="prog-fill" style="width:' + pct + '%;"></div></div>'
+        + '<div class="series-prog-label"><span>Day ' + day + ' of ' + series.totalPosts + '</span><span id="prog-pct">' + pct + '% complete</span></div>'
+        + '<a href="blog.html" style="display:inline-block;margin-top:14px;font-size:0.84rem;color:var(--primary);font-weight:600;">← Back to all series</a>'
       + '</div>';
+
+    // Mark Complete logic
+    function epKey(sid, d) { return 'mm_ep_done_' + sid + '_' + d; }
+    var isDone = false;
+    try { isDone = !!localStorage.getItem(epKey(seriesId, day)); } catch(e){}
+
+    function updateCompleteBtn() {
+      var btn = document.getElementById('mark-complete-btn');
+      if (!btn) return;
+      try { isDone = !!localStorage.getItem(epKey(seriesId, day)); } catch(e){}
+      if (isDone) {
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Episode Completed';
+        btn.style.background = 'var(--ok,#16a34a)';
+        btn.style.cursor = 'default';
+      }
+    }
+    updateCompleteBtn();
+
+    window.markEpComplete = function() {
+      try { localStorage.setItem(epKey(seriesId, day), '1'); } catch(e){}
+      isDone = true;
+      var btn = document.getElementById('mark-complete-btn');
+      if (btn) {
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Episode Completed';
+        btn.style.background = 'var(--ok,#16a34a)';
+        btn.style.cursor = 'default';
+        btn.onclick = null;
+      }
+      // If there's a next episode, show a Go to Next button
+      if (nextPost) {
+        var nextBtn = document.getElementById('ep-next-btn');
+        if (nextBtn) nextBtn.style.display = 'inline-flex';
+      }
+    };
 
     window.notifySubmit = function(e) {
       e.preventDefault();
       var form = e.target;
-      form.innerHTML = '<p style="color:var(--accent);font-weight:600;">✅ We\'ll notify you when Day ' + day + ' publishes!</p>';
+      form.innerHTML = '<p style="color:var(--accent);font-weight:600;">We\'ll notify you when Day ' + day + ' publishes!</p>';
     };
   })();
   </script>
