@@ -582,9 +582,9 @@
     <div class="container">
       <div class="section-header">
         <div>
-          <span class="section-label">Filipino &amp; Asian Food</span>
-          <h2>HOF Food Shop</h2>
-          <p>Authentic Filipino flavors delivered to your door. Because home is also a taste.</p>
+          <span class="section-label">For Your Family Back Home</span>
+          <h2>HOF Siomai King</h2>
+          <p>Send your family in the Philippines their favorite Filipino food — order online, they enjoy it at home.</p>
         </div>
       </div>
       <div class="ext-store-card" id="foodCard"></div>
@@ -733,6 +733,9 @@
           + (coverHtml ? '' : '<span class="ext-store-badge" style="background:' + cfg.accentBg + ';border-color:' + cfg.accentBorder + ';color:' + cfg.accentColor + ';">' + cfg.badge + '</span>')
           + (coverHtml ? '' : '<h2>' + cfg.name + '</h2>')
           + '<p>' + cfg.description + '</p>'
+          + (cfg.notice ? '<div style="display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:#fef9c3;border:1.5px solid #fde047;border-radius:8px;padding:5px 12px;font-size:.72rem;font-weight:700;color:#713f12;">'
+              + '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+              + cfg.notice + '</div>' : '')
         + '</div>'
         + '<div class="ext-store-cta">'
           + '<a href="' + cfg.url + '" target="_blank" rel="noopener" class="btn-ext-store" style="background:linear-gradient(135deg,' + cfg.accentColor + ',' + cfg.accentColor + 'bb);box-shadow:0 6px 20px ' + cfg.accentColor + '38;">'
