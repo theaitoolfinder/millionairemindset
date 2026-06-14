@@ -1101,10 +1101,8 @@
      GEMINI 2.5 FLASH — FREE AI BACKEND
      Get your free key at: aistudio.google.com
   ══════════════════════════════════════════════ */
-  var GEMINI_API_KEY = 'PASTE_YOUR_GEMINI_KEY_HERE';
-  var GEMINI_MODEL   = 'gemini-2.5-flash';
-  var GEMINI_URL     = 'https://generativelanguage.googleapis.com/v1beta/models/'
-                     + GEMINI_MODEL + ':generateContent?key=' + GEMINI_API_KEY;
+  /* API key is stored securely in Cloudflare Worker — never exposed in client */
+  var GEMINI_WORKER_URL = 'https://mm-ai-proxy.info-myaitoolbox.workers.dev/';
 
   /* Conversation history — keeps context across messages in a session */
   var _chatHistory = [];
@@ -1165,9 +1163,6 @@
 
   /* Call Gemini 2.5 Flash with full conversation history */
   function callGemini(userText, charName, onSuccess, onFail) {
-    if (!GEMINI_API_KEY || GEMINI_API_KEY === 'PASTE_YOUR_GEMINI_KEY_HERE') {
-      onFail(); return;
-    }
     var sysPrompt = SYSTEM_PROMPT.replace(/{{CHAR}}/g, charName);
 
     /* Keep last 10 exchanges (20 turns) for context */
@@ -1184,7 +1179,7 @@
       },
     };
 
-    fetch(GEMINI_URL, {
+    fetch(GEMINI_WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
