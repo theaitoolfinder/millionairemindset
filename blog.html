@@ -546,7 +546,8 @@
       radial-gradient(circle 4px at 50% 4px, var(--ks-page-bg) 99%, transparent) 0 -4px / 8px 8px repeat-x,
       radial-gradient(circle 4px at 50% calc(100% - 4px), var(--ks-page-bg) 99%, transparent) 0 calc(100% + 4px) / 8px 8px repeat-x;
   }
-  .ks-stamp-img { width:64px; height:52px; object-fit:cover; display:block; }
+  .ks-stamp-img { width:64px; height:52px; display:block; border-radius:1px; }
+  .ks-stamp-pick img { display:none; } /* safety: hide any stray img tags */
   .ks-stamp-foot {
     position:absolute; bottom:2px; left:0; right:0;
     display:flex; justify-content:space-between; align-items:center;
@@ -812,12 +813,13 @@
         <div class="ks-stamp-section-label">📮 Choose Your Philippine Postage Stamp</div>
         <div class="ks-stamp-cat-tabs">
           <button class="ks-cat-tab active" onclick="ksFilterStamps('all',this)">All</button>
-          <button class="ks-cat-tab" onclick="ksFilterStamps('nature',this)">Nature</button>
-          <button class="ks-cat-tab" onclick="ksFilterStamps('marine',this)">Marine</button>
-          <button class="ks-cat-tab" onclick="ksFilterStamps('heritage',this)">Heritage</button>
-          <button class="ks-cat-tab" onclick="ksFilterStamps('festival',this)">Festival</button>
-          <button class="ks-cat-tab" onclick="ksFilterStamps('culture',this)">Culture</button>
-          <button class="ks-cat-tab" onclick="ksFilterStamps('wildlife',this)">Wildlife</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('nature',this)">🌿 Nature</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('marine',this)">🐠 Marine</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('heritage',this)">🏛️ Heritage</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('festival',this)">🎉 Festival</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('symbols',this)">🇵🇭 Symbols</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('culture',this)">🚌 Culture</button>
+          <button class="ks-cat-tab" onclick="ksFilterStamps('wildlife',this)">🦅 Wildlife</button>
         </div>
         <div class="ks-stamp-grid" id="ks-stamp-picker"></div>
         <p id="ks-stamp-hint" style="font-size:.72rem;color:#CC1010;margin-top:6px;display:none;">Please choose a stamp to continue.</p>
@@ -959,10 +961,14 @@
     it:'🇮🇹 Italy', de:'🇩🇪 Germany', other:'🌍 Abroad'
   };
 
-  function stampImg(id, w, h) {
-    var s = STAMPS.find(function(x){ return x.id === id; });
-    if (!s) s = STAMPS[0];
-    return 'https://images.unsplash.com/' + s.img + '?w=' + (w||80) + '&q=80&auto=format&fit=crop';
+  function stampArt(stamp, w, h) {
+    /* Returns HTML for the stamp artwork — emoji on a gradient background. No external images. */
+    w = w || 64; h = h || 52;
+    var fs = Math.round(h * 0.48);
+    var c = stamp.color || '#fff';
+    return '<div style="width:'+w+'px;height:'+h+'px;background:'+stamp.bg+';display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:1px;">'
+      + '<span style="font-size:'+fs+'px;line-height:1;filter:drop-shadow(0 1px 3px rgba(0,0,0,.4));user-select:none;">'+stamp.emoji+'</span>'
+      + '</div>';
   }
   function stampByid(id) { return STAMPS.find(function(x){ return x.id === id; }) || STAMPS[0]; }
 
@@ -1011,10 +1017,10 @@
 
     board.innerHTML = slice.map(function(p){
       var s = stampByid(p.stamp);
-      var imgUrl = stampImg(p.stamp, 90, 72);
+      var artHtml = stampArt(s, 64, 52);
       var locLabel = LOC_MAP[p.loc] || '🌍 Abroad';
       return '<div class="ks-card" id="card-'+p.id+'">'
-        + '<div class="ks-card-stamp-wrap"><div class="ks-stamp"><img class="ks-stamp-img" src="'+imgUrl+'" alt="'+s.label+'" loading="lazy"><div class="ks-stamp-foot"><span class="ks-stamp-denom">'+s.denom+'</span><span class="ks-stamp-country">PILIPINAS</span></div></div></div>'
+        + '<div class="ks-card-stamp-wrap"><div class="ks-stamp">'+artHtml+'<div class="ks-stamp-foot"><span class="ks-stamp-denom">'+s.denom+'</span><span class="ks-stamp-country">PILIPINAS</span></div></div></div>'
         + '<div class="ks-card-meta">'
           + '<div class="ks-card-avatar" style="background:'+avatarColor(p.initials)+'">'+p.initials+'</div>'
           + '<div class="ks-card-info"><div class="ks-card-author">'+escHtml(p.author)+'</div><div class="ks-card-loc"><span>'+locLabel+'</span></div></div>'
@@ -1051,9 +1057,9 @@
     var stamps = activeStampCat === 'all' ? STAMPS : STAMPS.filter(function(s){ return s.cat === activeStampCat; });
     grid.innerHTML = stamps.map(function(s){
       var sel = selectedStamp === s.id ? ' selected' : '';
-      var imgUrl = 'https://images.unsplash.com/' + s.img + '?w=90&q=75&auto=format&fit=crop';
+      var artHtml = stampArt(s, 62, 50);
       return '<div class="ks-stamp-pick'+sel+'" id="pick-'+s.id+'" onclick="ksSelectStamp(\''+s.id+'\')" title="'+s.label+'">'
-        + '<img src="'+imgUrl+'" alt="'+s.label+'" loading="lazy">'
+        + artHtml
         + '<div class="ks-stamp-pick-foot"><span>'+s.denom+'</span><span>'+s.label+'</span></div>'
       + '</div>';
     }).join('');
