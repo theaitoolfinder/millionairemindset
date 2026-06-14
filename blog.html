@@ -523,29 +523,31 @@
   }
   .ks-carousel-row {
     display: flex;
+    align-items: flex-start; /* prevent expanded card from stretching siblings */
     gap: 16px;
     overflow-x: auto;
-    padding: 8px 4px 16px;
+    overflow-y: visible;
+    padding: 8px 4px 20px;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
   }
   .ks-carousel-row::-webkit-scrollbar { display: none; }
-  .ks-carousel-row + .ks-carousel-row { margin-top: 4px; }
+  .ks-carousel-row + .ks-carousel-row { margin-top: 8px; }
 
   /* Arrow buttons */
   .ks-arrow {
     position: absolute; top: 50%; transform: translateY(-50%);
-    width: 38px; height: 38px; border-radius: 50%;
-    background: #fff; border: 1.5px solid rgba(0,0,0,.1);
-    box-shadow: 0 2px 12px rgba(0,0,0,.12);
+    width: 40px; height: 40px; border-radius: 50%;
+    background: #fff; border: 1.5px solid var(--border-soft, rgba(0,0,0,.1));
+    box-shadow: 0 2px 12px rgba(0,0,0,.13);
     cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center;
     transition: all .2s; color: var(--text);
   }
-  .ks-arrow:hover { background: #CC1010; color: #fff; border-color: #CC1010; }
-  .ks-arrow-left  { left: -18px; }
-  .ks-arrow-right { right: -18px; }
-  @media(max-width:640px){ .ks-arrow { display: none; } }
+  .ks-arrow:hover { background: var(--primary,#CC1010); color: #fff; border-color: var(--primary,#CC1010); }
+  .ks-arrow-left  { left: -20px; }
+  .ks-arrow-right { right: -20px; }
+  @media(max-width:680px){ .ks-arrow { display: none; } }
 
   /* ─── Story card ─── */
   .ks-card {
@@ -558,26 +560,31 @@
     transition: transform .2s, box-shadow .2s;
     position: relative;
     overflow: hidden;
-    /* Fixed card size */
     flex: 0 0 300px;
     width: 300px;
     scroll-snap-align: start;
-    height: 360px; /* fixed height — expand button shows more */
+    height: 360px;
+    /* clip text at fixed height */
   }
   @media(max-width:640px){ .ks-card { flex: 0 0 270px; width: 270px; } }
 
   .ks-card:hover { transform:translateY(-3px); box-shadow:0 8px 28px rgba(0,0,0,.1); }
-  .ks-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,#CC1010,#C8900A); }
+  .ks-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--primary,#CC1010),#C8900A); }
 
-  /* Expanded card */
-  .ks-card.expanded { height: auto; z-index: 5; }
+  /* Expanded card — overrides fixed height, lets card grow downward */
+  .ks-card.expanded {
+    height: auto;
+    overflow: visible;
+    z-index: 5;
+    box-shadow: 0 10px 40px rgba(0,0,0,.15);
+  }
 
   /* Read more / collapse */
   .ks-read-more {
     margin-top: auto; padding-top: 8px;
     background: none; border: none; cursor: pointer;
     font: 600 .72rem 'Poppins', sans-serif;
-    color: #CC1010; text-align: left; display: flex; align-items: center; gap: 4px;
+    color: var(--primary,#CC1010); text-align: left; display: flex; align-items: center; gap: 4px;
   }
   .ks-read-more svg { transition: transform .2s; }
   .ks-card.expanded .ks-read-more svg { transform: rotate(180deg); }
@@ -1124,26 +1131,28 @@
   window.ksScrollBoth = function(dir) {
     var r1 = document.getElementById('ks-row-1');
     var r2 = document.getElementById('ks-row-2');
-    var amount = 316 * 2; // ~2 cards
-    [r1, r2].forEach(function(r){ if(r) r.scrollBy({ left: dir * amount, behavior: 'smooth' }); });
+    var amount = 316; // 1 card width + gap
+    [r1, r2].forEach(function(r){
+      if (r) r.scrollBy({ left: dir * amount, behavior: 'smooth' });
+    });
   };
 
-  // Keep rows synced on manual scroll
-  (function syncRows(){
+  // Keep rows synced on manual scroll — set up after DOM ready
+  document.addEventListener('DOMContentLoaded', function() {
     var rows = ['ks-row-1','ks-row-2'];
     var syncing = false;
-    rows.forEach(function(id, i){
+    rows.forEach(function(id, i) {
       var el = document.getElementById(id);
       if (!el) return;
-      el.addEventListener('scroll', function(){
+      el.addEventListener('scroll', function() {
         if (syncing) return;
         syncing = true;
-        var other = document.getElementById(rows[1-i]);
+        var other = document.getElementById(rows[1 - i]);
         if (other) other.scrollLeft = el.scrollLeft;
-        requestAnimationFrame(function(){ syncing = false; });
+        requestAnimationFrame(function() { syncing = false; });
       });
     });
-  })();
+  });
 
   function avatarColor(letter) {
     var colors = ['linear-gradient(135deg,#CC1010,#A80D0D)','linear-gradient(135deg,#C8900A,#A07208)','linear-gradient(135deg,#059669,#047857)','linear-gradient(135deg,#3b82f6,#2563eb)','linear-gradient(135deg,#7c3aed,#5b21b6)'];
