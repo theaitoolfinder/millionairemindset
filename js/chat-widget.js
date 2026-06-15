@@ -524,7 +524,7 @@
         </button>
       </div>
       <div class="mm-powered">
-        Powered by <svg height="14" viewBox="0 0 80 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin:0 3px 1px;"><text x="0" y="18" font-family="Arial,sans-serif" font-weight="800" font-size="18" fill="#F55036">Groq</text></svg>
+        Powered by <img src="img/groq-badge.svg" alt="Groq" height="16" style="vertical-align:middle;margin:0 1px 2px;">
       </div>
     </div>
 
