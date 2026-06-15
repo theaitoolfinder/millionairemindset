@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 28" fill="none">
-  <!-- Orange circle -->
-  <circle cx="14" cy="14" r="13" fill="#F55036"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 26" fill="none">
+  <!-- Rounded square background -->
+  <rect x="1" y="1" width="24" height="24" rx="6" fill="#F55036"/>
   <!-- Lightning bolt -->
-  <polygon points="16,3 8,15 14,15 12,25 20,13 14,13" fill="white"/>
+  <polygon points="15.5,3.5 8.5,14 14,14 10.5,22.5 19,12 13.5,12" fill="white"/>
   <!-- Groq wordmark -->
-  <text x="32" y="20" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="700" font-size="16" fill="#1a1a1a" letter-spacing="-0.3">Groq</text>
+  <text x="30" y="19" font-family="'Helvetica Neue',Helvetica,Arial,sans-serif" font-weight="700" font-size="15" fill="#1a1a1a" letter-spacing="-0.2">Groq</text>
 </svg>
