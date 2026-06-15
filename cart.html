@@ -161,43 +161,45 @@
           <!-- ── STEP 1: Checkout form ── -->
           <div id="checkoutStep">
             <h4 style="margin:24px 0 14px;">Your Details</h4>
-            <form id="checkoutForm" onsubmit="handleCheckout(event)" novalidate>
-              <input type="text"  id="checkoutName"    placeholder="Full Name *"                      required class="checkout-input" autocomplete="name" />
-              <input type="email" id="checkoutEmail"   placeholder="Email Address *"                  required class="checkout-input" autocomplete="email" />
-              <input type="tel"   id="checkoutPhone"   placeholder="Phone / Viber / WhatsApp"                  class="checkout-input" autocomplete="tel" />
-              <input type="text"  id="checkoutAddress" placeholder="Delivery Address (if physical item)"        class="checkout-input" autocomplete="street-address" />
-              <input type="text"  id="checkoutZip"     placeholder="ZIP / Postal Code"                          class="checkout-input" autocomplete="postal-code" />
+            <form id="checkoutForm" novalidate>
+              <input type="text"  id="checkoutName"    placeholder="Full Name *"                         required class="checkout-input" autocomplete="name" />
+              <input type="email" id="checkoutEmail"   placeholder="Email Address *"                     required class="checkout-input" autocomplete="email" />
+              <input type="tel"   id="checkoutPhone"   placeholder="Phone / Viber / WhatsApp"                     class="checkout-input" autocomplete="tel" />
+              <input type="text"  id="checkoutAddress" placeholder="Delivery Address (if physical item)"           class="checkout-input" autocomplete="street-address" />
+              <input type="text"  id="checkoutZip"     placeholder="ZIP / Postal Code"                             class="checkout-input" autocomplete="postal-code" />
 
-              <p style="font-size:.78rem; font-weight:700; color:var(--text); margin:14px 0 8px;">Payment Method *</p>
-              <div class="pay-method-list" id="payMethodList"><!-- filled by JS --></div>
-
-              <div id="formError" style="display:none; color:#dc2626; font-size:.78rem; margin:8px 0; padding:8px 12px; background:#fef2f2; border-radius:8px;"></div>
-
-              <button type="submit" class="btn-primary" style="width:100%; margin-top:14px; padding:14px;">
-                Place Order
-              </button>
+              <div id="formError" style="display:none; color:#dc2626; font-size:.78rem; margin:10px 0; padding:8px 12px; background:#fef2f2; border-radius:8px;"></div>
             </form>
-            <p class="checkout-note" style="margin-top:10px;">Fields marked * are required. You will see payment instructions immediately after placing your order.</p>
+
+            <!-- PayPal button renders here -->
+            <div style="margin-top:16px;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                <span style="font-size:.72rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;">Secure Payment via PayPal</span>
+              </div>
+              <div id="paypal-button-container"></div>
+            </div>
+            <p class="checkout-note" style="margin-top:10px;">Fields marked * are required. Clicking the PayPal button will validate your details and open PayPal checkout.</p>
           </div>
 
-          <!-- ── STEP 2: Payment instructions (shown after order) ── -->
+          <!-- ── STEP 2: Success (shown after PayPal payment) ── -->
           <div id="paymentStep" style="display:none;">
             <div class="order-success-card">
               <div class="check-icon">&#10003;</div>
-              <h4>Order Received!</h4>
-              <p>Your order has been placed. Please complete payment to confirm.</p>
+              <h4>Payment Confirmed!</h4>
+              <p>Thank you! Your PayPal payment was successful. Your order is now being processed.</p>
               <div class="ref-chip" id="orderRefChip"></div>
             </div>
 
-            <div class="pay-box" id="payInstructions">
+            <div class="pay-box">
               <div class="pay-box-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-                Payment Instructions
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                Order Details
               </div>
               <div id="payInstructionsBody"></div>
               <div class="pay-box-ref">
-                Your reference: <strong id="payRefNum"></strong><br>
-                <span style="font-size:.72rem; color:#888;">Use this as payment note/reference</span>
+                Order Reference: <strong id="orderRefChip2"></strong><br>
+                PayPal Transaction: <strong id="paypalTxnId"></strong>
               </div>
             </div>
 
@@ -205,7 +207,7 @@
               <a href="shop.html" class="btn-primary" style="display:inline-block; padding:10px 28px; font-size:.84rem;">Continue Shopping</a>
             </div>
             <p style="font-size:.72rem; color:#aaa; text-align:center; margin-top:10px;">
-              Confirmation will be sent to your email once payment is verified.
+              A confirmation will be sent to your email once your order is dispatched.
             </p>
           </div>
 
@@ -230,49 +232,17 @@
   <script src="js/cart.js"></script>
   <script src="js/main.js?v=20260616"></script>
   <script src="js/chat-widget.js?v=20260701"></script>
+  <!-- PayPal JS SDK -->
+  <script src="https://www.paypal.com/sdk/js?client-id=BAAk7LQMEa2Pqi2mXZaorCVohcLE2y0fiYz9pfi4-zw3yFmFP8NVLXLShyz1cRLstv3eed0k9Fd9Yhziqg&currency=PHP" data-sdk-integration-source="button-factory"></script>
   <script>
-  // ── Build payment method radio list ──────────────────────────────────
-  (function buildPayMethods(){
-    var list = document.getElementById('payMethodList');
-    if (!list || typeof PAYMENT_METHODS === 'undefined') return;
-    list.innerHTML = PAYMENT_METHODS.map(function(pm, i){
-      return '<label class="pay-method-opt" onclick="selectPayMethod(this)">'
-        + '<input type="radio" name="payMethod" value="' + pm.id + '"' + (i===0?' checked':'') + '>'
-        + pm.label
-        + '</label>';
-    }).join('');
-    // Mark first as selected
-    var first = list.querySelector('.pay-method-opt');
-    if (first) first.classList.add('selected');
-  })();
+  // ── Helpers ──────────────────────────────────────────────────────────
+  function showFormErr(msg) {
+    var el = document.getElementById('formError');
+    el.textContent = msg;
+    el.style.display = msg ? 'block' : 'none';
+  }
 
-  window.selectPayMethod = function(el) {
-    document.querySelectorAll('.pay-method-opt').forEach(function(o){ o.classList.remove('selected'); });
-    el.classList.add('selected');
-  };
-
-  // ── Checkout handler ─────────────────────────────────────────────────
-  window.handleCheckout = function(e) {
-    e.preventDefault();
-    var errEl = document.getElementById('formError');
-    errEl.style.display = 'none';
-
-    var name    = (document.getElementById('checkoutName')   ||{value:''}).value.trim();
-    var email   = (document.getElementById('checkoutEmail')  ||{value:''}).value.trim();
-    var phone   = (document.getElementById('checkoutPhone')  ||{value:''}).value.trim();
-    var address = (document.getElementById('checkoutAddress')||{value:''}).value.trim();
-    var zip     = (document.getElementById('checkoutZip')    ||{value:''}).value.trim();
-    var payInput = document.querySelector('input[name="payMethod"]:checked');
-    var payId    = payInput ? payInput.value : '';
-
-    // Validate
-    if (!name)  { showErr('Please enter your full name.'); return; }
-    if (!email || !email.includes('@')) { showErr('Please enter a valid email address.'); return; }
-    if (!payId) { showErr('Please select a payment method.'); return; }
-
-    function showErr(msg) { errEl.textContent = msg; errEl.style.display = 'block'; }
-
-    // Collect cart items
+  function getCartData() {
     var cartItems = [];
     var total = 0;
     try {
@@ -286,32 +256,44 @@
         total += ci.price * (ci.qty||1);
       });
     } catch(ex){}
+    return { cartItems: cartItems, total: total };
+  }
 
-    if (!cartItems.length) { showErr('Your cart is empty.'); return; }
+  function validateForm() {
+    var name  = (document.getElementById('checkoutName') ||{value:''}).value.trim();
+    var email = (document.getElementById('checkoutEmail')||{value:''}).value.trim();
+    if (!name)                         { showFormErr('Please enter your full name.'); return false; }
+    if (!email || !email.includes('@')){ showFormErr('Please enter a valid email address.'); return false; }
+    var cd = getCartData();
+    if (!cd.cartItems.length)          { showFormErr('Your cart is empty.'); return false; }
+    showFormErr('');
+    return true;
+  }
+
+  function saveAndShowSuccess(txnId, txnStatus) {
+    var name    = (document.getElementById('checkoutName')   ||{value:''}).value.trim();
+    var email   = (document.getElementById('checkoutEmail')  ||{value:''}).value.trim();
+    var phone   = (document.getElementById('checkoutPhone')  ||{value:''}).value.trim();
+    var address = (document.getElementById('checkoutAddress')||{value:''}).value.trim();
+    var zip     = (document.getElementById('checkoutZip')    ||{value:''}).value.trim();
+    var cd      = getCartData();
 
     // Generate order ref
     var ref = typeof generateOrderRef === 'function'
       ? generateOrderRef()
       : 'MM-' + Date.now().toString(36).toUpperCase().slice(-6);
 
-    var now = new Date();
-    var dateStr = now.toLocaleDateString('en-PH', {year:'numeric', month:'long', day:'numeric'});
-
-    // Find payment instructions
-    var payMethod = (typeof PAYMENT_METHODS !== 'undefined')
-      ? PAYMENT_METHODS.find(function(pm){ return pm.id === payId; })
-      : null;
-    var payLabel = payMethod ? payMethod.label : payId;
-    var payInstr = payMethod ? payMethod.instructions : 'Please contact us at hello@millionairemindset.ae for payment instructions.';
+    var now     = new Date();
+    var dateStr = now.toLocaleDateString('en-AE', {year:'numeric', month:'long', day:'numeric'});
 
     // Decrement stock for physical items
-    cartItems.forEach(function(ci) {
+    cd.cartItems.forEach(function(ci) {
       if (ci.delivery === 'physical' && typeof decrementStock === 'function') {
         decrementStock(ci.id, ci.qty);
       }
     });
 
-    // Save order to localStorage
+    // Save order
     var order = {
       ref: ref,
       date: dateStr,
@@ -321,11 +303,12 @@
       phone: phone,
       address: address,
       zip: zip,
-      items: cartItems,
-      total: total,
-      payment: payLabel,
-      paymentId: payId,
-      status: 'pending_payment',  // pending_payment | paid | packing | dispatched | delivered | cancelled
+      items: cd.cartItems,
+      total: cd.total,
+      payment: 'PayPal',
+      paymentId: txnId || '',
+      paymentStatus: txnStatus || 'COMPLETED',
+      status: 'paid',
       trackingNumber: '',
       notes: '',
     };
@@ -337,17 +320,74 @@
 
     // Clear cart
     try { localStorage.setItem('mm_cart', '[]'); } catch(ex){}
-    cart = [];
-    updateCartUI();
-    renderCartPage();
+    if (typeof cart !== 'undefined') cart = [];
+    if (typeof updateCartUI  === 'function') updateCartUI();
+    if (typeof renderCartPage === 'function') renderCartPage();
 
-    // Show payment step
+    // Show success step
     document.getElementById('checkoutStep').style.display = 'none';
     document.getElementById('paymentStep').style.display  = 'block';
     document.getElementById('orderRefChip').textContent   = ref;
-    document.getElementById('payRefNum').textContent      = ref;
-    document.getElementById('payInstructionsBody').innerHTML = payInstr;
-  };
+    var chip2 = document.getElementById('orderRefChip2');
+    if (chip2) chip2.textContent = ref;
+    var txnEl = document.getElementById('paypalTxnId');
+    if (txnEl) txnEl.textContent = txnId || 'N/A';
+    var bodyEl = document.getElementById('payInstructionsBody');
+    if (bodyEl) bodyEl.innerHTML =
+      '<p style="margin:0 0 6px;">A confirmation email will be sent to <strong>' + email + '</strong> once your order is dispatched.</p>' +
+      '<p style="margin:0;">Items: <strong>' + cd.cartItems.length + '</strong> &nbsp;|&nbsp; Total paid: <strong>&#8369;' + cd.total.toFixed(2) + '</strong></p>';
+  }
+
+  // ── PayPal Buttons ───────────────────────────────────────────────────
+  paypal.Buttons({
+    style: {
+      shape:  'rect',
+      color:  'gold',
+      layout: 'vertical',
+      label:  'pay'
+    },
+
+    // Called when PayPal popup is about to open — validate first
+    onClick: function(data, actions) {
+      if (!validateForm()) {
+        return actions.reject();
+      }
+      return actions.resolve();
+    },
+
+    // Create the PayPal order
+    createOrder: function(data, actions) {
+      var cd = getCartData();
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: cd.total.toFixed(2),
+            currency_code: 'PHP'
+          },
+          description: 'MillionaireMindset.ae order'
+        }]
+      });
+    },
+
+    // Payment approved by buyer
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        var txnId = details.id || (data.orderID || '');
+        var status = (details.status) || 'COMPLETED';
+        saveAndShowSuccess(txnId, status);
+      });
+    },
+
+    onError: function(err) {
+      showFormErr('PayPal encountered an error. Please try again or contact support.');
+      console.error('PayPal error:', err);
+    },
+
+    onCancel: function() {
+      showFormErr('Payment was cancelled. You can try again when ready.');
+    }
+
+  }).render('#paypal-button-container');
   </script>
 </body>
 </html>
