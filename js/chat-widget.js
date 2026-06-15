@@ -1106,9 +1106,9 @@
      Get your free key at: aistudio.google.com
   ══════════════════════════════════════════════ */
   /* API key is stored securely in Cloudflare Worker — never exposed in client */
-  var GEMINI_WORKER_URL = 'https://mm-ai-proxy.info-myaitoolbox.workers.dev/';
+  var GROQ_WORKER_URL = 'https://mm-ai-proxy.info-myaitoolbox.workers.dev/';
 
-  /* Conversation history — keeps context across the session */
+  /* Conversation history — OpenAI-compatible format {role, content} */
   var _chatHistory = [];
 
   /* Detect current page for context-aware replies */
@@ -1235,41 +1235,40 @@
       .trim();
   }
 
-  /* Call Gemini 2.5 Flash via Cloudflare Worker */
-  function callGemini(userText, charName, onSuccess, onFail) {
+  /* Call Groq (llama-3.3-70b) via Cloudflare Worker */
+  function callGroq(userText, charName, onSuccess, onFail) {
     var sysPrompt = SYSTEM_PROMPT
       .replace(/{{CHAR}}/g, charName)
       .replace('{{PAGE}}', getCurrentPageContext());
 
     /* Keep last 10 exchanges (20 turns) for context */
-    _chatHistory.push({ role: 'user', parts: [{ text: userText }] });
+    _chatHistory.push({ role: 'user', content: userText });
     if (_chatHistory.length > 20) _chatHistory = _chatHistory.slice(-20);
 
+    /* Build messages: system first, then conversation history */
+    var messages = [{ role: 'system', content: sysPrompt }].concat(_chatHistory);
+
     var body = {
-      system_instruction: { parts: [{ text: sysPrompt }] },
-      contents: _chatHistory,
-      generationConfig: {
-        temperature: 0.88,
-        maxOutputTokens: 320,
-        topP: 0.95,
-      },
+      messages: messages,
+      temperature: 0.88,
+      max_tokens: 320,
+      top_p: 0.95,
     };
 
-    fetch(GEMINI_WORKER_URL, {
+    fetch(GROQ_WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {
-      var raw = data && data.candidates && data.candidates[0]
-        && data.candidates[0].content && data.candidates[0].content.parts
-        && data.candidates[0].content.parts[0]
-        ? data.candidates[0].content.parts[0].text
+      var raw = data && data.choices && data.choices[0]
+        && data.choices[0].message && data.choices[0].message.content
+        ? data.choices[0].message.content
         : null;
       if (!raw) { _chatHistory.pop(); onFail(); return; }
       var text = cleanGeminiText(raw);
-      _chatHistory.push({ role: 'model', parts: [{ text: raw }] });
+      _chatHistory.push({ role: 'assistant', content: raw });
       onSuccess(text);
     })
     .catch(function() { _chatHistory.pop(); onFail(); });
@@ -1349,7 +1348,7 @@
       updateSuggests(intent, lang);
     }
 
-    callGemini(userText, name,
+    callGroq(userText, name,
       /* onSuccess */ function(text) {
         console.log('[MM Chat] Gemini reply received');
         tid.remove();
