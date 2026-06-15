@@ -307,13 +307,16 @@
 
   /* ── Powered by Groq ── */
   .mm-powered {
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
     font-size: .62rem;
     color: #bbb;
-    padding: 3px 0 7px;
+    padding: 4px 0 7px;
     background: rgba(255,255,255,.95);
     letter-spacing: .02em;
-    line-height: 1;
+    white-space: nowrap;
   }
 
   /* ── Input row ── */
@@ -524,7 +527,7 @@
         </button>
       </div>
       <div class="mm-powered">
-        Powered by <img src="img/groq-badge.svg" alt="Groq" height="16" style="vertical-align:middle;margin:0 1px 2px;">
+        Powered by <img src="img/groq-badge.svg" alt="Groq" height="18" style="display:inline-block;vertical-align:middle;">
       </div>
     </div>
 
