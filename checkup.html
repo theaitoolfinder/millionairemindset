@@ -21,7 +21,7 @@
 }catch(e){}})();
 </script>
   <link rel="stylesheet" href="css/style.css?v=20260615" />
-  <script src="js/security.js"></script>
+  <!-- security.js removed: mmSec async breaks profile reads -->
   <script src="js/gate.js"></script>
   <script src="js/theme.js"></script>
   <link rel="stylesheet" href="css/checkup.css" />
@@ -1313,18 +1313,11 @@
   var MM_PROFILE_KEY = 'mm_profile';
 
   function mmGetProfile() {
-    /* Use security module's obfuscated read if available */
-    if (window.mmSec) return mmSec.obfRead(MM_PROFILE_KEY);
     try { return JSON.parse(localStorage.getItem(MM_PROFILE_KEY)); } catch(e){ return null; }
   }
 
   function mmSaveProfile(p) {
-    if (window.mmSec) {
-      mmSec.obfWrite(MM_PROFILE_KEY, p);
-    } else {
-      try { localStorage.setItem(MM_PROFILE_KEY, JSON.stringify(p)); } catch(e){}
-    }
-    // Backward compat
+    try { localStorage.setItem(MM_PROFILE_KEY, JSON.stringify(p)); } catch(e){}
     try { localStorage.setItem('mm_subscriber', p.email); } catch(e){}
   }
 
