@@ -1344,7 +1344,7 @@
     if (role === 'bot') {
       div.innerHTML = '<div class="mm-msg-av">' + name[0] + '</div>'
         + '<div class="mm-msg-body">'
-          + '<div class="mm-msg-bub">' + autoLinkPages(text) + (extraHtml || '') + '</div>'
+          + '<div class="mm-msg-bub">' + text + (extraHtml || '') + '</div>'
           + '<div class="mm-msg-time">' + name + ' · ' + t + '</div>'
         + '</div>';
     } else {
