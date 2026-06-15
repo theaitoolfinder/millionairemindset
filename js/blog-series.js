@@ -7,7 +7,7 @@
  * post.html reads URL params: ?series=<id>&day=<n>
  */
 
-const BLOG_SERIES = [
+var BLOG_SERIES = [
   {
     id: 'first-100-days',
     title: 'First 100 Days Abroad',

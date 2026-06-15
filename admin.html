@@ -206,7 +206,7 @@
     }
     .pt-header {
       display: grid;
-      grid-template-columns: 40px 1fr 100px 90px 110px 120px 130px;
+      grid-template-columns: 48px 1fr 110px 110px 150px 160px;
       gap: 0;
       background: var(--surface-2);
       padding: 12px 20px;
@@ -217,7 +217,7 @@
     }
     .pt-row {
       display: grid;
-      grid-template-columns: 40px 1fr 100px 90px 110px 120px 130px;
+      grid-template-columns: 48px 1fr 110px 110px 150px 160px;
       gap: 0;
       padding: 16px 20px;
       border-bottom: 1px solid var(--border-soft);
@@ -679,7 +679,7 @@
 
     /* ── RESPONSIVE ─────────────────────────────── */
     @media (max-width: 900px) {
-      .pt-header, .pt-row { grid-template-columns: 40px 1fr 90px 100px 120px; }
+      .pt-header, .pt-row { grid-template-columns: 48px 1fr 100px 120px 150px; }
       .pt-header > :nth-child(3),
       .pt-row > :nth-child(3) { display: none; }
     }
@@ -1241,14 +1241,14 @@ function renderProductTable() {
       + '<div class="pt-cat"><span class="badge ' + (CAT_COLORS[p.category]||'badge-gray') + '">' + p.category + '</span></div>'
       + '<div class="pt-price">' + Number(p.price).toLocaleString() + ' <small style="font-weight:400;font-size:.7rem">' + (p.currency||'PHP') + '</small></div>'
       + '<div class="pt-cs-toggle">'
-        + '<label class="toggle-switch" title="Coming Soon">'
+        + '<label class="toggle-switch" title="Toggle availability">'
           + '<input type="checkbox" ' + (p.comingSoon ? 'checked' : '') + ' onchange="toggleCS(' + p.id + ',this.checked)">'
           + '<div class="toggle-track"></div>'
           + '<div class="toggle-thumb"></div>'
         + '</label>'
-        + '<span class="toggle-label">' + (p.comingSoon ? '<span style="color:var(--primary)">Soon</span>' : 'Live') + '</span>'
+        + '<span class="toggle-label">' + (p.comingSoon ? '<span style="color:var(--primary);font-weight:700;">Coming Soon</span>' : '<span style="color:#16a34a;font-weight:700;">Live</span>') + '</span>'
       + '</div>'
-      + '<div class="pt-actions">'
+      + '<div class="pt-actions" style="justify-content:flex-end;">'
         + '<button class="btn-edit" onclick="openEditModal(' + p.id + ')">✏️ Edit</button>'
         + '<button class="btn-danger" onclick="deleteProduct(' + p.id + ')">🗑</button>'
       + '</div>'
@@ -1257,7 +1257,7 @@ function renderProductTable() {
 
   table.innerHTML =
     '<div class="pt-header">'
-      + '<div>#</div><div>Product</div><div>Category</div><div>Price</div><div>Coming Soon</div><div></div><div style="text-align:right">Actions</div>'
+      + '<div>#</div><div>Product</div><div>Category</div><div>Price</div><div>Availability</div><div style="text-align:right">Actions</div>'
     + '</div>'
     + rows;
 }
