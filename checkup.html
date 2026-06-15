@@ -403,13 +403,14 @@
 
             <!-- Breakdown donut-style rows -->
             <div class="calc-breakdown" id="calcBreakdown" style="display:none;">
-              <h4 style="font-size:.85rem;font-weight:700;margin-bottom:12px;color:var(--text);">Breakdown ng Binabayaran</h4>
-              <div id="breakdownRows"></div>
-              <!-- Total row -->
-              <div class="bkd-total-row" id="bkdTotalRow" style="display:none;">
+              <!-- Total row — TOP -->
+              <div class="bkd-total-row bkd-total-row--top" id="bkdTotalRow" style="display:none;">
                 <div class="bkd-total-label">Kabuuang Binabayaran</div>
                 <div class="bkd-total-amount" id="bkdTotalAmt">AED 0</div>
               </div>
+              <div class="bkd-divider" id="bkdDivider" style="display:none;"></div>
+              <h4 style="font-size:.78rem;font-weight:700;margin:10px 0 10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;">Breakdown</h4>
+              <div id="breakdownRows"></div>
             </div>
 
             <!-- Smart advice card — shown after input -->
@@ -431,13 +432,49 @@
             <div class="calc-gate-overlay" id="calcGateOverlay" style="display:none;">
               <div class="calc-gate-box">
                 <div class="calc-gate-icon">🔒</div>
-                <h3 class="calc-gate-title">Para sa mga Subscriber Lamang</h3>
-                <p class="calc-gate-sub">Makita ang iyong buong financial breakdown, advice, at personalized na plano. Libre — mag-subscribe ka lang.</p>
-                <form class="calc-gate-form" onsubmit="calcGateSubmit(event)">
-                  <input type="email" id="calcGateEmail" placeholder="Ilagay ang iyong email" required class="calc-gate-input" />
+                <h3 class="calc-gate-title">I-unlock ang Buong Resulta</h3>
+                <p class="calc-gate-sub">Libre. Isang beses lang itanong — gagamitin namin ang iyong impormasyon para mapersonalize ang iyong financial plan at maihatid sa iyo ang pinakamahalagang content.</p>
+                <form class="calc-gate-form" id="calcGateForm" onsubmit="calcGateSubmit(event)" novalidate>
+                  <div class="gate-field-row">
+                    <input type="text"  id="gateFullName" placeholder="Buong Pangalan *" required class="calc-gate-input" autocomplete="name" />
+                    <input type="tel"   id="gateMobile"   placeholder="Mobile / WhatsApp *" required class="calc-gate-input" autocomplete="tel" />
+                  </div>
+                  <input type="email" id="gateEmail"    placeholder="Email Address *" required class="calc-gate-input" autocomplete="email" />
+                  <select id="gateLocation" class="calc-gate-input calc-gate-select" required>
+                    <option value="">Bansang Pinagtatrabahuhan *</option>
+                    <option value="UAE">UAE — United Arab Emirates</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="Qatar">Qatar</option>
+                    <option value="Kuwait">Kuwait</option>
+                    <option value="Bahrain">Bahrain</option>
+                    <option value="Oman">Oman</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Hong Kong">Hong Kong</option>
+                    <option value="Japan">Japan</option>
+                    <option value="South Korea">South Korea</option>
+                    <option value="UK">United Kingdom</option>
+                    <option value="USA">United States</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Australia</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Germany">Germany</option>
+                    <option value="Philippines">Philippines (Home)</option>
+                    <option value="Other">Other Country</option>
+                  </select>
+                  <div id="gateFormErr" style="display:none;color:#dc2626;font-size:.72rem;padding:6px 10px;background:#fef2f2;border-radius:8px;"></div>
                   <button type="submit" class="btn-primary calc-gate-btn">I-unlock ang Buong Resulta</button>
                 </form>
                 <p class="calc-gate-note">Walang bayad. Hindi ka i-spam. Maaari kang mag-unsubscribe anumang oras.</p>
+                <!-- Logged-in badge (shown if already profiled) -->
+                <div id="gateLoggedIn" style="display:none;" class="gate-logged-in">
+                  <div class="gate-logged-avatar" id="gateAvatar"></div>
+                  <div>
+                    <div id="gateLoggedName" style="font-weight:700;font-size:.88rem;"></div>
+                    <div id="gateLoggedSub"  style="font-size:.72rem;color:var(--text-dim);"></div>
+                  </div>
+                  <button onclick="calcGateLogout()" class="gate-logout-btn">Mag-logout</button>
+                </div>
               </div>
             </div>
 
@@ -705,15 +742,42 @@
   .calc-gate-title { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
   .calc-gate-sub { font-size: .82rem; color: var(--text-dim); line-height: 1.55; margin-bottom: 20px; }
   .calc-gate-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+  .gate-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  @media(max-width:500px){ .gate-field-row { grid-template-columns: 1fr; } }
   .calc-gate-input {
-    padding: 12px 16px; border-radius: 12px;
+    padding: 11px 14px; border-radius: 11px;
     border: 1.5px solid var(--border); background: rgba(255,255,255,.9);
-    font: 500 .9rem 'Poppins', sans-serif; color: var(--text);
-    outline: none; transition: .18s;
+    font: 500 .84rem 'Poppins', sans-serif; color: var(--text);
+    outline: none; transition: .18s; width: 100%; box-sizing: border-box;
   }
   .calc-gate-input:focus { border-color: var(--primary); }
+  .calc-gate-select { appearance: none; cursor: pointer; }
   .calc-gate-btn { padding: 13px; font-size: .88rem; }
   .calc-gate-note { font-size: .7rem; color: var(--text-dim); margin-top: 6px; }
+  .gate-logged-in {
+    display: flex; align-items: center; gap: 12px;
+    background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 12px;
+    padding: 12px 14px; margin-top: 10px; text-align: left;
+  }
+  .gate-logged-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg,#CC1010,#f97316);
+    color: #fff; font-size: .88rem; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .gate-logout-btn {
+    margin-left: auto; flex-shrink: 0;
+    padding: 5px 12px; border-radius: 8px;
+    border: 1.5px solid #dc2626; background: transparent;
+    color: #dc2626; font: 600 .72rem 'Poppins',sans-serif;
+    cursor: pointer; transition: .18s;
+  }
+  .gate-logout-btn:hover { background: #dc2626; color: #fff; }
+
+  /* Top total row */
+  .bkd-total-row--top { margin-bottom: 0; padding-bottom: 12px; border-top: none; }
+  .bkd-divider { height: 1px; background: rgba(0,0,0,.08); margin: 2px 0 0; }
   </style>
 
   <script>
@@ -1081,13 +1145,16 @@
     });
     var hasRows = wrap.children.length > 0;
     document.getElementById('calcBreakdown').style.display = hasRows ? 'block' : 'none';
-    /* Total row */
+    /* Total row — shown at TOP */
     var totalRow = document.getElementById('bkdTotalRow');
+    var divider  = document.getElementById('bkdDivider');
     if (hasRows && totalOut > 0) {
       document.getElementById('bkdTotalAmt').textContent = calcFmt(totalOut);
       totalRow.style.display = 'flex';
+      if (divider) divider.style.display = 'block';
     } else {
       totalRow.style.display = 'none';
+      if (divider) divider.style.display = 'none';
     }
   }
 
@@ -1188,13 +1255,30 @@
       + '</div></div>';
   }
 
-  /* ── Subscriber gate ────────────────────────────────────────────────── */
-  var MM_SUB_KEY = 'mm_subscriber';
+  /* ══════════════════════════════════════════════════════════════════════
+     USER PROFILE SYSTEM
+     Key: mm_profile (localStorage) — shared across all pages
+     Structure: { name, mobile, email, location, subscribedAt }
+     Once saved, the gate never appears again on this device.
+     On any page that needs it: mmGetProfile() returns the object or null.
+  ══════════════════════════════════════════════════════════════════════ */
+  var MM_PROFILE_KEY = 'mm_profile';
 
-  function calcIsSubscriber() {
-    try { return !!localStorage.getItem(MM_SUB_KEY); } catch(e){ return false; }
+  function mmGetProfile() {
+    try { return JSON.parse(localStorage.getItem(MM_PROFILE_KEY)); } catch(e){ return null; }
   }
 
+  function mmSaveProfile(p) {
+    try { localStorage.setItem(MM_PROFILE_KEY, JSON.stringify(p)); } catch(e){}
+    // Also write old key for backward compat with anything checking mm_subscriber
+    try { localStorage.setItem('mm_subscriber', p.email); } catch(e){}
+  }
+
+  function mmClearProfile() {
+    try { localStorage.removeItem(MM_PROFILE_KEY); localStorage.removeItem('mm_subscriber'); } catch(e){}
+  }
+
+  /* ── Gate logic ──────────────────────────────────────────────────────── */
   function calcApplyGate(hasData) {
     var wrap    = document.getElementById('calcGatedWrap');
     var overlay = document.getElementById('calcGateOverlay');
@@ -1203,24 +1287,81 @@
       overlay.style.display = 'none';
       return;
     }
-    if (calcIsSubscriber()) {
+    var profile = mmGetProfile();
+    if (profile && profile.email) {
       wrap.classList.remove('locked');
       overlay.style.display = 'none';
     } else {
       wrap.classList.add('locked');
       overlay.style.display = 'flex';
+      renderGateOverlay();
+    }
+  }
+
+  function renderGateOverlay() {
+    var profile = mmGetProfile();
+    var form    = document.getElementById('calcGateForm');
+    var loggedEl= document.getElementById('gateLoggedIn');
+    if (profile && profile.email) {
+      /* Already profiled — show logged-in badge instead of form */
+      if (form) form.style.display = 'none';
+      if (loggedEl) {
+        loggedEl.style.display = 'flex';
+        var initials = (profile.name || '?').split(' ').map(function(w){ return w[0]; }).slice(0,2).join('').toUpperCase();
+        document.getElementById('gateAvatar').textContent = initials;
+        document.getElementById('gateLoggedName').textContent = profile.name;
+        document.getElementById('gateLoggedSub').textContent  = profile.email + ' · ' + (profile.location || '');
+      }
+    } else {
+      if (form) form.style.display = 'flex';
+      if (loggedEl) loggedEl.style.display = 'none';
     }
   }
 
   function calcGateSubmit(e) {
     e.preventDefault();
-    var email = (document.getElementById('calcGateEmail').value || '').trim();
-    if (!email || !email.includes('@')) return;
-    try { localStorage.setItem(MM_SUB_KEY, email); } catch(ex){}
+    var name     = (document.getElementById('gateFullName').value || '').trim();
+    var mobile   = (document.getElementById('gateMobile').value   || '').trim();
+    var email    = (document.getElementById('gateEmail').value    || '').trim();
+    var location = (document.getElementById('gateLocation').value || '').trim();
+    var errEl    = document.getElementById('gateFormErr');
+
+    errEl.style.display = 'none';
+    if (!name)                          { errEl.textContent = 'Pakiusap punan ang iyong buong pangalan.'; errEl.style.display='block'; return; }
+    if (!mobile)                        { errEl.textContent = 'Pakiusap punan ang iyong mobile number.'; errEl.style.display='block'; return; }
+    if (!email || !email.includes('@')) { errEl.textContent = 'Pakiusap punan ang isang valid na email.'; errEl.style.display='block'; return; }
+    if (!location)                      { errEl.textContent = 'Pakiusap piliin ang iyong bansang pinagtatrabahuhan.'; errEl.style.display='block'; return; }
+
+    var profile = {
+      name:        name,
+      mobile:      mobile,
+      email:       email,
+      location:    location,
+      subscribedAt: new Date().toISOString()
+    };
+    mmSaveProfile(profile);
+
+    /* Send to leads system if configured */
+    if (typeof LEADS_SCRIPT_URL !== 'undefined' && LEADS_SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+      fetch(LEADS_SCRIPT_URL, {
+        method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ business:'Calculator Subscriber', timestamp: profile.subscribedAt,
+          name: profile.name, email: profile.email, phone: profile.mobile, location: profile.location })
+      }).catch(function(){});
+    }
+
     calcApplyGate(true);
-    /* Trigger a re-render so advice shows */
     calcUpdate();
   }
+
+  function calcGateLogout() {
+    mmClearProfile();
+    calcApplyGate(true);
+  }
+
+  /* Run gate check on page load */
+  (function(){ renderGateOverlay(); })();
 
   function calcSetCurrencyDrop(cur) {
     calcCurrency = cur;
