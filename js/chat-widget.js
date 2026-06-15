@@ -1350,7 +1350,7 @@
 
     callGroq(userText, name,
       /* onSuccess */ function(text) {
-        console.log('[MM Chat] Gemini reply received');
+        console.log('[MM Chat] Groq reply received');
         tid.remove();
         var showBiz = BIZ_KEYS.indexOf(intent) !== -1;
         addMsg('bot', text, showBiz ? (lang === 'tl' ? BIZ_TL : BIZ_EN) : null);
