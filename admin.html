@@ -91,15 +91,16 @@
 
     .admin-nav {
       background: #0f1117;
-      padding: 0 28px;
+      padding: 0 24px;
       display: flex; align-items: center; gap: 0;
       box-shadow: 0 2px 12px rgba(0,0,0,.2);
       position: sticky; top: 0; z-index: 100;
+      flex-wrap: wrap;
     }
     .admin-brand {
       font-size: 1rem; font-weight: 800; color: #fff;
-      letter-spacing: -.02em; padding: 18px 0;
-      margin-right: 32px; white-space: nowrap;
+      letter-spacing: -.02em; padding: 16px 0;
+      margin-right: 28px; white-space: nowrap;
     }
     .admin-brand span { color: var(--primary); }
     .admin-brand small {
@@ -107,17 +108,31 @@
       text-transform: uppercase; color: rgba(255,255,255,.35);
       margin-left: 8px;
     }
-    .admin-tabs { display: flex; flex: 1; gap: 0; }
+    /* Tab groups */
+    .admin-tabs { display: flex; flex: 1; gap: 0; align-items: center; flex-wrap: wrap; }
+    .tab-group {
+      display: flex; align-items: center; gap: 0;
+      border-right: 1px solid rgba(255,255,255,.08);
+      padding-right: 4px; margin-right: 4px;
+    }
+    .tab-group:last-child { border-right: none; }
+    .tab-group-label {
+      font-size: .58rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(255,255,255,.2);
+      padding: 0 10px; white-space: nowrap;
+    }
     .admin-tab {
-      padding: 18px 20px;
-      font-size: 0.83rem; font-weight: 600; color: rgba(255,255,255,.45);
+      padding: 16px 14px;
+      font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,.45);
       cursor: pointer; border-bottom: 3px solid transparent;
       transition: .2s; white-space: nowrap;
       background: none; border-top: none; border-left: none; border-right: none;
+      display: flex; align-items: center; gap: 5px;
     }
-    .admin-tab:hover { color: rgba(255,255,255,.8); }
+    .admin-tab:hover { color: rgba(255,255,255,.85); }
     .admin-tab.active { color: #fff; border-bottom-color: var(--primary); }
-    .admin-nav-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+    .admin-tab .tab-icon { font-size: .95rem; }
+    .admin-nav-right { display: flex; align-items: center; gap: 10px; padding: 10px 0; }
     .btn-shop-link {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 8px 16px; border-radius: 8px;
@@ -655,13 +670,48 @@
   <nav class="admin-nav">
     <div class="admin-brand">Millionaire<span>Mindset</span> <small>Admin</small></div>
     <div class="admin-tabs">
-      <button class="admin-tab active" onclick="showPage('products',this)">📦 Products</button>
-      <button class="admin-tab" onclick="showPage('payment',this)">💳 Payment Details</button>
-      <button class="admin-tab" onclick="showPage('logistics',this)">🚚 Logistics</button>
-      <button class="admin-tab" onclick="showPage('inventory',this)">📊 Inventory</button>
-      <button class="admin-tab" onclick="showPage('reports',this)">📈 Reports</button>
-      <button class="admin-tab" onclick="showPage('research',this)">🔍 Amazon Research</button>
-      <button class="admin-tab" onclick="showPage('settings',this)">⚙️ Settings</button>
+
+      <!-- GROUP 1: Store -->
+      <div class="tab-group">
+        <span class="tab-group-label">Store</span>
+        <button class="admin-tab active" onclick="showPage('products',this)">
+          <span class="tab-icon">📦</span> Products
+        </button>
+        <button class="admin-tab" onclick="showPage('payment',this)">
+          <span class="tab-icon">💳</span> Payment
+        </button>
+        <button class="admin-tab" onclick="showPage('inventory',this)">
+          <span class="tab-icon">🗃️</span> Inventory
+        </button>
+      </div>
+
+      <!-- GROUP 2: Operations -->
+      <div class="tab-group">
+        <span class="tab-group-label">Operations</span>
+        <button class="admin-tab" onclick="showPage('logistics',this)">
+          <span class="tab-icon">🚚</span> Logistics
+        </button>
+        <button class="admin-tab" onclick="showPage('reports',this)">
+          <span class="tab-icon">📈</span> Reports
+        </button>
+      </div>
+
+      <!-- GROUP 3: Growth -->
+      <div class="tab-group">
+        <span class="tab-group-label">Growth</span>
+        <button class="admin-tab" onclick="showPage('research',this)">
+          <span class="tab-icon">🔍</span> Amazon Research
+        </button>
+      </div>
+
+      <!-- GROUP 4: System -->
+      <div class="tab-group">
+        <span class="tab-group-label">System</span>
+        <button class="admin-tab" onclick="showPage('settings',this)">
+          <span class="tab-icon">⚙️</span> Settings
+        </button>
+      </div>
+
     </div>
     <div class="admin-nav-right">
       <a href="shop.html" class="btn-shop-link" target="_blank">
