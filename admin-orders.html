@@ -148,49 +148,171 @@
   /* ── Waybill modal ── */
   #waybill-overlay {
     display:none; position:fixed; inset:0; z-index:900;
-    background:rgba(0,0,0,.55); backdrop-filter:blur(4px);
+    background:rgba(0,0,0,.65); backdrop-filter:blur(4px);
     align-items:center; justify-content:center;
   }
   #waybill-overlay.open { display:flex; }
-  #waybill-modal { background:#fff; border-radius:20px; width:min(540px,95vw); box-shadow:0 20px 60px rgba(0,0,0,.25); overflow:hidden; max-height:92vh; overflow-y:auto; }
-  #wb-head { display:flex; align-items:center; justify-content:space-between; padding:16px 22px 12px; background:#CC1010; color:#fff; }
-  #wb-head h3 { font-size:.95rem; font-weight:800; margin:0; }
-  #wb-close { background:rgba(255,255,255,.2); border:none; border-radius:50%; width:30px; height:30px; color:#fff; font-size:16px; cursor:pointer; }
-  #wb-body { padding:0; }
-  #wb-actions { display:flex; gap:10px; padding:14px 20px; background:#f8f8f8; }
-  .wb-btn { flex:1; padding:10px; border-radius:10px; border:none; font:600 .82rem 'Poppins',sans-serif; cursor:pointer; transition:all .2s; }
-  .wb-print { background:#CC1010; color:#fff; }
-  .wb-print:hover { background:#a80d0d; }
-  .wb-cls { background:#e5e7eb; color:#111; }
+  #waybill-modal {
+    background:#f4f4f4; border-radius:16px;
+    width:min(460px,96vw); box-shadow:0 24px 64px rgba(0,0,0,.35);
+    overflow:hidden; max-height:96vh; overflow-y:auto;
+  }
+  #wb-head {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px 10px; background:#111; color:#fff;
+  }
+  #wb-head h3 { font-size:.88rem; font-weight:700; margin:0; letter-spacing:.04em; }
+  #wb-close {
+    background:rgba(255,255,255,.15); border:none; border-radius:50%;
+    width:28px; height:28px; color:#fff; font-size:15px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  #wb-body { padding:16px; }
+  #wb-actions { display:flex; gap:10px; padding:12px 16px; background:#e8e8e8; border-top:1px solid #ddd; }
+  .wb-btn {
+    flex:1; padding:10px; border-radius:8px; border:none;
+    font:600 .82rem 'Poppins',sans-serif; cursor:pointer; transition:all .2s;
+  }
+  .wb-print { background:#111; color:#fff; }
+  .wb-print:hover { background:#333; }
+  .wb-cls { background:#fff; color:#111; border:1px solid #ccc; }
 
-  .waybill { font-family:'Poppins',Arial,sans-serif; font-size:12px; color:#111; padding:24px; }
-  .waybill-header { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:16px; }
-  .waybill-logo { font-size:16px; font-weight:900; color:#CC1010; }
-  .waybill-logo span { color:#C8900A; }
-  .waybill-ref-no { font-size:18px; font-weight:800; letter-spacing:.04em; text-align:right; }
-  .waybill-ref-label { font-size:10px; color:#888; text-transform:uppercase; letter-spacing:.08em; text-align:right; }
-  hr.wdiv { border:none; border-top:1px solid #ddd; margin:12px 0; }
-  .waybill-parties { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:14px; }
-  .waybill-parties h4 { font-size:9px; text-transform:uppercase; letter-spacing:.1em; color:#888; margin-bottom:4px; font-weight:700; }
-  .waybill-parties p { margin:0; line-height:1.5; font-size:11.5px; }
-  .wb-items { width:100%; border-collapse:collapse; margin-bottom:12px; }
-  .wb-items th { font-size:9px; text-transform:uppercase; letter-spacing:.08em; color:#888; font-weight:700; padding:4px 6px; border-bottom:1px solid #ddd; text-align:left; }
-  .wb-items td { padding:5px 6px; font-size:11px; border-bottom:1px solid #f0f0f0; }
-  .wb-total { text-align:right; font-weight:700; font-size:.82rem; margin-bottom:12px; }
-  .wb-barcode { text-align:center; margin-top:12px; }
-  .wb-barcode-lines { display:flex; justify-content:center; gap:1.5px; align-items:flex-end; margin-bottom:4px; }
-  .wb-barcode-lines span { background:#111; display:inline-block; height:30px; width:2px; }
-  .wb-barcode-lines span:nth-child(2n){ height:22px; width:1px; }
-  .wb-barcode-lines span:nth-child(3n){ height:34px; width:3px; }
-  .wb-barcode-num { font-size:10px; letter-spacing:.15em; font-weight:700; }
-  .wb-footer { display:flex; justify-content:space-between; font-size:9px; color:#999; margin-top:10px; }
+  /* ── Amazon-style label: 4" × 6" at 96dpi = 384px × 576px ── */
+  .waybill {
+    font-family: Arial, Helvetica, sans-serif;
+    width: 384px; min-height: 576px;
+    margin: 0 auto;
+    background: #fff;
+    border: 2px solid #111;
+    box-sizing: border-box;
+    color: #000;
+    position: relative;
+  }
 
+  /* Zone 1 — Top bar: sender + carrier logo */
+  .wb-zone-top {
+    display: flex; align-items: stretch;
+    border-bottom: 2px solid #111;
+  }
+  .wb-sender {
+    flex: 1; padding: 8px 10px;
+    border-right: 2px solid #111;
+    font-size: 9px; line-height: 1.5;
+  }
+  .wb-sender-name { font-size: 11px; font-weight: 900; letter-spacing: -.01em; }
+  .wb-carrier-box {
+    width: 110px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding:8px;
+    gap:4px;
+  }
+  .wb-carrier-logo { font-size:13px; font-weight:900; letter-spacing:-.02em; color:#000; text-align:center; line-height:1.1; }
+  .wb-carrier-logo span { color:#CC1010; }
+  .wb-carrier-service {
+    font-size:8px; font-weight:700; letter-spacing:.1em;
+    text-transform:uppercase; color:#555; text-align:center;
+  }
+
+  /* Zone 2 — Barcode (large, prominent, top-center like Amazon) */
+  .wb-zone-barcode {
+    border-bottom: 2px solid #111;
+    padding: 10px 12px 8px;
+    text-align: center;
+    background: #fff;
+  }
+  .wb-barcode-svg { display:block; margin:0 auto; }
+  .wb-tracking-num {
+    font-size: 13px; font-weight: 900; letter-spacing: .18em;
+    margin-top: 5px; font-family: 'Courier New', monospace;
+  }
+
+  /* Zone 3 — Service level badge (e.g. STANDARD DELIVERY) */
+  .wb-zone-service {
+    background: #111; color: #fff;
+    text-align: center; padding: 6px 10px;
+    font-size: 14px; font-weight: 900;
+    letter-spacing: .12em; text-transform: uppercase;
+    border-bottom: 2px solid #111;
+  }
+
+  /* Zone 4 — SHIP TO (large, bold — Amazon's most prominent zone) */
+  .wb-zone-shipto {
+    padding: 10px 12px;
+    border-bottom: 2px solid #111;
+  }
+  .wb-shipto-label {
+    font-size: 8px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .1em; color: #555; margin-bottom: 4px;
+  }
+  .wb-shipto-name {
+    font-size: 20px; font-weight: 900; line-height: 1.15;
+    margin-bottom: 3px;
+  }
+  .wb-shipto-addr {
+    font-size: 13px; line-height: 1.55; font-weight: 500;
+  }
+  .wb-shipto-phone {
+    font-size: 11px; color: #333; margin-top: 4px; font-weight: 600;
+  }
+
+  /* Zone 5 — Order details row */
+  .wb-zone-details {
+    display: flex; border-bottom: 2px solid #111;
+  }
+  .wb-detail-cell {
+    flex: 1; padding: 7px 10px;
+    border-right: 1px solid #bbb;
+    font-size: 9px;
+  }
+  .wb-detail-cell:last-child { border-right: none; }
+  .wb-detail-label {
+    font-size: 7.5px; text-transform: uppercase;
+    letter-spacing: .08em; color: #666; margin-bottom: 2px;
+  }
+  .wb-detail-value { font-size: 11px; font-weight: 800; }
+
+  /* Zone 6 — Items table */
+  .wb-zone-items { padding: 8px 10px; border-bottom: 2px solid #111; }
+  .wb-items {
+    width: 100%; border-collapse: collapse; font-size: 9px;
+  }
+  .wb-items th {
+    font-size: 7.5px; text-transform: uppercase; letter-spacing: .07em;
+    color: #555; padding: 3px 4px; border-bottom: 1px solid #aaa;
+    text-align: left; font-weight: 800;
+  }
+  .wb-items td { padding: 4px 4px; border-bottom: 1px solid #ddd; font-size: 9.5px; }
+  .wb-items tr:last-child td { border-bottom: none; }
+  .wb-items-total {
+    text-align: right; font-size: 10px; font-weight: 900;
+    margin-top: 5px; padding-top: 4px; border-top: 1.5px solid #111;
+  }
+
+  /* Zone 7 — Footer strip */
+  .wb-zone-footer {
+    background: #f4f4f4; padding: 6px 10px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .wb-footer-ref { font-size: 8px; color: #666; font-weight: 700; letter-spacing:.04em; }
+  .wb-footer-date { font-size: 8px; color: #666; }
+
+  /* ── Print: actual 4×6 label size ── */
   @media print {
     body > *:not(#waybill-overlay) { display:none !important; }
-    #waybill-overlay { position:static; background:none; display:block !important; }
-    #waybill-modal { box-shadow:none; border-radius:0; max-height:none; }
+    #waybill-overlay { position:static; background:none; display:block !important; padding:0; }
+    #waybill-modal { box-shadow:none; border-radius:0; background:#fff; max-height:none; width:auto; }
     #wb-head, #wb-actions { display:none !important; }
-    .waybill { page-break-inside:avoid; }
+    #wb-body { padding:0; }
+    .waybill {
+      width: 4in; min-height: 6in;
+      border: 1.5pt solid #000;
+      margin: 0; box-shadow: none;
+      page-break-inside: avoid;
+    }
+    .wb-shipto-name { font-size: 18pt; }
+    .wb-shipto-addr { font-size: 11pt; }
+    .wb-tracking-num { font-size: 11pt; }
+    .wb-zone-service { font-size: 12pt; }
+    @page { size: 4in 6in; margin: 0; }
   }
   /* ── Admin login gate ── */
   #adm-gate {
@@ -623,27 +745,119 @@
     var orders = loadOrders();
     var o = orders[idx];
     if (!o) return;
+
+    /* ── Barcode SVG (Code-128 style visual) ── */
+    function makeBarcodesvg(text) {
+      /* Deterministic bar pattern from text chars */
+      var bars = [];
+      var seed = 0;
+      for (var i = 0; i < text.length; i++) seed += text.charCodeAt(i);
+      var rng = seed;
+      /* Always start/end with wide guard bars */
+      var pattern = [3,1]; /* start guard */
+      for (var c = 0; c < text.length; c++) {
+        var code = text.charCodeAt(c);
+        pattern.push((code % 3) + 1);
+        pattern.push((code % 2) + 1);
+        pattern.push(((code >> 2) % 3) + 1);
+      }
+      pattern.push(1,3); /* stop guard */
+
+      var totalUnits = pattern.reduce(function(a,b){return a+b;}, 0);
+      var unitW = 290 / totalUnits;
+      var x = 5;
+      var svgBars = '';
+      for (var p = 0; p < pattern.length; p++) {
+        var w = pattern[p] * unitW;
+        if (p % 2 === 0) { /* even = bar */
+          svgBars += '<rect x="'+x.toFixed(2)+'" y="0" width="'+w.toFixed(2)+'" height="50" fill="#000"/>';
+        }
+        x += w;
+      }
+      return '<svg class="wb-barcode-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 50" width="300" height="50" style="display:block;margin:0 auto;">'+svgBars+'</svg>';
+    }
+
+    /* ── Item rows ── */
     var itemRows = (o.items||[]).map(function(ci){
-      return '<tr><td>'+esc(ci.name)+'</td><td style="text-align:center">'+ci.qty+'</td><td style="text-align:right">&#8369;'+(ci.price*(ci.qty||1)).toLocaleString()+'</td></tr>';
-    }).join('') || '<tr><td colspan="3" style="color:#ccc">No items</td></tr>';
-    var bcLines = '';
-    for (var i=0;i<40;i++) bcLines += '<span></span>';
+      return '<tr>'
+        + '<td>'+esc(ci.name)+'</td>'
+        + '<td style="text-align:center;font-weight:700">'+ci.qty+'</td>'
+        + '<td style="text-align:right;font-weight:700">&#8369;'+(ci.price*(ci.qty||1)).toLocaleString()+'</td>'
+        + '</tr>';
+    }).join('') || '<tr><td colspan="3" style="color:#bbb;font-style:italic">—</td></tr>';
+
+    var itemCount = (o.items||[]).reduce(function(s,ci){return s+(ci.qty||1);},0);
+    var now = new Date();
+    var printDate = now.toLocaleDateString('en-PH',{year:'numeric',month:'short',day:'numeric'});
+
+    /* ── Tracking / ref display ── */
+    var trackNum = o.trackingNumber || o.ref;
+    /* Format as groups for readability: MMAE-XXXXXXXX */
+    var displayRef = esc(o.ref);
+
     document.getElementById('wb-body').innerHTML =
       '<div class="waybill">'
-        + '<div class="waybill-header">'
-          + '<div><div class="waybill-logo">Millionaire<span>Mindset</span></div><div style="font-size:10px;color:#888;margin-top:2px;">millionairemindset.ae</div></div>'
-          + '<div><div class="waybill-ref-no">'+esc(o.ref)+'</div><div class="waybill-ref-label">Order Reference</div></div>'
+
+        /* Zone 1 — Sender + Logo */
+        + '<div class="wb-zone-top">'
+          + '<div class="wb-sender">'
+            + '<div class="wb-sender-name">Millionaire Mindset</div>'
+            + '<div>millionairemindset.ae</div>'
+            + '<div>UAE — Philippines Delivery</div>'
+          + '</div>'
+          + '<div class="wb-carrier-box">'
+            + '<div class="wb-carrier-logo">MM<br><span>EXPRESS</span></div>'
+            + '<div class="wb-carrier-service">Standard Delivery</div>'
+          + '</div>'
         + '</div>'
-        + '<hr class="wdiv">'
-        + '<div class="waybill-parties">'
-          + '<div><h4>Ship To</h4><p><strong>'+esc(o.name)+'</strong><br>'+esc(o.address||'N/A')+(o.zip?', '+esc(o.zip):'')+' <br>'+esc(o.phone||o.email)+'</p></div>'
-          + '<div><h4>Order Info</h4><p>Date: <strong>'+esc(o.date)+'</strong><br>Payment: '+esc(o.payment||'Pending')+'<br>Status: '+esc(STATUS_LABELS[o.status]||o.status)+(o.trackingNumber?'<br>Tracking: '+esc(o.trackingNumber):'')+'</p></div>'
+
+        /* Zone 2 — Large barcode */
+        + '<div class="wb-zone-barcode">'
+          + makeBarcodesvg(trackNum)
+          + '<div class="wb-tracking-num">'+esc(trackNum)+'</div>'
         + '</div>'
-        + '<table class="wb-items"><thead><tr><th>Item</th><th style="text-align:center">Qty</th><th style="text-align:right">Amount</th></tr></thead><tbody>'+itemRows+'</tbody></table>'
-        + '<div class="wb-total">Total: &#8369;'+(o.total||0).toLocaleString()+'</div>'
-        + '<div class="wb-barcode"><div class="wb-barcode-lines">'+bcLines+'</div><div class="wb-barcode-num">'+esc(o.ref)+'</div></div>'
-        + '<div class="wb-footer"><span>Millionaire Mindset &copy; '+new Date().getFullYear()+'</span><span>Admin Copy — Confidential</span></div>'
+
+        /* Zone 3 — Service badge */
+        + '<div class="wb-zone-service">Standard Delivery</div>'
+
+        /* Zone 4 — SHIP TO (largest zone) */
+        + '<div class="wb-zone-shipto">'
+          + '<div class="wb-shipto-label">Ship To</div>'
+          + '<div class="wb-shipto-name">'+esc(o.name)+'</div>'
+          + '<div class="wb-shipto-addr">'
+            + esc(o.address||'—')
+            + (o.city ? '<br>'+esc(o.city) : '')
+            + (o.zip  ? ' '+esc(o.zip) : '')
+            + '<br>Philippines'
+          + '</div>'
+          + '<div class="wb-shipto-phone">📞 '+esc(o.phone||o.email||'—')+'</div>'
+        + '</div>'
+
+        /* Zone 5 — Order metadata row */
+        + '<div class="wb-zone-details">'
+          + '<div class="wb-detail-cell"><div class="wb-detail-label">Order Date</div><div class="wb-detail-value">'+esc(o.date)+'</div></div>'
+          + '<div class="wb-detail-cell"><div class="wb-detail-label">Payment</div><div class="wb-detail-value">'+esc(o.payment||'—')+'</div></div>'
+          + '<div class="wb-detail-cell"><div class="wb-detail-label">Items</div><div class="wb-detail-value">'+itemCount+' pcs</div></div>'
+          + '<div class="wb-detail-cell"><div class="wb-detail-label">Status</div><div class="wb-detail-value">'+esc(STATUS_LABELS[o.status]||o.status)+'</div></div>'
+        + '</div>'
+
+        /* Zone 6 — Items table */
+        + '<div class="wb-zone-items">'
+          + '<table class="wb-items">'
+            + '<thead><tr><th>Item Description</th><th style="text-align:center">Qty</th><th style="text-align:right">Amount</th></tr></thead>'
+            + '<tbody>'+itemRows+'</tbody>'
+          + '</table>'
+          + '<div class="wb-items-total">TOTAL: &#8369;'+(o.total||0).toLocaleString()+'</div>'
+        + '</div>'
+
+        /* Zone 7 — Footer */
+        + '<div class="wb-zone-footer">'
+          + '<div class="wb-footer-ref">REF: '+displayRef+'</div>'
+          + '<div class="wb-footer-date">Printed: '+printDate+'</div>'
+        + '</div>'
+
       + '</div>';
+
     document.getElementById('waybill-overlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
