@@ -525,6 +525,21 @@
     .bar-fill  { height:100%; border-radius:999px; background:linear-gradient(90deg,var(--primary),#ff6b6b); transition:width .6s ease; }
     .bar-fill.blue { background:linear-gradient(90deg,#2563eb,#60a5fa); }
     .bar-fill.green{ background:linear-gradient(90deg,#16a34a,#4ade80); }
+    .rep-trend-btn {
+      padding:5px 12px; border-radius:8px; border:1.5px solid var(--border);
+      font:600 .72rem "Poppins",sans-serif; cursor:pointer; background:var(--surface);
+      color:var(--text-dim); transition:.2s;
+    }
+    .rep-trend-btn:hover { border-color:var(--primary); color:var(--primary); }
+    .rep-trend-btn.active { background:var(--primary); color:#fff; border-color:var(--primary); }
+    .trend-svg { width:100%; overflow:visible; display:block; }
+    .trend-tooltip {
+      position:absolute; background:#0f1117; color:#fff;
+      font:700 .72rem "Poppins",sans-serif; padding:6px 10px; border-radius:8px;
+      pointer-events:none; white-space:nowrap; z-index:10;
+      transform:translate(-50%,-120%); display:none;
+      box-shadow:0 4px 16px rgba(0,0,0,.2);
+    }
     .status-dist-row { display:flex; align-items:center; gap:10px; margin-bottom:10px; font-size:.78rem; }
     .status-dist-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
     .status-dist-name { flex:1; font-weight:600; }
@@ -1008,6 +1023,20 @@
       </div>
 
       <div class="rep-kpis" id="rep-kpis"></div>
+
+      <!-- Sales Trend Chart -->
+      <div class="rep-card" style="margin-bottom:20px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+          <h3 style="margin:0;">Sales Trend</h3>
+          <div style="display:flex;gap:6px;">
+            <button class="rep-trend-btn active" onclick="setTrendPeriod('7',this)">7 Days</button>
+            <button class="rep-trend-btn" onclick="setTrendPeriod('30',this)">30 Days</button>
+            <button class="rep-trend-btn" onclick="setTrendPeriod('90',this)">90 Days</button>
+          </div>
+        </div>
+        <div id="rep-trend-chart" style="position:relative;"></div>
+        <div style="display:flex;gap:20px;margin-top:14px;flex-wrap:wrap;" id="rep-trend-legend"></div>
+      </div>
 
       <div class="rep-grid">
         <div class="rep-card">
@@ -1958,6 +1987,152 @@ function renderReports() {
         }).join('')
       + '</tbody></table>'
     : '<p style="color:var(--text-dim);font-size:.82rem;text-align:center;padding:24px 0;">No orders yet.</p>';
+
+  // Render trend chart (default 30 days)
+  renderTrendChart(30);
+}
+
+var _trendDays = 30;
+
+function setTrendPeriod(days, btn) {
+  _trendDays = parseInt(days);
+  document.querySelectorAll('.rep-trend-btn').forEach(function(b){ b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  renderTrendChart(_trendDays);
+}
+
+function renderTrendChart(days) {
+  var chartEl = document.getElementById('rep-trend-chart');
+  var legendEl = document.getElementById('rep-trend-legend');
+  if (!chartEl) return;
+
+  var orders = loadOrders();
+  var now = new Date();
+
+  // Build date buckets
+  var buckets = {};
+  for (var i = days - 1; i >= 0; i--) {
+    var d = new Date(now);
+    d.setDate(d.getDate() - i);
+    var key = d.toISOString().slice(0,10);
+    buckets[key] = { revenue: 0, orders: 0 };
+  }
+
+  orders.forEach(function(o) {
+    if (o.status === 'cancelled') return;
+    var ts = o.createdAt || o.date;
+    if (!ts) return;
+    var key = new Date(ts).toISOString().slice(0,10);
+    if (buckets[key] !== undefined) {
+      buckets[key].revenue += (o.total || 0);
+      buckets[key].orders  += 1;
+    }
+  });
+
+  var keys    = Object.keys(buckets);
+  var revVals = keys.map(function(k){ return buckets[k].revenue; });
+  var ordVals = keys.map(function(k){ return buckets[k].orders; });
+  var maxRev  = Math.max.apply(null, revVals) || 1;
+  var maxOrd  = Math.max.apply(null, ordVals) || 1;
+
+  var totalPeriodRev    = revVals.reduce(function(a,b){ return a+b; }, 0);
+  var totalPeriodOrders = ordVals.reduce(function(a,b){ return a+b; }, 0);
+
+  // SVG dimensions
+  var W = 900, H = 180, PL = 48, PR = 16, PT = 16, PB = 36;
+  var chartW = W - PL - PR;
+  var chartH = H - PT - PB;
+  var n = keys.length;
+  var step = n > 1 ? chartW / (n - 1) : chartW;
+
+  function xPos(i) { return PL + (n > 1 ? i * chartW / (n - 1) : chartW / 2); }
+  function yRevPos(v) { return PT + chartH - (v / maxRev) * chartH; }
+  function yOrdPos(v) { return PT + chartH - (v / maxOrd) * chartH; }
+
+  // Revenue area path
+  var revArea = 'M ' + xPos(0) + ' ' + (PT + chartH);
+  revVals.forEach(function(v, i) { revArea += ' L ' + xPos(i) + ' ' + yRevPos(v); });
+  revArea += ' L ' + xPos(n-1) + ' ' + (PT + chartH) + ' Z';
+
+  // Revenue line path
+  var revLine = revVals.map(function(v,i){ return (i===0?'M':'L') + ' ' + xPos(i) + ' ' + yRevPos(v); }).join(' ');
+
+  // Orders line path
+  var ordLine = ordVals.map(function(v,i){ return (i===0?'M':'L') + ' ' + xPos(i) + ' ' + yOrdPos(v); }).join(' ');
+
+  // X-axis labels — show every Nth label to avoid crowding
+  var labelEvery = days <= 7 ? 1 : days <= 30 ? 5 : 15;
+  var xLabels = keys.map(function(k, i) {
+    if (i % labelEvery !== 0 && i !== n - 1) return '';
+    var d = new Date(k);
+    return '<text x="'+xPos(i)+'" y="'+(PT+chartH+22)+'" text-anchor="middle" font-size="10" fill="#94a3b8">'
+      + d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'})
+    + '</text>';
+  }).join('');
+
+  // Y-axis gridlines
+  var yLines = [0, 0.25, 0.5, 0.75, 1].map(function(frac) {
+    var y = PT + chartH - frac * chartH;
+    var val = Math.round(frac * maxRev);
+    return '<line x1="'+PL+'" y1="'+y+'" x2="'+(W-PR)+'" y2="'+y+'" stroke="#f0f0f0" stroke-width="1"/>'
+      + '<text x="'+(PL-6)+'" y="'+(y+4)+'" text-anchor="end" font-size="10" fill="#94a3b8">'+val+'</text>';
+  }).join('');
+
+  // Hover dots for revenue
+  var dots = revVals.map(function(v, i) {
+    var label = keys[i] + ': &#8369;' + Number(v).toLocaleString() + ' (' + ordVals[i] + ' orders)';
+    return '<circle cx="'+xPos(i)+'" cy="'+yRevPos(v)+'" r="4" fill="#cc1010" stroke="#fff" stroke-width="2" style="cursor:pointer;"'
+      + ' onmouseenter="showTrendTip(event,\''+keys[i]+'\','+v+','+ordVals[i]+')"'
+      + ' onmouseleave="hideTrendTip()"'
+      + '/>';
+  }).join('');
+
+  var svg = '<svg class="trend-svg" viewBox="0 0 '+W+' '+H+'" xmlns="http://www.w3.org/2000/svg">'
+    + '<defs>'
+      + '<linearGradient id="revGrad" x1="0" y1="0" x2="0" y2="1">'
+        + '<stop offset="0%" stop-color="#cc1010" stop-opacity="0.18"/>'
+        + '<stop offset="100%" stop-color="#cc1010" stop-opacity="0.01"/>'
+      + '</linearGradient>'
+    + '</defs>'
+    + yLines
+    + '<path d="'+revArea+'" fill="url(#revGrad)"/>'
+    + '<path d="'+revLine+'" fill="none" stroke="#cc1010" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>'
+    + '<path d="'+ordLine+'" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3" opacity="0.5"/>'
+    + dots
+    + xLabels
+  + '</svg>'
+  + '<div class="trend-tooltip" id="trend-tooltip"></div>';
+
+  chartEl.innerHTML = svg;
+
+  // Legend
+  legendEl.innerHTML =
+    '<div style="display:flex;align-items:center;gap:6px;font-size:.75rem;">'
+      + '<div style="width:20px;height:3px;background:#cc1010;border-radius:2px;"></div>'
+      + '<span style="font-weight:700;">Revenue</span>'
+      + '<span style="color:var(--text-dim);">&#8369;'+Number(totalPeriodRev).toLocaleString()+' in '+days+' days</span>'
+    + '</div>'
+    + '<div style="display:flex;align-items:center;gap:6px;font-size:.75rem;">'
+      + '<div style="width:20px;height:2px;background:#2563eb;border-radius:2px;opacity:.6;border-top:2px dashed #2563eb;"></div>'
+      + '<span style="font-weight:700;">Orders</span>'
+      + '<span style="color:var(--text-dim);">'+totalPeriodOrders+' orders in '+days+' days</span>'
+    + '</div>';
+}
+
+function showTrendTip(e, date, rev, ords) {
+  var tip = document.getElementById('trend-tooltip');
+  if (!tip) return;
+  var d = new Date(date);
+  tip.innerHTML = d.toLocaleDateString('en-GB',{weekday:'short',day:'2-digit',month:'short'})
+    + '<br>&#8369;' + Number(rev).toLocaleString() + ' &bull; ' + ords + ' order' + (ords!==1?'s':'');
+  tip.style.display = 'block';
+  var rect = e.target.closest('svg').getBoundingClientRect();
+  tip.style.left = (e.clientX - rect.left) + 'px';
+  tip.style.top  = (e.clientY - rect.top)  + 'px';
+}
+function hideTrendTip() {
+  var tip = document.getElementById('trend-tooltip');
+  if (tip) tip.style.display = 'none';
 }
 
 /* ═══════════════════════════════════════════════════
