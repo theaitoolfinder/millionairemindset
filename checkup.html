@@ -1013,17 +1013,26 @@
       centerLbl.textContent = 'natitira';
       centerPct.setAttribute('fill', '#d97706');
     } else if (state === 'deficit') {
-      // Full ring = expenses; hatch overlay = deficit portion beyond income
-      donutExp.style.stroke = '#e5e7eb';
-      donutExp.style.strokeDasharray = circ + ' 0'; // full ring gray
-      // Hatch portion represents the deficit overshoot (use unclamped rawRatio)
-      var deficitPct = Math.min(pctDef, 1);
-      var defArc = deficitPct * circ;
-      donutNet.style.stroke = '#dc2626';
-      donutNet.style.strokeDasharray = circ + ' 0';
+      // Visual concept:
+      // - Full red ring = 100% of income is spent (expenses >= income)
+      // - Hatched arc on TOP = how much OVER 100% the expenses go (the deficit)
+      // Example: income=5000, expenses=6800 → rawRatio=1.36 → pctDef=36%
+      // Red ring = full (100%), hatch arc = 36% of ring starting from top
+
+      // Red ring: full 360° = shows all income is consumed
+      donutExp.style.stroke = '#dc2626';
+      donutExp.style.strokeDasharray = circ + ' 0';
+      donutExp.setAttribute('stroke-dashoffset', circ / 4);
+
+      // Gray net arc: hide (no surplus)
+      donutNet.style.strokeDasharray = '0 ' + circ;
+
+      // Hatch arc: deficit % of ring, starting from 12 o'clock
+      var deficitArc = Math.min(pctDef, 1) * circ;
       donutHatch.style.display = 'block';
-      donutHatch.style.strokeDasharray = Math.min(defArc, circ) + ' ' + circ;
+      donutHatch.style.strokeDasharray = deficitArc + ' ' + circ;
       donutHatch.setAttribute('stroke-dashoffset', circ / 4);
+
       shine.style.display = 'none';
       centerPct.textContent = '-' + Math.round(pctDef * 100) + '%';
       centerLbl.textContent = 'kulang';
@@ -1038,8 +1047,10 @@
       centerPct.setAttribute('fill', '#c8900a');
     }
 
-    // Expenses always starts at top (offset = circ/4 = rotate -90deg compensation)
-    donutExp.setAttribute('stroke-dashoffset', circ / 4);
+    // Surplus/zero: expenses arc starts at top (deficit sets its own offset above)
+    if (state !== 'deficit') {
+      donutExp.setAttribute('stroke-dashoffset', circ / 4);
+    }
   }
 
   /* ── Expense cut recommendations ─────────────────────────────────── */
@@ -1057,14 +1068,14 @@
 
     // General cut rules keyed by label patterns
     var CUT_RULES = [
-      { keywords:['subscrip','netflix','spotify','gaming','stream'], badge:'#f59e0b', title:'Digital Subscriptions', tip:'Audit lahat ng subscription. I-cancel ang hindi regular na ginagamit. Tipid: malaki kapag pinagsama-sama.' },
-      { keywords:['dining','resto','food delivery','grab food','kain sa labas','restaurant'], badge:'#f97316', title:'Dining Out / Food Delivery', tip:'Limitahan sa 2x bawat linggo. Mag-meal prep ng 3 araw na pagkain sa isang luto — tipid ng hanggang 40% sa pagkain.' },
-      { keywords:['clothes','damit','shopping','fashion','shoes','sapatos'], badge:'#8b5cf6', title:'Clothing & Shopping', tip:'Sundin ang 30-day rule: bago bumili ng hindi kailangan, hintayin ng 30 araw. Karamihan, mawawala na ang gusto.' },
-      { keywords:['coffee','kape','cafe','starbucks'], badge:'#a16207', title:'Coffee & Cafe Spending', tip:'Ang dalawang kape sa cafe bawat araw ay AED 2,000+ bawat buwan. Mag-brew sa bahay — 90% ang matitipid.' },
-      { keywords:['entertainment','sinehan','bar','alcohol','inuman'], badge:'#dc2626', title:'Entertainment / Leisure', tip:'Itakda ang monthly entertainment budget at huwag lampasan ito. Maraming libreng alternativo sa UAE.' },
-      { keywords:['utang','loan','installment','credit','bayad utang'], badge:'#ef4444', title:'Loan / Debt Payments', tip:'Ilapat ang Avalanche Method: bayaran muna ang pinaka-mataas na interest rate para mas mabilis na maubos ang utang.' },
-      { keywords:['pasalubong','regalo','gifts','padala ng gamit'], badge:'#ec4899', title:'Pasalubong / Gifts', tip:'Magtakda ng fixed monthly pasalubong budget. Mas mahal ang walang financial plan kaysa sa hindi makabili ng regalo.' },
-      { keywords:['load','internet','phone','data'], badge:'#06b6d4', title:'Phone / Load / Data', tip:'Suriin kung kailangan mo ba ang pinaka-mahal na plan. Ang mas mababang plan ay kadalasang sapat para sa pang-araw-araw.' },
+      { keywords:['subscrip','netflix','spotify','gaming','stream'], badge:'#f59e0b', title:'Digital Subscriptions', tip:'Mag-audit ng lahat ng subs mo. Ilan 'yan na hindi mo na ginagamit pero nag-aautonatic-renew pa rin? I-cancel na — malaking tipid 'yan sa isang buwan.' },
+      { keywords:['dining','resto','food delivery','grab food','kain sa labas','restaurant'], badge:'#f97316', title:'Dining Out / Food Delivery', tip:'Dalawang beses lang sa isang linggo, max. Subukan mo mag-meal prep ng 3 araw — isang luto, tatlong kain. Up to 40% tipid sa pagkain, promise.' },
+      { keywords:['clothes','damit','shopping','fashion','shoes','sapatos'], badge:'#8b5cf6', title:'Clothing & Shopping', tip:'Try mo ang 30-day rule: gusto mo bilhin? Hintayin ng 30 araw. Kapag gusto mo pa rin — bili na. Kapag hindi na — saved ka na.' },
+      { keywords:['coffee','kape','cafe','starbucks'], badge:'#a16207', title:'Coffee & Cafe Spending', tip:'Dalawang Starbucks sa isang araw = AED 2,000+ bawat buwan. Mag-brew ka sa bahay — halos same taste, 90% mas mura.' },
+      { keywords:['entertainment','sinehan','bar','alcohol','inuman'], badge:'#dc2626', title:'Entertainment / Leisure', tip:'Mag-set ng fixed entertainment budget at huwag lampasan. Maraming libre sa UAE — parks, beaches, events. Hindi lahat ng saya ay may bayad.' },
+      { keywords:['utang','loan','installment','credit','bayad utang'], badge:'#ef4444', title:'Loan / Debt Payments', tip:'Subukan ang Avalanche Method: bayaran muna ang pinakamataas na interest rate. 'Yan ang pinaka-mabilis na paraan para maubos ang utang at hindi ka kumakain ng interes nang interes.' },
+      { keywords:['pasalubong','regalo','gifts','padala ng gamit'], badge:'#ec4899', title:'Pasalubong / Gifts', tip:'Mag-allot ng fixed amount lang para sa pasalubong bawat buwan. Mas mahal ang mauwi na walang savings kaysa mauwi na walang pasalubong.' },
+      { keywords:['load','internet','phone','data'], badge:'#06b6d4', title:'Phone / Load / Data', tip:'Kailangan mo ba talaga ng pinakamahalagang plan? I-check kung meron mas mura na plan na kaya mo namang gamitin. Piso-piso, malaki din 'yan sa isang taon.' },
     ];
 
     var tips = [];
@@ -1084,9 +1095,9 @@
     // If no matches, add 3 general tips based on financial literacy
     if (tips.length === 0) {
       var savingsRate = totalIn > 0 ? (net / totalIn) * 100 : 0;
-      if (savingsRate < 20) tips.push({ badge:'#f59e0b', title:'Palakihin ang natitira mo', tip:'Target: 20% ng kita bawat buwan para sa savings at investment. Kung kulang pa, hanapin kung saan pwedeng bawasan ng 5–10% ang gastos — kadalasan may makikita.' });
-      tips.push({ badge:'#8b5cf6', title:'Huwag bumili nang impulsive', tip:'Gamitin ang 24-hour rule — bago bumili ng hindi nasa budget, hintayin ng isang araw. Karamihan sa mga pagkakataon, mawawala na ang gusto pagkatapos.' });
-      tips.push({ badge:'#16a34a', title:'Subukan ang Cash Envelope Method', tip:'I-allocate ang cash sa mga sobre bawat kategorya (pagkain, transport, personal). Kapag ubos na ang sobre, stop na. Simple pero epektibo para hindi lumagpas sa budget.' });
+      if (savingsRate < 20) tips.push({ badge:'#f59e0b', title:'Palakihin pa ang natitira mo', tip:'Target mo: 20% ng kita bawat buwan para sa savings at investment. Hindi pa? Tingnan kung saan pwede bawasan ng kahit 5–10% — meron, sigurado.' });
+      tips.push({ badge:'#8b5cf6', title:'Huwag impulse buy', tip:'24-hour rule — bago bumili ng hindi nasa budget, tulugin muna ng isang gabi. Karamihan sa pagkakataon, wala ka nang gusto kinabukasan.' });
+      tips.push({ badge:'#16a34a', title:'Cash Envelope Method — try mo', tip:'I-cash out ang budget mo per category (pagkain, transport, personal) sa iba't ibang sobre. Kapag ubos ang sobre — stop. Super simple pero epektibo.' });
     }
 
     // Always add: avoid lifestyle inflation
