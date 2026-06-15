@@ -1866,8 +1866,29 @@ function renderResearch(data) {
   });
   setResState(state);
 
+  // Filter out products older than 30 days
+  products = products.filter(function(p) {
+    var resDate = new Date(p.researched || data.updated);
+    var ageInDays = (now - resDate.getTime()) / 86400000;
+    return ageInDays <= RES_EXPIRY_DAYS;
+  });
+
+  // Staleness warning — if data hasn't been updated in more than 2 days
+  var dataAge = data.updated ? (now - new Date(data.updated).getTime()) / 86400000 : 999;
+  var staleWarning = '';
+  if (dataAge > 2) {
+    staleWarning = '<div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px;">'
+      + '<span style="font-size:1.3rem;">⚠️</span>'
+      + '<div>'
+        + '<div style="font-size:.82rem;font-weight:700;color:#92400e;">Research data is '+ Math.floor(dataAge) +' days old</div>'
+        + '<div style="font-size:.75rem;color:#b45309;margin-top:2px;">The daily workflow may have failed. Go to your GitHub Actions tab to check and re-run it manually.</div>'
+      + '</div>'
+      + '<a href="https://github.com/theaitoolfinder/millionairemindset/actions/workflows/amazon-research.yml" target="_blank" style="margin-left:auto;font-size:.75rem;font-weight:700;color:#92400e;white-space:nowrap;text-decoration:underline;">Check Workflow →</a>'
+    + '</div>';
+  }
+
   if (!products.length) {
-    el.innerHTML = '<div class="res-empty"><div style="font-size:2.5rem;margin-bottom:12px;">📭</div><p>No research data available yet. The workflow runs daily at 10:00 AM UAE time.</p></div>';
+    el.innerHTML = staleWarning + '<div class="res-empty"><div style="font-size:2.5rem;margin-bottom:12px;">📭</div><p>No recent research data. All recommendations are older than 30 days or the workflow has not run yet.</p><p style="font-size:.78rem;margin-top:8px;">The workflow runs daily at 10:00 AM UAE time. You can also trigger it manually from GitHub Actions.</p></div>';
     return;
   }
 
@@ -1876,7 +1897,7 @@ function renderResearch(data) {
   var dismissedCount = products.filter(function(p){ return state[p.id] && state[p.id].status === 'dismissed'; }).length;
   var activeCount    = products.length - confirmedCount - dismissedCount;
 
-  el.innerHTML =
+  el.innerHTML = staleWarning +
     // Summary bar
     '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">'
       + '<div style="background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;padding:12px 18px;display:flex;flex-direction:column;align-items:center;">'
