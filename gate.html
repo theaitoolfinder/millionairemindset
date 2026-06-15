@@ -233,6 +233,12 @@
     var GATE_HASH = '414330929f6e1c828476b8602111c0d012927513eed30243dcb097453fe89b22';
     var BF_CTX    = 'gate';
 
+    // Clear any stale lockout keys on load
+    try {
+      localStorage.removeItem('mm_bf_gate');
+      localStorage.removeItem('mm_bfl_gate');
+    } catch(e) {}
+
     // If already unlocked, go straight in
     try {
       if (localStorage.getItem(GATE_KEY) === GATE_HASH) {
@@ -242,29 +248,20 @@
 
     function submitGate() {
       var err = document.getElementById('gate-err');
-
-      // Brute-force check
-      if (mmSec.bfIsLocked(BF_CTX)) {
-        var lock = parseInt(localStorage.getItem('mm_bfl_' + BF_CTX) || '0', 10);
-        var mins = Math.ceil((lock - Date.now()) / 60000);
-        err.textContent = 'Too many attempts. Try again in ' + mins + ' minute(s).';
-        err.style.display = 'block';
-        return;
-      }
-
       var val = document.getElementById('gate-code-input').value.trim();
+      if (!val) return;
+
       mmSec.hash(val).then(function(hashed) {
         if (hashed === GATE_HASH) {
-          mmSec.bfReset(BF_CTX);
-          try { localStorage.setItem(GATE_KEY, GATE_HASH); } catch(e) {}
+          // Clear any old lockout keys just in case
+          try {
+            localStorage.removeItem('mm_bf_gate');
+            localStorage.removeItem('mm_bfl_gate');
+            localStorage.setItem(GATE_KEY, GATE_HASH);
+          } catch(e) {}
           window.location.replace('index.html');
         } else {
-          var bf = mmSec.bfAttempt(BF_CTX);
-          if (bf.locked) {
-            err.textContent = 'Too many attempts. Locked for ' + bf.minsLeft + ' minute(s).';
-          } else {
-            err.textContent = 'Incorrect access code. ' + bf.remaining + ' attempt(s) remaining.';
-          }
+          err.textContent = 'Incorrect access code. Please try again.';
           err.style.display = 'block';
           var card = document.querySelector('.gate-card');
           card.classList.remove('shake');
@@ -273,7 +270,7 @@
           document.getElementById('gate-code-input').value = '';
           document.getElementById('gate-code-input').focus();
         }
-      }); // end hash.then
+      });
     }
 
     document.getElementById('gate-code-input').addEventListener('keydown', function(e) {
