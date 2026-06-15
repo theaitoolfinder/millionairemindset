@@ -1214,6 +1214,12 @@
     + '- Pre-selling real estate: lower entry price, pay in installments\n'
     + '- Balik-bayan readiness: 12 months savings + passive income or running business before going home\n'
 
+    + '\n=== PRIORITY: FINANCIAL CHECK-UP FIRST ===\n'
+    + 'If a user has NOT yet done a Financial Check-up AND asks any money-related question (saving, investing, budgeting, debt, income), '
+    + 'ALWAYS suggest the Financial Check-up first before giving advice. Say something like: '
+    + '"Bago tayo mag-dive in dyan, subukan mo muna ang aming libreng Financial Check-up para malaman natin ang exact na starting point mo." '
+    + 'Only skip this if the user has already mentioned they did the check-up, or if they are asking about something non-financial.\n'
+
     + '\n=== RESPONSE FORMAT ===\n'
     + '- Reply in 2–5 sentences naturally. No bullet lists unless user asks for steps.\n'
     + '- Use HTML anchor links (see format above) when pointing to any page or series — make them clickable.\n'
@@ -1440,28 +1446,18 @@
       renderChar();
       var msgs = document.getElementById('mmMessages');
       if (msgs && !msgs.childElementCount) {
-        /* Restore previous conversation if exists */
-        var stored = loadMsgs();
-        if (stored.length > 0) {
-          stored.forEach(function(m) {
-            var div = document.createElement('div');
-            div.className = 'mm-msg ' + m.role;
-            div.innerHTML = m.html;
-            msgs.appendChild(div);
-          });
-          msgs.scrollTop = msgs.scrollHeight;
+        /* No history — show fresh greeting that pushes Financial Check-up */
+        setTimeout(function(){
+          var name = currentChar === 'hira' ? 'Hira' : 'Aya';
+          addMsg('bot', currentChar === 'hira'
+            ? 'Hey! Ako si Hira — nandito ako para gabayan ka sa iyong financial journey. Para makatulong ako ng husto, subukan mo muna ang aming libreng Financial Check-up para malaman natin kung nasaan ka ngayon financially. Gusto mo bang simulan?'
+            : 'Kumusta! Ako si Aya — kasama mo sa bawat hakbang patungo sa financial freedom. Una, subukan mo ang aming libreng Financial Check-up — para malaman natin ang tamang simula para sa iyo. Gusto mo?'
+          );
           updateSuggests('default', currentLang);
-        } else {
-          /* Fresh greeting */
-          setTimeout(function(){
-            addMsg('bot', currentChar === 'hira'
-              ? 'Hey! Kumusta ka? Ako si Hira — kasama mo sa bawat araw na malayo sa pamilya. Pwede kang kumausap sa akin anumang oras!'
-              : 'Kumusta! Ako si Aya — nandito ako para sa iyo, lagi!'
-            );
-            updateSuggests('default', currentLang);
-            triggerAnim('wave');
-          }, 300);
-        }
+          triggerAnim('wave');
+        }, 300);
+      } else if (msgs) {
+        msgs.scrollTop = msgs.scrollHeight;
       }
     }
   };
@@ -1564,7 +1560,23 @@
     }, 2500);
   })();
 
-  /* ── Init: render character in FAB immediately on load ── */
+  /* ── Init: render character + restore chat history on every page load ── */
   renderChar();
+
+  /* Restore saved conversation immediately so it survives page navigation */
+  (function restoreChat() {
+    var msgs = document.getElementById('mmMessages');
+    if (!msgs) return;
+    var stored = loadMsgs();
+    if (stored.length > 0) {
+      stored.forEach(function(m) {
+        var div = document.createElement('div');
+        div.className = 'mm-msg ' + m.role;
+        div.innerHTML = m.html;
+        msgs.appendChild(div);
+      });
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+  })();
 
 })();
