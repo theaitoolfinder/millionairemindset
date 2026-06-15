@@ -1109,7 +1109,7 @@
   var GROQ_WORKER_URL = 'https://mm-ai-proxy.info-myaitoolbox.workers.dev/';
 
   /* Conversation history — persisted in sessionStorage across page navigations */
-  var _CHAT_VER    = 'v20260625';
+  var _CHAT_VER    = 'v20260627';
   var _HISTORY_KEY = 'mm_chat_history';
   var _MSGS_KEY    = 'mm_chat_msgs';
   /* Clear stale cache from old widget versions */
