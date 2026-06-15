@@ -516,6 +516,106 @@
     .status-dist-count { color:var(--text-dim); }
     .status-dist-pct { font-weight:700; }
 
+    /* ── AMAZON RESEARCH ────────────────────────── */
+    .res-header-bar {
+      display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+      background:linear-gradient(135deg,#0f1117,#1a1a2e);
+      border-radius:16px; padding:20px 24px; margin-bottom:24px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .res-header-icon { font-size:2rem; }
+    .res-header-text h3 { color:#fff; font-size:1rem; font-weight:800; margin-bottom:2px; }
+    .res-header-text p  { color:rgba(255,255,255,.5); font-size:.78rem; }
+    .res-header-right { margin-left:auto; display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .res-updated-badge {
+      font-size:.7rem; font-weight:700; padding:6px 12px; border-radius:20px;
+      background:rgba(255,255,255,.1); color:rgba(255,255,255,.7);
+      border:1px solid rgba(255,255,255,.12); white-space:nowrap;
+    }
+    .res-criteria {
+      display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;
+    }
+    .res-criteria-chip {
+      font-size:.68rem; font-weight:700; padding:5px 12px; border-radius:20px;
+      background:var(--surface-2); border:1px solid var(--border-soft); color:var(--text-dim);
+    }
+    .res-criteria-chip.green { background:#f0fdf4; color:#166534; border-color:#bbf7d0; }
+    .res-criteria-chip.blue  { background:#eff6ff; color:#1e40af; border-color:#bfdbfe; }
+    .res-criteria-chip.amber { background:#fffbeb; color:#92400e; border-color:#fde68a; }
+    .res-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+      gap:18px;
+    }
+    .res-card {
+      background:var(--surface); border-radius:16px;
+      border:1px solid var(--border-soft); box-shadow:var(--shadow);
+      overflow:hidden; display:flex; flex-direction:column;
+      transition:transform .2s, box-shadow .2s;
+    }
+    .res-card:hover { transform:translateY(-3px); box-shadow:0 8px 32px rgba(0,0,0,.12); }
+    .res-card.confirmed { border-color:#86efac; background:#f0fdf4; }
+    .res-card.dismissed { opacity:.45; filter:grayscale(.6); }
+    .res-card-top {
+      padding:18px 20px 14px;
+      border-bottom:1px solid var(--border-soft);
+    }
+    .res-card-cat  { font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--text-dim); margin-bottom:6px; }
+    .res-card-name { font-size:.96rem; font-weight:800; line-height:1.3; margin-bottom:6px; }
+    .res-card-desc { font-size:.78rem; color:var(--text-dim); line-height:1.55; }
+    .res-card-pricing {
+      display:flex; gap:0; padding:14px 20px;
+      background:var(--surface-2); border-bottom:1px solid var(--border-soft);
+      align-items:center;
+    }
+    .res-price-col { flex:1; text-align:center; }
+    .res-price-label { font-size:.62rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--text-dim); margin-bottom:3px; }
+    .res-price-val { font-size:1.15rem; font-weight:800; }
+    .res-price-val.cost  { color:#0891b2; }
+    .res-price-val.sell  { color:#16a34a; }
+    .res-price-val.mult  { color:var(--primary); }
+    .res-price-div { width:1px; background:var(--border); margin:0 8px; align-self:stretch; }
+    .res-card-body { padding:16px 20px; flex:1; display:flex; flex-direction:column; gap:10px; }
+    .res-detail-row { font-size:.77rem; line-height:1.55; }
+    .res-detail-label { font-weight:700; color:var(--text); display:block; margin-bottom:2px; }
+    .res-detail-val { color:var(--text-dim); }
+    .res-tags { display:flex; flex-wrap:wrap; gap:5px; }
+    .res-tag {
+      font-size:.65rem; font-weight:700; padding:3px 9px; border-radius:20px;
+      background:var(--surface-2); color:var(--text-dim); border:1px solid var(--border-soft);
+    }
+    .res-card-actions {
+      display:flex; gap:8px; padding:14px 20px;
+      border-top:1px solid var(--border-soft); background:var(--surface-2);
+    }
+    .res-btn-confirm {
+      flex:1; padding:9px 14px; border-radius:10px; border:none; cursor:pointer;
+      background:#16a34a; color:#fff; font:700 .78rem "Poppins",sans-serif; transition:.2s;
+    }
+    .res-btn-confirm:hover { background:#15803d; }
+    .res-btn-dismiss {
+      padding:9px 14px; border-radius:10px; cursor:pointer;
+      background:rgba(0,0,0,.04); border:1.5px solid var(--border); color:var(--text-dim);
+      font:600 .75rem "Poppins",sans-serif; transition:.2s;
+    }
+    .res-btn-dismiss:hover { border-color:var(--primary); color:var(--primary); }
+    .res-confirmed-badge {
+      flex:1; padding:9px 14px; border-radius:10px; text-align:center;
+      background:#dcfce7; color:#166534; font:700 .78rem "Poppins",sans-serif;
+    }
+    .res-empty { text-align:center; padding:60px 24px; color:var(--text-dim); grid-column:1/-1; }
+    .res-loading { text-align:center; padding:60px 24px; color:var(--text-dim); }
+    .res-spinner {
+      width:36px; height:36px; border:3px solid var(--border);
+      border-top-color:var(--primary); border-radius:50%;
+      animation:spin .7s linear infinite; margin:0 auto 14px;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    .res-expiry-bar { height:4px; background:var(--surface-2); border-radius:0 0 16px 16px; overflow:hidden; margin-top:auto; }
+    .res-expiry-fill { height:100%; background:linear-gradient(90deg,#16a34a,#86efac); border-radius:999px; transition:width .4s; }
+    .res-expiry-fill.warn { background:linear-gradient(90deg,#d97706,#fde68a); }
+    .res-expiry-fill.urgent { background:linear-gradient(90deg,var(--primary),#ff6b6b); }
+
     /* ── RESPONSIVE ─────────────────────────────── */
     @media (max-width: 900px) {
       .pt-header, .pt-row { grid-template-columns: 40px 1fr 90px 100px 120px; }
@@ -560,6 +660,7 @@
       <button class="admin-tab" onclick="showPage('logistics',this)">🚚 Logistics</button>
       <button class="admin-tab" onclick="showPage('inventory',this)">📊 Inventory</button>
       <button class="admin-tab" onclick="showPage('reports',this)">📈 Reports</button>
+      <button class="admin-tab" onclick="showPage('research',this)">🔍 Amazon Research</button>
       <button class="admin-tab" onclick="showPage('settings',this)">⚙️ Settings</button>
     </div>
     <div class="admin-nav-right">
@@ -775,6 +876,44 @@
       </div>
 
       <div class="inv-grid" id="inv-grid"></div>
+    </div>
+
+    <!-- ────────────────────────── RESEARCH PAGE ── -->
+    <div class="admin-page" id="page-research">
+      <div class="page-head">
+        <div>
+          <h2>Amazon Store Research</h2>
+          <p>AI-powered daily product research — filtered for UAE market, 10x markup, no restrictions.</p>
+        </div>
+        <button class="btn-secondary" onclick="loadResearch(true)">⟳ Refresh</button>
+      </div>
+
+      <div class="res-header-bar">
+        <div class="res-header-icon">🔬</div>
+        <div class="res-header-text">
+          <h3>Automated Product Intelligence</h3>
+          <p>Groq AI researches new opportunities daily at 10:00 AM UAE time. Results are valid for 30 days or until you confirm them as added to your store.</p>
+        </div>
+        <div class="res-header-right">
+          <span class="res-updated-badge" id="res-updated-label">Loading…</span>
+        </div>
+      </div>
+
+      <div class="res-criteria">
+        <span class="res-criteria-chip green">Cost 0.10 – 20 AED incl. shipping</span>
+        <span class="res-criteria-chip green">10x+ markup potential</span>
+        <span class="res-criteria-chip blue">Non-perishable only</span>
+        <span class="res-criteria-chip blue">No oral / topical items</span>
+        <span class="res-criteria-chip amber">No Amazon restrictions</span>
+        <span class="res-criteria-chip amber">UAE fast-moving demand</span>
+      </div>
+
+      <div id="res-content">
+        <div class="res-loading">
+          <div class="res-spinner"></div>
+          <p>Loading research data…</p>
+        </div>
+      </div>
     </div>
 
     <!-- ─────────────────────────── REPORTS PAGE ── -->
@@ -1236,6 +1375,7 @@ function showPage(name, btn) {
   if (name === 'logistics') renderLogistics();
   if (name === 'inventory') renderInventory();
   if (name === 'reports')   renderReports();
+  if (name === 'research')  loadResearch();
 }
 
 /* ═══════════════════════════════════════════════════
@@ -1639,6 +1779,209 @@ function renderReports() {
         }).join('')
       + '</tbody></table>'
     : '<p style="color:var(--text-dim);font-size:.82rem;text-align:center;padding:24px 0;">No orders yet.</p>';
+}
+
+/* ═══════════════════════════════════════════════════
+   AMAZON RESEARCH
+═══════════════════════════════════════════════════ */
+var RES_STATE_KEY = 'mm_research_state'; // {id: {status:'confirmed'|'dismissed', date:ISO}}
+var RES_EXPIRY_DAYS = 30;
+var _resData = null;
+
+function getResState() {
+  try { return JSON.parse(localStorage.getItem(RES_STATE_KEY) || '{}'); } catch(e) { return {}; }
+}
+function setResState(obj) { localStorage.setItem(RES_STATE_KEY, JSON.stringify(obj)); }
+
+function resConfirm(id) {
+  var s = getResState();
+  s[id] = { status: 'confirmed', date: new Date().toISOString() };
+  setResState(s);
+  renderResearch(_resData);
+  showToast('Marked as Added to Store ✓', 'success');
+}
+function resDismiss(id) {
+  if (!confirm('Dismiss this product recommendation?')) return;
+  var s = getResState();
+  s[id] = { status: 'dismissed', date: new Date().toISOString() };
+  setResState(s);
+  renderResearch(_resData);
+  showToast('Recommendation dismissed', 'success');
+}
+function resUndo(id) {
+  var s = getResState();
+  delete s[id];
+  setResState(s);
+  renderResearch(_resData);
+  showToast('Recommendation restored', 'success');
+}
+
+function loadResearch(force) {
+  var el = document.getElementById('res-content');
+  if (!el) return;
+  el.innerHTML = '<div class="res-loading"><div class="res-spinner"></div><p>Loading research data…</p></div>';
+  fetch('data/amazon-research.json?v=' + Date.now())
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      _resData = data;
+      renderResearch(data);
+    })
+    .catch(function(err) {
+      el.innerHTML = '<div class="res-empty">'
+        + '<div style="font-size:2.5rem;margin-bottom:12px;">⚠️</div>'
+        + '<p style="font-weight:700;color:var(--text);">Could not load research data</p>'
+        + '<p style="font-size:.8rem;margin-top:6px;">'+err.message+'</p>'
+        + '<button class="btn-secondary" style="margin-top:16px;" onclick="loadResearch(true)">Try Again</button>'
+        + '</div>';
+    });
+}
+
+function renderResearch(data) {
+  var el = document.getElementById('res-content');
+  var lbl = document.getElementById('res-updated-label');
+  if (!el || !data) return;
+
+  // Updated label
+  if (data.updated && lbl) {
+    var upd = new Date(data.updated);
+    var next = data.nextUpdate ? new Date(data.nextUpdate) : null;
+    lbl.textContent = 'Updated ' + upd.toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'})
+      + (next ? ' · Next: ' + next.toLocaleDateString('en-GB',{day:'2-digit',month:'short'}) : '');
+  }
+
+  var state = getResState();
+  var now   = Date.now();
+  var products = data.products || [];
+
+  // Purge expired confirmed/dismissed states older than 30 days
+  Object.keys(state).forEach(function(id) {
+    var st = state[id];
+    if (st && st.date) {
+      var age = (now - new Date(st.date).getTime()) / 86400000;
+      if (age > RES_EXPIRY_DAYS) delete state[id];
+    }
+  });
+  setResState(state);
+
+  if (!products.length) {
+    el.innerHTML = '<div class="res-empty"><div style="font-size:2.5rem;margin-bottom:12px;">📭</div><p>No research data available yet. The workflow runs daily at 10:00 AM UAE time.</p></div>';
+    return;
+  }
+
+  // Count confirmed/dismissed
+  var confirmedCount = products.filter(function(p){ return state[p.id] && state[p.id].status === 'confirmed'; }).length;
+  var dismissedCount = products.filter(function(p){ return state[p.id] && state[p.id].status === 'dismissed'; }).length;
+  var activeCount    = products.length - confirmedCount - dismissedCount;
+
+  el.innerHTML =
+    // Summary bar
+    '<div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px;">'
+      + '<div style="background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;padding:12px 18px;display:flex;flex-direction:column;align-items:center;">'
+        + '<div style="font-size:1.4rem;font-weight:800;">'+products.length+'</div>'
+        + '<div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);font-weight:700;">Total Recommendations</div>'
+      + '</div>'
+      + '<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px 18px;display:flex;flex-direction:column;align-items:center;">'
+        + '<div style="font-size:1.4rem;font-weight:800;color:#16a34a;">'+confirmedCount+'</div>'
+        + '<div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:#16a34a;font-weight:700;">Added to Store</div>'
+      + '</div>'
+      + '<div style="background:var(--surface);border:1px solid var(--border-soft);border-radius:12px;padding:12px 18px;display:flex;flex-direction:column;align-items:center;">'
+        + '<div style="font-size:1.4rem;font-weight:800;color:var(--text-dim);">'+activeCount+'</div>'
+        + '<div style="font-size:.65rem;text-transform:uppercase;letter-spacing:.06em;color:var(--text-dim);font-weight:700;">Pending Review</div>'
+      + '</div>'
+      + '<div style="margin-left:auto;display:flex;align-items:center;gap:8px;">'
+        + '<label style="font-size:.78rem;font-weight:600;color:var(--text-dim);">'
+          + '<input type="checkbox" id="res-show-all" onchange="renderResearch(_resData)" style="margin-right:5px;accent-color:var(--primary);">'
+          + 'Show confirmed & dismissed'
+        + '</label>'
+      + '</div>'
+    + '</div>'
+
+    + '<div class="res-grid" id="res-grid"></div>';
+
+  var showAll = document.getElementById('res-show-all');
+  if (showAll) showAll.addEventListener('change', function(){ renderResearch(_resData); });
+
+  var grid = document.getElementById('res-grid');
+  var showDismissed = document.getElementById('res-show-all') ? document.getElementById('res-show-all').checked : false;
+
+  var visible = products.filter(function(p){
+    var st = state[p.id];
+    if (!st) return true;
+    if (st.status === 'dismissed' && !showDismissed) return false;
+    return true;
+  });
+
+  if (!visible.length) {
+    grid.innerHTML = '<div class="res-empty"><p>All recommendations have been reviewed.</p><p style="font-size:.78rem;margin-top:8px;">Enable "Show confirmed &amp; dismissed" to see them.</p></div>';
+    return;
+  }
+
+  grid.innerHTML = visible.map(function(p) {
+    var st = state[p.id];
+    var status = st ? st.status : null;
+    var isConfirmed = status === 'confirmed';
+    var isDismissed = status === 'dismissed';
+
+    // Days until expiry (30 days from researched date)
+    var resDate = new Date(p.researched || data.updated);
+    var expiryDate = new Date(resDate.getTime() + RES_EXPIRY_DAYS * 86400000);
+    var daysLeft = Math.max(0, Math.ceil((expiryDate.getTime() - now) / 86400000));
+    var expiryPct = Math.min(100, Math.round(daysLeft / RES_EXPIRY_DAYS * 100));
+    var expiryClass = daysLeft <= 3 ? 'urgent' : (daysLeft <= 7 ? 'warn' : '');
+
+    var sourcingOpts = (p.sourcingOptions || []).join(', ');
+    var tags = (p.tags || []).map(function(t){ return '<span class="res-tag">'+escHtml(t)+'</span>'; }).join('');
+
+    var actions = '';
+    if (isConfirmed) {
+      actions = '<div class="res-confirmed-badge">✓ Added to Store</div>'
+        + '<button class="res-btn-dismiss" onclick="resUndo(\''+p.id+'\')" title="Undo">↩ Undo</button>';
+    } else if (isDismissed) {
+      actions = '<span style="font-size:.75rem;color:var(--text-dim);font-style:italic;flex:1;">Dismissed</span>'
+        + '<button class="res-btn-dismiss" onclick="resUndo(\''+p.id+'\')" title="Restore">↩ Restore</button>';
+    } else {
+      actions = '<button class="res-btn-confirm" onclick="resConfirm(\''+p.id+'\')">✓ Add to Store</button>'
+        + '<button class="res-btn-dismiss" onclick="resDismiss(\''+p.id+'\')">✕ Dismiss</button>';
+    }
+
+    return '<div class="res-card'+(isConfirmed?' confirmed':isDismissed?' dismissed':'')+'">'
+      + '<div class="res-card-top">'
+        + '<div class="res-card-cat">'+escHtml(p.amazonCategory||p.category||'')+'</div>'
+        + '<div class="res-card-name">'+escHtml(p.name)+'</div>'
+        + '<div class="res-card-desc">'+escHtml(p.description||'')+'</div>'
+      + '</div>'
+      + '<div class="res-card-pricing">'
+        + '<div class="res-price-col">'
+          + '<div class="res-price-label">Landed Cost</div>'
+          + '<div class="res-price-val cost">'+Number(p.estimatedCostAED||0).toFixed(2)+' AED</div>'
+        + '</div>'
+        + '<div class="res-price-div"></div>'
+        + '<div class="res-price-col">'
+          + '<div class="res-price-label">Sell Price</div>'
+          + '<div class="res-price-val sell">'+Number(p.estimatedSellingPriceAED||0).toFixed(2)+' AED</div>'
+        + '</div>'
+        + '<div class="res-price-div"></div>'
+        + '<div class="res-price-col">'
+          + '<div class="res-price-label">Markup</div>'
+          + '<div class="res-price-val mult">'+Number(p.markupMultiple||0).toFixed(1)+'x</div>'
+        + '</div>'
+      + '</div>'
+      + '<div class="res-card-body">'
+        + (p.sourcingNotes ? '<div class="res-detail-row"><span class="res-detail-label">Sourcing</span><span class="res-detail-val">'+escHtml(p.sourcingNotes)+'</span></div>' : '')
+        + (p.whyFastMoving ? '<div class="res-detail-row"><span class="res-detail-label">Why it sells in UAE</span><span class="res-detail-val">'+escHtml(p.whyFastMoving)+'</span></div>' : '')
+        + (p.shippingNote  ? '<div class="res-detail-row"><span class="res-detail-label">Shipping</span><span class="res-detail-val">'+escHtml(p.shippingNote)+'</span></div>' : '')
+        + (p.restrictions && p.restrictions !== 'None identified'
+            ? '<div class="res-detail-row"><span class="res-detail-label" style="color:#d97706;">Notes</span><span class="res-detail-val">'+escHtml(p.restrictions)+'</span></div>' : '')
+        + (tags ? '<div class="res-tags">'+tags+'</div>' : '')
+        + (!isConfirmed ? '<div style="font-size:.67rem;color:var(--text-dim);margin-top:4px;">Expires in '+(daysLeft > 1 ? daysLeft+' days' : daysLeft+' day')+'</div>' : '')
+      + '</div>'
+      + '<div class="res-card-actions">'+actions+'</div>'
+      + '<div class="res-expiry-bar"><div class="res-expiry-fill '+expiryClass+'" style="width:'+expiryPct+'%"></div></div>'
+    + '</div>';
+  }).join('');
 }
 
 /* ═══════════════════════════════════════════════════

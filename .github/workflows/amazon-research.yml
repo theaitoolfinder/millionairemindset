@@ -1,0 +1,189 @@
+name: Daily Amazon Product Research
+
+on:
+  schedule:
+    - cron: '0 6 * * *'   # 6:00 AM UTC daily (10:00 AM UAE time)
+  workflow_dispatch:        # Allow manual trigger from GitHub Actions tab
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run deep product research via Groq AI
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          python3 << 'PYEOF'
+          import urllib.request, urllib.error, json, os, sys, datetime, hashlib, time
+
+          GROQ_URL   = 'https://api.groq.com/openai/v1/chat/completions'
+          GROQ_MODEL = 'llama-3.3-70b-versatile'
+          API_KEY    = os.environ.get('GROQ_API_KEY', '')
+
+          if not API_KEY:
+              print("ERROR: GROQ_API_KEY secret not set in GitHub repository secrets.")
+              sys.exit(1)
+
+          TODAY = datetime.datetime.utcnow().strftime('%Y-%m-%d')
+          NOW   = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+          NEXT  = (datetime.datetime.utcnow() + datetime.timedelta(days=1)).strftime('%Y-%m-%dT%H:%M:%SZ')
+
+          PROMPT = """You are an expert Amazon FBA product researcher specializing in the UAE market (Amazon.ae).
+
+Your task: Identify 12 excellent product opportunities that meet ALL of the following strict criteria:
+
+CRITERIA:
+1. Cost per unit: 0.10 to 20.00 AED (TOTAL landed cost including sourcing + shipping to UAE)
+2. Markup potential: At least 10x the landed cost (sell price = 10x or more the cost)
+3. NON-PERISHABLE — must not expire, spoil, or degrade over time
+4. NOT oral or topical — no food, supplements, medicine, skincare, cosmetics, or anything applied to or consumed by the body
+5. NO Amazon restrictions or heavy regulations — avoid weapons, liquids, batteries (standalone), lasers, hazmat
+6. Products must be PHYSICALLY SOURCEABLE — either inside UAE (Dragon Mart, Deira wholesale, local suppliers) or from outside UAE (Alibaba, AliExpress, China) with MINIMAL shipping cost
+7. FAST-MOVING in UAE — must have real demand from UAE residents, expats, or OFW community
+8. Shipping cost MUST be factored into the 0.10-20.00 AED cost range
+
+GOOD CATEGORIES TO RESEARCH: Home organization, automotive accessories, office accessories, travel accessories, pet accessories (non-consumable), kids toys (non-toxic, non-oral), cleaning tools (not chemicals), sports equipment accessories, phone/tech accessories, stationery.
+
+BAD CATEGORIES TO AVOID: Food, supplements, cosmetics, topical creams/serums, medicines, flammable items, sharp weapons, items requiring special certifications to sell, heavy or fragile items with expensive shipping.
+
+For each product, provide realistic AED pricing based on actual Alibaba/Dragon Mart market knowledge for UAE.
+
+Return ONLY a valid JSON array (no markdown, no explanation, just raw JSON) with exactly 12 product objects. Each object must have these exact fields:
+{
+  "id": "rp-XXX" (unique, use rp-001 through rp-012),
+  "name": "Product Name (be specific, include pack size if applicable)",
+  "category": "Human-readable category",
+  "amazonCategory": "Amazon browse node category",
+  "description": "2-3 sentence description of the product and its use case",
+  "estimatedCostAED": number (total landed cost in AED, max 20),
+  "estimatedSellingPriceAED": number (realistic Amazon UAE selling price),
+  "markupMultiple": number (selling price divided by cost, must be >= 10),
+  "sourcingOptions": ["option 1", "option 2"],
+  "sourcingNotes": "Specific sourcing details — where to buy in UAE or from China, estimated MOQ, and any local UAE sourcing tips",
+  "whyFastMoving": "Specific reason this sells well in UAE — reference UAE lifestyle, expat community, climate, or culture",
+  "restrictions": "Any potential Amazon restrictions to be aware of, or 'None identified'",
+  "shippingNote": "Weight, dimensions, shipping cost estimate",
+  "tags": ["tag1", "tag2", "tag3"]
+}
+
+IMPORTANT: Make today's list DIFFERENT from generic suggestions. Think creatively — look for products with strong UAE-specific demand, underserved niches, or seasonal opportunities for """ + TODAY + """. Consider UAE summer heat, Ramadan/Eid gifting seasons if relevant, and OFW remittance culture."""
+
+          print("Calling Groq API for product research...")
+
+          def call_groq(prompt_text, attempt=1):
+              payload = {
+                  'model': GROQ_MODEL,
+                  'messages': [
+                      {'role': 'system', 'content': 'You are a professional Amazon FBA product researcher for the UAE market. You return only valid JSON arrays, no markdown formatting.'},
+                      {'role': 'user', 'content': prompt_text}
+                  ],
+                  'temperature': 0.75,
+                  'max_tokens': 4000,
+                  'top_p': 0.9
+              }
+              data = json.dumps(payload).encode('utf-8')
+              req = urllib.request.Request(
+                  GROQ_URL,
+                  data=data,
+                  headers={
+                      'Content-Type': 'application/json',
+                      'Authorization': f'Bearer {API_KEY}'
+                  },
+                  method='POST'
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=60) as r:
+                      return json.loads(r.read())
+              except urllib.error.HTTPError as e:
+                  print(f"HTTP Error {e.code}: {e.read().decode()}")
+                  if attempt < 3:
+                      print(f"Retrying in 10s (attempt {attempt+1})...")
+                      time.sleep(10)
+                      return call_groq(prompt_text, attempt + 1)
+                  raise
+
+          resp = call_groq(PROMPT)
+          raw_content = resp['choices'][0]['message']['content'].strip()
+          print("Raw response received, length:", len(raw_content))
+
+          # Clean up: remove markdown code fences if present
+          if raw_content.startswith('```'):
+              raw_content = raw_content.split('```')[1]
+              if raw_content.startswith('json'):
+                  raw_content = raw_content[4:]
+          raw_content = raw_content.strip()
+
+          # Parse the JSON array
+          products = json.loads(raw_content)
+          if not isinstance(products, list):
+              raise ValueError("Expected a JSON array of products")
+
+          # Validate and sanitize each product
+          validated = []
+          for i, p in enumerate(products[:12]):
+              pid = p.get('id', f'rp-{i+1:03d}')
+              cost  = float(p.get('estimatedCostAED', 0))
+              price = float(p.get('estimatedSellingPriceAED', 0))
+              markup = round(price / cost, 1) if cost > 0 else 0
+              obj = {
+                  'id': pid,
+                  'name': str(p.get('name', 'Unknown Product')),
+                  'category': str(p.get('category', 'General')),
+                  'amazonCategory': str(p.get('amazonCategory', 'General')),
+                  'description': str(p.get('description', '')),
+                  'estimatedCostAED': round(cost, 2),
+                  'estimatedSellingPriceAED': round(price, 2),
+                  'markupMultiple': markup,
+                  'sourcingOptions': p.get('sourcingOptions', []),
+                  'sourcingNotes': str(p.get('sourcingNotes', '')),
+                  'whyFastMoving': str(p.get('whyFastMoving', '')),
+                  'restrictions': str(p.get('restrictions', 'None identified')),
+                  'shippingNote': str(p.get('shippingNote', '')),
+                  'tags': p.get('tags', []),
+                  'researched': TODAY
+              }
+              # Only include products that pass core criteria
+              if cost <= 20 and cost >= 0.1 and markup >= 10:
+                  validated.append(obj)
+                  print(f"  OK: {obj['name']} — cost {cost} AED, markup {markup}x")
+              else:
+                  print(f"  SKIP (failed criteria): {obj.get('name')} cost={cost} markup={markup}")
+
+          if len(validated) < 6:
+              raise ValueError(f"Only {len(validated)} products passed criteria — not enough for a useful report")
+
+          output = {
+              'updated': NOW,
+              'nextUpdate': NEXT,
+              'criteria': {
+                  'maxCostAED': 20,
+                  'minCostAED': 0.1,
+                  'minMarkupMultiple': 10,
+                  'shippingIncludedInCost': True,
+                  'nonPerishable': True,
+                  'noOralTopical': True,
+                  'noRestrictedCategories': True
+              },
+              'products': validated
+          }
+
+          out_path = 'data/amazon-research.json'
+          with open(out_path, 'w', encoding='utf-8') as f:
+              json.dump(output, f, indent=2, ensure_ascii=False)
+
+          print(f"\nSuccess! {len(validated)} products saved to {out_path}")
+          PYEOF
+
+      - name: Commit and push research results
+        run: |
+          git config user.email "actions@github.com"
+          git config user.name "GitHub Actions Bot"
+          git add data/amazon-research.json
+          git diff --cached --quiet && echo "No changes to commit" || (
+            git commit -m "Daily Amazon product research update — $(date -u +'%Y-%m-%d') [skip ci]"
+            git push
+          )
