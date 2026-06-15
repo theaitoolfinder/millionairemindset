@@ -1056,9 +1056,10 @@
   };
 
   function stampArt(stamp, w, h) {
-    /* Returns an <img> from Pixabay for each Philippine stamp */
     w = w || 64; h = h || 52;
-    return '<img src="'+stamp.img+'" alt="'+stamp.label+'" width="'+w+'" height="'+h+'" style="display:block;object-fit:cover;border-radius:1px;" loading="lazy" onerror="this.style.background=\'#1e3a8a\';this.style.display=\'block\'">';
+    /* Append cache-bust so browsers drop any stale broken-image cache */
+    var src = stamp.img + (stamp.img.indexOf('?') >= 0 ? '&' : '?') + 'v=20260615';
+    return '<img src="'+src+'" alt="'+stamp.label+'" width="'+w+'" height="'+h+'" style="display:block;object-fit:cover;border-radius:1px;" onerror="this.style.background=\'#1e3a8a\';this.style.display=\'block\'">';
   }
   function stampByid(id) { return STAMPS.find(function(x){ return x.id === id; }) || STAMPS[0]; }
 
