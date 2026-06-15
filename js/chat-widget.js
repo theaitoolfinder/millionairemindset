@@ -287,17 +287,21 @@
 
   /* ── Suggestions ── */
   .mm-suggests {
-    padding: 8px 14px 6px;
-    display: flex; gap: 6px; flex-wrap: wrap;
+    padding: 6px 14px 4px;
+    display: flex; gap: 6px; flex-wrap: nowrap;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
     background: rgba(255,252,252,.7);
     border-top: 1px solid rgba(204,16,16,.06);
   }
+  .mm-suggests::-webkit-scrollbar { display: none; }
   .mm-sug-btn {
-    padding: 5px 12px; border-radius: 999px;
+    padding: 4px 11px; border-radius: 999px;
     border: 1.5px solid rgba(204,16,16,.18);
     background: rgba(255,255,255,.85);
-    color: #CC1010; font: 600 .72rem "Poppins",sans-serif;
+    color: #CC1010; font: 600 .70rem "Poppins",sans-serif;
     cursor: pointer; transition: .18s; white-space: nowrap;
+    flex-shrink: 0;
   }
   .mm-sug-btn:hover { background: #CC1010; color: #fff; border-color: #CC1010; }
 
@@ -1033,7 +1037,7 @@
       debt:        ['Debt snowball method','Paano mabayaran ang utang nang mabilis?'],
       budget:      ['Subukan ang calculator!','50-30-20 rule','Paano gumawa ng budget?'],
       stress:      ['Paano mag-relax?','Saan humingi ng tulong?','Mental health tips'],
-      default:     ['Kamusta ka?','Miss ko pamilya ko','Paano mag-ipon?','Gusto kong kumita pa','Check-up ng finances ko']
+      default:     ['Paano mag-ipon?','Gusto kong kumita pa','Check-up ng finances ko']
     },
     en: {
       greet:       ['How to save more?','I want extra income','Life as an OFW'],
@@ -1044,7 +1048,7 @@
       insurance:   ['How much coverage?','VUL vs Term Insurance?'],
       realestate:  ['Become a Vista Land agent?','Housing loan guide'],
       retirement:  ['How much do I need?','Retirement calculation'],
-      default:     ['How are you?','I miss my family','How to save more?','I want extra income','Check my finances']
+      default:     ['How to save more?','I want extra income','Check my finances']
     }
   };
 
@@ -1333,6 +1337,7 @@
     msgs.scrollTop = msgs.scrollHeight;
 
     function doFallback() {
+      console.warn('[MM Chat] Gemini unavailable — using fallback response');
       tid.remove();
       var showBiz = BIZ_KEYS.indexOf(intent) !== -1;
       var text = getResponse(intent, lang);
@@ -1346,6 +1351,7 @@
 
     callGemini(userText, name,
       /* onSuccess */ function(text) {
+        console.log('[MM Chat] Gemini reply received');
         tid.remove();
         var showBiz = BIZ_KEYS.indexOf(intent) !== -1;
         addMsg('bot', text, showBiz ? (lang === 'tl' ? BIZ_TL : BIZ_EN) : null);
