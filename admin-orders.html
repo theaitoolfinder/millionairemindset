@@ -240,27 +240,58 @@
       <div class="adm-gate-err" id="adm-gate-err">Incorrect username or password.</div>
     </div>
   </div>
+  <script src="js/security.js"></script>
   <script>
   (function(){
-    var KEY = 'mm_admin_auth';
-    var ADMIN_USER = 'admin';
-    var ADMIN_PASS = 'MM@admin2026';
+    var KEY          = 'mm_admin_auth';
+    var ADMIN_USER   = 'admin';
+    /* SHA-256 of 'MM@admin2026' */
+    var ADMIN_HASH   = '542cda4d50111174b24ec5177bc795eebbd1065fe6dbf8f44276cfc9e40072ae';
+    var BF_CTX       = 'orders_admin';
+
     function admLogin() {
+      var errEl = document.getElementById('adm-gate-err');
+      errEl.style.display = 'none';
+
+      if (mmSec.bfIsLocked(BF_CTX)) {
+        var lockUntil = parseInt(localStorage.getItem('mm_bfl_' + BF_CTX) || '0', 10);
+        var mins = Math.ceil((lockUntil - Date.now()) / 60000);
+        errEl.textContent = 'Too many attempts. Locked for ' + mins + ' min(s).';
+        errEl.style.display = 'block';
+        return;
+      }
+
       var u = document.getElementById('adm-user').value.trim();
       var p = document.getElementById('adm-pass').value;
-      if (u === ADMIN_USER && p === ADMIN_PASS) {
-        sessionStorage.setItem(KEY, '1');
-        document.getElementById('adm-gate').style.display = 'none';
-      } else {
-        var err = document.getElementById('adm-gate-err');
-        err.style.display = 'block';
+
+      if (u !== ADMIN_USER) {
+        var bf0 = mmSec.bfAttempt(BF_CTX);
+        errEl.textContent = 'Incorrect username or password. ' + (bf0.locked ? 'Account locked.' : bf0.remaining + ' attempt(s) left.');
+        errEl.style.display = 'block';
         document.getElementById('adm-pass').value = '';
-        document.getElementById('adm-pass').focus();
+        return;
       }
+
+      mmSec.hash(p).then(function(hashed) {
+        if (hashed === ADMIN_HASH) {
+          mmSec.bfReset(BF_CTX);
+          mmSec.sessCreate(KEY);
+          document.getElementById('adm-gate').style.display = 'none';
+        } else {
+          var bf = mmSec.bfAttempt(BF_CTX);
+          errEl.textContent = bf.locked
+            ? 'Too many attempts. Locked for ' + bf.minsLeft + ' minute(s).'
+            : 'Incorrect username or password. ' + bf.remaining + ' attempt(s) left.';
+          errEl.style.display = 'block';
+          document.getElementById('adm-pass').value = '';
+          document.getElementById('adm-pass').focus();
+        }
+      });
     }
+
     window.admLogin = admLogin;
-    // Auto-unlock if already authenticated this session
-    if (sessionStorage.getItem(KEY) === '1') {
+    // Auto-unlock if already authenticated this session (with timeout check)
+    if (mmSec.sessValid(KEY)) {
       document.getElementById('adm-gate').style.display = 'none';
     }
   })();
@@ -277,7 +308,7 @@
   </header>
   <script>
   function admSignOut() {
-    sessionStorage.removeItem('mm_admin_auth');
+    mmSec.sessDestroy('mm_admin_auth');
     location.reload();
   }
   </script>
