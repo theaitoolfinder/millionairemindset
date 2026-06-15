@@ -339,16 +339,61 @@
 
           <!-- Net summary — always visible -->
           <div class="calc-net-card" id="calcNetCard">
-            <div class="calc-net-label" id="calcNetLabel">Disposable Income</div>
-            <div class="calc-net-amount" id="calcNetAmount">AED 0</div>
-            <div class="calc-net-sub" id="calcNetSub">I-fill ang iyong kita at binabayaran sa kaliwa</div>
-            <div class="calc-net-bar-wrap">
-              <div class="calc-net-bar-track">
-                <div class="calc-net-bar-fill" id="calcBarFill" style="width:0%"></div>
+            <div class="calc-net-inner">
+              <!-- Donut chart -->
+              <div class="calc-donut-wrap">
+                <svg class="calc-donut-svg" viewBox="0 0 120 120" width="120" height="120">
+                  <defs>
+                    <radialGradient id="goldGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#fde68a"/>
+                      <stop offset="100%" stop-color="#d97706"/>
+                    </radialGradient>
+                    <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+                      <line x1="0" y1="0" x2="0" y2="6" stroke="#dc2626" stroke-width="2" stroke-opacity=".5"/>
+                    </pattern>
+                    <filter id="goldShine" x="-20%" y="-20%" width="140%" height="140%">
+                      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+                      <feFlood flood-color="#fbbf24" flood-opacity=".6" result="color"/>
+                      <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+                      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                  </defs>
+                  <!-- Background ring -->
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(0,0,0,.07)" stroke-width="14"/>
+                  <!-- Expenses arc -->
+                  <circle id="donutExpenses" cx="60" cy="60" r="50" fill="none"
+                    stroke="#e5e7eb" stroke-width="14"
+                    stroke-dasharray="0 314" stroke-dashoffset="78.5"
+                    stroke-linecap="round"
+                    style="transition: stroke-dasharray .8s cubic-bezier(.4,0,.2,1), stroke .4s;"/>
+                  <!-- Surplus/Deficit arc -->
+                  <circle id="donutNet" cx="60" cy="60" r="50" fill="none"
+                    stroke="url(#goldGlow)" stroke-width="14"
+                    stroke-dasharray="0 314" stroke-dashoffset="78.5"
+                    stroke-linecap="round"
+                    style="transition: stroke-dasharray .8s cubic-bezier(.4,0,.2,1), stroke .4s;"/>
+                  <!-- Deficit hatch overlay -->
+                  <circle id="donutHatch" cx="60" cy="60" r="50" fill="none"
+                    stroke="url(#hatch)" stroke-width="14"
+                    stroke-dasharray="0 314" stroke-dashoffset="78.5"
+                    stroke-linecap="round"
+                    style="display:none; transition: stroke-dasharray .8s cubic-bezier(.4,0,.2,1);"/>
+                  <!-- Center text -->
+                  <text x="60" y="53" text-anchor="middle" font-family="Poppins,sans-serif" font-size="11" font-weight="800" fill="#555" id="donutCenterPct">—</text>
+                  <text x="60" y="68" text-anchor="middle" font-family="Poppins,sans-serif" font-size="7.5" font-weight="600" fill="#888" id="donutCenterLabel">natitira</text>
+                </svg>
+                <!-- Shine pulse for surplus -->
+                <div class="donut-shine-ring" id="donutShineRing" style="display:none;"></div>
               </div>
-              <div class="calc-net-bar-labels">
-                <span id="barLabelLeft">0% napupunta sa binabayaran</span>
-                <span id="barLabelRight">0% natitira</span>
+              <!-- Right text -->
+              <div class="calc-net-text">
+                <div class="calc-net-label" id="calcNetLabel">Disposable Income</div>
+                <div class="calc-net-amount" id="calcNetAmount">AED 0</div>
+                <div class="calc-net-sub" id="calcNetSub">I-fill ang iyong kita at binabayaran sa kaliwa</div>
+                <div class="calc-donut-legend" id="calcDonutLegend" style="display:none;">
+                  <div class="donut-leg-item"><span class="donut-leg-dot" id="legDotExp"></span><span id="legLabelExp">Binabayaran</span></div>
+                  <div class="donut-leg-item"><span class="donut-leg-dot" id="legDotNet"></span><span id="legLabelNet">Natitira</span></div>
+                </div>
               </div>
             </div>
           </div>
@@ -369,6 +414,18 @@
 
             <!-- Smart advice card — shown after input -->
             <div class="calc-advice" id="calcAdvice" style="display:none;"></div>
+
+            <!-- Expense cut recommendations -->
+            <div class="calc-cut-card" id="calcCutCard" style="display:none;"></div>
+
+            <!-- Personalized roadmap -->
+            <div class="calc-roadmap-card" id="calcRoadmapCard" style="display:none;"></div>
+
+            <!-- Disclaimer -->
+            <div class="calc-disclaimer" id="calcDisclaimer" style="display:none;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span>Ang mga rekomendasyon sa itaas ay batay lamang sa mga pangkalahatang epektibong prinsipyo ng budgeting at financial planning. Hindi ito garantisadong solusyon para sa iyong sitwasyon. Ang desisyon sa kung paano gagamitin o palaguin ang iyong pera ay nasa iyo pa rin. Kumonsulta sa isang certified financial advisor para sa personalized na payo.</span>
+            </div>
 
             <!-- Subscriber gate overlay -->
             <div class="calc-gate-overlay" id="calcGateOverlay" style="display:none;">
@@ -494,18 +551,31 @@
   .calc-net-card.deficit { border-color: rgba(220,38,38,.3); box-shadow: 0 8px 32px rgba(220,38,38,.12), inset 0 1px 0 rgba(255,255,255,1); }
   .calc-net-card.zero    { border-color: rgba(200,144,10,.3); box-shadow: 0 8px 32px rgba(200,144,10,.12), inset 0 1px 0 rgba(255,255,255,1); }
 
-  .calc-net-label { font-size:.72rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--text-dim); margin-bottom:8px; }
-  .calc-net-amount { font-size:2.4rem; font-weight:900; letter-spacing:-.03em; line-height:1; margin-bottom:6px; transition: color .3s; }
+  /* Donut chart layout */
+  .calc-net-inner { display:flex; align-items:center; gap:20px; }
+  .calc-donut-wrap { position:relative; flex-shrink:0; }
+  .calc-donut-svg { transform: rotate(-90deg); overflow:visible; }
+  .donut-shine-ring {
+    position:absolute; inset:-8px; border-radius:50%;
+    border: 3px solid #fbbf24;
+    animation: donutPulse 2s ease-in-out infinite;
+    pointer-events:none;
+  }
+  @keyframes donutPulse {
+    0%,100% { opacity:.7; transform:scale(1); box-shadow:0 0 0 0 rgba(251,191,36,.5); }
+    50%      { opacity:1;  transform:scale(1.04); box-shadow:0 0 18px 6px rgba(251,191,36,.3); }
+  }
+  .calc-net-text { flex:1; text-align:left; }
+  .calc-donut-legend { display:flex; flex-direction:column; gap:5px; margin-top:10px; }
+  .donut-leg-item { display:flex; align-items:center; gap:6px; font-size:.7rem; color:var(--text-dim); font-weight:600; }
+  .donut-leg-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+
+  .calc-net-label { font-size:.72rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase; color:var(--text-dim); margin-bottom:6px; }
+  .calc-net-amount { font-size:2rem; font-weight:900; letter-spacing:-.03em; line-height:1.1; margin-bottom:4px; transition: color .3s; }
   .calc-net-amount.surplus { color: #16a34a; }
   .calc-net-amount.deficit { color: #dc2626; }
   .calc-net-amount.zero    { color: #c8900a; }
-  .calc-net-sub { font-size:.8rem; color:var(--text-dim); margin-bottom:20px; }
-
-  .calc-net-bar-wrap { text-align:left; }
-  .calc-net-bar-track { height:10px; background:rgba(0,0,0,.07); border-radius:999px; overflow:hidden; margin-bottom:6px; }
-  .calc-net-bar-fill { height:100%; border-radius:999px; transition: width .5s ease, background .3s; background: linear-gradient(90deg,#dc2626,#f97316); }
-  .calc-net-bar-fill.good { background: linear-gradient(90deg,#16a34a,#22c55e); }
-  .calc-net-bar-labels { display:flex; justify-content:space-between; font-size:.68rem; color:var(--text-dim); font-weight:600; }
+  .calc-net-sub { font-size:.76rem; color:var(--text-dim); line-height:1.45; }
 
   /* Breakdown rows */
   .calc-breakdown {
@@ -553,6 +623,55 @@
   .adv-biz-desc { font-size:.72rem; color:var(--text-dim); }
   .adv-biz-arrow { font-size:.9rem; color:var(--primary); font-weight:700; }
 
+  /* Expense cut card */
+  .calc-cut-card {
+    background: rgba(255,255,255,.9); border:1px solid rgba(255,255,255,.95);
+    border-radius:18px; padding:20px 22px;
+    box-shadow: 0 4px 18px rgba(0,0,0,.07);
+  }
+  .cut-card-title { font-size:.82rem; font-weight:800; color:var(--text); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+  .cut-item { display:flex; align-items:flex-start; gap:10px; margin-bottom:12px; }
+  .cut-item:last-child { margin-bottom:0; }
+  .cut-badge { flex-shrink:0; width:22px; height:22px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:900; color:#fff; }
+  .cut-body { flex:1; }
+  .cut-title { font-size:.78rem; font-weight:700; color:var(--text); }
+  .cut-desc  { font-size:.72rem; color:var(--text-dim); line-height:1.5; margin-top:1px; }
+
+  /* Roadmap card */
+  .calc-roadmap-card {
+    background: linear-gradient(135deg, rgba(255,255,255,.95) 0%, rgba(248,250,252,.9) 100%);
+    border:1.5px solid rgba(204,16,16,.15);
+    border-radius:18px; padding:20px 22px;
+    box-shadow: 0 4px 20px rgba(204,16,16,.06);
+  }
+  .roadmap-title { font-size:.82rem; font-weight:800; color:var(--text); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .roadmap-steps { position:relative; }
+  .roadmap-step { display:flex; gap:14px; margin-bottom:18px; position:relative; }
+  .roadmap-step:last-child { margin-bottom:0; }
+  .roadmap-step-left { display:flex; flex-direction:column; align-items:center; flex-shrink:0; }
+  .roadmap-step-num {
+    width:28px; height:28px; border-radius:50%;
+    background: linear-gradient(135deg,#CC1010,#ff4444);
+    color:#fff; font-size:.72rem; font-weight:900;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 2px 8px rgba(204,16,16,.35);
+    flex-shrink:0;
+  }
+  .roadmap-step-line { width:2px; flex:1; background: linear-gradient(to bottom, rgba(204,16,16,.2), transparent); margin-top:4px; min-height:14px; }
+  .roadmap-step-body { flex:1; padding-top:3px; }
+  .roadmap-step-phase { font-size:.62rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#CC1010; margin-bottom:2px; }
+  .roadmap-step-title { font-size:.8rem; font-weight:700; color:var(--text); margin-bottom:3px; }
+  .roadmap-step-desc  { font-size:.72rem; color:var(--text-dim); line-height:1.5; }
+
+  /* Disclaimer */
+  .calc-disclaimer {
+    display:flex; align-items:flex-start; gap:8px;
+    background:rgba(0,0,0,.03); border:1px solid rgba(0,0,0,.08);
+    border-radius:12px; padding:12px 14px;
+    font-size:.68rem; color:var(--text-dim); line-height:1.55;
+  }
+  .calc-disclaimer svg { flex-shrink:0; margin-top:1px; opacity:.5; }
+
   /* Breakdown total row */
   .bkd-total-row {
     display: flex; justify-content: space-between; align-items: center;
@@ -565,7 +684,10 @@
   /* Subscriber gate */
   .calc-gated-wrap { position: relative; display: flex; flex-direction: column; gap: 18px; }
   .calc-gated-wrap.locked > .calc-breakdown,
-  .calc-gated-wrap.locked > .calc-advice { filter: blur(6px); pointer-events: none; user-select: none; }
+  .calc-gated-wrap.locked > .calc-advice,
+  .calc-gated-wrap.locked > .calc-cut-card,
+  .calc-gated-wrap.locked > .calc-roadmap-card,
+  .calc-gated-wrap.locked > .calc-disclaimer { filter: blur(6px); pointer-events: none; user-select: none; }
   .calc-gate-overlay {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
@@ -679,10 +801,13 @@
     if (totalIn === 0) {
       netLabel.textContent = 'Disposable Income';
       netSub.textContent   = 'I-fill ang iyong kita at binabayaran sa kaliwa';
-      barFill.style.width  = '0%';
-      barFill.className    = 'calc-net-bar-fill';
       document.getElementById('calcBreakdown').style.display = 'none';
       document.getElementById('calcAdvice').style.display = 'none';
+      document.getElementById('calcCutCard').style.display = 'none';
+      document.getElementById('calcRoadmapCard').style.display = 'none';
+      document.getElementById('calcDisclaimer').style.display = 'none';
+      document.getElementById('calcDonutLegend').style.display = 'none';
+      renderDonut(0, 0, 'zero');
       calcApplyGate(false);
       return;
     }
@@ -692,24 +817,41 @@
       netAmt.classList.add('surplus');
       netLabel.textContent = 'Surplus — May natitira ka!';
       netSub.textContent   = 'Bawat buwan, may ' + calcFmt(net) + ' kang pwedeng gamitin nang matalino.';
-      barFill.className    = 'calc-net-bar-fill good';
     } else if (net < 0) {
       netCard.classList.add('deficit');
       netAmt.classList.add('deficit');
       netLabel.textContent = 'Deficit — Kulang ang kita!';
       netSub.textContent   = 'May kakulangan na ' + calcFmt(Math.abs(net)) + ' bawat buwan. Kailangan ng aksyon.';
-      barFill.className    = 'calc-net-bar-fill';
     } else {
       netCard.classList.add('zero');
       netAmt.classList.add('zero');
       netLabel.textContent = 'Break-even — Bahagya lang!';
       netSub.textContent   = 'Walang natitira. Mapanganib ito — walang cushion para sa emergency.';
-      barFill.className    = 'calc-net-bar-fill';
     }
 
-    barFill.style.width = Math.min(pctOut, 100) + '%';
-    document.getElementById('barLabelLeft').textContent  = Math.round(pctOut) + '% napupunta sa binabayaran';
-    document.getElementById('barLabelRight').textContent = Math.max(0, Math.round(pctLeft)) + '% natitira';
+    /* Donut chart */
+    renderDonut(totalIn, totalOut, net > 0 ? 'surplus' : (net < 0 ? 'deficit' : 'zero'));
+
+    /* Legend */
+    var legWrap = document.getElementById('calcDonutLegend');
+    legWrap.style.display = 'flex';
+    var legDotExp = document.getElementById('legDotExp');
+    var legDotNet = document.getElementById('legDotNet');
+    var legLabelNet = document.getElementById('legLabelNet');
+    legDotExp.style.background = '#e5e7eb';
+    if (net > 0) {
+      legDotNet.style.background = 'linear-gradient(135deg,#fde68a,#d97706)';
+      legLabelNet.textContent = Math.round(pctLeft) + '% Natitira (Surplus)';
+    } else if (net < 0) {
+      legDotNet.style.background = 'url(#hatch), #dc2626';
+      legDotNet.style.background = '#dc262644';
+      legDotNet.style.border = '2px dashed #dc2626';
+      legLabelNet.textContent = Math.round(Math.abs(pctLeft)) + '% Kulang (Deficit)';
+    } else {
+      legDotNet.style.background = '#f59e0b';
+      legLabelNet.textContent = 'Break-even';
+    }
+    document.getElementById('legLabelExp').textContent = Math.round(pctOut) + '% Binabayaran';
 
     /* Breakdown */
     buildBreakdown(totalIn, totalOut);
@@ -717,8 +859,203 @@
     /* Advice */
     buildAdvice(net, totalIn, totalOut);
 
+    /* Expense cut recommendations */
+    buildCutCard(net, totalIn, totalOut);
+
+    /* Personalized roadmap */
+    buildRoadmap(net, totalIn, totalOut);
+
+    /* Disclaimer */
+    document.getElementById('calcDisclaimer').style.display = 'flex';
+
     /* Gate — show blur + subscribe overlay for non-subscribers */
     calcApplyGate(true);
+  }
+
+  /* ── Donut chart renderer ─────────────────────────────────────────── */
+  function renderDonut(totalIn, totalOut, state) {
+    var circ = 2 * Math.PI * 50; // r=50 → 314.16
+    var donutExp  = document.getElementById('donutExpenses');
+    var donutNet  = document.getElementById('donutNet');
+    var donutHatch= document.getElementById('donutHatch');
+    var shine     = document.getElementById('donutShineRing');
+    var centerPct = document.getElementById('donutCenterPct');
+    var centerLbl = document.getElementById('donutCenterLabel');
+
+    if (totalIn === 0) {
+      donutExp.style.strokeDasharray   = '0 ' + circ;
+      donutNet.style.strokeDasharray   = '0 ' + circ;
+      donutHatch.style.display = 'none';
+      shine.style.display = 'none';
+      centerPct.textContent = '—';
+      centerLbl.textContent = '';
+      return;
+    }
+
+    var pctOut  = Math.min(totalOut / totalIn, 1);
+    var pctSurp = Math.max(0, 1 - pctOut);
+    var pctDef  = Math.max(0, pctOut - 1); // how much over 100%
+
+    var expArc  = pctOut * circ;
+    var netArc  = pctSurp * circ;
+
+    if (state === 'surplus') {
+      donutExp.style.stroke = '#e5e7eb';
+      donutExp.style.strokeDasharray = expArc + ' ' + circ;
+      donutNet.style.stroke = 'url(#goldGlow)';
+      donutNet.style.strokeDasharray = netArc + ' ' + circ;
+      // offset: net arc starts after expenses arc
+      donutNet.setAttribute('stroke-dashoffset', (circ / 4) - expArc);
+      donutHatch.style.display = 'none';
+      shine.style.display = 'block';
+      centerPct.textContent = Math.round(pctSurp * 100) + '%';
+      centerLbl.textContent = 'natitira';
+      centerPct.setAttribute('fill', '#d97706');
+    } else if (state === 'deficit') {
+      // Full ring = expenses; hatch overlay = deficit portion beyond income
+      donutExp.style.stroke = '#e5e7eb';
+      donutExp.style.strokeDasharray = circ + ' 0'; // full ring gray
+      // Hatch portion represents the deficit overshoot
+      var deficitPct = Math.min(pctOut - 1, 1);
+      var defArc = deficitPct * circ;
+      donutNet.style.stroke = '#dc2626';
+      donutNet.style.strokeDasharray = circ + ' 0';
+      donutHatch.style.display = 'block';
+      donutHatch.style.strokeDasharray = Math.min(defArc, circ) + ' ' + circ;
+      donutHatch.setAttribute('stroke-dashoffset', circ / 4);
+      shine.style.display = 'none';
+      centerPct.textContent = '-' + Math.round((pctOut - 1) * 100) + '%';
+      centerLbl.textContent = 'kulang';
+      centerPct.setAttribute('fill', '#dc2626');
+    } else {
+      donutExp.style.strokeDasharray = circ + ' 0';
+      donutNet.style.strokeDasharray = '0 ' + circ;
+      donutHatch.style.display = 'none';
+      shine.style.display = 'none';
+      centerPct.textContent = '0%';
+      centerLbl.textContent = 'break-even';
+      centerPct.setAttribute('fill', '#c8900a');
+    }
+
+    // Expenses always starts at top (offset = circ/4 = rotate -90deg compensation)
+    donutExp.setAttribute('stroke-dashoffset', circ / 4);
+  }
+
+  /* ── Expense cut recommendations ─────────────────────────────────── */
+  function buildCutCard(net, totalIn, totalOut) {
+    var box = document.getElementById('calcCutCard');
+    var rows = document.getElementById('cashOutRows').querySelectorAll('.calc-row');
+
+    // Gather named expenses
+    var expenses = [];
+    rows.forEach(function(row) {
+      var label = (row.querySelector('.calc-label-input').value || '').trim();
+      var amt   = parseFloat(row.querySelector('.calc-amount').value) || 0;
+      if (amt > 0) expenses.push({ label: label, amt: amt });
+    });
+
+    // General cut rules keyed by label patterns
+    var CUT_RULES = [
+      { keywords:['subscrip','netflix','spotify','gaming','stream'], badge:'#f59e0b', title:'Digital Subscriptions', tip:'Audit lahat ng subscription. I-cancel ang hindi regular na ginagamit. Tipid: malaki kapag pinagsama-sama.' },
+      { keywords:['dining','resto','food delivery','grab food','kain sa labas','restaurant'], badge:'#f97316', title:'Dining Out / Food Delivery', tip:'Limitahan sa 2x bawat linggo. Mag-meal prep ng 3 araw na pagkain sa isang luto — tipid ng hanggang 40% sa pagkain.' },
+      { keywords:['clothes','damit','shopping','fashion','shoes','sapatos'], badge:'#8b5cf6', title:'Clothing & Shopping', tip:'Sundin ang 30-day rule: bago bumili ng hindi kailangan, hintayin ng 30 araw. Karamihan, mawawala na ang gusto.' },
+      { keywords:['coffee','kape','cafe','starbucks'], badge:'#a16207', title:'Coffee & Cafe Spending', tip:'Ang dalawang kape sa cafe bawat araw ay AED 2,000+ bawat buwan. Mag-brew sa bahay — 90% ang matitipid.' },
+      { keywords:['entertainment','sinehan','bar','alcohol','inuman'], badge:'#dc2626', title:'Entertainment / Leisure', tip:'Itakda ang monthly entertainment budget at huwag lampasan ito. Maraming libreng alternativo sa UAE.' },
+      { keywords:['utang','loan','installment','credit','bayad utang'], badge:'#ef4444', title:'Loan / Debt Payments', tip:'Ilapat ang Avalanche Method: bayaran muna ang pinaka-mataas na interest rate para mas mabilis na maubos ang utang.' },
+      { keywords:['pasalubong','regalo','gifts','padala ng gamit'], badge:'#ec4899', title:'Pasalubong / Gifts', tip:'Magtakda ng fixed monthly pasalubong budget. Mas mahal ang walang financial plan kaysa sa hindi makabili ng regalo.' },
+      { keywords:['load','internet','phone','data'], badge:'#06b6d4', title:'Phone / Load / Data', tip:'Suriin kung kailangan mo ba ang pinaka-mahal na plan. Ang mas mababang plan ay kadalasang sapat para sa pang-araw-araw.' },
+    ];
+
+    var tips = [];
+
+    // Match against actual expenses
+    expenses.forEach(function(exp) {
+      var lbl = exp.label.toLowerCase();
+      CUT_RULES.forEach(function(rule) {
+        if (rule.keywords.some(function(k){ return lbl.includes(k); })) {
+          if (!tips.find(function(t){ return t.title === rule.title; })) {
+            tips.push({ badge:rule.badge, title:rule.title, tip:rule.tip, specific: exp.label, amt:exp.amt });
+          }
+        }
+      });
+    });
+
+    // If no matches, add 3 general tips based on financial literacy
+    if (tips.length === 0) {
+      var savingsRate = totalIn > 0 ? (net / totalIn) * 100 : 0;
+      if (savingsRate < 20) tips.push({ badge:'#f59e0b', title:'Palakihin ang Savings Rate', tip:'Ang target ay 20% ng kita bawat buwan para sa savings at investment. Kung kulang, hanapin kung saan posibleng bawasan ang 5–10% ng gastos.' });
+      tips.push({ badge:'#8b5cf6', title:'Iwasan ang Impulsive Spending', tip:'Gamitin ang 24-hour rule bago bumili ng anumang bagay na hindi nakasama sa budget mo. Ang discipline dito ay nagdudulot ng malaking tipid sa loob ng isang taon.' });
+      tips.push({ badge:'#16a34a', title:'Mag-cash Envelope Method', tip:'I-allocate ang cash sa mga envelope bawat kategorya (pagkain, transport, personal). Kapag ubos na ang envelope, stop na. Pinipigilan ito ng overspending.' });
+    }
+
+    // Always add: avoid lifestyle inflation
+    if (net > 0) {
+      tips.push({ badge:'#d97706', title:'Huwag Palawakin ang Gastos Dahil May Surplus', tip:'Ang "lifestyle inflation" — ang pag-upgrade ng pamumuhay kapag tumaas ang kita — ang pinakasikat na dahilan kung bakit walang ipon kahit malaki ang sahod. I-invest muna bago mag-enjoy.' });
+    }
+
+    var html = '<div class="cut-card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Saan Maaaring Makatipid</div>';
+    tips.slice(0, 5).forEach(function(t, idx) {
+      html += '<div class="cut-item">'
+        + '<div class="cut-badge" style="background:' + t.badge + '">' + (idx+1) + '</div>'
+        + '<div class="cut-body">'
+          + '<div class="cut-title">' + t.title + (t.specific && t.specific !== t.title ? ' <span style="font-weight:500;color:#aaa;font-size:.68rem;">(' + t.specific + ')</span>' : '') + '</div>'
+          + '<div class="cut-desc">' + t.tip + '</div>'
+        + '</div></div>';
+    });
+    box.innerHTML = html;
+    box.style.display = 'block';
+  }
+
+  /* ── Personalized roadmap ─────────────────────────────────────────── */
+  function buildRoadmap(net, totalIn, totalOut) {
+    var box = document.getElementById('calcRoadmapCard');
+    var savingsRate = totalIn > 0 ? (net / totalIn) * 100 : 0;
+    var html = '<div class="roadmap-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#CC1010" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Ang Iyong Personalized na Plano</div><div class="roadmap-steps">';
+
+    if (net < 0) {
+      /* DEFICIT ROADMAP */
+      var gap = Math.abs(net);
+      html += roadStep(1, 'Buwan 1–2', 'Hanapin ang Agad na Lutas', 'Suriin ang CASH OUT at putulin ang lahat ng hindi kailangang gastos. Target: bawasan ng ' + calcFmt(gap * 0.5) + ' o higit pa bawat buwan. Wala pang investment — kailangan muna ng survival.');
+      html += roadStep(2, 'Buwan 2–4', 'Dagdagan ang Kita', 'Simulan ang side income — JC Premiere, online selling, overtime, o freelance. Ang ' + calcFmt(gap) + ' na kakulangan ay kailangang punan ng dagdag na kita o mas mababang gastos, o pareho.');
+      html += roadStep(3, 'Buwan 4–6', 'I-stabilize ang Budget', 'Kapag na-achieve na ang break-even, magsimula ng ' + calcFmt(totalIn * 0.05) + '/buwan na emergency fund. Ito ang pundasyon bago mag-invest.');
+      html += roadStep(4, 'Buwan 6+', 'Simulan ang Pag-ipon at Investment', 'Kapag stable na ang kita at gastos, mag-invest ng kahit AED 100–300 bawat buwan sa VUL o UITF. Ang maliit na halaga na namumuhunan nang maaga ay mas mahalaga kaysa sa malaking halaga na huli.');
+    } else if (savingsRate < 10) {
+      /* LOW SURPLUS ROADMAP */
+      html += roadStep(1, 'Ngayon', 'Protektahan ang Napakaliit na Surplus', 'Ang ' + calcFmt(net) + ' na natitira mo bawat buwan ay mabuti pero maliit. Huwag i-touch ito — automatic na i-save agad pagdating ng sweldo (Pay Yourself First).');
+      html += roadStep(2, 'Buwan 1–3', 'Mag-ipon ng Emergency Fund', 'Target: 3 buwang gastos = ' + calcFmt(totalOut * 3) + '. Huwag mag-invest hanggang hindi naaabot ito. Ito ang safety net.');
+      html += roadStep(3, 'Buwan 3–6', 'Dagdagan ang Surplus', 'Hanapin kung paano lalakihin ang savings rate mula sa ' + Math.round(savingsRate) + '% patungong 20%. Maaaring sa pamamagitan ng extra income o pagbabawas ng gastos.');
+      html += roadStep(4, 'Buwan 6+', 'Magsimulang Mag-invest', 'Kapag 20% na ang savings rate, ilaan ang bahagi sa insurance (IMG VUL) at real estate planning (Vista Land). Ang layunin: pera na nagtatrabaho para sa iyo.');
+    } else if (savingsRate < 20) {
+      /* MODERATE SURPLUS ROADMAP */
+      html += roadStep(1, 'Ngayon', 'I-automate ang Savings', 'I-set up ng automatic na paglilipat ng ' + calcFmt(net) + ' sa isang savings account bawat pagtanggap ng sweldo. Huwag hayaang mapunta sa gastos.');
+      html += roadStep(2, 'Buwan 1–3', 'Kumpletuhin ang Emergency Fund', 'Target: 6 buwang gastos = ' + calcFmt(totalOut * 6) + '. Ito ang tunay na security — hindi ang insurance, hindi ang investment — kundi ang cash na mayroon ka sa oras ng krisis.');
+      html += roadStep(3, 'Buwan 2–4', 'Kumuha ng Proteksyon', 'Mag-apply ng life at health insurance (IMG). Ang buwanang premium ay dapat hindi hihigit sa 10% ng iyong kita = ' + calcFmt(totalIn * 0.1) + '. Protektado ka — mamumuhunan ka na nang may kapayapaang-isip.');
+      html += roadStep(4, 'Buwan 4+', 'Mag-invest nang Regular', 'Ilaan ang 20% ng kita sa investment: UITF, stocks, o real estate. Ang ' + calcFmt(totalIn * 0.2) + '/buwan sa 5% annual return ay magiging ' + calcFmt(totalIn * 0.2 * 12 * 5) + ' sa 5 taon (hindi kasama ang compounding).');
+    } else {
+      /* STRONG SURPLUS ROADMAP */
+      html += roadStep(1, 'Ngayon', 'Ikaw ay Nasa Tamang Landas', 'Ang ' + Math.round(savingsRate) + '% savings rate mo ay excellent. Ngayon, ang tanong ay hindi kung magtitipon — kundi kung paano ito palalaguin nang mas mabilis.');
+      html += roadStep(2, 'Buwan 1–2', 'Suriin ang Portfolio Mo', 'Mayroon ka bang emergency fund na 6 buwan? Insurance? Stocks o UITF? Real estate plan? Kung wala pa sa ilan, ito ang susunod na hakbang.');
+      html += roadStep(3, 'Buwan 2–6', 'Mag-diversify ng Investment', 'Huwag ilagay ang lahat sa iisang basket. Solong 50% sa liquid savings, 30% sa market investment, 20% sa real estate plan (down payment o LOT).');
+      html += roadStep(4, 'Buwan 6+', 'Itayo ang Passive Income', 'Ang tunay na yaman ay ang pera na kumikita kahit natutulog ka. Tumingin sa: rental income, network marketing income (JC Premiere, IMG), o digital product income. Ang ' + calcFmt(net) + '/buwan na surplus mo ay simula ng empire.');
+    }
+
+    html += '</div>';
+    box.innerHTML = html;
+    box.style.display = 'block';
+  }
+
+  function roadStep(num, phase, title, desc) {
+    var isLast = (num === 4);
+    return '<div class="roadmap-step">'
+      + '<div class="roadmap-step-left">'
+        + '<div class="roadmap-step-num">' + num + '</div>'
+        + (!isLast ? '<div class="roadmap-step-line"></div>' : '')
+      + '</div>'
+      + '<div class="roadmap-step-body">'
+        + '<div class="roadmap-step-phase">' + phase + '</div>'
+        + '<div class="roadmap-step-title">' + title + '</div>'
+        + '<div class="roadmap-step-desc">' + desc + '</div>'
+      + '</div></div>';
   }
 
   function buildBreakdown(totalIn, totalOut) {
