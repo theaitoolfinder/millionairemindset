@@ -186,13 +186,13 @@
       <div class="section-header" style="text-align:center;margin-bottom:48px;">
         <p class="label">OFW Money Tool</p>
         <h2>What's in My Wallet?</h2>
-        <p class="section-sub" style="max-width:580px;margin:0 auto;">I-type ang iyong buwanang kita at gastos. Aalamin natin kung may natitira ka — at kung paano mo ito gagamitin nang matalino.</p>
+        <p class="section-sub" style="max-width:580px;margin:0 auto;">Ilagay ang iyong buwanang kita at gastos. Makikita mo agad kung kumikita ka ba o kulang — at kung ano ang susunod na dapat gawin.</p>
       </div>
 
       <div class="calc-layout">
 
-        <!-- ── LEFT: INPUTS ── -->
-        <div class="calc-inputs">
+        <!-- ── TOP: INPUTS ROW ── -->
+        <div class="calc-top-grid">
 
           <!-- CASH IN -->
           <div class="calc-card">
@@ -238,7 +238,7 @@
           </div>
 
           <!-- CASH OUT -->
-          <div class="calc-card" style="margin-top:20px;">
+          <div class="calc-card">
             <div class="calc-card-header calc-card-header--out">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"/><polyline points="17 18 23 18 23 12"/></svg>
               CASH OUT — Binabayaran Bawat Buwan
@@ -308,37 +308,37 @@
             </div>
           </div>
 
-          <!-- Currency dropdown -->
-          <div class="calc-currency-row">
-            <span style="font-size:.8rem;color:var(--text-dim);font-weight:600;">Currency:</span>
-            <select id="calcCurrencySelect" onchange="calcSetCurrencyDrop(this.value)" style="padding:7px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(255,255,255,.9);font:600 .82rem 'Poppins',sans-serif;color:var(--text);cursor:pointer;outline:none;">
-              <option value="AED">🇦🇪 AED — UAE Dirham</option>
-              <option value="SAR">🇸🇦 SAR — Saudi Riyal</option>
-              <option value="QAR">🇶🇦 QAR — Qatar Riyal</option>
-              <option value="KWD">🇰🇼 KWD — Kuwait Dinar</option>
-              <option value="BHD">🇧🇭 BHD — Bahrain Dinar</option>
-              <option value="OMR">🇴🇲 OMR — Oman Riyal</option>
-              <option value="SGD">🇸🇬 SGD — Singapore Dollar</option>
-              <option value="HKD">🇭🇰 HKD — Hong Kong Dollar</option>
-              <option value="USD">🇺🇸 USD — US Dollar</option>
-              <option value="GBP">🇬🇧 GBP — British Pound</option>
-              <option value="EUR">🇪🇺 EUR — Euro</option>
-              <option value="JPY">🇯🇵 JPY — Japanese Yen</option>
-              <option value="KRW">🇰🇷 KRW — Korean Won</option>
-              <option value="AUD">🇦🇺 AUD — Australian Dollar</option>
-              <option value="CAD">🇨🇦 CAD — Canadian Dollar</option>
-              <option value="NZD">🇳🇿 NZD — New Zealand Dollar</option>
-              <option value="PHP">🇵🇭 PHP — Philippine Peso</option>
-            </select>
-            <span id="rateNote" style="font-size:.72rem;color:var(--text-dim);"></span>
-          </div>
+        </div><!-- end calc-top-grid -->
 
-        </div><!-- end calc-inputs -->
+        <!-- Currency bar -->
+        <div class="calc-currency-bar">
+          <span style="font-size:.8rem;color:var(--text-dim);font-weight:600;">Currency:</span>
+          <select id="calcCurrencySelect" onchange="calcSetCurrencyDrop(this.value)" style="padding:7px 12px;border-radius:10px;border:1.5px solid var(--border);background:rgba(255,255,255,.9);font:600 .82rem 'Poppins',sans-serif;color:var(--text);cursor:pointer;outline:none;">
+            <option value="AED">🇦🇪 AED — UAE Dirham</option>
+            <option value="SAR">🇸🇦 SAR — Saudi Riyal</option>
+            <option value="QAR">🇶🇦 QAR — Qatar Riyal</option>
+            <option value="KWD">🇰🇼 KWD — Kuwait Dinar</option>
+            <option value="BHD">🇧🇭 BHD — Bahrain Dinar</option>
+            <option value="OMR">🇴🇲 OMR — Oman Riyal</option>
+            <option value="SGD">🇸🇬 SGD — Singapore Dollar</option>
+            <option value="HKD">🇭🇰 HKD — Hong Kong Dollar</option>
+            <option value="USD">🇺🇸 USD — US Dollar</option>
+            <option value="GBP">🇬🇧 GBP — British Pound</option>
+            <option value="EUR">🇪🇺 EUR — Euro</option>
+            <option value="JPY">🇯🇵 JPY — Japanese Yen</option>
+            <option value="KRW">🇰🇷 KRW — Korean Won</option>
+            <option value="AUD">🇦🇺 AUD — Australian Dollar</option>
+            <option value="CAD">🇨🇦 CAD — Canadian Dollar</option>
+            <option value="NZD">🇳🇿 NZD — New Zealand Dollar</option>
+            <option value="PHP">🇵🇭 PHP — Philippine Peso</option>
+          </select>
+          <span id="rateNote" style="font-size:.72rem;color:var(--text-dim);"></span>
+        </div>
 
-        <!-- ── RIGHT: RESULTS ── -->
-        <div class="calc-results" id="calcResults">
+        <!-- ── RESULTS AREA (full width) ── -->
+        <div class="calc-results-area">
 
-          <!-- Net summary — always visible -->
+          <!-- Net summary — always visible, full width -->
           <div class="calc-net-card" id="calcNetCard">
             <div class="calc-net-inner">
               <!-- Donut chart -->
@@ -390,7 +390,7 @@
               <div class="calc-net-text">
                 <div class="calc-net-label" id="calcNetLabel">Disposable Income</div>
                 <div class="calc-net-amount" id="calcNetAmount">AED 0</div>
-                <div class="calc-net-sub" id="calcNetSub">I-fill ang iyong kita at binabayaran sa kaliwa</div>
+                <div class="calc-net-sub" id="calcNetSub">Ilagay ang iyong kita at gastos sa itaas para makita ang resulta</div>
                 <div class="calc-donut-legend" id="calcDonutLegend" style="display:none;">
                   <div class="donut-leg-item"><span class="donut-leg-dot" id="legDotExp"></span><span id="legLabelExp">Binabayaran</span></div>
                   <div class="donut-leg-item"><span class="donut-leg-dot" id="legDotNet"></span><span id="legLabelNet">Natitira</span></div>
@@ -402,28 +402,34 @@
           <!-- Subscriber-gated panel -->
           <div class="calc-gated-wrap" id="calcGatedWrap">
 
-            <!-- Breakdown donut-style rows -->
-            <div class="calc-breakdown" id="calcBreakdown" style="display:none;">
-              <!-- Total row — TOP -->
-              <div class="bkd-total-row bkd-total-row--top" id="bkdTotalRow" style="display:none;">
-                <div class="bkd-total-label">Kabuuang Binabayaran</div>
-                <div class="bkd-total-amount" id="bkdTotalAmt">AED 0</div>
+            <!-- Results 2-col grid: breakdown + advice -->
+            <div class="calc-results-grid">
+              <!-- Breakdown donut-style rows -->
+              <div class="calc-breakdown" id="calcBreakdown" style="display:none;">
+                <!-- Total row — TOP -->
+                <div class="bkd-total-row bkd-total-row--top" id="bkdTotalRow" style="display:none;">
+                  <div class="bkd-total-label">Kabuuang Binabayaran</div>
+                  <div class="bkd-total-amount" id="bkdTotalAmt">AED 0</div>
+                </div>
+                <div class="bkd-divider" id="bkdDivider" style="display:none;"></div>
+                <h4 style="font-size:.78rem;font-weight:700;margin:10px 0 10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;">Breakdown</h4>
+                <div id="breakdownRows"></div>
               </div>
-              <div class="bkd-divider" id="bkdDivider" style="display:none;"></div>
-              <h4 style="font-size:.78rem;font-weight:700;margin:10px 0 10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;">Breakdown</h4>
-              <div id="breakdownRows"></div>
+
+              <!-- Smart advice card — shown after input -->
+              <div class="calc-advice" id="calcAdvice" style="display:none;"></div>
             </div>
 
-            <!-- Smart advice card — shown after input -->
-            <div class="calc-advice" id="calcAdvice" style="display:none;"></div>
+            <!-- Results 2-col grid: cut tips + roadmap -->
+            <div class="calc-results-grid">
+              <!-- Expense cut recommendations -->
+              <div class="calc-cut-card" id="calcCutCard" style="display:none;"></div>
 
-            <!-- Expense cut recommendations -->
-            <div class="calc-cut-card" id="calcCutCard" style="display:none;"></div>
+              <!-- Personalized roadmap -->
+              <div class="calc-roadmap-card" id="calcRoadmapCard" style="display:none;"></div>
+            </div>
 
-            <!-- Personalized roadmap -->
-            <div class="calc-roadmap-card" id="calcRoadmapCard" style="display:none;"></div>
-
-            <!-- Disclaimer -->
+            <!-- Disclaimer — full width -->
             <div class="calc-disclaimer" id="calcDisclaimer" style="display:none;">
               <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
               <span>Ang mga rekomendasyon sa itaas ay batay lamang sa mga pangkalahatang epektibong prinsipyo ng budgeting at financial planning. Hindi ito garantisadong solusyon para sa iyong sitwasyon. Ang desisyon sa kung paano gagamitin o palaguin ang iyong pera ay nasa iyo pa rin. Kumonsulta sa isang certified financial advisor para sa personalized na payo.</span>
@@ -481,7 +487,7 @@
 
           </div><!-- end calc-gated-wrap -->
 
-        </div><!-- end calc-results -->
+        </div><!-- end calc-results-area -->
       </div><!-- end calc-layout -->
 
     </div>
@@ -492,12 +498,40 @@
      CALCULATOR STYLES
   ═══════════════════════════════════════════ */
   .calc-layout {
-    display: grid;
-    grid-template-columns: 1fr 420px;
-    gap: 28px;
-    align-items: start;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
-  @media(max-width:900px){ .calc-layout{ grid-template-columns:1fr; } }
+
+  .calc-top-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  @media(max-width:768px){ .calc-top-grid{ grid-template-columns: 1fr; } }
+
+  .calc-currency-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+    padding: 12px 4px;
+  }
+
+  .calc-results-area {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .calc-results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  @media(max-width:768px){ .calc-results-grid{ grid-template-columns: 1fr; } }
 
   .calc-card {
     background: rgba(255,255,255,.88);
@@ -565,6 +599,7 @@
     display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
     margin-top: 14px; padding: 12px 4px;
   }
+  /* Legacy alias — not used in new layout but kept for safety */
   .calc-cur-btn {
     padding: 5px 14px; border-radius: 999px;
     border: 1.5px solid var(--border); background: rgba(255,255,255,.7);
@@ -573,8 +608,8 @@
   }
   .calc-cur-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
 
-  /* Results panel */
-  .calc-results { display: flex; flex-direction: column; gap: 18px; position: sticky; top: 80px; }
+  /* Results panel — legacy selector kept for gate blur selectors */
+  .calc-results { display: flex; flex-direction: column; gap: 18px; }
 
   .calc-net-card {
     background: rgba(255,255,255,.92);
@@ -582,7 +617,6 @@
     border: 1px solid rgba(255,255,255,.98);
     border-radius: 22px; padding: 28px 24px;
     box-shadow: 0 8px 32px rgba(0,0,0,.09), inset 0 1px 0 rgba(255,255,255,1);
-    text-align: center;
     transition: .35s;
   }
   .calc-net-card.surplus { border-color: rgba(22,163,74,.3); box-shadow: 0 8px 32px rgba(22,163,74,.12), inset 0 1px 0 rgba(255,255,255,1); }
@@ -592,7 +626,7 @@
   /* Donut chart layout */
   .calc-net-inner { display:flex; align-items:center; gap:20px; }
   .calc-donut-wrap { position:relative; flex-shrink:0; }
-  .calc-donut-svg { transform: rotate(-90deg); overflow:visible; }
+  .calc-donut-svg { overflow:visible; }
   .donut-shine-ring {
     position:absolute; inset:-8px; border-radius:50%;
     border: 3px solid #fbbf24;
@@ -725,7 +759,8 @@
   .calc-gated-wrap.locked > .calc-advice,
   .calc-gated-wrap.locked > .calc-cut-card,
   .calc-gated-wrap.locked > .calc-roadmap-card,
-  .calc-gated-wrap.locked > .calc-disclaimer { filter: blur(6px); pointer-events: none; user-select: none; }
+  .calc-gated-wrap.locked > .calc-disclaimer,
+  .calc-gated-wrap.locked > .calc-results-grid { filter: blur(6px); pointer-events: none; user-select: none; }
   .calc-gate-overlay {
     position: absolute; inset: 0;
     display: flex; align-items: center; justify-content: center;
@@ -865,7 +900,7 @@
 
     if (totalIn === 0) {
       netLabel.textContent = 'Disposable Income';
-      netSub.textContent   = 'I-fill ang iyong kita at binabayaran sa kaliwa';
+      netSub.textContent   = 'Ilagay ang iyong kita at gastos sa itaas para makita ang resulta';
       document.getElementById('calcBreakdown').style.display = 'none';
       document.getElementById('calcAdvice').style.display = 'none';
       document.getElementById('calcCutCard').style.display = 'none';
@@ -881,17 +916,17 @@
       netCard.classList.add('surplus');
       netAmt.classList.add('surplus');
       netLabel.textContent = 'Surplus — May natitira ka!';
-      netSub.textContent   = 'Bawat buwan, may ' + calcFmt(net) + ' kang pwedeng gamitin nang matalino.';
+      netSub.textContent   = 'Bawat buwan, may ' + calcFmt(net) + ' kang natitira. Huwag hayaang maging gastos lang \'yan!';
     } else if (net < 0) {
       netCard.classList.add('deficit');
       netAmt.classList.add('deficit');
       netLabel.textContent = 'Deficit — Kulang ang kita!';
-      netSub.textContent   = 'May kakulangan na ' + calcFmt(Math.abs(net)) + ' bawat buwan. Kailangan ng aksyon.';
+      netSub.textContent   = 'May kakulangan na ' + calcFmt(Math.abs(net)) + ' bawat buwan. Kailangan ng aksyon agad!';
     } else {
       netCard.classList.add('zero');
       netAmt.classList.add('zero');
       netLabel.textContent = 'Break-even — Bahagya lang!';
-      netSub.textContent   = 'Walang natitira. Mapanganib ito — walang cushion para sa emergency.';
+      netSub.textContent   = 'Exact na exact \'yong kita at gastos mo. \'Pag may biglaang gastos, malaking problema \'yan.';
     }
 
     /* Donut chart */
@@ -904,14 +939,14 @@
     var legDotNet = document.getElementById('legDotNet');
     var legLabelNet = document.getElementById('legLabelNet');
     legDotExp.style.background = '#e5e7eb';
+    legDotNet.style.border = '';
     if (net > 0) {
       legDotNet.style.background = 'linear-gradient(135deg,#fde68a,#d97706)';
-      legLabelNet.textContent = Math.round(pctLeft) + '% Natitira (Surplus)';
+      legLabelNet.textContent = Math.round(pctLeft) + '% Natitira';
     } else if (net < 0) {
-      legDotNet.style.background = 'url(#hatch), #dc2626';
       legDotNet.style.background = '#dc262644';
       legDotNet.style.border = '2px dashed #dc2626';
-      legLabelNet.textContent = Math.round(Math.abs(pctLeft)) + '% Kulang (Deficit)';
+      legLabelNet.textContent = Math.round((totalOut / totalIn - 1) * 100) + '% Kulang';
     } else {
       legDotNet.style.background = '#f59e0b';
       legLabelNet.textContent = 'Break-even';
@@ -957,9 +992,10 @@
       return;
     }
 
-    var pctOut  = Math.min(totalOut / totalIn, 1);
-    var pctSurp = Math.max(0, 1 - pctOut);
-    var pctDef  = Math.max(0, pctOut - 1); // how much over 100%
+    var rawRatio = totalOut / totalIn;           // unclamped, may exceed 1
+    var pctOut   = Math.min(rawRatio, 1);         // clamped for arc drawing
+    var pctSurp  = Math.max(0, 1 - pctOut);
+    var pctDef   = Math.max(0, rawRatio - 1);    // how much over 100% (unclamped)
 
     var expArc  = pctOut * circ;
     var netArc  = pctSurp * circ;
@@ -980,8 +1016,8 @@
       // Full ring = expenses; hatch overlay = deficit portion beyond income
       donutExp.style.stroke = '#e5e7eb';
       donutExp.style.strokeDasharray = circ + ' 0'; // full ring gray
-      // Hatch portion represents the deficit overshoot
-      var deficitPct = Math.min(pctOut - 1, 1);
+      // Hatch portion represents the deficit overshoot (use unclamped rawRatio)
+      var deficitPct = Math.min(pctDef, 1);
       var defArc = deficitPct * circ;
       donutNet.style.stroke = '#dc2626';
       donutNet.style.strokeDasharray = circ + ' 0';
@@ -989,7 +1025,7 @@
       donutHatch.style.strokeDasharray = Math.min(defArc, circ) + ' ' + circ;
       donutHatch.setAttribute('stroke-dashoffset', circ / 4);
       shine.style.display = 'none';
-      centerPct.textContent = '-' + Math.round((pctOut - 1) * 100) + '%';
+      centerPct.textContent = '-' + Math.round(pctDef * 100) + '%';
       centerLbl.textContent = 'kulang';
       centerPct.setAttribute('fill', '#dc2626');
     } else {
@@ -1048,17 +1084,17 @@
     // If no matches, add 3 general tips based on financial literacy
     if (tips.length === 0) {
       var savingsRate = totalIn > 0 ? (net / totalIn) * 100 : 0;
-      if (savingsRate < 20) tips.push({ badge:'#f59e0b', title:'Palakihin ang Savings Rate', tip:'Ang target ay 20% ng kita bawat buwan para sa savings at investment. Kung kulang, hanapin kung saan posibleng bawasan ang 5–10% ng gastos.' });
-      tips.push({ badge:'#8b5cf6', title:'Iwasan ang Impulsive Spending', tip:'Gamitin ang 24-hour rule bago bumili ng anumang bagay na hindi nakasama sa budget mo. Ang discipline dito ay nagdudulot ng malaking tipid sa loob ng isang taon.' });
-      tips.push({ badge:'#16a34a', title:'Mag-cash Envelope Method', tip:'I-allocate ang cash sa mga envelope bawat kategorya (pagkain, transport, personal). Kapag ubos na ang envelope, stop na. Pinipigilan ito ng overspending.' });
+      if (savingsRate < 20) tips.push({ badge:'#f59e0b', title:'Palakihin ang natitira mo', tip:'Target: 20% ng kita bawat buwan para sa savings at investment. Kung kulang pa, hanapin kung saan pwedeng bawasan ng 5–10% ang gastos — kadalasan may makikita.' });
+      tips.push({ badge:'#8b5cf6', title:'Huwag bumili nang impulsive', tip:'Gamitin ang 24-hour rule — bago bumili ng hindi nasa budget, hintayin ng isang araw. Karamihan sa mga pagkakataon, mawawala na ang gusto pagkatapos.' });
+      tips.push({ badge:'#16a34a', title:'Subukan ang Cash Envelope Method', tip:'I-allocate ang cash sa mga sobre bawat kategorya (pagkain, transport, personal). Kapag ubos na ang sobre, stop na. Simple pero epektibo para hindi lumagpas sa budget.' });
     }
 
     // Always add: avoid lifestyle inflation
     if (net > 0) {
-      tips.push({ badge:'#d97706', title:'Huwag Palawakin ang Gastos Dahil May Surplus', tip:'Ang "lifestyle inflation" — ang pag-upgrade ng pamumuhay kapag tumaas ang kita — ang pinakasikat na dahilan kung bakit walang ipon kahit malaki ang sahod. I-invest muna bago mag-enjoy.' });
+      tips.push({ badge:'#d97706', title:'Huwag i-upgrade ang lifestyle dahil may natitira', tip:'\'Pag tumaas ang kita, nag-a-upgrade din ang gastos — \'yan ang "lifestyle inflation." Ito ang pinakasikat na dahilan ng walang ipon kahit malaki ang sahod. I-invest muna bago mag-enjoy.' });
     }
 
-    var html = '<div class="cut-card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Saan Maaaring Makatipid</div>';
+    var html = '<div class="cut-card-title"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Saan Ka Pwedeng Makatipid</div>';
     tips.slice(0, 5).forEach(function(t, idx) {
       html += '<div class="cut-item">'
         + '<div class="cut-badge" style="background:' + t.badge + '">' + (idx+1) + '</div>'
@@ -1080,28 +1116,28 @@
     if (net < 0) {
       /* DEFICIT ROADMAP */
       var gap = Math.abs(net);
-      html += roadStep(1, 'Buwan 1–2', 'Hanapin ang Agad na Lutas', 'Suriin ang CASH OUT at putulin ang lahat ng hindi kailangang gastos. Target: bawasan ng ' + calcFmt(gap * 0.5) + ' o higit pa bawat buwan. Wala pang investment — kailangan muna ng survival.');
-      html += roadStep(2, 'Buwan 2–4', 'Dagdagan ang Kita', 'Simulan ang side income — JC Premiere, online selling, overtime, o freelance. Ang ' + calcFmt(gap) + ' na kakulangan ay kailangang punan ng dagdag na kita o mas mababang gastos, o pareho.');
-      html += roadStep(3, 'Buwan 4–6', 'I-stabilize ang Budget', 'Kapag na-achieve na ang break-even, magsimula ng ' + calcFmt(totalIn * 0.05) + '/buwan na emergency fund. Ito ang pundasyon bago mag-invest.');
-      html += roadStep(4, 'Buwan 6+', 'Simulan ang Pag-ipon at Investment', 'Kapag stable na ang kita at gastos, mag-invest ng kahit AED 100–300 bawat buwan sa VUL o UITF. Ang maliit na halaga na namumuhunan nang maaga ay mas mahalaga kaysa sa malaking halaga na huli.');
+      html += roadStep(1, 'Buwan 1–2', 'Hanapin kung saan lumulusot ang pera', 'Tingnan ang bawat gastos sa CASH OUT — putulin ang lahat ng hindi tunay na kailangan. Target: bawasan ng ' + calcFmt(gap * 0.5) + ' o higit pa bawat buwan. Muna na lang \'to bago mag-invest.');
+      html += roadStep(2, 'Buwan 2–4', 'Maghanap ng extra income', 'Simulan ang side hustle — JC Premiere, online selling, overtime, freelance. Ang ' + calcFmt(gap) + ' na kakulangan ay kailangang punan ng dagdag na kita o mas mababang gastos — o pareho.');
+      html += roadStep(3, 'Buwan 4–6', 'I-stabilize ang budget', 'Kapag break-even na, magsimula ng ' + calcFmt(totalIn * 0.05) + '/buwan na emergency fund. \'Yun ang pundasyon bago ka mag-invest ng kahit ano.');
+      html += roadStep(4, 'Buwan 6+', 'Mamuhunan nang dahan-dahan', 'Kapag stable na, mag-invest ng kahit maliit — VUL o UITF. Ang maaga at regular na pag-invest, kahit maliit, ay mas epektibo kaysa malaking halaga na huli.');
     } else if (savingsRate < 10) {
       /* LOW SURPLUS ROADMAP */
-      html += roadStep(1, 'Ngayon', 'Protektahan ang Napakaliit na Surplus', 'Ang ' + calcFmt(net) + ' na natitira mo bawat buwan ay mabuti pero maliit. Huwag i-touch ito — automatic na i-save agad pagdating ng sweldo (Pay Yourself First).');
-      html += roadStep(2, 'Buwan 1–3', 'Mag-ipon ng Emergency Fund', 'Target: 3 buwang gastos = ' + calcFmt(totalOut * 3) + '. Huwag mag-invest hanggang hindi naaabot ito. Ito ang safety net.');
-      html += roadStep(3, 'Buwan 3–6', 'Dagdagan ang Surplus', 'Hanapin kung paano lalakihin ang savings rate mula sa ' + Math.round(savingsRate) + '% patungong 20%. Maaaring sa pamamagitan ng extra income o pagbabawas ng gastos.');
-      html += roadStep(4, 'Buwan 6+', 'Magsimulang Mag-invest', 'Kapag 20% na ang savings rate, ilaan ang bahagi sa insurance (IMG VUL) at real estate planning (Vista Land). Ang layunin: pera na nagtatrabaho para sa iyo.');
+      html += roadStep(1, 'Ngayon', 'Protektahan ang maliit na natitira mo', 'Ang ' + calcFmt(net) + '/buwan ay mabuti pero maliit. Huwag i-touch — i-save agad pagdating ng sweldo. \'Wag hayaang maging gastos \'yun.');
+      html += roadStep(2, 'Buwan 1–3', 'Mag-ipon ng emergency fund', 'Target: 3 buwang gastos = ' + calcFmt(totalOut * 3) + '. Huwag pa mag-invest hanggang hindi naaabot \'to. \'Yan ang tunay mong safety net.');
+      html += roadStep(3, 'Buwan 3–6', 'Palakihin ang natitira mo', 'Alamin kung paano mapapataas ang savings rate mula ' + Math.round(savingsRate) + '% papunta sa 20% — extra income o bawas sa gastos, o pareho.');
+      html += roadStep(4, 'Buwan 6+', 'Simulan nang mag-invest', 'Kapag 20% na ang savings rate, ilaan ang bahagi sa insurance (IMG VUL) at real estate. Ang layunin: pera na kumikita para sa iyo kahit natutulog ka.');
     } else if (savingsRate < 20) {
       /* MODERATE SURPLUS ROADMAP */
-      html += roadStep(1, 'Ngayon', 'I-automate ang Savings', 'I-set up ng automatic na paglilipat ng ' + calcFmt(net) + ' sa isang savings account bawat pagtanggap ng sweldo. Huwag hayaang mapunta sa gastos.');
-      html += roadStep(2, 'Buwan 1–3', 'Kumpletuhin ang Emergency Fund', 'Target: 6 buwang gastos = ' + calcFmt(totalOut * 6) + '. Ito ang tunay na security — hindi ang insurance, hindi ang investment — kundi ang cash na mayroon ka sa oras ng krisis.');
-      html += roadStep(3, 'Buwan 2–4', 'Kumuha ng Proteksyon', 'Mag-apply ng life at health insurance (IMG). Ang buwanang premium ay dapat hindi hihigit sa 10% ng iyong kita = ' + calcFmt(totalIn * 0.1) + '. Protektado ka — mamumuhunan ka na nang may kapayapaang-isip.');
-      html += roadStep(4, 'Buwan 4+', 'Mag-invest nang Regular', 'Ilaan ang 20% ng kita sa investment: UITF, stocks, o real estate. Ang ' + calcFmt(totalIn * 0.2) + '/buwan sa 5% annual return ay magiging ' + calcFmt(totalIn * 0.2 * 12 * 5) + ' sa 5 taon (hindi kasama ang compounding).');
+      html += roadStep(1, 'Ngayon', 'I-automate ang pag-ipon', 'I-set up ng automatic transfer ng ' + calcFmt(net) + ' sa savings account bawat sweldo. Huwag hayaang mapunta \'to sa gastos — \'pag nakita mo, gagamitin mo.');
+      html += roadStep(2, 'Buwan 1–3', 'Kumpletuhin ang emergency fund', 'Target: 6 buwang gastos = ' + calcFmt(totalOut * 6) + '. \'Yun ang tunay mong security — hindi insurance, hindi investments — cash na laging handa.');
+      html += roadStep(3, 'Buwan 2–4', 'Kumuha ng proteksyon', 'Mag-apply ng life at health insurance (IMG). Premium ay hindi dapat hihigit sa 10% ng kita = ' + calcFmt(totalIn * 0.1) + '/buwan. Protektado ka na — mamumuhunan ka nang may maliwanag na isip.');
+      html += roadStep(4, 'Buwan 4+', 'Mag-invest nang regular', 'Ilaan ang 20% ng kita — UITF, stocks, o real estate. Ang ' + calcFmt(totalIn * 0.2) + '/buwan sa 5% annual return ay magiging ' + calcFmt(totalIn * 0.2 * 12 * 5) + ' sa 5 taon. Simulan nang maaga.');
     } else {
       /* STRONG SURPLUS ROADMAP */
-      html += roadStep(1, 'Ngayon', 'Ikaw ay Nasa Tamang Landas', 'Ang ' + Math.round(savingsRate) + '% savings rate mo ay excellent. Ngayon, ang tanong ay hindi kung magtitipon — kundi kung paano ito palalaguin nang mas mabilis.');
-      html += roadStep(2, 'Buwan 1–2', 'Suriin ang Portfolio Mo', 'Mayroon ka bang emergency fund na 6 buwan? Insurance? Stocks o UITF? Real estate plan? Kung wala pa sa ilan, ito ang susunod na hakbang.');
-      html += roadStep(3, 'Buwan 2–6', 'Mag-diversify ng Investment', 'Huwag ilagay ang lahat sa iisang basket. Solong 50% sa liquid savings, 30% sa market investment, 20% sa real estate plan (down payment o LOT).');
-      html += roadStep(4, 'Buwan 6+', 'Itayo ang Passive Income', 'Ang tunay na yaman ay ang pera na kumikita kahit natutulog ka. Tumingin sa: rental income, network marketing income (JC Premiere, IMG), o digital product income. Ang ' + calcFmt(net) + '/buwan na surplus mo ay simula ng empire.');
+      html += roadStep(1, 'Ngayon', 'Nasa tamang landas ka na!', 'Ang ' + Math.round(savingsRate) + '% savings rate mo ay magaling. \'Yung tanong na ngayon ay hindi na kung magtitipid ka — kundi kung paano mo palalaguin ang pera nang mas mabilis.');
+      html += roadStep(2, 'Buwan 1–2', 'I-tsek ang portfolio mo', 'Mayroon ka bang emergency fund na 6 buwan? Insurance? Stocks o UITF? Real estate plan? Kung wala pa sa ilan, \'yun ang susunod na gagawin.');
+      html += roadStep(3, 'Buwan 2–6', 'Huwag ilagay lahat sa iisang basket', 'I-diversify: ~50% sa liquid savings, ~30% sa market investments, ~20% sa real estate plan (down payment o lupa). Spread out ang risk mo.');
+      html += roadStep(4, 'Buwan 6+', 'Itayo ang passive income', 'Ang tunay na yaman ay pera na kumikita kahit natutulog ka. Tingnan ang: rental income, JC Premiere, IMG, o digital products. Ang ' + calcFmt(net) + '/buwan mo ngayon — simula \'to ng malaking bagay.');
     }
 
     html += '</div>';
@@ -1170,37 +1206,37 @@
       var steps = '';
 
       if (savingsRate < 10) {
-        steps += advStep('#f97316','1','Dagdagan ang ipon mo','Mababa pa ang savings rate mo (' + Math.round(savingsRate) + '%). Layunin ang 20% ng kita bawat buwan bago gumasta.');
+        steps += advStep('#f97316','1','Dagdagan pa ang naititipid','Mababa pa ang savings rate mo (' + Math.round(savingsRate) + '%). Target ang 20% ng kita bawat buwan — ilagay \'yun sa ipon bago pa man gumasta ng iba.');
       } else if (savingsRate < 20) {
-        steps += advStep('#3b82f6','1','Magandang simula!','Nasa ' + Math.round(savingsRate) + '% ang savings rate mo. Push para maabot ang 20% o higit pa.');
+        steps += advStep('#3b82f6','1','Magandang simula!','Nasa ' + Math.round(savingsRate) + '% ang savings rate mo. \'Wag doon hihinto — ituloy mo \'to hanggang 20% o higit pa.');
       } else {
-        steps += advStep('#16a34a','1','Excellent savings rate!','Nasa ' + Math.round(savingsRate) + '% ang savings rate mo. Ikaw ay nasa tamang landas!');
+        steps += advStep('#16a34a','1','Galing! Excellent savings rate!','Nasa ' + Math.round(savingsRate) + '% ang savings rate mo. \'Yun ang tamang landas — ituloy lang nang ituloy!');
       }
 
-      steps += advStep('#8b5cf6','2','Mag-ipon ng Emergency Fund','Magtabi ng hindi bababa sa 3–6 buwang gastos bilang emergency fund bago mag-invest.');
-      steps += advStep('#CC1010','3','Palaguin ang surplus mo','Ang ' + calcFmt(net) + ' mo bawat buwan ay pwedeng maging mas malaki sa pamamagitan ng isang side income o investment.');
+      steps += advStep('#8b5cf6','2','Mag-ipon ng Emergency Fund','Mag-ipon muna ng katumbas ng 3–6 buwang gastos bago mag-invest — \'yun ang safety net mo.');
+      steps += advStep('#CC1010','3','Palaguin pa ang natitira mo','Ang ' + calcFmt(net) + '/buwan mo ay pwedeng lumago pa — side income, investment, o dagdag na skill. \'Wag hayaang doon na lang siya.');
 
-      box.innerHTML = '<div class="calc-advice-title" style="color:#16a34a;">Mabuti! Mayroon kang surplus. Gamitin ito nang matalino:</div>'
+      box.innerHTML = '<div class="calc-advice-title" style="color:#16a34a;">Mabuti! May natitira ka. Huwag hayaang maging basta gastos lang \'yan:</div>'
         + steps + bizStrip(net, 'surplus');
 
     /* ── DEFICIT scenario ── */
     } else if (net < 0) {
       var steps2 = '';
-      steps2 += advStep('#dc2626','1','Suriin ang gastos mo','Tingnan kung saan maaaring mabawasan ang gastos — lalo na ang mga hindi kinakailangan.');
-      steps2 += advStep('#f97316','2','Hanapin ng dagdag na kita','Ang kakulangan mo ay ' + calcFmt(Math.abs(net)) + ' bawat buwan. Kailangan ng additional income stream.');
-      steps2 += advStep('#3b82f6','3','Huwag mangutang para sa gastos','Ang utang para sa pang-araw-araw na gastos ay nagpapalala ng sitwasyon. May paraan para malutas ito.');
+      steps2 += advStep('#dc2626','1','Tingnan kung saan lumulusot ang pera','Suriin ang bawat gastos — may mga bagay na malamang hindi mo na mapapansin pero malaki ang epekto sa budget.');
+      steps2 += advStep('#f97316','2','Maghanap ng extra income ASAP','Ang kakulangan mo ay ' + calcFmt(Math.abs(net)) + ' bawat buwan. Kailangan ng dagdag na pinagkakakitaan — side hustle, overtime, kahit maliit.');
+      steps2 += advStep('#3b82f6','3','Huwag mangutang para sa pang-araw-araw','Pag nag-utang ka para sa regular na gastos, lumalala lang ang sitwasyon. Harapin natin \'to ng tama.');
 
-      box.innerHTML = '<div class="calc-advice-title" style="color:#dc2626;">May deficit ka. Huwag mag-alala — may solusyon:</div>'
+      box.innerHTML = '<div class="calc-advice-title" style="color:#dc2626;">May deficit ka. Okay lang — pero kailangan ng aksyon ngayon:</div>'
         + steps2 + bizStrip(net, 'deficit');
 
     /* ── BREAK-EVEN ── */
     } else {
       var steps3 = '';
-      steps3 += advStep('#c8900a','1','Delikado ang zero balance','Kahit isang unexpected na gastos ay maaaring magdulot ng utang. Kailangan ng safety net.');
-      steps3 += advStep('#f97316','2','Bawasan kahit maliit na gastos','Kahit AED 100 bawat buwan na naitipid ay malaking bagay sa loob ng isang taon.');
-      steps3 += advStep('#CC1010','3','Maghanap ng side income NGAYON','Hindi ka maaaring manatili sa break-even. Kailangan ng dagdag na kita para lumago.');
+      steps3 += advStep('#c8900a','1','\'Pag may biglaang gastos, malaki ang problema','Zero buffer ka ngayon. Kahit isang emergency ay makakaapekto sa buong budget mo. Kailangan nating ayusin \'to.');
+      steps3 += advStep('#f97316','2','Hanapin kung saan ka makakatipid kahit maliit','Kahit ' + calcFmt(totalOut * 0.05) + ' lang bawat buwan — malaking bagay \'yun sa loob ng isang taon.');
+      steps3 += advStep('#CC1010','3','Humanap ng dagdag na kita — ngayon na','Hindi pwedeng manatili sa break-even habambuhay. Kailangan ng extra income para lumago.');
 
-      box.innerHTML = '<div class="calc-advice-title" style="color:#c8900a;">Break-even — Mapanganib ito. Aksyon na kailangan:</div>'
+      box.innerHTML = '<div class="calc-advice-title" style="color:#c8900a;">Break-even — Exact na exact. Kailangan ng galaw:</div>'
         + steps3 + bizStrip(net, 'zero');
     }
   }
@@ -1216,8 +1252,8 @@
 
   function bizStrip(net, state) {
     var label = state === 'surplus'
-      ? 'Paano gamitin ang surplus mo:'
-      : 'Paraan para mapabilis ang recovery:';
+      ? 'Gamitin nang tama ang natitira mo:'
+      : 'Paraan para makabawi nang mas mabilis:';
 
     var jcDesc = state === 'surplus'
       ? 'Mamuhunan ng maliit, kumita nang passive. Ibenta ang health products kahit nasa abroad.'
