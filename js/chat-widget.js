@@ -358,15 +358,33 @@
   /* ── Character animations ── */
   .mm-char-body { animation: mm-breathe 3.5s ease-in-out infinite; }
   @keyframes mm-breathe {
-    0%,100% { transform: scaleY(1); }
-    50%      { transform: scaleY(1.015); }
+    0%,100% { transform: scaleY(1) translateY(0); }
+    50%      { transform: scaleY(1.015) translateY(-1px); }
   }
+
+  /* Blink */
   .mm-eye { animation: mm-blink 4s ease-in-out infinite; }
   .mm-eye.right { animation-delay: .08s; }
   @keyframes mm-blink {
     0%,88%,100% { transform: scaleY(1); }
     93%         { transform: scaleY(0.06); }
   }
+
+  /* Happy squint eyes — crescent shape */
+  .mm-eye.mm-eye-happy { animation: mm-eye-happy 2.5s ease-in-out !important; }
+  @keyframes mm-eye-happy {
+    0%,100% { transform: scaleY(1); }
+    15%,85% { transform: scaleY(0.22) translateY(3px); }
+  }
+
+  /* Wow wide eyes */
+  .mm-eye.mm-eye-wow { animation: mm-eye-wow 2s ease-in-out !important; }
+  @keyframes mm-eye-wow {
+    0%,100% { transform: scaleY(1); }
+    20%,80% { transform: scaleY(1.5) translateY(-2px); }
+  }
+
+  /* Wave */
   .mm-arm-wave { animation: mm-wave 2.2s ease-in-out; }
   @keyframes mm-wave {
     0%   { rotate: 0deg; }
@@ -378,12 +396,47 @@
     90%  { rotate: 3deg; }
     100% { rotate: 0deg; }
   }
+
+  /* Big enthusiastic wave */
+  .mm-arm-bigwave { animation: mm-bigwave 2.6s ease-in-out; }
+  @keyframes mm-bigwave {
+    0%    { rotate: 0deg; }
+    10%   { rotate: -55deg; }
+    22%   { rotate: 12deg; }
+    34%   { rotate: -52deg; }
+    46%   { rotate: 10deg; }
+    58%   { rotate: -48deg; }
+    70%   { rotate: 8deg; }
+    82%   { rotate: -30deg; }
+    92%   { rotate: 4deg; }
+    100%  { rotate: 0deg; }
+  }
+
+  /* Raise both arms up */
+  .mm-arm-raise-r { animation: mm-raise-r 2.4s ease-in-out; }
+  @keyframes mm-raise-r {
+    0%,100% { rotate: 0deg; }
+    20%,80% { rotate: -88deg; }
+    50%     { rotate: -92deg; }
+  }
+  .mm-arm-raise-l { animation: mm-raise-l 2.4s ease-in-out; }
+  @keyframes mm-raise-l {
+    0%,100% { rotate: 0deg; }
+    20%,80% { rotate: 88deg; }
+    50%     { rotate: 92deg; }
+  }
+
+  /* Clap */
   .mm-arm-clap-r { animation: mm-clap-r 1.8s ease-in-out; }
   .mm-arm-clap-l { animation: mm-clap-l 1.8s ease-in-out; }
   @keyframes mm-clap-r { 0%,100%{transform:translateX(0)} 25%,75%{transform:translateX(-18px)} 50%{transform:translateX(-24px)} }
   @keyframes mm-clap-l { 0%,100%{transform:translateX(0)} 25%,75%{transform:translateX(18px)} 50%{transform:translateX(24px)} }
+
+  /* Salute */
   .mm-arm-salute { animation: mm-salute 1.8s ease-in-out; }
   @keyframes mm-salute { 0%,100%{rotate:0} 30%,70%{rotate:-80deg} }
+
+  /* Dance */
   .mm-body-dance { animation: mm-dance 3s ease-in-out; }
   @keyframes mm-dance {
     0%,100%{transform:rotate(0) translateY(0)}
@@ -394,8 +447,41 @@
     75%{transform:rotate(-3deg) translateY(-2px)}
     90%{transform:rotate(2deg) translateY(-3px)}
   }
+
+  /* Happy bounce */
   .mm-body-happy { animation: mm-happy-bounce .5s ease-in-out 3; }
   @keyframes mm-happy-bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+  /* Wow bounce — body pulses with surprise */
+  .mm-body-wow { animation: mm-wow-pulse .45s ease-in-out 3; }
+  @keyframes mm-wow-pulse {
+    0%,100% { transform: scale(1) translateY(0); }
+    40%     { transform: scale(1.07) translateY(-4px); }
+    70%     { transform: scale(0.97) translateY(1px); }
+  }
+
+  /* Walk side to side */
+  .mm-body-walk { animation: mm-walk 3s ease-in-out 2; }
+  @keyframes mm-walk {
+    0%    { transform: translateX(0)   rotate(0deg)   translateY(0); }
+    10%   { transform: translateX(-6px)  rotate(-4deg)  translateY(-3px); }
+    20%   { transform: translateX(-14px) rotate(0deg)   translateY(0); }
+    30%   { transform: translateX(-6px)  rotate(4deg)   translateY(-3px); }
+    40%   { transform: translateX(0)   rotate(0deg)   translateY(0); }
+    50%   { transform: translateX(6px)  rotate(-4deg)  translateY(-3px); }
+    60%   { transform: translateX(14px) rotate(0deg)   translateY(0); }
+    70%   { transform: translateX(6px)  rotate(4deg)   translateY(-3px); }
+    80%   { transform: translateX(0)   rotate(0deg)   translateY(0); }
+    90%   { transform: translateX(-4px)  rotate(-2deg)  translateY(-1px); }
+    100%  { transform: translateX(0)   rotate(0deg)   translateY(0); }
+  }
+  /* Walking arms swing opposite the body lean */
+  .mm-arm-walk-r { animation: mm-walk-arm-r 1.5s ease-in-out 4; }
+  .mm-arm-walk-l { animation: mm-walk-arm-l 1.5s ease-in-out 4; }
+  @keyframes mm-walk-arm-r { 0%,100%{rotate:0} 25%{rotate:22deg} 75%{rotate:-22deg} }
+  @keyframes mm-walk-arm-l { 0%,100%{rotate:0} 25%{rotate:-22deg} 75%{rotate:22deg} }
+
+  /* Talking mouth */
   .mm-mouth-talk { animation: mm-talk .25s linear infinite alternate; }
   @keyframes mm-talk { from{d:path("M68,118 Q80,128 92,118")} to{d:path("M70,116 Q80,122 90,116")} }
   .mm-mouth-talk-aya { animation: mm-talk-aya .25s linear infinite alternate; }
@@ -565,39 +651,151 @@
   /* ══════════════════════════════════════════════
      6. ANIMATIONS
   ══════════════════════════════════════════════ */
+  var ALL_ANIM_CLASSES = [
+    'mm-arm-wave','mm-arm-bigwave',
+    'mm-arm-clap-r','mm-arm-clap-l',
+    'mm-arm-salute',
+    'mm-arm-raise-r','mm-arm-raise-l',
+    'mm-arm-walk-r','mm-arm-walk-l',
+    'mm-body-dance','mm-body-happy','mm-body-wow','mm-body-walk',
+    'mm-eye-wow','mm-eye-happy'
+  ];
+
+  function clearAllAnims(prefix) {
+    var body = document.getElementById(prefix + 'Body');
+    var armR = document.getElementById(prefix + 'ArmR');
+    var armL = document.getElementById(prefix + 'ArmL');
+    var eyes = document.querySelectorAll('#mm-fab-char-inner .mm-eye, #mmPanelCharMini .mm-eye');
+    [body, armR, armL].filter(Boolean).forEach(function(el){
+      ALL_ANIM_CLASSES.forEach(function(c){ el.classList.remove(c); });
+      void el.offsetWidth;
+    });
+    eyes.forEach(function(e){
+      e.classList.remove('mm-eye-wow','mm-eye-happy');
+      void e.offsetWidth;
+    });
+  }
+
+  function setFaceExpr(type, duration) {
+    var eyes = document.querySelectorAll('#mm-fab-char-inner .mm-eye, #mmPanelCharMini .mm-eye');
+    var mouthId = currentChar === 'hira' ? 'mmhiraMouth' : 'mmayaMouth';
+    var mouths = document.querySelectorAll('#mm-fab-char-inner #'+mouthId+', #mmPanelCharMini #'+mouthId);
+    eyes.forEach(function(e){
+      e.classList.remove('mm-eye-wow','mm-eye-happy');
+      void e.offsetWidth;
+      if (type) e.classList.add('mm-eye-' + type);
+    });
+    // Mouth shape
+    mouths.forEach(function(m){
+      if (type === 'wow') {
+        // Open "O" mouth
+        m.setAttribute('d', currentChar === 'hira'
+          ? 'M72,116 Q80,132 88,116 Q80,124 72,116 Z'
+          : 'M72,114 Q80,130 88,114 Q80,122 72,114 Z');
+        m.setAttribute('fill', type === 'wow' ? (currentChar==='hira'?'#C06040':'#C06070') : 'none');
+      } else if (type === 'happy') {
+        // Big wide grin
+        m.setAttribute('d', currentChar === 'hira'
+          ? 'M63,116 Q80,134 97,116'
+          : 'M63,114 Q80,132 97,114');
+        m.setAttribute('fill', 'none');
+      }
+    });
+    if (duration) {
+      setTimeout(function(){
+        eyes.forEach(function(e){ e.classList.remove('mm-eye-wow','mm-eye-happy'); });
+        // Restore mouth
+        mouths.forEach(function(m){
+          m.setAttribute('fill','none');
+          m.setAttribute('d', currentChar === 'hira' ? 'M68,118 Q80,128 92,118' : 'M68,116 Q80,126 92,116');
+        });
+      }, duration);
+    }
+  }
+
   function triggerAnim(type) {
     var prefix = currentChar === 'hira' ? 'mmhira' : 'mmaya';
     var body = document.getElementById(prefix + 'Body');
     var armR = document.getElementById(prefix + 'ArmR');
     var armL = document.getElementById(prefix + 'ArmL');
     if (!body) return;
+    clearAllAnims(prefix);
 
-    var els = [body, armR, armL].filter(Boolean);
-    els.forEach(function(el){
-      el.classList.remove('mm-arm-wave','mm-arm-clap-r','mm-arm-clap-l','mm-arm-salute','mm-body-dance','mm-body-happy');
-      void el.offsetWidth;
-    });
+    if (type === 'wave') {
+      if (armR) { armR.classList.add('mm-arm-wave'); setTimeout(function(){ armR.classList.remove('mm-arm-wave'); }, 2200); }
 
-    if (type === 'wave' && armR) {
-      armR.classList.add('mm-arm-wave');
-      setTimeout(function(){ armR.classList.remove('mm-arm-wave'); }, 2200);
+    } else if (type === 'bigwave') {
+      // Big enthusiastic wave with happy face
+      if (armR) { armR.classList.add('mm-arm-bigwave'); setTimeout(function(){ armR.classList.remove('mm-arm-bigwave'); }, 2600); }
+      setFaceExpr('happy', 2600);
+
+    } else if (type === 'raise') {
+      // Both arms shoot up — wow/victory
+      if (armR) armR.classList.add('mm-arm-raise-r');
+      if (armL) armL.classList.add('mm-arm-raise-l');
+      body.classList.add('mm-body-wow');
+      setFaceExpr('wow', 2400);
+      setTimeout(function(){
+        if (armR) armR.classList.remove('mm-arm-raise-r');
+        if (armL) armL.classList.remove('mm-arm-raise-l');
+        body.classList.remove('mm-body-wow');
+      }, 2400);
+
+    } else if (type === 'wow') {
+      // Surprise/wow face with body pulse
+      body.classList.add('mm-body-wow');
+      setFaceExpr('wow', 1800);
+      setTimeout(function(){ body.classList.remove('mm-body-wow'); }, 1800);
+
+    } else if (type === 'happy') {
+      // Squinting happy eyes + bouncing
+      body.classList.add('mm-body-happy');
+      setFaceExpr('happy', 2500);
+      setTimeout(function(){ body.classList.remove('mm-body-happy'); }, 1600);
+
+    } else if (type === 'walk') {
+      // Walk side to side with arm swing
+      body.classList.add('mm-body-walk');
+      if (armR) armR.classList.add('mm-arm-walk-r');
+      if (armL) armL.classList.add('mm-arm-walk-l');
+      setTimeout(function(){
+        body.classList.remove('mm-body-walk');
+        if (armR) armR.classList.remove('mm-arm-walk-r');
+        if (armL) armL.classList.remove('mm-arm-walk-l');
+      }, 6000);
+
     } else if (type === 'clap') {
       if (armR) armR.classList.add('mm-arm-clap-r');
       if (armL) armL.classList.add('mm-arm-clap-l');
+      setFaceExpr('happy', 1800);
       setTimeout(function(){
         if (armR) armR.classList.remove('mm-arm-clap-r');
         if (armL) armL.classList.remove('mm-arm-clap-l');
       }, 1800);
-    } else if (type === 'salute' && armR) {
-      armR.classList.add('mm-arm-salute');
-      setTimeout(function(){ armR.classList.remove('mm-arm-salute'); }, 1800);
+
+    } else if (type === 'salute') {
+      if (armR) { armR.classList.add('mm-arm-salute'); setTimeout(function(){ armR.classList.remove('mm-arm-salute'); }, 1800); }
+
     } else if (type === 'dance') {
       body.classList.add('mm-body-dance');
+      setFaceExpr('happy', 3000);
       setTimeout(function(){ body.classList.remove('mm-body-dance'); }, 3000);
-    } else if (type === 'happy') {
-      body.classList.add('mm-body-happy');
-      setTimeout(function(){ body.classList.remove('mm-body-happy'); }, 1600);
     }
+  }
+
+  /* Random idle animations — play every 8–18 seconds when chat is closed */
+  var _idleTimer = null;
+  var IDLE_ANIMS = ['wave','bigwave','raise','wow','happy','walk','dance','clap'];
+  function scheduleIdleAnim() {
+    clearTimeout(_idleTimer);
+    var delay = 8000 + Math.random() * 10000;
+    _idleTimer = setTimeout(function(){
+      if (!isOpen) {
+        var pick = IDLE_ANIMS[Math.floor(Math.random() * IDLE_ANIMS.length)];
+        triggerAnim(pick);
+      }
+      scheduleIdleAnim();
+    }, delay);
   }
 
   function startTalking(duration) {
@@ -1586,6 +1784,8 @@
 
   /* ── Init: render character + restore chat history on every page load ── */
   renderChar();
+  // Start idle animations — character comes alive while waiting
+  setTimeout(scheduleIdleAnim, 3000);
 
   /* Restore saved conversation immediately so it survives page navigation */
   (function restoreChat() {
