@@ -305,6 +305,17 @@
   }
   .mm-sug-btn:hover { background: #CC1010; color: #fff; border-color: #CC1010; }
 
+  /* ── Powered by Groq ── */
+  .mm-powered {
+    text-align: center;
+    font-size: .62rem;
+    color: #aaa;
+    padding: 3px 0 6px;
+    background: rgba(255,255,255,.95);
+    letter-spacing: .01em;
+  }
+  .mm-powered strong { color: #888; font-weight: 600; }
+
   /* ── Input row ── */
   .mm-input-row {
     padding: 10px 14px 14px;
@@ -511,6 +522,9 @@
         <button class="mm-send-btn" onclick="mmSend()" aria-label="Send">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
         </button>
+      </div>
+      <div class="mm-powered">
+        Powered by <img src="https://groq.com/wp-content/uploads/2024/03/PBG-mark1-color.svg" alt="Groq" height="12" style="vertical-align:middle;margin:0 2px;"/> <strong>Groq</strong>
       </div>
     </div>
 
