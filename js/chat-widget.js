@@ -975,7 +975,7 @@
     /* Missing family */
     { words:['miss ko','miss na','nami-miss','naalala ko','mahal ko sila','nanay','tatay','anak ko','asawa ko','lolo','lola','bunso','panganay','pamilya ko','miss my family','miss my kids','miss my wife','miss my husband','miss my parents','miss them','miss everyone','miss my baby','miss home'], key:'miss_family', w:2 },
     /* Saving money */
-    { words:['ipon','magtipid','gastos','impok','tipid','save money','saving money','how to save','savings','mag-ipon','makatipid','paano makatipid','wala pera','wala akong pera','ubos pera','ginagastos','walang natitira','no savings','broke','need to save'], key:'money_save', w:2 },
+    { words:['mag-ipon','magtipid','impok','tipid','save money','saving money','how to save','savings','makatipid','paano makatipid','wala pera','wala akong pera','ubos pera','ginagastos','walang natitira','no savings','broke','need to save','paano mag-ipon','gusto mag-ipon'], key:'money_save', w:2 },
     { words:['pera'], key:'money_save', w:1 },
     /* Remittance */
     { words:['padala','send money','remittance','taptap','gcash padala','wise','remitly','western union','magpadala','bayad','transfer pera','exchange rate','conversion rate','remit','how to send','padala sa pinas','padalaan','mag-padala','where to send','best rate','cheap transfer','low fee transfer'], key:'remittance', w:3 },
