@@ -1222,17 +1222,50 @@
     + '7. If you do not know something, say so honestly.\n'
     + '8. Keep it real — you are a companion first, a financial guide second.\n';
 
-  /* Clean up Gemini output: strip markdown, ensure links are safe */
+  /* Link style used throughout */
+  var LS = 'color:#C8900A;font-weight:700;text-decoration:underline;';
+
+  /* Auto-link page mentions in AI response */
+  function autoLinkPages(text) {
+    var replacements = [
+      /* Series — specific topics first */
+      [/\b(First 100 Days?(?:\s+Abroad)?)\b/gi,       '<a href="post.html?series=first-100-days&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Emergency Fund(?:\s+&?\s*Debt)?)\b/gi,      '<a href="post.html?series=emergency-debt&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Insurance(?:\s+Simplified)?)\b/gi,          '<a href="post.html?series=insurance-simplified&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Smart\s+Remittance)\b/gi,                   '<a href="post.html?series=smart-remittance&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Digital\s+Banking)\b/gi,                    '<a href="post.html?series=digital-banking&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Family\s+Finance)\b/gi,                     '<a href="post.html?series=family-finance&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Stock\s+Market\s+101)\b/gi,                 '<a href="post.html?series=stock-market-101&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Real\s+Estate\s+Roadmap)\b/gi,              '<a href="post.html?series=real-estate-roadmap&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Extra\s+Income\s+Blueprint)\b/gi,           '<a href="post.html?series=extra-income-blueprint&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Side\s+Hustle(?:\s+Abroad)?)\b/gi,          '<a href="post.html?series=side-hustle-abroad&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Negosyo\s+Mindset)\b/gi,                    '<a href="post.html?series=negosyo-mindset&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(OFW\s+to\s+CEO)\b/gi,                       '<a href="post.html?series=ofw-to-ceo&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Balik.?[Bb]ayan\s+Blueprint)\b/gi,          '<a href="post.html?series=balik-bayan-blueprint&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Millionaire\s+Mindset\s+[Ss]eries)\b/gi,   '<a href="post.html?series=millionaire-mindset&day=1" style="'+LS+'" target="_self">$1</a>'],
+      [/\b(Mind\s+Conditioning)\b/gi,                  '<a href="post.html?series=mind-conditioning&day=1" style="'+LS+'" target="_self">$1</a>'],
+      /* Main pages */
+      [/\b(Business\s+page|business\.html)\b/gi,       '<a href="business.html" style="'+LS+'" target="_self">Business page</a>'],
+      [/\b(Financial\s+Check.?up|checkup\.html|What\'?s in My Wallet)\b/gi, '<a href="checkup.html" style="'+LS+'" target="_self">Financial Check-up</a>'],
+      [/\b(Shop\s+page|shop\.html)\b/gi,               '<a href="shop.html" style="'+LS+'" target="_self">Shop</a>'],
+      [/\b(Blog\s+page|blog\.html)\b/gi,               '<a href="blog.html" style="'+LS+'" target="_self">Blog</a>'],
+      /* Markdown links fallback */
+      [/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="'+LS+'">$1</a>'],
+    ];
+    replacements.forEach(function(r) { text = text.replace(r[0], r[1]); });
+    return text;
+  }
+
+  /* Clean AI output: strip markdown, auto-link page mentions */
   function cleanGeminiText(text) {
-    return text
-      .replace(/\*\*(.+?)\*\*/g, '$1')   /* remove **bold** */
-      .replace(/\*(.+?)\*/g, '$1')        /* remove *italic* */
-      .replace(/__(.+?)__/g, '$1')        /* remove __bold__ */
-      .replace(/_(.+?)_/g, '$1')          /* remove _italic_ */
-      .replace(/`(.+?)`/g, '$1')          /* remove `code` */
-      .replace(/\[([^\]]+)\]\(([^)]+)\)/g, /* convert [text](url) markdown links */
-        '<a href="$2" style="color:#C8900A;font-weight:600;text-decoration:underline;">$1</a>')
+    text = text
+      .replace(/\*\*(.+?)\*\*/g, '$1')
+      .replace(/\*(.+?)\*/g, '$1')
+      .replace(/__(.+?)__/g, '$1')
+      .replace(/_(.+?)_/g, '$1')
+      .replace(/`(.+?)`/g, '$1')
       .trim();
+    return autoLinkPages(text);
   }
 
   /* Call Groq (llama-3.3-70b) via Cloudflare Worker */
