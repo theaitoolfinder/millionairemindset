@@ -309,12 +309,12 @@
   .mm-powered {
     text-align: center;
     font-size: .62rem;
-    color: #aaa;
-    padding: 3px 0 6px;
+    color: #bbb;
+    padding: 3px 0 7px;
     background: rgba(255,255,255,.95);
-    letter-spacing: .01em;
+    letter-spacing: .02em;
+    line-height: 1;
   }
-  .mm-powered strong { color: #888; font-weight: 600; }
 
   /* ── Input row ── */
   .mm-input-row {
@@ -524,7 +524,7 @@
         </button>
       </div>
       <div class="mm-powered">
-        Powered by <img src="https://groq.com/wp-content/uploads/2024/03/PBG-mark1-color.svg" alt="Groq" height="12" style="vertical-align:middle;margin:0 2px;"/> <strong>Groq</strong>
+        Powered by <svg height="14" viewBox="0 0 80 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin:0 3px 1px;"><text x="0" y="18" font-family="Arial,sans-serif" font-weight="800" font-size="18" fill="#F55036">Groq</text></svg>
       </div>
     </div>
 
