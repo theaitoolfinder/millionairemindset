@@ -225,9 +225,138 @@
       .post-body { padding: 28px 20px; }
       .post-nav { grid-template-columns: 1fr; }
     }
+
+    /* ── Sticky reading header ── */
+    .post-sticky-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1100;
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+      padding: 0 24px;
+      transform: translateY(-100%);
+      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    }
+    .post-sticky-bar.visible { transform: translateY(0); }
+    .post-sticky-inner {
+      max-width: 760px; margin: 0 auto;
+      display: flex; align-items: center; gap: 14px;
+      height: 54px;
+    }
+    .post-sticky-day {
+      background: var(--primary); color: #fff;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 999px;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .post-sticky-title {
+      font-size: 0.84rem; font-weight: 700; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1;
+    }
+    .post-sticky-progress {
+      width: 90px; flex-shrink: 0;
+    }
+    .post-sticky-prog-bar {
+      background: rgba(0,0,0,0.09); border-radius: 999px; height: 4px; overflow: hidden;
+    }
+    .post-sticky-prog-fill {
+      height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 999px; transition: width 0.2s;
+    }
+    .post-sticky-prog-label {
+      font-size: 0.62rem; color: var(--text-dim); text-align: right; margin-top: 3px;
+    }
+    @media (max-width: 600px) {
+      .post-sticky-progress { display: none; }
+      .post-sticky-title { font-size: 0.78rem; }
+    }
+
+    /* ── Episode tray (bottom fixed) ── */
+    .ep-tray {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 1050;
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .ep-tray-toggle {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--primary); color: #fff;
+      padding: 10px 20px; cursor: pointer; user-select: none;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.01em;
+      border-radius: 16px 16px 0 0; max-width: 760px;
+      margin: 0 auto; box-shadow: 0 -2px 12px rgba(0,0,0,0.12);
+    }
+    .ep-tray-toggle:hover { filter: brightness(1.08); }
+    .ep-tray-chevron {
+      transition: transform 0.3s;
+      display: inline-flex;
+    }
+    .ep-tray.open .ep-tray-chevron { transform: rotate(180deg); }
+    .ep-tray-panel {
+      background: rgba(255,255,255,0.97); backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid rgba(0,0,0,0.08);
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+    }
+    .ep-tray.open .ep-tray-panel { max-height: 340px; }
+    .ep-tray-inner {
+      max-width: 760px; margin: 0 auto;
+      padding: 12px 16px 16px;
+      display: flex; flex-direction: column; gap: 4px;
+      max-height: 320px; overflow-y: auto;
+    }
+    .ep-tray-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; border-radius: 10px;
+      text-decoration: none; transition: background 0.15s;
+      color: var(--text);
+    }
+    .ep-tray-item:hover { background: var(--primary-light); }
+    .ep-tray-item.current { background: var(--primary-light); font-weight: 700; }
+    .ep-tray-item.done .ep-tray-num { background: #16a34a; }
+    .ep-tray-num {
+      width: 26px; height: 26px; border-radius: 8px; flex-shrink: 0;
+      background: var(--primary); color: #fff;
+      font-size: 0.68rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ep-tray-num.locked { background: rgba(0,0,0,0.12); color: var(--text-dim); }
+    .ep-tray-ep-title {
+      font-size: 0.82rem; line-height: 1.3; flex: 1;
+    }
+    .ep-tray-ep-day {
+      font-size: 0.68rem; color: var(--primary); font-weight: 700;
+      white-space: nowrap;
+    }
+    .ep-tray-ep-day.coming { color: var(--text-dim); }
   </style>
 </head>
-<body>  <!-- NAV -->
+<body>
+  <!-- Sticky reading header -->
+  <div class="post-sticky-bar" id="postStickyBar">
+    <div class="post-sticky-inner">
+      <span class="post-sticky-day" id="stickyDayLabel"></span>
+      <span class="post-sticky-title" id="stickyTitle"></span>
+      <div class="post-sticky-progress">
+        <div class="post-sticky-prog-bar"><div class="post-sticky-prog-fill" id="stickyProgFill" style="width:0%"></div></div>
+        <div class="post-sticky-prog-label" id="stickyProgLabel"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Episode tray -->
+  <div class="ep-tray" id="epTray">
+    <div class="ep-tray-toggle" onclick="toggleEpTray()" id="epTrayToggle">
+      <span id="epTrayLabel">📚 Episodes</span>
+      <span class="ep-tray-chevron">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+      </span>
+    </div>
+    <div class="ep-tray-panel" id="epTrayPanel">
+      <div class="ep-tray-inner" id="epTrayList"></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
   <nav class="navbar">
     <div class="container nav-inner">
       <a href="index.html" class="logo"><img src="images/logo.png" class="logo-icon" alt="" aria-hidden="true" onerror="this.style.display='none'">Millionaire<span>Mindset</span></a>
@@ -429,6 +558,7 @@
       + '<div class="post-meta">'
         + '<span class="post-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ' + post.readTime + '</span>'
         + '<span class="post-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Day ' + post.day + ' of ' + series.totalPosts + '</span>'
+        + '<span class="post-meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Papabenj</span>'
       + '</div>'
       + '<div class="post-tags">' + tagsHtml + '</div>'
       + bodyHtml
@@ -480,6 +610,74 @@
       var form = e.target;
       form.innerHTML = '<p style="color:var(--accent);font-weight:600;">We\'ll notify you when Day ' + day + ' publishes!</p>';
     };
+
+    // ── Sticky reading bar ──
+    var stickyBar = document.getElementById('postStickyBar');
+    document.getElementById('stickyDayLabel').textContent = 'Day ' + day + ' of ' + series.totalPosts;
+    document.getElementById('stickyTitle').textContent = post.title;
+    document.getElementById('stickyProgFill').style.width = pct + '%';
+    document.getElementById('stickyProgLabel').textContent = pct + '% done';
+
+    var heroEl = document.querySelector('.post-hero') || document.querySelector('.post-series-badge');
+    var heroBottom = 0;
+    function updateStickyBar() {
+      // Recalc each scroll in case of layout shift
+      if (heroEl) heroBottom = heroEl.getBoundingClientRect().bottom + window.scrollY;
+      if (window.scrollY > (heroBottom || 200)) {
+        stickyBar.classList.add('visible');
+      } else {
+        stickyBar.classList.remove('visible');
+      }
+    }
+    window.addEventListener('scroll', updateStickyBar, { passive: true });
+    updateStickyBar();
+
+    // ── Episode tray ──
+    var epTray = document.getElementById('epTray');
+    var epTrayList = document.getElementById('epTrayList');
+    var epTrayLabel = document.getElementById('epTrayLabel');
+    epTrayLabel.textContent = '📚 ' + series.title + ' — ' + series.totalPosts + ' Episodes';
+
+    // Build episode list
+    var trayHtml = '';
+    series.posts.forEach(function(ep) {
+      var isDoneEp = false;
+      try { isDoneEp = !!localStorage.getItem('mm_ep_done_' + seriesId + '_' + ep.day); } catch(e){}
+      var isCurrent = ep.day === day;
+      var hasContent = !!ep.content;
+      var cls = 'ep-tray-item' + (isCurrent ? ' current' : '') + (isDoneEp ? ' done' : '');
+      var numCls = 'ep-tray-num' + (!hasContent ? ' locked' : '');
+      var dayCls = 'ep-tray-ep-day' + (!hasContent ? ' coming' : '');
+      var checkmark = isDoneEp ? ' ✓' : '';
+      if (hasContent) {
+        trayHtml += '<a class="' + cls + '" href="post.html?series=' + seriesId + '&day=' + ep.day + '">'
+          + '<span class="' + numCls + '">' + ep.day + '</span>'
+          + '<span class="ep-tray-ep-title">' + ep.title + checkmark + '</span>'
+          + '<span class="' + dayCls + '">Day ' + ep.day + '</span>'
+          + '</a>';
+      } else {
+        trayHtml += '<div class="' + cls + '" style="opacity:0.55;cursor:default;">'
+          + '<span class="' + numCls + '">' + ep.day + '</span>'
+          + '<span class="ep-tray-ep-title">' + ep.title + '</span>'
+          + '<span class="' + dayCls + '">Coming soon</span>'
+          + '</div>';
+      }
+    });
+    epTrayList.innerHTML = trayHtml;
+
+    // Scroll current episode into view when tray opens
+    window.toggleEpTray = function() {
+      epTray.classList.toggle('open');
+      if (epTray.classList.contains('open')) {
+        setTimeout(function() {
+          var cur = epTrayList.querySelector('.current');
+          if (cur) cur.scrollIntoView({ block: 'nearest' });
+        }, 350);
+      }
+    };
+
+    // Add bottom padding so content isn't hidden behind tray toggle button
+    document.querySelector('.post-wrap').style.paddingBottom = '80px';
   })();
   </script>
   <script src="js/chat-widget.js?v=20260701"></script>
