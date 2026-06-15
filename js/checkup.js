@@ -267,19 +267,11 @@ function showResults() {
   document.getElementById('resultsBreakdown').innerHTML = `<h3>${lang === 'tl' ? 'Detalye ng Iyong Score' : 'Your Score Breakdown'}</h3>${breakdown}`;
 
   // CTA based on weak areas
+  // Financial literacy fundamental order: IMG (protect) → JC Premiere (health/income) → Vista Land (asset)
   const weakAreas = QUESTIONS.filter(q => answers[q.id] !== undefined && q.options[answers[q.id]].score <= 1).map(q => q.id);
   let ctaHTML = `<div class="cta-box"><h3>${lang === 'tl' ? 'Ang Iyong Personalized na Plano' : 'Your Personalized Action Plan'}</h3><div class="cta-cards">`;
 
-  if (weakAreas.includes('health') || weakAreas.includes('income2')) {
-    ctaHTML += `
-      <div class="cta-card cta-jcp">
-        <div class="cta-card-logo">JC Premiere</div>
-        <h4>${lang === 'tl' ? '💊 Pagbutihin ang Kalusugan + Kumita' : '💊 Improve Health + Earn Extra'}</h4>
-        <p>${lang === 'tl' ? 'Ang JC Premiere ay nag-aalok ng premium na health products at isang business opportunity para kumita ng part-time habang nag-aayos ng kalusugan mo.' : 'JC Premiere offers premium health & wellness products plus a part-time business opportunity to boost your income while improving your health.'}</p>
-        <a href="business.html#jcpremiere" class="btn-primary btn-sm">${lang === 'tl' ? 'Alamin Ang JC Premiere →' : 'Learn About JC Premiere →'}</a>
-      </div>`;
-  }
-
+  // 1st priority: Insurance & Investment protection (IMG)
   if (weakAreas.includes('insurance') || weakAreas.includes('investment') || weakAreas.includes('retirement')) {
     ctaHTML += `
       <div class="cta-card cta-img">
@@ -290,6 +282,18 @@ function showResults() {
       </div>`;
   }
 
+  // 2nd priority: Health + Extra Income (JC Premiere)
+  if (weakAreas.includes('health') || weakAreas.includes('income2')) {
+    ctaHTML += `
+      <div class="cta-card cta-jcp">
+        <div class="cta-card-logo">JC Premiere</div>
+        <h4>${lang === 'tl' ? '💊 Pagbutihin ang Kalusugan + Kumita' : '💊 Improve Health + Earn Extra'}</h4>
+        <p>${lang === 'tl' ? 'Ang JC Premiere ay nag-aalok ng premium na health products at isang business opportunity para kumita ng part-time habang nag-aayos ng kalusugan mo.' : 'JC Premiere offers premium health & wellness products plus a part-time business opportunity to boost your income while improving your health.'}</p>
+        <a href="business.html#jcpremiere" class="btn-primary btn-sm">${lang === 'tl' ? 'Alamin Ang JC Premiere →' : 'Learn About JC Premiere →'}</a>
+      </div>`;
+  }
+
+  // 3rd priority: Real Estate asset building (Vista Land)
   if (weakAreas.includes('home') || pct >= 50) {
     ctaHTML += `
       <div class="cta-card cta-vista">

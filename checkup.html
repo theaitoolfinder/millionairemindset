@@ -337,7 +337,7 @@
         <!-- ── RIGHT: RESULTS ── -->
         <div class="calc-results" id="calcResults">
 
-          <!-- Net summary -->
+          <!-- Net summary — always visible -->
           <div class="calc-net-card" id="calcNetCard">
             <div class="calc-net-label" id="calcNetLabel">Disposable Income</div>
             <div class="calc-net-amount" id="calcNetAmount">AED 0</div>
@@ -353,14 +353,38 @@
             </div>
           </div>
 
-          <!-- Breakdown donut-style rows -->
-          <div class="calc-breakdown" id="calcBreakdown" style="display:none;">
-            <h4 style="font-size:.85rem;font-weight:700;margin-bottom:12px;color:var(--text);">Breakdown ng Binabayaran</h4>
-            <div id="breakdownRows"></div>
-          </div>
+          <!-- Subscriber-gated panel -->
+          <div class="calc-gated-wrap" id="calcGatedWrap">
 
-          <!-- Smart advice card — shown after input -->
-          <div class="calc-advice" id="calcAdvice" style="display:none;"></div>
+            <!-- Breakdown donut-style rows -->
+            <div class="calc-breakdown" id="calcBreakdown" style="display:none;">
+              <h4 style="font-size:.85rem;font-weight:700;margin-bottom:12px;color:var(--text);">Breakdown ng Binabayaran</h4>
+              <div id="breakdownRows"></div>
+              <!-- Total row -->
+              <div class="bkd-total-row" id="bkdTotalRow" style="display:none;">
+                <div class="bkd-total-label">Kabuuang Binabayaran</div>
+                <div class="bkd-total-amount" id="bkdTotalAmt">AED 0</div>
+              </div>
+            </div>
+
+            <!-- Smart advice card — shown after input -->
+            <div class="calc-advice" id="calcAdvice" style="display:none;"></div>
+
+            <!-- Subscriber gate overlay -->
+            <div class="calc-gate-overlay" id="calcGateOverlay" style="display:none;">
+              <div class="calc-gate-box">
+                <div class="calc-gate-icon">🔒</div>
+                <h3 class="calc-gate-title">Para sa mga Subscriber Lamang</h3>
+                <p class="calc-gate-sub">Makita ang iyong buong financial breakdown, advice, at personalized na plano. Libre — mag-subscribe ka lang.</p>
+                <form class="calc-gate-form" onsubmit="calcGateSubmit(event)">
+                  <input type="email" id="calcGateEmail" placeholder="Ilagay ang iyong email" required class="calc-gate-input" />
+                  <button type="submit" class="btn-primary calc-gate-btn">I-unlock ang Buong Resulta</button>
+                </form>
+                <p class="calc-gate-note">Walang bayad. Hindi ka i-spam. Maaari kang mag-unsubscribe anumang oras.</p>
+              </div>
+            </div>
+
+          </div><!-- end calc-gated-wrap -->
 
         </div><!-- end calc-results -->
       </div><!-- end calc-layout -->
@@ -528,6 +552,46 @@
   .adv-biz-name { font-size:.8rem; font-weight:700; color:var(--text); }
   .adv-biz-desc { font-size:.72rem; color:var(--text-dim); }
   .adv-biz-arrow { font-size:.9rem; color:var(--primary); font-weight:700; }
+
+  /* Breakdown total row */
+  .bkd-total-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 12px; padding-top: 10px;
+    border-top: 2px solid rgba(0,0,0,.1);
+  }
+  .bkd-total-label { font-size:.82rem; font-weight:800; color:var(--text); }
+  .bkd-total-amount { font-size:.9rem; font-weight:900; color:#CC1010; }
+
+  /* Subscriber gate */
+  .calc-gated-wrap { position: relative; display: flex; flex-direction: column; gap: 18px; }
+  .calc-gated-wrap.locked > .calc-breakdown,
+  .calc-gated-wrap.locked > .calc-advice { filter: blur(6px); pointer-events: none; user-select: none; }
+  .calc-gate-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10; padding: 12px;
+  }
+  .calc-gate-box {
+    background: rgba(255,255,255,.97);
+    backdrop-filter: blur(20px);
+    border: 1.5px solid rgba(204,16,16,.2);
+    border-radius: 22px; padding: 32px 28px;
+    text-align: center; max-width: 380px; width: 100%;
+    box-shadow: 0 16px 48px rgba(0,0,0,.14);
+  }
+  .calc-gate-icon { font-size: 2.4rem; margin-bottom: 10px; }
+  .calc-gate-title { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 8px; }
+  .calc-gate-sub { font-size: .82rem; color: var(--text-dim); line-height: 1.55; margin-bottom: 20px; }
+  .calc-gate-form { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+  .calc-gate-input {
+    padding: 12px 16px; border-radius: 12px;
+    border: 1.5px solid var(--border); background: rgba(255,255,255,.9);
+    font: 500 .9rem 'Poppins', sans-serif; color: var(--text);
+    outline: none; transition: .18s;
+  }
+  .calc-gate-input:focus { border-color: var(--primary); }
+  .calc-gate-btn { padding: 13px; font-size: .88rem; }
+  .calc-gate-note { font-size: .7rem; color: var(--text-dim); margin-top: 6px; }
   </style>
 
   <script>
@@ -619,6 +683,7 @@
       barFill.className    = 'calc-net-bar-fill';
       document.getElementById('calcBreakdown').style.display = 'none';
       document.getElementById('calcAdvice').style.display = 'none';
+      calcApplyGate(false);
       return;
     }
 
@@ -651,6 +716,9 @@
 
     /* Advice */
     buildAdvice(net, totalIn, totalOut);
+
+    /* Gate — show blur + subscribe overlay for non-subscribers */
+    calcApplyGate(true);
   }
 
   function buildBreakdown(totalIn, totalOut) {
@@ -674,7 +742,16 @@
         + '<div class="bkd-amount">' + calcFmt(amt) + '</div>';
       wrap.appendChild(div);
     });
-    document.getElementById('calcBreakdown').style.display = wrap.children.length ? 'block' : 'none';
+    var hasRows = wrap.children.length > 0;
+    document.getElementById('calcBreakdown').style.display = hasRows ? 'block' : 'none';
+    /* Total row */
+    var totalRow = document.getElementById('bkdTotalRow');
+    if (hasRows && totalOut > 0) {
+      document.getElementById('bkdTotalAmt').textContent = calcFmt(totalOut);
+      totalRow.style.display = 'flex';
+    } else {
+      totalRow.style.display = 'none';
+    }
   }
 
   function buildAdvice(net, totalIn, totalOut) {
@@ -749,25 +826,63 @@
       ? 'Ang real estate ay isa sa pinaka-solid na paraan ng pag-ipon. Maging agent o mag-invest.'
       : 'Maging property agent para sa dagdag na komisyon — walang puhunan ang kailangan.';
 
+    /* Financial literacy fundamental order:
+       1. IMG — Protect first (insurance + investment foundation)
+       2. JC Premiere — Build extra income (health = your earning asset)
+       3. Vista Land — Grow wealth with real estate (asset building last) */
     return '<div class="adv-biz-strip">'
       + '<div class="adv-biz-label">' + label + '</div>'
       + '<div class="adv-biz-cards">'
-        + '<a href="business.html" class="adv-biz-card">'
-          + '<div class="adv-biz-icon" style="background:#dcfce7;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="3"/></svg></div>'
-          + '<div class="adv-biz-info"><div class="adv-biz-name">JC Premiere Health</div><div class="adv-biz-desc">' + jcDesc + '</div></div>'
-          + '<span class="adv-biz-arrow">→</span>'
-        + '</a>'
-        + '<a href="business.html" class="adv-biz-card">'
+        + '<a href="business.html#img" class="adv-biz-card">'
           + '<div class="adv-biz-icon" style="background:#dbeafe;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>'
           + '<div class="adv-biz-info"><div class="adv-biz-name">IMG International</div><div class="adv-biz-desc">' + imgDesc + '</div></div>'
           + '<span class="adv-biz-arrow">→</span>'
         + '</a>'
-        + '<a href="business.html" class="adv-biz-card">'
+        + '<a href="business.html#jcpremiere" class="adv-biz-card">'
+          + '<div class="adv-biz-icon" style="background:#dcfce7;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/><circle cx="12" cy="12" r="3"/></svg></div>'
+          + '<div class="adv-biz-info"><div class="adv-biz-name">JC Premiere Health</div><div class="adv-biz-desc">' + jcDesc + '</div></div>'
+          + '<span class="adv-biz-arrow">→</span>'
+        + '</a>'
+        + '<a href="business.html#vistaland" class="adv-biz-card">'
           + '<div class="adv-biz-icon" style="background:#fef3c7;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>'
           + '<div class="adv-biz-info"><div class="adv-biz-name">Vista Land</div><div class="adv-biz-desc">' + vistaDesc + '</div></div>'
           + '<span class="adv-biz-arrow">→</span>'
         + '</a>'
       + '</div></div>';
+  }
+
+  /* ── Subscriber gate ────────────────────────────────────────────────── */
+  var MM_SUB_KEY = 'mm_subscriber';
+
+  function calcIsSubscriber() {
+    try { return !!localStorage.getItem(MM_SUB_KEY); } catch(e){ return false; }
+  }
+
+  function calcApplyGate(hasData) {
+    var wrap    = document.getElementById('calcGatedWrap');
+    var overlay = document.getElementById('calcGateOverlay');
+    if (!hasData) {
+      wrap.classList.remove('locked');
+      overlay.style.display = 'none';
+      return;
+    }
+    if (calcIsSubscriber()) {
+      wrap.classList.remove('locked');
+      overlay.style.display = 'none';
+    } else {
+      wrap.classList.add('locked');
+      overlay.style.display = 'flex';
+    }
+  }
+
+  function calcGateSubmit(e) {
+    e.preventDefault();
+    var email = (document.getElementById('calcGateEmail').value || '').trim();
+    if (!email || !email.includes('@')) return;
+    try { localStorage.setItem(MM_SUB_KEY, email); } catch(ex){}
+    calcApplyGate(true);
+    /* Trigger a re-render so advice shows */
+    calcUpdate();
   }
 
   function calcSetCurrencyDrop(cur) {
