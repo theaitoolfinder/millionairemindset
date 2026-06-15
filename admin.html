@@ -571,8 +571,39 @@
     .res-card:hover { transform:translateY(-3px); box-shadow:0 8px 32px rgba(0,0,0,.12); }
     .res-card.confirmed { border-color:#86efac; background:#f0fdf4; }
     .res-card.dismissed { opacity:.45; filter:grayscale(.6); }
+    .res-card-photo {
+      width:100%; height:160px; overflow:hidden; background:var(--surface-2);
+      position:relative; flex-shrink:0;
+    }
+    .res-card-photo img {
+      width:100%; height:100%; object-fit:cover; display:block;
+      transition:transform .3s;
+    }
+    .res-card:hover .res-card-photo img { transform:scale(1.04); }
+    .res-card-photo .photo-skeleton {
+      width:100%; height:100%; background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);
+      background-size:200% 100%; animation:shimmer 1.4s infinite;
+      display:flex; align-items:center; justify-content:center; color:#ccc; font-size:2rem;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .res-ref-links {
+      display:flex; gap:6px; padding:8px 20px;
+      background:var(--surface-2); border-bottom:1px solid var(--border-soft);
+      flex-wrap:wrap;
+    }
+    .res-ref-link {
+      display:inline-flex; align-items:center; gap:4px;
+      font-size:.67rem; font-weight:700; padding:4px 10px; border-radius:20px;
+      text-decoration:none; transition:.15s;
+    }
+    .res-ref-link.amazon { background:#fff8e7; color:#c45500; border:1px solid #f5c77e; }
+    .res-ref-link.amazon:hover { background:#fde8a0; }
+    .res-ref-link.alibaba { background:#fff1ec; color:#e53935; border:1px solid #ffb8a0; }
+    .res-ref-link.alibaba:hover { background:#ffd5c8; }
+    .res-ref-link.aliexpress { background:#fef2f2; color:#e4393c; border:1px solid #fca5a5; }
+    .res-ref-link.aliexpress:hover { background:#fee2e2; }
     .res-card-top {
-      padding:18px 20px 14px;
+      padding:14px 20px 12px;
       border-bottom:1px solid var(--border-soft);
     }
     .res-card-cat  { font-size:.65rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--text-dim); margin-bottom:6px; }
@@ -1941,6 +1972,48 @@ function getResState() {
 }
 function setResState(obj) { localStorage.setItem(RES_STATE_KEY, JSON.stringify(obj)); }
 
+var _photoCache = {};
+var PIXABAY_KEY = '56302502-86d9e25bec8450eabb0760a6b';
+
+function fetchResearchPhotos(products) {
+  products.forEach(function(p, idx) {
+    var el = document.getElementById('resphoto-' + p.id);
+    if (!el) return;
+
+    // Use cached photo if available
+    if (_photoCache[p.id]) {
+      setResPhoto(el, _photoCache[p.id]);
+      return;
+    }
+
+    // Build search query from product name + first tag
+    var query = encodeURIComponent((p.name + ' ' + (p.tags && p.tags[0] ? p.tags[0] : '')).trim());
+    var url = 'https://pixabay.com/api/?key=' + PIXABAY_KEY
+      + '&q=' + query
+      + '&image_type=photo&orientation=horizontal&per_page=3&safesearch=true&min_width=400';
+
+    // Stagger requests to avoid hitting rate limit
+    setTimeout(function() {
+      fetch(url)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var hit = data && data.hits && data.hits[0];
+          if (hit) {
+            var imgUrl = hit.webformatURL;
+            _photoCache[p.id] = imgUrl;
+            var photoEl = document.getElementById('resphoto-' + p.id);
+            if (photoEl) setResPhoto(photoEl, imgUrl);
+          }
+        })
+        .catch(function() {}); // silently fail — skeleton stays
+    }, idx * 120); // 120ms stagger per request
+  });
+}
+
+function setResPhoto(el, url) {
+  el.innerHTML = '<img src="' + url + '" alt="Product photo" loading="lazy" onerror="this.parentNode.innerHTML=\'<div class=\\\'photo-skeleton\\\'>📦</div>\'">';
+}
+
 function resConfirm(id) {
   var s = getResState();
   s[id] = { status: 'confirmed', date: new Date().toISOString() };
@@ -2088,6 +2161,9 @@ function renderResearch(data) {
     return;
   }
 
+  // Fetch Pixabay photos after grid renders
+  setTimeout(function() { fetchResearchPhotos(visible); }, 0);
+
   grid.innerHTML = visible.map(function(p) {
     var st = state[p.id];
     var status = st ? st.status : null;
@@ -2116,7 +2192,21 @@ function renderResearch(data) {
         + '<button class="res-btn-dismiss" onclick="resDismiss(\''+p.id+'\')">✕ Dismiss</button>';
     }
 
-    return '<div class="res-card'+(isConfirmed?' confirmed':isDismissed?' dismissed':'')+'">'
+    // Build search queries for reference links
+    var searchQ = encodeURIComponent(p.name);
+    var amazonLink   = 'https://www.amazon.ae/s?k=' + searchQ;
+    var alibabaLink  = 'https://www.alibaba.com/trade/search?SearchText=' + searchQ;
+    var aliexpressLink = 'https://www.aliexpress.com/wholesale?SearchText=' + searchQ;
+
+    return '<div class="res-card'+(isConfirmed?' confirmed':isDismissed?' dismissed':'')+'" id="rescard-'+p.id+'">'
+      + '<div class="res-card-photo" id="resphoto-'+p.id+'">'
+        + '<div class="photo-skeleton">📦</div>'
+      + '</div>'
+      + '<div class="res-ref-links">'
+        + '<a class="res-ref-link amazon" href="'+amazonLink+'" target="_blank">🛒 Amazon.ae</a>'
+        + '<a class="res-ref-link alibaba" href="'+alibabaLink+'" target="_blank">🏭 Alibaba</a>'
+        + '<a class="res-ref-link aliexpress" href="'+aliexpressLink+'" target="_blank">📦 AliExpress</a>'
+      + '</div>'
       + '<div class="res-card-top">'
         + '<div class="res-card-cat">'+escHtml(p.amazonCategory||p.category||'')+'</div>'
         + '<div class="res-card-name">'+escHtml(p.name)+'</div>'
