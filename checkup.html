@@ -1326,10 +1326,16 @@
   }
 
   /* ── Gate logic ──────────────────────────────────────────────────────── */
+  var GATE_TOKEN = btoa('mmdev2026::mm2026');
+  function isDevUnlocked() {
+    try { return localStorage.getItem('mm_dev_access') === GATE_TOKEN; } catch(e){ return false; }
+  }
+
   function calcApplyGate(hasData) {
     var wrap    = document.getElementById('calcGatedWrap');
     var overlay = document.getElementById('calcGateOverlay');
-    if (!hasData) {
+    /* Dev access or no data → always unlocked */
+    if (!hasData || isDevUnlocked()) {
       wrap.classList.remove('locked');
       overlay.style.display = 'none';
       return;
