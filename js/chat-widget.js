@@ -1108,8 +1108,24 @@
   /* API key is stored securely in Cloudflare Worker — never exposed in client */
   var GROQ_WORKER_URL = 'https://mm-ai-proxy.info-myaitoolbox.workers.dev/';
 
-  /* Conversation history — OpenAI-compatible format {role, content} */
-  var _chatHistory = [];
+  /* Conversation history — persisted in sessionStorage across page navigations */
+  var _HISTORY_KEY = 'mm_chat_history';
+  var _MSGS_KEY    = 'mm_chat_msgs';
+
+  function loadHistory() {
+    try { return JSON.parse(sessionStorage.getItem(_HISTORY_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function saveHistory(h) {
+    try { sessionStorage.setItem(_HISTORY_KEY, JSON.stringify(h)); } catch(e) {}
+  }
+  function loadMsgs() {
+    try { return JSON.parse(sessionStorage.getItem(_MSGS_KEY) || '[]'); } catch(e) { return []; }
+  }
+  function saveMsgs(msgs) {
+    try { sessionStorage.setItem(_MSGS_KEY, JSON.stringify(msgs.slice(-40))); } catch(e) {}
+  }
+
+  var _chatHistory = loadHistory();
 
   /* Detect current page for context-aware replies */
   function getCurrentPageContext() {
@@ -1295,6 +1311,7 @@
       if (!raw) { _chatHistory.pop(); onFail(); return; }
       var text = cleanGeminiText(raw);
       _chatHistory.push({ role: 'assistant', content: raw });
+      saveHistory(_chatHistory);
       onSuccess(text);
     })
     .catch(function() { _chatHistory.pop(); onFail(); });
@@ -1326,6 +1343,10 @@
     }
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
+    /* Persist rendered messages for cross-page continuity */
+    var stored = loadMsgs();
+    stored.push({ role: role, html: div.innerHTML, extra: extraHtml || '' });
+    saveMsgs(stored);
   }
 
   /* ── Profanity filter ── */
@@ -1415,16 +1436,33 @@
     if (fab)   fab.classList.toggle('open', isOpen);
     if (notif) notif.classList.remove('show');
     if (callout && isOpen) callout.classList.remove('show');
-    if (isOpen && !document.getElementById('mmMessages').childElementCount) {
+    if (isOpen) {
       renderChar();
-      setTimeout(function(){
-        addMsg('bot', currentChar === 'hira'
-          ? 'Hey! Kumusta ka? Ako si Hira — kasama mo sa bawat araw na malayo sa pamilya. Pwede kang kumausap sa akin anumang oras!'
-          : 'Kumusta! Ako si Aya — nandito ako para sa iyo, lagi!'
-        );
-        updateSuggests('default', currentLang);
-        triggerAnim('wave');
-      }, 300);
+      var msgs = document.getElementById('mmMessages');
+      if (msgs && !msgs.childElementCount) {
+        /* Restore previous conversation if exists */
+        var stored = loadMsgs();
+        if (stored.length > 0) {
+          stored.forEach(function(m) {
+            var div = document.createElement('div');
+            div.className = 'mm-msg ' + m.role;
+            div.innerHTML = m.html;
+            msgs.appendChild(div);
+          });
+          msgs.scrollTop = msgs.scrollHeight;
+          updateSuggests('default', currentLang);
+        } else {
+          /* Fresh greeting */
+          setTimeout(function(){
+            addMsg('bot', currentChar === 'hira'
+              ? 'Hey! Kumusta ka? Ako si Hira — kasama mo sa bawat araw na malayo sa pamilya. Pwede kang kumausap sa akin anumang oras!'
+              : 'Kumusta! Ako si Aya — nandito ako para sa iyo, lagi!'
+            );
+            updateSuggests('default', currentLang);
+            triggerAnim('wave');
+          }, 300);
+        }
+      }
     }
   };
 
