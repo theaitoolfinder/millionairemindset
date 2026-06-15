@@ -1109,8 +1109,15 @@
   var GROQ_WORKER_URL = 'https://mm-ai-proxy.info-myaitoolbox.workers.dev/';
 
   /* Conversation history — persisted in sessionStorage across page navigations */
+  var _CHAT_VER    = 'v20260625';
   var _HISTORY_KEY = 'mm_chat_history';
   var _MSGS_KEY    = 'mm_chat_msgs';
+  /* Clear stale cache from old widget versions */
+  if (sessionStorage.getItem('mm_chat_ver') !== _CHAT_VER) {
+    sessionStorage.removeItem(_HISTORY_KEY);
+    sessionStorage.removeItem(_MSGS_KEY);
+    sessionStorage.setItem('mm_chat_ver', _CHAT_VER);
+  }
 
   function loadHistory() {
     try { return JSON.parse(sessionStorage.getItem(_HISTORY_KEY) || '[]'); } catch(e) { return []; }
@@ -1448,10 +1455,10 @@
       if (msgs && !msgs.childElementCount) {
         /* No history — show fresh greeting that pushes Financial Check-up */
         setTimeout(function(){
-          var name = currentChar === 'hira' ? 'Hira' : 'Aya';
+          var cu = '<a href="checkup.html" style="'+LS+'" target="_self">Financial Check-up</a>';
           addMsg('bot', currentChar === 'hira'
-            ? 'Hey! Ako si Hira — nandito ako para gabayan ka sa iyong financial journey. Para makatulong ako ng husto, subukan mo muna ang aming libreng Financial Check-up para malaman natin kung nasaan ka ngayon financially. Gusto mo bang simulan?'
-            : 'Kumusta! Ako si Aya — kasama mo sa bawat hakbang patungo sa financial freedom. Una, subukan mo ang aming libreng Financial Check-up — para malaman natin ang tamang simula para sa iyo. Gusto mo?'
+            ? 'Hey! Ako si Hira — nandito ako para gabayan ka sa iyong financial journey. Para makatulong ako ng husto, subukan mo muna ang aming libreng ' + cu + ' para malaman natin kung nasaan ka ngayon financially. Gusto mo bang simulan?'
+            : 'Kumusta! Ako si Aya — kasama mo sa bawat hakbang patungo sa financial freedom. Una, subukan mo ang aming libreng ' + cu + ' — para malaman natin ang tamang simula para sa iyo. Gusto mo?'
           );
           updateSuggests('default', currentLang);
           triggerAnim('wave');
