@@ -1002,15 +1002,14 @@
     var netArc  = pctSurp * circ;
 
     if (state === 'surplus') {
-      // donutExp = full gold ring (bottom layer, always complete)
-      donutExp.style.stroke = 'url(#goldGlow)';
+      // Green full ring = 100% inflow baseline
+      donutExp.style.stroke = '#22c55e';
       donutExp.style.strokeDasharray = circ + ' 0';
       donutExp.setAttribute('stroke-dashoffset', '0');
 
-      // donutNet = gray expenses arc drawn ON TOP of gold, masking the expense portion
-      // When expArc≈0, hide to avoid round-linecap ghost dot
+      // Orange arc on top = outflow portion (hides the green underneath)
       if (expArc > 0.5) {
-        donutNet.style.stroke = '#dc2626';
+        donutNet.style.stroke = '#f97316';
         donutNet.style.display = '';
         donutNet.style.strokeDasharray = expArc + ' ' + circ;
         donutNet.setAttribute('stroke-dashoffset', circ / 4);
@@ -1019,33 +1018,32 @@
       }
 
       donutHatch.style.display = 'none';
-      shine.style.display = 'block';
+      shine.style.display = 'none';
       centerPct.textContent = Math.round(pctSurp * 100) + '%';
       centerLbl.textContent = 'natitira';
-      centerPct.setAttribute('fill', '#d97706');
+      centerPct.setAttribute('fill', '#16a34a');
 
     } else if (state === 'deficit') {
-      // donutExp = full red ring
-      donutExp.style.stroke = '#dc2626';
+      // Full orange ring = all inflow consumed by outflow
+      donutExp.style.stroke = '#f97316';
       donutExp.style.strokeDasharray = circ + ' 0';
-      donutExp.setAttribute('stroke-dashoffset', circ / 4);
+      donutExp.setAttribute('stroke-dashoffset', '0');
 
-      donutNet.style.stroke = 'none';
-      donutNet.style.strokeDasharray = '0 ' + circ;
-
-      // Hatch arc: deficit % of ring starting from 12 o'clock
+      // Red arc on top = deficit portion (how far over budget)
       var deficitArc = Math.min(pctDef, 1) * circ;
-      donutHatch.style.display = 'block';
-      donutHatch.style.strokeDasharray = deficitArc + ' ' + circ;
-      donutHatch.setAttribute('stroke-dashoffset', circ / 4);
+      donutNet.style.stroke = '#dc2626';
+      donutNet.style.display = '';
+      donutNet.style.strokeDasharray = deficitArc + ' ' + circ;
+      donutNet.setAttribute('stroke-dashoffset', circ / 4);
 
+      donutHatch.style.display = 'none';
       shine.style.display = 'none';
       centerPct.textContent = '-' + Math.round(pctDef * 100) + '%';
       centerLbl.textContent = 'kulang';
       centerPct.setAttribute('fill', '#dc2626');
 
-    } else { // break-even
-      donutExp.style.stroke = '#e5e7eb';
+    } else { // break-even — full orange, no green visible
+      donutExp.style.stroke = '#f97316';
       donutExp.style.strokeDasharray = circ + ' 0';
       donutExp.setAttribute('stroke-dashoffset', '0');
       donutNet.style.stroke = 'none';
@@ -1053,7 +1051,7 @@
       shine.style.display = 'none';
       centerPct.textContent = '0%';
       centerLbl.textContent = 'break-even';
-      centerPct.setAttribute('fill', '#c8900a');
+      centerPct.setAttribute('fill', '#ea580c');
     }
   }
 
