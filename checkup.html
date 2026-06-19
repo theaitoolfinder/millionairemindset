@@ -1007,8 +1007,11 @@
       donutNet.style.stroke = 'url(#goldGlow)';
       donutNet.style.display = '';
       donutNet.style.strokeDasharray = netArc + ' ' + circ;
-      // offset: net arc starts after expenses arc
-      donutNet.setAttribute('stroke-dashoffset', (circ / 4) - expArc);
+      // Compute the correct offset: gold arc must start exactly where expenses end.
+      // expEnd = path position where expenses end (circle starts at 3 o'clock = 0).
+      var expEnd = (3 * circ / 4 + expArc) % circ;
+      var goldOffset = (netArc + circ - expEnd) % (netArc + circ);
+      donutNet.setAttribute('stroke-dashoffset', goldOffset);
       donutHatch.style.display = 'none';
       shine.style.display = 'block';
       centerPct.textContent = Math.round(pctSurp * 100) + '%';
