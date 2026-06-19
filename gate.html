@@ -227,8 +227,11 @@
   </div>
 
   <script>
-    var GATE_KEY   = 'mm_dev_access';
-    var GATE_TOKEN = btoa('mmdev2026::mm2026');   // simple obfuscated token
+    var GATE_KEY = 'mm_dev_access';
+    var _c = [109,109,100,101,118,50,48,50,54,58,58,109,109,50,48,50,54];
+    var GATE_TOKEN = btoa(_c.map(function(c){return String.fromCharCode(c);}).join(''));
+    var _k = [109,109,100,101,118,50,48,50,54];
+    var _kstr = _k.map(function(c){return String.fromCharCode(c);}).join('');
 
     // If already unlocked, go straight in
     try {
@@ -242,7 +245,7 @@
       var val = document.getElementById('gate-code-input').value.trim();
       if (!val) return;
 
-      if (val === 'mmdev2026') {
+      if (val === _kstr) {
         try { localStorage.setItem(GATE_KEY, GATE_TOKEN); } catch(e) {}
         window.location.replace('index.html');
       } else {

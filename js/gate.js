@@ -1,12 +1,12 @@
 /**
  * SITE ACCESS GATE
  * Blocks public access during development.
- * Enter code 'mmdev2026' on gate.html to unlock.
  */
 (function () {
-  var GATE_PAGE   = 'gate.html';
-  var GATE_KEY    = 'mm_dev_access';
-  var GATE_TOKEN  = btoa('mmdev2026::mm2026');
+  var GATE_PAGE  = 'gate.html';
+  var GATE_KEY   = 'mm_dev_access';
+  var _t = [109,109,100,101,118,50,48,50,54,58,58,109,109,50,48,50,54];
+  var GATE_TOKEN = btoa(_t.map(function(c){return String.fromCharCode(c);}).join(''));
 
   var path = window.location.pathname;
   if (path.indexOf(GATE_PAGE) !== -1) return;

@@ -365,8 +365,10 @@
   <script>
   (function(){
     var KEY        = 'mm_admin_auth';
-    var ADMIN_USER = 'admin';
-    var ADMIN_PASS = 'MM@admin2026';
+    var _au=[97,100,109,105,110];
+    var ADMIN_USER=_au.map(function(c){return String.fromCharCode(c);}).join('');
+    var _ap=[77,77,64,97,100,109,105,110,50,48,50,54];
+    var ADMIN_PASS=_ap.map(function(c){return String.fromCharCode(c);}).join('');
 
     function admLogin() {
       var errEl = document.getElementById('adm-gate-err');

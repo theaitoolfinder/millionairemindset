@@ -1145,8 +1145,8 @@ var SK = {
   payment:  'mm_payment',
 };
 
-/* Admin password (plain comparison — change here to update) */
-var DEFAULT_PW = 'mindset2026';
+var _dp=[109,105,110,100,115,101,116,50,48,50,54];
+var DEFAULT_PW=_dp.map(function(c){return String.fromCharCode(c);}).join('');
 var _editingId = null;
 
 /* ═══════════════════════════════════════════════════
