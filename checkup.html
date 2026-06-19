@@ -1004,6 +1004,7 @@
       donutExp.style.stroke = '#e5e7eb';
       donutExp.style.strokeDasharray = expArc + ' ' + circ;
       donutNet.style.stroke = 'url(#goldGlow)';
+      donutNet.style.display = '';
       donutNet.style.strokeDasharray = netArc + ' ' + circ;
       // offset: net arc starts after expenses arc
       donutNet.setAttribute('stroke-dashoffset', (circ / 4) - expArc);
@@ -1013,21 +1014,16 @@
       centerLbl.textContent = 'natitira';
       centerPct.setAttribute('fill', '#d97706');
     } else if (state === 'deficit') {
-      // Visual concept:
-      // - Full red ring = 100% of income is spent (expenses >= income)
-      // - Hatched arc on TOP = how much OVER 100% the expenses go (the deficit)
-      // Example: income=5000, expenses=6800 → rawRatio=1.36 → pctDef=36%
-      // Red ring = full (100%), hatch arc = 36% of ring starting from top
-
-      // Red ring: full 360° = shows all income is consumed
+      // Red ring: full 360° = all income consumed
       donutExp.style.stroke = '#dc2626';
       donutExp.style.strokeDasharray = circ + ' 0';
       donutExp.setAttribute('stroke-dashoffset', circ / 4);
 
-      // Gray net arc: hide (no surplus)
+      // Hide surplus arc completely (stroke:none avoids round-linecap ghost dot)
+      donutNet.style.stroke = 'none';
       donutNet.style.strokeDasharray = '0 ' + circ;
 
-      // Hatch arc: deficit % of ring, starting from 12 o'clock
+      // Hatch arc: deficit % of ring starting from 12 o'clock
       var deficitArc = Math.min(pctDef, 1) * circ;
       donutHatch.style.display = 'block';
       donutHatch.style.strokeDasharray = deficitArc + ' ' + circ;
