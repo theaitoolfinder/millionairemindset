@@ -1002,28 +1002,34 @@
     var netArc  = pctSurp * circ;
 
     if (state === 'surplus') {
-      donutExp.style.stroke = '#e5e7eb';
-      donutExp.style.strokeDasharray = expArc + ' ' + circ;
-      donutNet.style.stroke = 'url(#goldGlow)';
-      donutNet.style.display = '';
-      donutNet.style.strokeDasharray = netArc + ' ' + circ;
-      // Compute the correct offset: gold arc must start exactly where expenses end.
-      // expEnd = path position where expenses end (circle starts at 3 o'clock = 0).
-      var expEnd = (3 * circ / 4 + expArc) % circ;
-      var goldOffset = (netArc + circ - expEnd) % (netArc + circ);
-      donutNet.setAttribute('stroke-dashoffset', goldOffset);
+      // donutExp = full gold ring (bottom layer, always complete)
+      donutExp.style.stroke = 'url(#goldGlow)';
+      donutExp.style.strokeDasharray = circ + ' 0';
+      donutExp.setAttribute('stroke-dashoffset', '0');
+
+      // donutNet = gray expenses arc drawn ON TOP of gold, masking the expense portion
+      // When expArc≈0, hide to avoid round-linecap ghost dot
+      if (expArc > 0.5) {
+        donutNet.style.stroke = '#e5e7eb';
+        donutNet.style.display = '';
+        donutNet.style.strokeDasharray = expArc + ' ' + circ;
+        donutNet.setAttribute('stroke-dashoffset', circ / 4);
+      } else {
+        donutNet.style.stroke = 'none';
+      }
+
       donutHatch.style.display = 'none';
       shine.style.display = 'block';
       centerPct.textContent = Math.round(pctSurp * 100) + '%';
       centerLbl.textContent = 'natitira';
       centerPct.setAttribute('fill', '#d97706');
+
     } else if (state === 'deficit') {
-      // Red ring: full 360° = all income consumed
+      // donutExp = full red ring
       donutExp.style.stroke = '#dc2626';
       donutExp.style.strokeDasharray = circ + ' 0';
       donutExp.setAttribute('stroke-dashoffset', circ / 4);
 
-      // Hide surplus arc completely (stroke:none avoids round-linecap ghost dot)
       donutNet.style.stroke = 'none';
       donutNet.style.strokeDasharray = '0 ' + circ;
 
@@ -1037,19 +1043,17 @@
       centerPct.textContent = '-' + Math.round(pctDef * 100) + '%';
       centerLbl.textContent = 'kulang';
       centerPct.setAttribute('fill', '#dc2626');
-    } else {
+
+    } else { // break-even
+      donutExp.style.stroke = '#e5e7eb';
       donutExp.style.strokeDasharray = circ + ' 0';
-      donutNet.style.strokeDasharray = '0 ' + circ;
+      donutExp.setAttribute('stroke-dashoffset', '0');
+      donutNet.style.stroke = 'none';
       donutHatch.style.display = 'none';
       shine.style.display = 'none';
       centerPct.textContent = '0%';
       centerLbl.textContent = 'break-even';
       centerPct.setAttribute('fill', '#c8900a');
-    }
-
-    // Surplus/zero: expenses arc starts at top (deficit sets its own offset above)
-    if (state !== 'deficit') {
-      donutExp.setAttribute('stroke-dashoffset', circ / 4);
     }
   }
 
