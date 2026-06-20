@@ -946,7 +946,7 @@
     if (net > 0) {
       legDotNet.style.background = '#22c55e'; // green = surplus remaining
       legLabelNet.textContent = Math.round(pctLeft) + '% Natitira';
-      document.getElementById('legLabelExp').textContent = Math.round(pctOut * 100) + '% Binabayaran';
+      document.getElementById('legLabelExp').textContent = Math.round(pctOut) + '% Binabayaran';
     } else if (net < 0) {
       legDotNet.style.background = '#dc2626'; // red = deficit
       legLabelNet.textContent = Math.round((totalOut / totalIn - 1) * 100) + '% Kulang';
