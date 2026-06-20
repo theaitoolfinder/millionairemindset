@@ -1001,21 +1001,26 @@
     var expArc  = pctOut * circ;
     var netArc  = pctSurp * circ;
 
+    // Rotate arc element so stroke starts at 12 o'clock instead of SVG's default 3 o'clock
+    var ARC_ROTATE = 'rotate(-90 60 60)';
+
     if (state === 'surplus') {
-      // Green full ring = 100% inflow baseline
+      // Green full ring = 100% inflow baseline (full ring, no rotation needed)
       donutExp.style.stroke = '#22c55e';
       donutExp.style.strokeDasharray = circ + ' 0';
       donutExp.setAttribute('stroke-dashoffset', '0');
+      donutExp.removeAttribute('transform');
 
-      // Orange arc on top = outflow portion (hides the green underneath)
+      // Orange arc = outflow portion, rotated to start at 12 o'clock
       if (expArc > 0.5) {
         donutNet.style.stroke = '#f97316';
         donutNet.style.display = '';
         donutNet.style.strokeDasharray = expArc + ' ' + circ;
-        // dashoffset = expArc + circ/4 makes the arc start exactly at 12 o'clock (0%)
-        donutNet.setAttribute('stroke-dashoffset', expArc + circ / 4);
+        donutNet.setAttribute('stroke-dashoffset', '0');
+        donutNet.setAttribute('transform', ARC_ROTATE);
       } else {
         donutNet.style.stroke = 'none';
+        donutNet.removeAttribute('transform');
       }
 
       donutHatch.style.display = 'none';
@@ -1025,17 +1030,19 @@
       centerPct.setAttribute('fill', '#16a34a');
 
     } else if (state === 'deficit') {
-      // Full orange ring = all inflow consumed by outflow
+      // Full orange ring = all inflow consumed (full ring, no rotation needed)
       donutExp.style.stroke = '#f97316';
       donutExp.style.strokeDasharray = circ + ' 0';
       donutExp.setAttribute('stroke-dashoffset', '0');
+      donutExp.removeAttribute('transform');
 
-      // Red arc on top = deficit portion (how far over budget)
+      // Red arc = deficit portion, rotated to start at 12 o'clock
       var deficitArc = Math.min(pctDef, 1) * circ;
       donutNet.style.stroke = '#dc2626';
       donutNet.style.display = '';
       donutNet.style.strokeDasharray = deficitArc + ' ' + circ;
-      donutNet.setAttribute('stroke-dashoffset', deficitArc + circ / 4);
+      donutNet.setAttribute('stroke-dashoffset', '0');
+      donutNet.setAttribute('transform', ARC_ROTATE);
 
       donutHatch.style.display = 'none';
       shine.style.display = 'none';
@@ -1043,11 +1050,13 @@
       centerLbl.textContent = 'kulang';
       centerPct.setAttribute('fill', '#dc2626');
 
-    } else { // break-even — full orange, no green visible
+    } else { // break-even — full orange ring
       donutExp.style.stroke = '#f97316';
       donutExp.style.strokeDasharray = circ + ' 0';
       donutExp.setAttribute('stroke-dashoffset', '0');
+      donutExp.removeAttribute('transform');
       donutNet.style.stroke = 'none';
+      donutNet.removeAttribute('transform');
       donutHatch.style.display = 'none';
       shine.style.display = 'none';
       centerPct.textContent = '0%';
