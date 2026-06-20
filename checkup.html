@@ -939,20 +939,23 @@
     var legDotExp = document.getElementById('legDotExp');
     var legDotNet = document.getElementById('legDotNet');
     var legLabelNet = document.getElementById('legLabelNet');
-    legDotExp.style.background = '#e5e7eb';
+    // Stoplight legend: orange = outflow, green = surplus, red = deficit
+    legDotExp.style.background = '#f97316';  // orange = outflow
+    legDotExp.style.border = '';
     legDotNet.style.border = '';
     if (net > 0) {
-      legDotNet.style.background = 'linear-gradient(135deg,#fde68a,#d97706)';
+      legDotNet.style.background = '#22c55e'; // green = surplus remaining
       legLabelNet.textContent = Math.round(pctLeft) + '% Natitira';
+      document.getElementById('legLabelExp').textContent = Math.round(pctOut * 100) + '% Binabayaran';
     } else if (net < 0) {
-      legDotNet.style.background = '#dc262644';
-      legDotNet.style.border = '2px dashed #dc2626';
+      legDotNet.style.background = '#dc2626'; // red = deficit
       legLabelNet.textContent = Math.round((totalOut / totalIn - 1) * 100) + '% Kulang';
+      document.getElementById('legLabelExp').textContent = '100% Binabayaran';
     } else {
-      legDotNet.style.background = '#f59e0b';
+      legDotNet.style.background = '#f97316'; // break-even: full orange, no net
       legLabelNet.textContent = 'Break-even';
+      document.getElementById('legLabelExp').textContent = '100% Binabayaran';
     }
-    document.getElementById('legLabelExp').textContent = Math.round(pctOut) + '% Binabayaran';
 
     /* Breakdown */
     buildBreakdown(totalIn, totalOut);
