@@ -1501,15 +1501,22 @@
 
   <!-- ══ EPISODE DRAWER ══ -->
   <style>
+  /* ── Override series-grid to single column for carousel layout ── */
+  #seriesGrid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0;
+  }
+
   /* ── Carousel Stage Wrapper ── */
-  .series-stage-wrap { margin-bottom: 36px; }
+  .series-stage-wrap { margin-bottom: 40px; width: 100%; }
   .series-stage-header {
-    margin: 0 0 0;
-    padding-bottom: 12px;
+    margin: 0;
+    padding-bottom: 14px;
     border-bottom: 2px solid var(--border-soft, #f0e0e0);
   }
   .series-stage-header-inner {
-    display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
   }
   .series-stage-label {
     font-size: .68rem; font-weight: 800; letter-spacing: .1em;
@@ -1519,38 +1526,39 @@
   .series-stage-desc {
     font-size: .82rem; color: var(--text-dim, #777); line-height: 1.4;
   }
-  .sc-nav-btns { display: flex; gap: 6px; flex-shrink: 0; padding-bottom: 2px; }
+  .sc-nav-btns { display: flex; gap: 8px; flex-shrink: 0; }
   .sc-arr {
-    width: 34px; height: 34px; border-radius: 50%; border: 1.5px solid var(--border, #e5e7eb);
-    background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1.5px solid var(--border, #e5e7eb);
+    background: var(--surface, #fff); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
     color: var(--text-dim, #888); transition: all .18s; flex-shrink: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,.07);
   }
-  .sc-arr:hover { background: var(--primary, #CC1010); border-color: var(--primary, #CC1010); color: #fff; transform: scale(1.08); }
-  .sc-arr:disabled { opacity: .3; cursor: default; transform: none; }
+  .sc-arr:hover:not(:disabled) { background: var(--primary, #CC1010); border-color: var(--primary, #CC1010); color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.15); }
+  .sc-arr:disabled { opacity: .25; cursor: default; }
 
   /* ── Carousel Track ── */
   .series-carousel-track {
-    display: flex; gap: 16px;
+    display: flex; gap: 20px;
     overflow-x: auto; overflow-y: visible;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    padding: 16px 4px 12px;
+    padding: 20px 2px 16px;
     scrollbar-width: none;
     outline: none;
   }
   .series-carousel-track::-webkit-scrollbar { display: none; }
   .series-carousel-track .series-card {
-    flex: 0 0 280px; scroll-snap-align: start;
-    min-width: 0;
+    flex: 0 0 300px; scroll-snap-align: start; min-width: 0;
+  }
+  @media(max-width:600px) {
+    .series-carousel-track .series-card { flex: 0 0 260px; }
   }
 
-  /* Step badge on each card */
-  .series-card[data-step]::before {
-    content: 'STEP ' attr(data-step);
-    position: absolute; top: 10px; left: 10px; z-index: 3;
-    background: rgba(0,0,0,.52); color: #fff;
-    font-size: .58rem; font-weight: 800; letter-spacing: .08em;
-    padding: 3px 8px; border-radius: 999px;
+  /* ── Step badge: replace ::before with a dedicated position so it doesn't clash with .series-card-badge ── */
+  .series-card[data-step] .series-card-badge::before {
+    content: 'STEP ' attr(data-step) ' · ';
   }
 
   /* Episode browse buttons on series cards */
