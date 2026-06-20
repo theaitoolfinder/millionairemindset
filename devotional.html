@@ -9,8 +9,7 @@
   <script>/* theme-init */
 (function(){try{
   var TH={brand:'',ocean:'--primary:#0284c7;--primary-2:#0369a1;--primary-light:#e0f2fe;--bg:#f0f9ff;--surface-2:#f0f9ff;--border:#bae6fd;--border-soft:#e0f2fe;--hero-grad:linear-gradient(160deg,#e0f2fe 0%,#f0f9ff 45%,#ecfeff 100%);--glow-xs:#0284c718;--glow-sm:#0284c728;--glow-lg:#0284c740;--tint-bg:#e0f2fecc',forest:'--primary:#059669;--primary-2:#047857;--primary-light:#d1fae5;--bg:#ecfdf5;--surface-2:#ecfdf5;--border:#a7f3d0;--border-soft:#d1fae5;--hero-grad:linear-gradient(160deg,#d1fae5 0%,#ecfdf5 45%,#f0fdf4 100%);--glow-xs:#05966918;--glow-sm:#05966928;--glow-lg:#05966940;--tint-bg:#d1fae5cc',sunset:'--primary:#ea580c;--primary-2:#c2410c;--primary-light:#ffedd5;--bg:#fff7ed;--surface-2:#fff7ed;--border:#fed7aa;--border-soft:#ffedd5;--hero-grad:linear-gradient(160deg,#ffedd5 0%,#fff7ed 45%,#fffbeb 100%);--glow-xs:#ea580c18;--glow-sm:#ea580c28;--glow-lg:#ea580c40;--tint-bg:#ffedd5cc',lavender:'--primary:#7c3aed;--primary-2:#6d28d9;--primary-light:#ede9fe;--bg:#f5f3ff;--surface-2:#f5f3ff;--border:#ddd6fe;--border-soft:#ede9fe;--hero-grad:linear-gradient(160deg,#ede9fe 0%,#f5f3ff 45%,#fdf4ff 100%);--glow-xs:#7c3aed18;--glow-sm:#7c3aed28;--glow-lg:#7c3aed40;--tint-bg:#ede9fecc',rose:'--primary:#e11d48;--primary-2:#be123c;--primary-light:#ffe4e6;--bg:#fff1f2;--surface-2:#fff1f2;--border:#fecdd3;--border-soft:#ffe4e6;--hero-grad:linear-gradient(160deg,#ffe4e6 0%,#fff1f2 45%,#fff0f3 100%);--glow-xs:#e11d4818;--glow-sm:#e11d4828;--glow-lg:#e11d4840;--tint-bg:#ffe4e6cc',sky:'--primary:#0284c7;--primary-2:#0369a1;--primary-light:#e0f2fe;--bg:#f0f9ff;--surface-2:#f0f9ff;--border:#bae6fd;--border-soft:#e0f2fe;--hero-grad:linear-gradient(160deg,#e0f2fe 0%,#f0f9ff 45%,#ecfeff 100%);--glow-xs:#0284c718;--glow-sm:#0284c728;--glow-lg:#0284c740;--tint-bg:#e0f2fecc',teal:'--primary:#0d9488;--primary-2:#0f766e;--primary-light:#ccfbf1;--bg:#f0fdfa;--surface-2:#f0fdfa;--border:#99f6e4;--border-soft:#ccfbf1;--hero-grad:linear-gradient(160deg,#ccfbf1 0%,#f0fdfa 45%,#ecfeff 100%);--glow-xs:#0d948818;--glow-sm:#0d948828;--glow-lg:#0d948840;--tint-bg:#ccfbf1cc',amber:'--primary:#d97706;--primary-2:#b45309;--primary-light:#fef3c7;--bg:#fffbeb;--surface-2:#fffbeb;--border:#fde68a;--border-soft:#fef3c7;--hero-grad:linear-gradient(160deg,#fef3c7 0%,#fffbeb 45%,#fff7ed 100%);--glow-xs:#d9770618;--glow-sm:#d9770628;--glow-lg:#d9770640;--tint-bg:#fef3c7cc',pink:'--primary:#db2777;--primary-2:#be185d;--primary-light:#fce7f3;--bg:#fdf2f8;--surface-2:#fdf2f8;--border:#fbcfe8;--border-soft:#fce7f3;--hero-grad:linear-gradient(160deg,#fce7f3 0%,#fdf2f8 45%,#fff1f2 100%);--glow-xs:#db277718;--glow-sm:#db277728;--glow-lg:#db277740;--tint-bg:#fce7f3cc',indigo:'--primary:#4338ca;--primary-2:#3730a3;--primary-light:#e0e7ff;--bg:#eef2ff;--surface-2:#eef2ff;--border:#c7d2fe;--border-soft:#e0e7ff;--hero-grad:linear-gradient(160deg,#e0e7ff 0%,#eef2ff 45%,#ede9fe 100%);--glow-xs:#4338ca18;--glow-sm:#4338ca28;--glow-lg:#4338ca40;--tint-bg:#e0e7ffcc'};
-  var n=localStorage.getItem('mm_theme_v1')||'brand';
-  var v=TH[n];
+  var n=localStorage.getItem('mm_theme_v1')||'brand';var v=TH[n];
   if(v){var s=document.createElement('style');s.id='mm-theme-vars';s.textContent=':root{'+v+'}';document.head.appendChild(s);document.documentElement.setAttribute('data-theme',n);}
 }catch(e){}})();
 </script>
@@ -20,174 +19,280 @@
   <script src="js/theme.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Merriweather:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
   <style>
-    /* ══ BASE ══ */
-    .dev-page { min-height:100vh; padding-top:72px; transition:background 0.4s; }
+/* ══════════════════════════════════════
+   DEVOTIONAL — BOOK READING EXPERIENCE
+══════════════════════════════════════ */
 
-    /* Edition picker */
-    .edition-bar {
-      position:sticky; top:64px; z-index:50;
-      display:flex; justify-content:center; gap:8px;
-      padding:12px 16px; backdrop-filter:blur(12px);
-      border-bottom:1px solid rgba(0,0,0,0.06);
-      background:rgba(255,255,255,0.88);
-    }
-    .edition-btn {
-      display:flex; align-items:center; gap:8px;
-      padding:8px 22px; border-radius:100px;
-      font-weight:600; font-size:0.88rem; cursor:pointer;
-      border:2px solid transparent; transition:all 0.25s;
-      background:#f1f5f9; color:#64748b;
-    }
-    .edition-btn:hover { transform:translateY(-1px); }
-    .edition-btn svg { flex-shrink:0; }
+.dev-page { min-height:100vh; padding-top:72px; transition:background 0.5s; }
 
-    /* Date nav */
-    .date-nav { display:flex; align-items:center; justify-content:center; gap:16px; padding:20px 16px 0; }
-    .date-nav-btn {
-      width:36px; height:36px; border-radius:50%; border:none; cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      transition:all 0.2s; background:#f1f5f9; color:#475569;
-    }
-    .date-nav-btn:hover { transform:scale(1.1); }
-    .date-display { text-align:center; min-width:200px; }
-    .date-display .day-name { font-size:0.75rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; }
-    .date-display .full-date { font-size:1.35rem; font-weight:700; }
+/* ── Edition Tabs (bookmarks) ── */
+.edition-bar {
+  position:sticky; top:64px; z-index:50;
+  display:flex; justify-content:center; gap:6px;
+  padding:10px 16px; backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(0,0,0,0.07);
+  background:rgba(255,255,255,0.9);
+}
+.edition-btn {
+  display:flex; align-items:center; gap:7px;
+  padding:7px 20px; border-radius:6px 6px 0 0;
+  font-weight:600; font-size:0.85rem; cursor:pointer;
+  border:1px solid transparent; border-bottom:none;
+  transition:all 0.22s; background:#f1f5f9; color:#64748b;
+  margin-bottom:-1px; position:relative;
+}
+.edition-btn:hover { background:#e2e8f0; color:#334155; }
+.edition-btn svg { flex-shrink:0; }
 
-    /* Illustration block */
-    .dev-illustration {
-      width:100%; aspect-ratio:16/7; overflow:hidden;
-      background:#e2e8f0; position:relative;
-      display:flex; align-items:center; justify-content:center;
-    }
-    .dev-illustration img {
-      width:100%; height:100%; object-fit:cover; object-position:center top;
-      display:none; transition:opacity 0.5s;
-    }
-    .dev-illustration img.loaded { display:block; }
-    .dev-illustration .illus-loading {
-      position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-      font-size:0.78rem; font-weight:600; letter-spacing:0.05em; color:#94a3b8;
-    }
-    .dev-illus-credit {
-      font-size:0.68rem; text-align:right; padding:4px 10px;
-      color:#94a3b8; font-style:italic;
-    }
+/* ── Date Navigator ── */
+.date-nav {
+  display:flex; align-items:center; justify-content:center;
+  gap:20px; padding:24px 16px 8px;
+}
+.date-nav-btn {
+  width:34px; height:34px; border-radius:50%; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  transition:all 0.2s; background:transparent; color:#94a3b8;
+}
+.date-nav-btn:hover { transform:scale(1.15); }
+.date-display { text-align:center; min-width:220px; }
+.date-display .day-name {
+  font-size:0.7rem; font-weight:700; letter-spacing:0.14em;
+  text-transform:uppercase; opacity:0.55;
+}
+.date-display .full-date { font-size:1.25rem; font-weight:700; }
 
-    /* ══ SVG ICONS (inline, no emojis) ══ */
-    .icon-book { color:#d97706; }
-    .icon-star { color:#d97706; }
-    .icon-target { color:#d97706; }
-    .icon-pray { color:#d97706; }
-    .icon-light { color:#d97706; }
+/* ── Shared Book Page Shell ── */
+.book-wrap { max-width:720px; margin:16px auto 64px; padding:0 18px; }
+.book-page {
+  position:relative; border-radius:3px 8px 8px 3px; overflow:hidden;
+  box-shadow:
+    -6px 0 18px rgba(0,0,0,0.12),
+    0 6px 32px rgba(0,0,0,0.1),
+    0 1px 4px rgba(0,0,0,0.06);
+}
+/* Spine gradient */
+.book-page::before {
+  content:''; position:absolute; left:0; top:0; bottom:0; width:22px;
+  background:linear-gradient(to right, rgba(0,0,0,0.07), transparent);
+  pointer-events:none; z-index:1;
+}
 
-    /* ══ KIDS ══ */
-    .dev-page[data-edition="kids"] { background:linear-gradient(160deg,#fffde7 0%,#fff8e1 50%,#f0fff4 100%); }
-    .dev-page[data-edition="kids"] .edition-btn.active { background:#f59e0b; color:white; border-color:#f59e0b; box-shadow:0 4px 12px #f59e0b44; }
-    .dev-page[data-edition="kids"] .date-nav-btn:hover { background:#fef3c7; color:#d97706; }
-    .dev-page[data-edition="kids"] .date-display .day-name { color:#d97706; }
-    .dev-page[data-edition="kids"] .date-display .full-date { color:#92400e; }
-    .dev-page[data-edition="kids"] .dev-illustration { border-radius:20px 20px 0 0; background:#fef3c7; }
-    .dev-page[data-edition="kids"] .dev-illustration .illus-loading { color:#d97706; }
+/* ── Illustration ── */
+.book-illus {
+  width:100%; overflow:hidden; position:relative;
+  background:#e2e8f0; min-height:160px;
+  display:flex; align-items:center; justify-content:center;
+}
+.book-illus img { width:100%; display:none; transition:opacity 0.6s; }
+.book-illus img.loaded { display:block; }
+.book-illus .illus-loader {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-size:0.75rem; font-weight:600; letter-spacing:0.06em;
+}
+.book-illus-credit {
+  font-size:0.65rem; padding:3px 10px 0; font-style:italic; text-align:right;
+}
 
-    .kids-card { max-width:680px; margin:20px auto 60px; padding:0 16px; }
-    .kids-header { padding:28px 24px 20px; background:white; border-radius:20px 20px 0 0; border:3px solid #fde68a; border-bottom:none; }
-    .kids-title { font-size:1.55rem; font-weight:800; color:#92400e; line-height:1.2; margin:0 0 16px; }
-    .kids-verse-box { background:#fef3c7; border-radius:14px; padding:14px 18px; border-left:4px solid #f59e0b; }
-    .kids-verse-text { font-size:0.97rem; color:#78350f; font-style:italic; line-height:1.65; margin:0; }
-    .kids-verse-ref { font-size:0.78rem; font-weight:700; color:#d97706; margin-top:6px; }
-    .kids-section { background:white; padding:18px 24px; border:3px solid #fde68a; border-top:none; }
-    .kids-section:last-child { border-radius:0 0 20px 20px; padding-bottom:28px; }
-    .kids-section-label { display:flex; align-items:center; gap:7px; font-size:0.72rem; font-weight:800; color:#d97706; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:10px; }
-    .kids-story { font-size:0.97rem; color:#374151; line-height:1.8; margin:0; }
-    .kids-story + .kids-story { margin-top:0.9em; }
-    .kids-lessons { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
-    .kids-lessons li { display:flex; align-items:flex-start; gap:10px; background:#f0fdf4; border-radius:12px; padding:12px 14px; font-size:0.93rem; color:#166534; font-weight:500; line-height:1.5; }
-    .kids-lessons li::before { content:''; width:8px; height:8px; border-radius:50%; background:#22c55e; flex-shrink:0; margin-top:6px; }
-    .kids-challenge { background:#fef2f2; border-radius:12px; padding:14px 18px; font-size:0.95rem; color:#991b1b; font-weight:600; line-height:1.6; }
-    .kids-prayer { background:linear-gradient(135deg,#fff7ed,#fffbeb); border:2px dashed #f59e0b; border-radius:14px; padding:18px; font-size:0.95rem; color:#78350f; line-height:1.8; font-style:italic; }
-    .kids-fun { background:linear-gradient(135deg,#f0f9ff,#e0f2fe); border-radius:12px; padding:14px 18px; font-size:0.93rem; color:#0369a1; font-weight:600; line-height:1.55; }
-    .kids-divider { height:2px; background:repeating-linear-gradient(90deg,#fde68a 0,#fde68a 8px,transparent 8px,transparent 16px); margin:0; }
-    .kids-illus-wrap { border:3px solid #fde68a; border-top:none; border-bottom:none; overflow:hidden; }
+/* ════════════════════════
+   KIDS — PICTURE BOOK
+════════════════════════ */
+.dev-page[data-edition="kids"] { background:linear-gradient(160deg,#fff9db 0%,#fff8e1 60%,#f0fff8 100%); }
+.dev-page[data-edition="kids"] .edition-btn.active {
+  background:#fffdf5; color:#d97706; border-color:#fde68a;
+  box-shadow:0 -2px 0 #f59e0b inset;
+}
+.dev-page[data-edition="kids"] .date-nav-btn:hover { color:#f59e0b; }
+.dev-page[data-edition="kids"] .date-display .day-name { color:#d97706; }
+.dev-page[data-edition="kids"] .date-display .full-date { color:#92400e; font-family:'Poppins',sans-serif; }
+.dev-page[data-edition="kids"] .book-page { border-left:6px solid #fbbf24; }
+.dev-page[data-edition="kids"] .book-illus { background:#fef9c3; min-height:200px; }
+.dev-page[data-edition="kids"] .book-illus .illus-loader { color:#d97706; }
+.dev-page[data-edition="kids"] .book-illus-credit { color:#b45309; }
 
-    /* ══ YUPPIES ══ */
-    .dev-page[data-edition="yuppies"] { background:#0f172a; }
-    .dev-page[data-edition="yuppies"] .edition-bar { background:rgba(15,23,42,0.92); border-bottom-color:rgba(255,255,255,0.07); }
-    .dev-page[data-edition="yuppies"] .edition-btn { background:#1e293b; color:#94a3b8; }
-    .dev-page[data-edition="yuppies"] .edition-btn.active { background:#6366f1; color:white; border-color:#6366f1; box-shadow:0 4px 20px #6366f144; }
-    .dev-page[data-edition="yuppies"] .date-nav-btn { background:#1e293b; color:#94a3b8; }
-    .dev-page[data-edition="yuppies"] .date-nav-btn:hover { background:#312e81; color:#a5b4fc; }
-    .dev-page[data-edition="yuppies"] .date-display .day-name { color:#6366f1; }
-    .dev-page[data-edition="yuppies"] .date-display .full-date { color:#e2e8f0; }
-    .dev-page[data-edition="yuppies"] .dev-illustration { background:#1e293b; }
-    .dev-page[data-edition="yuppies"] .dev-illustration .illus-loading { color:#475569; }
-    .dev-page[data-edition="yuppies"] .dev-illus-credit { color:#475569; }
+.kids-page { background:#fffdf5; }
+.kids-chap-banner {
+  background:linear-gradient(135deg,#fbbf24,#f59e0b);
+  padding:22px 28px 18px 36px;
+}
+.kids-chap-label { font-size:0.65rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.8); margin-bottom:6px; }
+.kids-title { font-size:1.5rem; font-weight:900; color:#fff; line-height:1.2; margin:0 0 14px; }
+.kids-verse-block { background:rgba(255,255,255,0.22); border-radius:10px; padding:12px 16px; }
+.kids-verse-text { font-size:0.96rem; color:#fff; font-style:italic; line-height:1.65; margin:0; }
+.kids-verse-ref { font-size:0.75rem; font-weight:700; color:rgba(255,255,255,0.85); margin-top:6px; }
 
-    .yup-card { max-width:740px; margin:24px auto 60px; padding:0 16px; }
-    .yup-header { padding:36px 34px 28px; background:linear-gradient(135deg,#1e293b,#1a1a2e); border-radius:20px 20px 0 0; border:1px solid rgba(99,102,241,0.3); border-bottom:none; }
-    .yup-illus-wrap { border:1px solid rgba(99,102,241,0.2); border-top:none; border-bottom:none; overflow:hidden; }
-    .yup-tag { display:inline-flex; align-items:center; gap:6px; background:rgba(99,102,241,0.14); border:1px solid rgba(99,102,241,0.3); color:#a5b4fc; font-size:0.7rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; padding:4px 12px; border-radius:100px; margin-bottom:14px; }
-    .yup-title { font-size:1.95rem; font-weight:800; color:#f1f5f9; line-height:1.2; margin:0 0 20px; }
-    .yup-verse-box { border-left:3px solid #6366f1; padding:14px 18px; background:rgba(99,102,241,0.07); border-radius:0 12px 12px 0; }
-    .yup-verse-text { font-size:1.02rem; color:#cbd5e1; font-style:italic; line-height:1.7; margin:0; }
-    .yup-verse-ref { font-size:0.76rem; font-weight:700; color:#6366f1; margin-top:7px; letter-spacing:0.05em; }
-    .yup-body { background:#1e293b; padding:30px 34px; border:1px solid rgba(99,102,241,0.2); border-top:none; border-bottom:none; }
-    .yup-section-label { font-size:0.68rem; font-weight:800; letter-spacing:0.16em; text-transform:uppercase; color:#6366f1; margin-bottom:12px; }
-    .yup-reflection p { font-size:0.98rem; color:#cbd5e1; line-height:1.87; margin:0 0 1.15em; }
-    .yup-takeaways { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
-    .yup-takeaways li { display:flex; align-items:flex-start; gap:12px; color:#e2e8f0; font-size:0.94rem; line-height:1.6; }
-    .yup-takeaways li::before { content:''; width:5px; height:5px; border-radius:50%; background:#6366f1; flex-shrink:0; margin-top:9px; }
-    .yup-question { background:rgba(99,102,241,0.09); border:1px solid rgba(99,102,241,0.22); border-radius:12px; padding:18px; font-size:0.97rem; color:#a5b4fc; font-weight:500; font-style:italic; line-height:1.65; }
-    .yup-prayer { font-size:0.94rem; color:#94a3b8; line-height:1.87; font-style:italic; }
-    .yup-mission { display:flex; align-items:flex-start; gap:14px; background:linear-gradient(135deg,rgba(99,102,241,0.14),rgba(99,102,241,0.04)); border:1px solid rgba(99,102,241,0.28); border-radius:12px; padding:16px 18px; }
-    .yup-mission svg { flex-shrink:0; margin-top:2px; color:#6366f1; }
-    .yup-mission-text { font-size:0.94rem; color:#e2e8f0; font-weight:500; line-height:1.6; }
-    .yup-footer { background:#162032; padding:26px 34px 34px; border:1px solid rgba(99,102,241,0.2); border-top:none; border-radius:0 0 20px 20px; }
-    .yup-divider { height:1px; background:rgba(99,102,241,0.14); margin:22px 0; }
+.kids-body { padding:28px 28px 28px 36px; }
+.kids-section-title {
+  display:flex; align-items:center; gap:8px; margin-bottom:12px;
+  font-size:0.68rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#d97706;
+}
+.kids-section-title svg { flex-shrink:0; }
+.kids-story p { font-size:1rem; color:#374151; line-height:1.85; margin:0 0 1em; }
+/* Drop cap on first paragraph */
+.kids-story p:first-child::first-letter {
+  float:left; font-size:3.2rem; font-weight:900; line-height:0.8;
+  color:#f59e0b; margin:4px 8px 0 0; font-family:'Poppins',sans-serif;
+}
+.kids-lessons { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
+.kids-lessons li {
+  display:flex; align-items:flex-start; gap:10px;
+  background:#fefce8; border-radius:10px; padding:11px 14px;
+  font-size:0.93rem; color:#713f12; line-height:1.55;
+  border-left:3px solid #fbbf24;
+}
+.kids-lessons li::before { content:''; width:7px; height:7px; border-radius:50%; background:#fbbf24; flex-shrink:0; margin-top:7px; }
+.kids-challenge {
+  background:#fef2f2; border-radius:10px; padding:14px 18px;
+  font-size:0.95rem; color:#b91c1c; font-weight:600; line-height:1.6;
+  border-left:3px solid #fca5a5;
+}
+.kids-prayer {
+  background:#f0fdf4; border:1px dashed #86efac; border-radius:12px;
+  padding:18px 20px; font-size:0.95rem; color:#166534; line-height:1.85; font-style:italic;
+}
+.kids-fun {
+  background:#eff6ff; border-radius:10px; padding:14px 18px;
+  font-size:0.92rem; color:#1d4ed8; font-weight:500; line-height:1.55;
+  border-left:3px solid #93c5fd;
+}
+.kids-hr { border:none; border-top:2px dashed #fde68a; margin:22px 0; }
 
-    /* ══ PRIMES ══ */
-    .dev-page[data-edition="primes"] { background:linear-gradient(160deg,#fdf8f0 0%,#fef9f0 50%,#fffbf5 100%); }
-    .dev-page[data-edition="primes"] .edition-btn.active { background:#92400e; color:#fef3c7; border-color:#92400e; box-shadow:0 4px 12px #92400e33; }
-    .dev-page[data-edition="primes"] .date-nav-btn:hover { background:#fef3c7; color:#92400e; }
-    .dev-page[data-edition="primes"] .date-display .day-name { color:#92400e; }
-    .dev-page[data-edition="primes"] .date-display .full-date { color:#451a03; font-family:'Merriweather',serif; }
-    .dev-page[data-edition="primes"] .dev-illustration { background:#f5ead4; }
-    .dev-page[data-edition="primes"] .dev-illustration .illus-loading { color:#b45309; }
+/* ════════════════════════
+   YUPPIES — MODERN JOURNAL
+════════════════════════ */
+.dev-page[data-edition="yuppies"] { background:#f0f4f8; }
+.dev-page[data-edition="yuppies"] .edition-bar { background:rgba(240,244,248,0.95); }
+.dev-page[data-edition="yuppies"] .edition-btn { background:#e2e8f0; color:#64748b; }
+.dev-page[data-edition="yuppies"] .edition-btn.active {
+  background:#fff; color:#4f46e5; border-color:#c7d2fe;
+  box-shadow:0 -2px 0 #6366f1 inset;
+}
+.dev-page[data-edition="yuppies"] .date-nav-btn:hover { color:#6366f1; }
+.dev-page[data-edition="yuppies"] .date-display .day-name { color:#6366f1; }
+.dev-page[data-edition="yuppies"] .date-display .full-date { color:#1e293b; }
+.dev-page[data-edition="yuppies"] .book-page { border-left:5px solid #6366f1; }
+.dev-page[data-edition="yuppies"] .book-illus { background:#e0e7ff; min-height:200px; }
+.dev-page[data-edition="yuppies"] .book-illus .illus-loader { color:#6366f1; }
+.dev-page[data-edition="yuppies"] .book-illus-credit { color:#6b7280; }
 
-    .primes-card { max-width:760px; margin:24px auto 60px; padding:0 16px; }
-    .primes-header { padding:44px 38px 32px; background:white; border-radius:20px 20px 0 0; border:1px solid #fde68a; border-bottom:none; text-align:center; }
-    .primes-cross-icon { display:block; margin:0 auto 10px; color:#b45309; }
-    .primes-edition-tag { font-size:0.7rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#b45309; margin-bottom:14px; display:block; }
-    .primes-title { font-family:'Merriweather',serif; font-size:1.75rem; font-weight:700; color:#451a03; line-height:1.3; margin:0 0 22px; }
-    .primes-verse-box { background:#fef9f0; border:1px solid #fde68a; border-radius:12px; padding:18px 26px; text-align:left; }
-    .primes-verse-text { font-family:'Merriweather',serif; font-size:1.02rem; color:#78350f; font-style:italic; line-height:1.75; margin:0; }
-    .primes-verse-ref { font-size:0.78rem; font-weight:700; color:#b45309; margin-top:9px; }
-    .primes-illus-wrap { border:1px solid #fde68a; border-top:none; border-bottom:none; overflow:hidden; }
-    .primes-body { background:white; padding:34px 38px; border:1px solid #fde68a; border-top:none; border-bottom:none; }
-    .primes-section-label { font-size:0.68rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#b45309; margin-bottom:14px; }
-    .primes-reflection p { font-family:'Merriweather',serif; font-size:0.96rem; color:#44403c; line-height:2; margin:0 0 1.3em; }
-    .primes-wisdom { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px; }
-    .primes-wisdom li { display:flex; align-items:flex-start; gap:14px; padding:14px 18px; background:#fef9f0; border-radius:10px; border-left:3px solid #b45309; font-size:0.94rem; color:#44403c; line-height:1.65; }
-    .primes-wisdom li::before { content:''; width:6px; height:6px; border-radius:50%; background:#b45309; flex-shrink:0; margin-top:7px; }
-    .primes-family-q { display:flex; flex-direction:column; gap:12px; }
-    .primes-family-q .fq-item { display:flex; align-items:flex-start; gap:12px; }
-    .primes-family-q .fq-num { width:26px; height:26px; border-radius:50%; background:#92400e; color:#fef3c7; font-size:0.76rem; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-    .primes-family-q .fq-text { font-size:0.94rem; color:#44403c; line-height:1.62; padding-top:3px; font-style:italic; }
-    .primes-prayer { font-family:'Merriweather',serif; font-size:0.93rem; color:#78350f; line-height:2; font-style:italic; }
-    .primes-act { display:flex; align-items:center; gap:14px; background:linear-gradient(135deg,#fef9f0,#fffbf0); border:1px solid #fde68a; border-radius:12px; padding:18px 22px; }
-    .primes-act svg { flex-shrink:0; color:#b45309; }
-    .primes-act-text { font-size:0.94rem; color:#44403c; font-weight:500; line-height:1.62; }
-    .primes-footer { background:#fef9f0; padding:26px 38px 38px; border:1px solid #fde68a; border-top:none; border-radius:0 0 20px 20px; }
-    .primes-divider { height:1px; background:linear-gradient(90deg,transparent,#fde68a,transparent); margin:26px 0; }
+.yup-page { background:#fff; }
+.yup-header { padding:32px 32px 26px 40px; border-bottom:1px solid #f1f5f9; }
+.yup-tag {
+  display:inline-block; font-size:0.65rem; font-weight:800; letter-spacing:0.18em;
+  text-transform:uppercase; color:#6366f1; background:#eef2ff;
+  padding:3px 10px; border-radius:4px; margin-bottom:12px;
+}
+.yup-title { font-size:1.85rem; font-weight:800; color:#0f172a; line-height:1.2; margin:0 0 20px; }
+.yup-verse-block {
+  border-left:4px solid #6366f1; padding:14px 20px;
+  background:#f8f9ff; border-radius:0 8px 8px 0;
+}
+.yup-verse-text { font-size:1rem; color:#334155; font-style:italic; line-height:1.7; margin:0; font-family:'Lora',serif; }
+.yup-verse-ref { font-size:0.75rem; font-weight:700; color:#6366f1; margin-top:7px; letter-spacing:0.05em; }
 
-    @media(max-width:600px){
-      .yup-header,.yup-body,.yup-footer{ padding-left:18px;padding-right:18px; }
-      .primes-header,.primes-body,.primes-footer{ padding-left:18px;padding-right:18px; }
-      .yup-title{ font-size:1.5rem; }
-      .primes-title{ font-size:1.35rem; }
-      .kids-header,.kids-section{ padding-left:16px;padding-right:16px; }
-    }
+.yup-body { padding:30px 32px 30px 40px; }
+.yup-label { font-size:0.63rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; color:#6366f1; margin-bottom:12px; }
+.yup-reflection p { font-size:0.97rem; color:#334155; line-height:1.9; margin:0 0 1.1em; font-family:'Lora',serif; }
+.yup-reflection p:first-child::first-letter {
+  float:left; font-size:3rem; font-weight:700; line-height:0.82;
+  color:#6366f1; margin:4px 8px 0 0; font-family:'Poppins',sans-serif;
+}
+.yup-takeaways { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:9px; }
+.yup-takeaways li {
+  display:flex; align-items:flex-start; gap:12px;
+  color:#374151; font-size:0.93rem; line-height:1.65;
+  padding:10px 14px; background:#f8fafc; border-radius:6px; border-left:3px solid #c7d2fe;
+}
+.yup-takeaways li::before { content:''; width:5px; height:5px; border-radius:50%; background:#6366f1; flex-shrink:0; margin-top:8px; }
+.yup-question {
+  background:#fafafa; border:1px solid #e2e8f0; border-radius:8px;
+  padding:18px 20px; font-size:0.97rem; color:#374151;
+  font-style:italic; line-height:1.65; font-family:'Lora',serif;
+}
+.yup-prayer { font-size:0.93rem; color:#475569; line-height:1.9; font-style:italic; font-family:'Lora',serif; }
+.yup-mission {
+  display:flex; align-items:flex-start; gap:14px;
+  background:#eef2ff; border-radius:8px; padding:16px 18px;
+  border-left:3px solid #6366f1;
+}
+.yup-mission svg { flex-shrink:0; color:#6366f1; margin-top:2px; }
+.yup-mission-text { font-size:0.93rem; color:#1e293b; font-weight:500; line-height:1.6; }
+.yup-footer { padding:26px 32px 34px 40px; background:#fafbff; border-top:1px solid #f1f5f9; }
+.yup-hr { border:none; border-top:1px solid #e2e8f0; margin:22px 0; }
+
+/* ════════════════════════
+   PRIMES — CLASSIC VOLUME
+════════════════════════ */
+.dev-page[data-edition="primes"] { background:linear-gradient(160deg,#fdf6e3 0%,#fdf3dc 60%,#faf5e8 100%); }
+.dev-page[data-edition="primes"] .edition-bar { background:rgba(253,246,227,0.95); }
+.dev-page[data-edition="primes"] .edition-btn { background:#f5ead4; color:#78350f; }
+.dev-page[data-edition="primes"] .edition-btn.active {
+  background:#fffdf7; color:#92400e; border-color:#fcd34d;
+  box-shadow:0 -2px 0 #b45309 inset;
+}
+.dev-page[data-edition="primes"] .date-nav-btn:hover { color:#b45309; }
+.dev-page[data-edition="primes"] .date-display .day-name { color:#92400e; }
+.dev-page[data-edition="primes"] .date-display .full-date { color:#3c1a00; font-family:'Merriweather',serif; }
+.dev-page[data-edition="primes"] .book-page { border-left:5px solid #b45309; }
+.dev-page[data-edition="primes"] .book-illus { background:#f5ead4; min-height:200px; }
+.dev-page[data-edition="primes"] .book-illus .illus-loader { color:#b45309; }
+.dev-page[data-edition="primes"] .book-illus-credit { color:#92400e; }
+
+.primes-page { background:#fffdf7; }
+.primes-header { padding:40px 36px 30px 44px; text-align:center; border-bottom:1px solid #fde68a; }
+.primes-ornament { font-size:1.1rem; color:#b45309; letter-spacing:0.3em; display:block; margin-bottom:10px; opacity:0.7; }
+.primes-edition-tag { font-size:0.65rem; font-weight:700; letter-spacing:0.22em; text-transform:uppercase; color:#b45309; margin-bottom:14px; display:block; opacity:0.75; }
+.primes-title { font-family:'Merriweather',serif; font-size:1.65rem; font-weight:700; color:#3c1a00; line-height:1.35; margin:0 0 22px; }
+.primes-verse-wrap { max-width:520px; margin:0 auto; text-align:left; }
+.primes-rule { border:none; border-top:1px solid #fcd34d; margin:0 0 16px; }
+.primes-verse-text { font-family:'Merriweather',serif; font-size:1rem; color:#78350f; font-style:italic; line-height:1.8; margin:0; }
+.primes-verse-ref { font-size:0.75rem; font-weight:700; color:#b45309; margin-top:10px; letter-spacing:0.06em; }
+
+.primes-body { padding:34px 36px 34px 44px; }
+.primes-label { font-size:0.63rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#b45309; margin-bottom:14px; opacity:0.8; }
+.primes-reflection p { font-family:'Merriweather',serif; font-size:0.96rem; color:#44403c; line-height:2.05; margin:0 0 1.3em; }
+.primes-reflection p:first-child::first-letter {
+  float:left; font-size:3.4rem; font-weight:700; line-height:0.8;
+  color:#b45309; margin:5px 10px 0 0; font-family:'Merriweather',serif;
+}
+.primes-wisdom { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:12px; }
+.primes-wisdom li {
+  display:flex; align-items:flex-start; gap:12px;
+  padding:14px 18px; background:#fef9f0; border-radius:6px;
+  border-left:3px solid #b45309; font-family:'Merriweather',serif;
+  font-size:0.93rem; color:#44403c; line-height:1.7;
+}
+.primes-wisdom li::before { content:''; width:5px; height:5px; border-radius:50%; background:#b45309; flex-shrink:0; margin-top:8px; }
+.primes-family-q { display:flex; flex-direction:column; gap:14px; }
+.primes-fq-item { display:flex; align-items:flex-start; gap:12px; }
+.primes-fq-num {
+  width:26px; height:26px; flex-shrink:0; border-radius:50%;
+  background:#92400e; color:#fef3c7; font-size:0.72rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.primes-fq-text { font-family:'Merriweather',serif; font-size:0.93rem; color:#44403c; line-height:1.7; font-style:italic; padding-top:3px; }
+.primes-prayer { font-family:'Merriweather',serif; font-size:0.93rem; color:#78350f; line-height:2.05; font-style:italic; }
+.primes-act {
+  display:flex; align-items:flex-start; gap:14px;
+  background:#fef9f0; border:1px solid #fde68a; border-radius:8px; padding:16px 20px;
+}
+.primes-act svg { flex-shrink:0; color:#b45309; margin-top:2px; }
+.primes-act-text { font-family:'Merriweather',serif; font-size:0.93rem; color:#44403c; line-height:1.7; }
+.primes-footer { padding:28px 36px 38px 44px; background:#fef9f0; border-top:1px solid #fde68a; }
+.primes-hr { border:none; border-top:1px solid #fde68a; margin:26px 0; }
+/* Ornamental divider */
+.primes-ornament-hr { text-align:center; margin:24px 0; color:#d97706; font-size:0.85rem; letter-spacing:0.4em; opacity:0.5; }
+
+@media(max-width:600px){
+  .kids-body,.kids-chap-banner { padding-left:22px; padding-right:18px; }
+  .yup-header,.yup-body,.yup-footer { padding-left:22px; padding-right:18px; }
+  .primes-header,.primes-body,.primes-footer { padding-left:22px; padding-right:18px; }
+  .yup-title { font-size:1.5rem; }
+  .primes-title { font-size:1.35rem; }
+  .kids-title { font-size:1.3rem; }
+}
   </style>
 </head>
 <body>
@@ -238,456 +343,257 @@
 <!-- PAGE -->
 <div class="dev-page" id="devPage" data-edition="kids">
 
+  <!-- Edition tabs (bookmark style) -->
   <div class="edition-bar">
     <button class="edition-btn active" id="btnKids" onclick="setEdition('kids')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       Kids
     </button>
     <button class="edition-btn" id="btnYuppies" onclick="setEdition('yuppies')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg>
       Yuppies
     </button>
     <button class="edition-btn" id="btnPrimes" onclick="setEdition('primes')">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
       Primes
     </button>
   </div>
 
+  <!-- Date navigator -->
   <div class="date-nav">
     <button class="date-nav-btn" onclick="shiftDay(-1)" title="Previous day">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
     <div class="date-display">
       <div class="day-name" id="devDayName"></div>
       <div class="full-date" id="devFullDate"></div>
     </div>
     <button class="date-nav-btn" onclick="shiftDay(1)" title="Next day">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
   </div>
 
   <div id="devContent"></div>
-
 </div>
 
 <script>
-/* ══ WIKIMEDIA IMAGE LOADER ══
-   Searches Wikimedia Commons for a relevant public-domain artwork
-   and populates the illustration slot once loaded.                 */
+/* ══ WIKIMEDIA IMAGE LOADER ══ */
 function loadWikiImage(query, containerId, creditId) {
-  var searchUrl = 'https://commons.wikimedia.org/w/api.php?action=query' +
-    '&list=search&srsearch=' + encodeURIComponent(query) +
-    '&srnamespace=6&format=json&origin=*&srlimit=3&srqiprofile=classic_noboostlinks';
-
-  fetch(searchUrl)
+  var url = 'https://commons.wikimedia.org/w/api.php?action=query&list=search' +
+    '&srsearch=' + encodeURIComponent(query) +
+    '&srnamespace=6&format=json&origin=*&srlimit=5';
+  fetch(url)
     .then(function(r){ return r.json(); })
     .then(function(data){
       var results = (data.query && data.query.search) || [];
-      if (!results.length) return;
-      /* prefer JPG/PNG results */
       var hit = results.find(function(r){ return /\.(jpg|jpeg|png)/i.test(r.title); }) || results[0];
-      var title = hit.title;
+      if (!hit) { hideIllus(containerId, creditId); return; }
       var infoUrl = 'https://commons.wikimedia.org/w/api.php?action=query' +
-        '&titles=' + encodeURIComponent(title) +
-        '&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=900' +
-        '&format=json&origin=*';
-      return fetch(infoUrl)
-        .then(function(r){ return r.json(); })
-        .then(function(idata){
-          var pages = idata.query && idata.query.pages;
-          if (!pages) return;
-          var page = pages[Object.keys(pages)[0]];
-          if (!page.imageinfo || !page.imageinfo[0]) return;
-          var info = page.imageinfo[0];
-          var thumb = info.thumburl;
-          if (!thumb) return;
-          var container = document.getElementById(containerId);
-          if (!container) return;
-          var img = container.querySelector('img');
-          var loading = container.querySelector('.illus-loading');
-          img.onload = function(){
-            img.classList.add('loaded');
-            if (loading) loading.style.display = 'none';
-          };
-          img.onerror = function(){
-            container.style.display = 'none';
-            var creditEl = document.getElementById(creditId);
-            if (creditEl) creditEl.style.display = 'none';
-          };
-          img.src = thumb;
-          img.alt = title.replace('File:','').replace(/_/g,' ').replace(/\.[^.]+$/,'');
-          /* attribution */
-          var meta = info.extmetadata || {};
-          var artist = (meta.Artist && meta.Artist.value) || '';
-          var creditEl = document.getElementById(creditId);
-          if (creditEl) {
-            var cleanArtist = artist.replace(/<[^>]+>/g,'').trim();
-            creditEl.textContent = cleanArtist
-              ? 'Illustration: ' + cleanArtist + ' — Wikimedia Commons (Public Domain)'
-              : 'Illustration: Wikimedia Commons (Public Domain)';
-          }
-        });
-    })
-    .catch(function(){
-      var container = document.getElementById(containerId);
-      if (container) container.style.display = 'none';
-      var creditEl = document.getElementById(creditId);
-      if (creditEl) creditEl.style.display = 'none';
-    });
+        '&titles=' + encodeURIComponent(hit.title) +
+        '&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=900&format=json&origin=*';
+      return fetch(infoUrl).then(function(r){ return r.json(); }).then(function(d){
+        var pages = d.query && d.query.pages;
+        if (!pages) { hideIllus(containerId, creditId); return; }
+        var page = pages[Object.keys(pages)[0]];
+        if (!page.imageinfo || !page.imageinfo[0]) { hideIllus(containerId, creditId); return; }
+        var info = page.imageinfo[0];
+        if (!info.thumburl) { hideIllus(containerId, creditId); return; }
+        var c = document.getElementById(containerId);
+        if (!c) return;
+        var img = c.querySelector('img');
+        var ldr = c.querySelector('.illus-loader');
+        img.onload = function(){ img.classList.add('loaded'); if(ldr) ldr.style.display='none'; };
+        img.onerror = function(){ hideIllus(containerId, creditId); };
+        img.src = info.thumburl;
+        img.alt = hit.title.replace('File:','').replace(/_/g,' ').replace(/\.[^.]+$/,'');
+        var meta = info.extmetadata || {};
+        var artist = ((meta.Artist && meta.Artist.value) || '').replace(/<[^>]+>/g,'').trim();
+        var creditEl = document.getElementById(creditId);
+        if (creditEl) creditEl.textContent = (artist ? artist + ' — ' : '') + 'Wikimedia Commons (Public Domain)';
+      });
+    }).catch(function(){ hideIllus(containerId, creditId); });
+}
+function hideIllus(cid, rid) {
+  var c = document.getElementById(cid); if(c) c.style.display='none';
+  var r = document.getElementById(rid); if(r) r.style.display='none';
 }
 
 /* ══ DATA ══ */
-/* imgQuery is the Wikimedia Commons search term for public-domain artwork */
 var kidsDevotions = [
-  { /* 0 Sun */
-    title: "God's Word Is Your Light",
-    verse: '"Your word is a lamp to my feet and a light to my path."',
-    ref: 'Psalm 119:105',
-    imgQuery: 'Jesus teaching children painting bible illustration',
-    story: 'Have you ever tried to walk around your house at night when all the lights are off? It is really scary! You might bump into the couch, trip on a toy, or not know where to go. But the moment you turn on a flashlight, everything changes! You can see exactly where to step. You know where to walk. You feel safe!\n\nGod\'s Word — the Bible — is exactly like that flashlight. Our life can sometimes feel dark and confusing. We might not know what to do, which friend to trust, or how to make the right choice. But when we read the Bible and listen to God\'s words, He shows us the right path to take!\n\nJust like a flashlight needs batteries to work, we need to spend time reading and listening to God\'s Word to keep our hearts bright and our path clear. The more we know God\'s Word, the better we can make good choices every single day.',
-    lessons: [
-      "God's Word guides us when we feel lost or confused",
-      'Reading the Bible helps us make good choices in life',
-      "God's Word lights up our path so we never have to feel alone in the dark"
-    ],
-    challenge: "Ask your parent or guardian to read one Bible verse with you tonight before bed. Let it be your light for tomorrow!",
-    prayer: "Dear God, thank You for giving us the Bible — Your special letter to us! Help me to read it, understand it, and follow it every day. When I feel confused or scared, remind me that Your Word is my light. Show me the right path to walk on. I want to follow You with my whole heart. Amen.",
-    fun: "The Bible has 66 books — that is a LOT of light to guide you every single day of the year!"
-  },
-  { /* 1 Mon */
-    title: 'You Are Never Alone',
-    verse: '"Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go."',
-    ref: 'Joshua 1:9',
-    imgQuery: 'Good Shepherd Jesus painting lamb',
-    story: 'Going somewhere new — a new school, a new place, or even a new class — can feel really scary! Your tummy might feel funny, your hands might feel sweaty, and you might really wish you could just stay home.\n\nBut here is God\'s amazing promise: He says He will be with you EVERYWHERE you go! That means God is with you in the classroom, on the playground, at the bus stop, and even when you are hiding under your blanket feeling sad.\n\nGod never leaves you — not for one single second. He is like a best friend who walks right beside you everywhere, even when you cannot see Him. He is closer than your shadow! So the next time you feel scared or alone, take a big deep breath, close your eyes, and say: "God is with me." Because He truly is — always and forever!',
-    lessons: [
-      "God is always by your side, even when you feel completely alone",
-      "You can talk to God anytime — He is always listening",
-      "God's presence makes even the scariest moments feel safer"
-    ],
-    challenge: "Today when you feel nervous about something, whisper quietly: \"God is with me!\" and notice how the fear gets smaller.",
-    prayer: "Dear God, sometimes things feel really scary and I feel all alone. Thank You for Your promise to always be with me. Help me to remember that You walk beside me every single day — at school, at home, and everywhere I go. When I feel afraid, remind my heart that You are right here. I love You, God! Amen.",
-    fun: "A shepherd stays with his sheep all day and all night. God is YOUR shepherd — and He never, ever leaves."
-  },
-  { /* 2 Tue */
-    title: 'Be a Kindness Hero',
-    verse: '"Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you."',
-    ref: 'Ephesians 4:32',
-    imgQuery: 'Good Samaritan painting helping wounded man road',
-    story: 'Every hero has a special power. But did you know that YOU have a superpower too? It is called KINDNESS — and it is one of the most powerful things in the whole world!\n\nKindness means smiling at someone who looks sad. It means sharing your snack with someone who forgot theirs. It means saying sorry when you hurt someone\'s feelings, and forgiving others when they hurt yours.\n\nHere is the amazing thing about kindness — it is contagious! When you are kind to one person, that person feels so happy that they are kind to someone else, and that person is kind to another, and it keeps spreading! God is so kind to us every single day. He gives us food, family, health, and love. Being kind to others is our way of sharing God\'s love with the whole world.',
-    lessons: [
-      "Kindness is a superpower that can change someone's entire day",
-      "When someone is mean to us, God wants us to forgive — just like He forgives us",
-      "Kindness is contagious — one act of kindness can spread to many, many people"
-    ],
-    challenge: "Do one secret act of kindness today — share something, help someone without being asked, or say something encouraging to a friend.",
-    prayer: "Dear God, thank You for being so kind and gentle with me every day. Help me to show kindness to everyone I meet — my friends, my teachers, my family, and even people who are sometimes mean to me. Give me a big, soft heart that loves like You love. Amen.",
-    fun: "Scientists discovered that doing kind things makes YOUR brain happier too. Kindness is a superpower for both people!"
-  },
-  { /* 3 Wed */
-    title: 'God Always Hears You',
-    verse: '"Ask and it will be given to you; seek and you will find; knock and the door will be opened to you."',
-    ref: 'Matthew 7:7',
-    imgQuery: 'child kneeling praying painting religious',
-    story: 'Have you ever called someone on the phone and they did not answer? Or you sent a message and had to wait a long, long time for a reply? Waiting can feel really frustrating!\n\nBut talking to God is completely different! God\'s line is never busy. He never misses your call. He never puts you on hold. He always has time for you — no matter what time of day or night, no matter how big or small your problem is.\n\nJesus says, "Ask and it will be given to you." That means God WANTS us to bring everything to Him! Your difficult test. Your friendship trouble. Your worry about someone you love being far away. Nothing is too small or too big for God to hear. He is always, always listening — with His full attention on YOU.',
-    lessons: [
-      "God hears every prayer — even the ones you whisper quietly in your heart",
-      "You can talk to God about absolutely anything, big or small",
-      "God always answers prayers in the best way, even if the answer is to wait"
-    ],
-    challenge: "Write or draw one prayer today. Keep it somewhere special and watch over the coming days how God answers it!",
-    prayer: "Dear God, thank You for always hearing me when I talk to You. I know You listen to every word and every thought. Today I bring You my worries and wishes. Please answer my prayers in the way You know is best for me. Help me to trust You even when I have to wait. Amen.",
-    fun: "God has never once missed a prayer. Not one — in the entire history of the world!"
-  },
-  { /* 4 Thu */
-    title: 'Sharing Makes Your Heart Bigger',
-    verse: '"Give, and it will be given to you. A good measure, pressed down, shaken together and running over, will be poured into your lap."',
-    ref: 'Luke 6:38',
-    imgQuery: 'feeding five thousand miracle bread fish painting',
-    story: 'Do you know the story of a boy who shared his lunch? He only had five small loaves of bread and two tiny fish. That was not much food at all! But when he gave it to Jesus, something miraculous happened. Jesus took that little lunch and fed over FIVE THOUSAND people — and there were even leftovers!\n\nSharing might seem like it makes you have LESS. But God says the opposite is true! When we share, He blesses us with even MORE — not always more food or toys, but more joy, more friendship, more love, and more of God\'s blessings in our life.\n\nYou have so much to share: your smile, your time, your snacks, your toys, your kind words, your help. Every time you choose to share with someone who needs it, you are being just like Jesus.',
-    lessons: [
-      "Sharing is a way of trusting God to always give us enough",
-      "Even small gifts, given with love, can become something miraculous",
-      "When you give generously, God's blessings flow back to you"
-    ],
-    challenge: "Share something today — your snack, your time, your toys, or your smile — with someone who needs a little more joy.",
-    prayer: "Dear God, thank You for giving me so many good things every day. Help me to be generous and share what I have with others, even when it feels hard. I want to trust that You will always give me enough. Teach me to give like You give — with a happy, open heart. Amen.",
-    fun: "A smile is the one thing that gets bigger the more you share it — and it is completely free!"
-  },
-  { /* 5 Fri */
-    title: 'You Are Deeply Loved',
-    verse: '"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."',
-    ref: 'John 3:16',
-    imgQuery: 'Jesus blessing children suffer little ones painting',
-    story: 'Sometimes you might feel like you are not smart enough, not pretty enough, not fast enough, or not good enough. Maybe you got a bad grade on a test. Maybe someone said something mean about you. Maybe you made a big mistake and felt really ashamed.\n\nHere is the most important thing you will ever hear: Jesus loves you EXACTLY the way you are. Not when you are perfect. Not when everyone likes you. Not when you get everything right. RIGHT NOW — with your bad days and your mistakes — Jesus loves you with His whole heart.\n\nGod loved you so much that He sent Jesus, His one and only Son, to come to Earth just for you. You are not ordinary. You are God\'s masterpiece. You are irreplaceable. You are deeply, completely, forever loved.',
-    lessons: [
-      "You are loved by God exactly the way you are — right now, today",
-      "Nothing you do or do not do can ever make God stop loving you",
-      "Jesus thinks you are so precious that He gave everything for you"
-    ],
-    challenge: "Look in a mirror today and say out loud: \"I am loved by God!\" Say it three times — because it is absolutely true!",
-    prayer: "Dear Jesus, thank You for loving me so much! Sometimes I forget that I am valuable and loved. Remind my heart today that I am Your masterpiece — not because of what I do, but because of who You are. Help me to feel Your love especially when I feel sad. I love You, Jesus! Amen.",
-    fun: "God knows exactly how many hairs are on your head — even on a messy hair day! That is how well He knows and loves you."
-  },
-  { /* 6 Sat */
-    title: 'Be Brave — God Gives You Strength',
-    verse: '"I can do all this through him who gives me strength."',
-    ref: 'Philippians 4:13',
-    imgQuery: 'David Goliath painting battle biblical',
-    story: 'David was just a young shepherd boy — short, not famous, definitely not a trained soldier. But when a GIANT named Goliath threatened his people, all the big, trained soldiers were too scared to fight. Except David.\n\nDavid did not have a sword or armor. He had a slingshot and five small stones. But David had something even more powerful — he had GOD on his side! With one stone and a lot of faith, David hit Goliath right between the eyes. The giant fell. Everyone was amazed.\n\nYou might not face a real giant — but you face things that FEEL like giants! A really hard test. A scary new situation. A bully who will not leave you alone. Just like David, you can face YOUR giants with God\'s strength. You do not have to be the biggest or smartest. You just have to trust God.',
-    lessons: [
-      "God's strength inside you is bigger than any problem you will ever face",
-      "Bravery is not having no fear — it is choosing to trust God even when you are scared",
-      "God uses ordinary people to do extraordinary things when they trust Him"
-    ],
-    challenge: "Face one scary thing today. Take the brave step, say a quick prayer, and celebrate when you conquer your giant!",
-    prayer: "Dear God, sometimes things feel too big and too hard for me. I feel small and not strong enough. But YOU are my strength! Give me the courage to face my giants today. Help me to remember that I can do anything through You. I trust You, God! Amen.",
-    fun: "David was probably around 12 to 15 years old when he defeated Goliath. God uses young people too — including you!"
-  }
+  { title:"God's Word Is Your Light",
+    verse:'"Your word is a lamp to my feet and a light to my path."', ref:'Psalm 119:105',
+    imgQuery:'Jesus teaching children Tissot suffer little children painting watercolor',
+    story:'Have you ever tried to walk around your house at night when all the lights are off? It is really scary! You might bump into the couch, trip on a toy, or not know where to go. But the moment you turn on a flashlight, everything changes — you can see exactly where to step, you know where to walk, and you feel safe!\n\nGod\'s Word — the Bible — is exactly like that flashlight. Our life can sometimes feel dark and confusing. We might not know what to do, which friend to trust, or how to make the right choice. But when we read the Bible and listen to God\'s words, He shows us the right path to take!\n\nJust like a flashlight needs batteries to work, we need to spend time reading God\'s Word every day to keep our hearts bright and our path clear.',
+    lessons:["God's Word guides us when we feel lost or confused","Reading the Bible helps us make good choices every day","God's Word lights up our path so we never have to walk in the dark alone"],
+    challenge:"Ask your parent or guardian to read one Bible verse with you tonight before bed. Let it be your light for tomorrow!",
+    prayer:"Dear God, thank You for giving us the Bible — Your special letter to us! Help me to read it and follow it every day. When I feel confused or scared, remind me that Your Word is my light. Show me the right path to walk on. I want to follow You with my whole heart. Amen.",
+    fun:"The Bible has 66 books — that is a LOT of light to guide you every single day of the year!" },
+  { title:'You Are Never Alone',
+    verse:'"Be strong and courageous. Do not be afraid, for the Lord your God will be with you wherever you go."', ref:'Joshua 1:9',
+    imgQuery:'Jesus good shepherd children lamb painting Plockhorst',
+    story:'Going somewhere new — a new school, a new place, or even a new class — can feel really scary! Your tummy might feel funny, your hands might feel sweaty, and you might really wish you could just stay home.\n\nBut here is God\'s amazing promise: He says He will be with you EVERYWHERE you go! That means God is with you in the classroom, on the playground, at the bus stop, and even when you are hiding under your blanket feeling sad.\n\nGod never leaves you — not for one single second. He is like the best friend who walks right beside you everywhere, even when you cannot see Him. He is closer than your shadow! So the next time you feel scared or alone, take a big deep breath and say: "God is with me." Because He truly is — always!',
+    lessons:["God is always by your side, even when you feel completely alone","You can talk to God anytime — He is always, always listening","God's presence makes even the scariest moments feel safer"],
+    challenge:'Today when you feel nervous about something, whisper quietly: "God is with me!" and notice how the fear gets smaller.',
+    prayer:"Dear God, sometimes things feel really scary and I feel all alone. Thank You for Your promise to always be with me wherever I go. Help me to remember that You walk beside me every single day — at school, at home, everywhere. When I feel afraid, remind my heart that You are right here. I love You, God! Amen.",
+    fun:"A shepherd stays with his sheep all day and all night, through sunshine and storms. God is YOUR shepherd — and He never, ever leaves." },
+  { title:'Be a Kindness Hero',
+    verse:'"Be kind to one another, tenderhearted, forgiving one another, as God in Christ forgave you."', ref:'Ephesians 4:32',
+    imgQuery:'Jesus children playing disciples painting Sunday school illustration',
+    story:'Did you know that YOU have a superpower? It is called KINDNESS — and it is one of the most powerful things in the whole wide world!\n\nKindness means smiling at someone who looks sad. It means sharing your snack with someone who forgot theirs. It means saying sorry when you hurt someone\'s feelings, and forgiving others when they hurt yours.\n\nHere is the amazing thing about kindness — it is contagious! When you are kind to one person, that person feels so happy that they are kind to someone else, and that person is kind to another, and it keeps spreading like a beautiful chain. God is so kind to us every single day. He gives us food, family, health, and love. Being kind to others is our way of passing God\'s love around the whole world.',
+    lessons:["Kindness is a superpower that can change someone's entire day","When someone is mean to us, God wants us to forgive — just like He forgives us","Kindness is contagious — one small act can spread to hundreds of people!"],
+    challenge:"Do one secret act of kindness today — share something, help someone without being asked, or say something encouraging to a friend.",
+    prayer:"Dear God, thank You for being so kind and gentle with me every day. Help me to show kindness to everyone I meet — my friends, my teachers, my family, and even people who are sometimes mean to me. Give me a big, soft heart that loves like You love. Make me a kindness hero today! Amen.",
+    fun:"Scientists discovered that doing kind things makes YOUR brain happier too. Kindness is a superpower for both people at the same time!" },
+  { title:'God Always Hears You',
+    verse:'"Ask and it will be given to you; seek and you will find; knock and the door will be opened to you."', ref:'Matthew 7:7',
+    imgQuery:'child praying bedside hands painting Victorian illustration bible',
+    story:'Have you ever called someone on the phone and they did not answer? Or sent a message and waited a long, long time for a reply? Waiting can feel really frustrating!\n\nBut talking to God is completely different! God\'s line is never busy. He never misses your call. He never puts you on hold. He always, always has time for you — no matter what time of day or night, no matter how big or small your problem is.\n\nJesus says, "Ask and it will be given to you." That means God WANTS us to bring everything to Him! Your difficult test, your friendship trouble, your worry about someone you love being far away. Nothing is too small or too big for God to hear. He is always listening — with His full attention on YOU.',
+    lessons:["God hears every prayer — even the ones you whisper quietly in your heart","You can talk to God about absolutely anything, big or small","God always answers prayers in the very best way, even if the answer is to wait"],
+    challenge:"Write or draw one prayer today. Keep it somewhere special and watch over the coming days how God answers it!",
+    prayer:"Dear God, thank You for always hearing me when I talk to You. I know You listen to every word and every thought. Today I bring You my worries and my wishes. Please answer my prayers in the way You know is best for me. Help me to trust You even when I have to wait. Amen.",
+    fun:"God has never once missed a prayer in all of history. Not one! His listening never breaks down." },
+  { title:'Sharing Makes Your Heart Bigger',
+    verse:'"Give, and it will be given to you. A good measure, pressed down, shaken together and running over, will be poured into your lap."', ref:'Luke 6:38',
+    imgQuery:'miracle loaves fishes boy Jesus painting crowd Murillo feeding five thousand',
+    story:'Do you know the story of a boy who shared his lunch? He only had five small loaves of bread and two tiny fish. That was not much food at all! But when he gave it to Jesus, something miraculous happened. Jesus took that little lunch and fed over FIVE THOUSAND people — and there were even leftovers!\n\nSharing might seem like it makes you have LESS. But God says the opposite is true! When we share, He blesses us with even MORE — not always more food or toys, but more joy, more friendship, more love, and more of God\'s amazing blessings.\n\nYou have so much to share: your smile, your time, your snacks, your toys, your kind words, your help. Every time you choose to share with someone who needs it, you are being just like Jesus — and that is the best thing in the world to be!',
+    lessons:["Sharing is a way of trusting God to always give us enough","Even small gifts, given with love, can become something miraculous","When you give generously, God's blessings always flow back to you"],
+    challenge:"Share something today — your snack, your time, your toys, or your smile — with someone who needs a little more joy.",
+    prayer:"Dear God, thank You for giving me so many good things every day. Help me to be generous and share what I have with others, even when it feels hard. I want to trust that You will always give me enough. Teach me to give like You give — with a happy, wide-open heart. Amen.",
+    fun:"A smile is the one thing that gets bigger the more you share it — and it is completely free!" },
+  { title:'You Are Deeply, Completely Loved',
+    verse:'"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."', ref:'John 3:16',
+    imgQuery:'Jesus blessing children painting crowd arms Vogel watercolor illustration',
+    story:'Sometimes you might feel like you are not smart enough, not pretty enough, not fast enough, or not good enough. Maybe you got a bad grade on a test. Maybe someone said something mean about you. Maybe you made a big mistake and felt really ashamed.\n\nHere is the most important thing you will ever hear in your whole life: Jesus loves you EXACTLY the way you are. Not when you are perfect. Not when everyone likes you. Not when you get everything right. RIGHT NOW — with your bad days and your mistakes — Jesus loves you with His whole heart.\n\nGod loved you so much that He sent Jesus, His one and only Son, to come to Earth just for you. You are not ordinary. You are God\'s masterpiece. You are irreplaceable and you are deeply, completely, forever loved.',
+    lessons:["You are loved by God exactly the way you are — right now, today","Nothing you do or do not do can ever make God stop loving you","Jesus thinks you are so precious that He gave absolutely everything for you"],
+    challenge:'Look in a mirror today and say out loud: "I am loved by God!" Say it three times — because it is 100% true!',
+    prayer:"Dear Jesus, thank You for loving me so much! Sometimes I forget that I am valuable and deeply loved. Remind my heart today that I am Your masterpiece — not because of what I do, but because of who You are. Help me to feel Your love especially when I feel sad or not good enough. I love You, Jesus! Amen.",
+    fun:"God knows exactly how many hairs are on your head — even on your messiest hair day! That is how personally and completely He knows and loves you." },
+  { title:'Be Brave — God Gives You Strength',
+    verse:'"I can do all this through him who gives me strength."', ref:'Philippians 4:13',
+    imgQuery:'David Goliath painting stone sling battle Osmar Schindler biblical illustration',
+    story:'David was just a young shepherd boy — short, not famous, definitely not a trained soldier. But when a GIANT named Goliath threatened his people, all the big, trained soldiers were too scared to fight. Except David.\n\nDavid did not have a sword or armor. He had a slingshot and five small stones. But David had something even more powerful — he had GOD on his side! With one stone and a lot of faith, David hit Goliath right between the eyes. The giant fell down. And everyone was amazed.\n\nYou might not face a real giant — but you face things that FEEL like giants! A really hard test, a scary new situation, a bully who will not leave you alone. Just like David, you can face YOUR giants with God\'s strength. You do not have to be the biggest or the smartest. You just have to trust God.',
+    lessons:["God's strength inside you is bigger than any problem you will ever face","Bravery is not having no fear — it is choosing to trust God even when you are scared","God uses ordinary people to do extraordinary things when they trust Him"],
+    challenge:"Face one scary thing today. Take the brave step, say a quick prayer, and celebrate when you conquer your giant!",
+    prayer:"Dear God, sometimes things feel too big and too hard for me. I feel small and not strong enough. But YOU are my strength! Give me the courage to face my giants today. Help me to remember that I can do anything through You. I trust You, God! Amen.",
+    fun:"David was probably around 12 to 15 years old when he defeated Goliath. God uses young people too — including you!" }
 ];
 
 var yuppiesDevotions = [
-  { /* 0 Sun */
-    tag: 'WORK & WORSHIP',
-    title: 'Your Work Is Your Worship',
-    verse: '"Whatever you do, work at it with all your heart, as working for the Lord, not for human masters."',
-    ref: 'Colossians 3:23',
-    imgQuery: 'disciples fishermen painting Jesus calling lake',
-    reflection: 'You have been grinding all week. Overtime hours, demanding clients, targets that keep climbing. By Sunday, the exhaustion is real. And yet here you are, getting ready to face another week. Before you do — let us change how you see Monday.\n\nYour work is not just a paycheck. It is not just a career step. It is an act of worship. When Paul wrote to the Colossians, he was addressing literal slaves — the lowest rung of society. He told them to work with their whole heart, as if God Himself was their employer. If that applied to slaves, how much more does it apply to us?\n\nAs an OFW, you did not leave your family and homeland just for money. There is a calling embedded in that sacrifice. As a young professional, every meeting you lead with integrity, every task you complete with excellence, every client you serve honestly — these are offerings to God. The problem is not that we work too hard. The problem is that we work for the wrong audience.\n\nWhen your boss does not notice your effort, God does. When your business is not growing as fast as you would like, God sees your faithfulness. When you feel invisible at work — God has His eyes on you. This week, do not just show up to work. Show up for God. Your desk is your altar.',
-    takeaways: [
-      "Shift your mindset from working for a paycheck to working as worship — it transforms how you approach even the most routine tasks",
-      "Bring your best to every task: excellence is not performance anxiety, it is a form of honoring God",
-      "When you feel unseen or undervalued at work, remember who the real Boss is"
-    ],
-    question: 'Are you working to impress people, or to honor God? What would change if you truly believed God was watching your work today?',
-    prayer: 'Lord, I offer You my work this week — my presentations, my emails, my meetings, my calls. I confess that sometimes I work only to be noticed and appreciated by people. Shift my heart toward You. Let my excellence be a testimony of Your goodness. When no one is watching, may I still give my best. Give me strength, focus, and real joy in my labor. May my work bring glory to Your name. Amen.',
-    mission: 'Choose one task this week and do it with complete excellence — as if Jesus Himself will review your output.'
-  },
-  { /* 1 Mon */
-    tag: 'REST & RENEWAL',
-    title: 'When the Grind Feels Too Heavy',
-    verse: '"Come to me, all you who are weary and burdened, and I will give you rest."',
-    ref: 'Matthew 11:28',
-    imgQuery: 'Jesus calming storm sea disciples boat painting',
-    reflection: 'You are running on broken sleep. Your inbox is a disaster zone. Savings are not growing fast enough, you have not called home in two weeks, and somewhere inside the grind you have completely lost track of why you started.\n\nHustle culture sold us a lie: that rest is weakness, slowing down means falling behind, and burnout is the price of success. Jesus offers a completely different economy. "Come to me, all who are weary and burdened, and I will give you rest." Not a productivity hack. Not a five-step morning routine. Rest — the kind that restores your soul.\n\nWhat makes this radical is the invitation itself: no conditions. Jesus does not say "come after you have hit your targets." He does not say "come when you have earned it." He says come in the middle of the weariness. Come with the burden. He does not require you to have it together before approaching Him.\n\nThe strongest thing you can do today is not to push through. It is to surrender. Give God your deadlines. Give Him your financial pressure. Give Him your loneliness. Not because He will magically fix everything overnight — but because carrying those weights alone is costing you more than you know.',
-    takeaways: [
-      "Rest is not laziness — it is a spiritual discipline that restores what hustle depletes",
-      "You do not need to have it all together before going to God — He invites you in the middle of the mess",
-      "Surrendering your burdens to God is not giving up; it is gaining the strength to continue"
-    ],
-    question: 'What burden have you been carrying alone this week that you need to honestly surrender to God right now?',
-    prayer: 'Jesus, I am tired — not just physically, but deep in my spirit. The pressure of work, money, distance from home, and uncertainty have worn me down. I come to You today with everything — the stress, the fear, the unmet goals. I lay them at Your feet. Give me the rest only You can give. Remind me I am not alone in this journey. Your grace is sufficient even on my worst days. Restore my soul. Amen.',
-    mission: 'Block 20 minutes today — no phone, no work, just quiet. Sit with God. Let Him rest you.'
-  },
-  { /* 2 Tue */
-    tag: 'CHARACTER & INTEGRITY',
-    title: 'Your Integrity Is Your Net Worth',
-    verse: '"Whoever can be trusted with very little can also be trusted with much."',
-    ref: 'Luke 16:10',
-    imgQuery: 'parable talents servants painting biblical',
-    reflection: 'In a world of highlight reels and curated success stories, it is tempting to cut corners when no one is watching. Exaggerate credentials a little. Fudge the numbers slightly. Take shortcuts — everyone does it, right? Jesus disagrees.\n\n"Whoever can be trusted with a little can be trusted with much." This is the foundation of real, sustainable success. We live in an age where people build careers on perception — the right posts, the right connections, the appearance of success. But God does not promote perception. He promotes faithfulness.\n\nYour current position — however small it feels — is a test of character. The way you handle your employer\'s time when no one is watching. The way you account for money. The way you treat the person who has nothing to offer you in return. These invisible acts of integrity are building your spiritual resume.\n\nOFWs know this deeply: you left everything to build something real. Every honest amount you earn is a seed of integrity. Every word kept, every promise fulfilled compounds over time into a life of trustworthy character. And a life of character is a life that God can genuinely use. He does not multiply the most talented. He multiplies the most faithful.',
-    takeaways: [
-      "Integrity in small, unseen things is the prerequisite for being entrusted with bigger opportunities",
-      "How you handle money, time, and responsibility when no one watches defines who you actually are",
-      "A life of consistent, trustworthy character is one God can multiply far beyond your own ability"
-    ],
-    question: 'Is there an area in your work or finances where you have been cutting corners? What would one honest correction look like today?',
-    prayer: 'Lord, I want to be trustworthy — not just in the big visible things, but in the quiet invisible moments. When no one reviews my work, let my integrity hold. When handling money and time, make me faithful. Forgive me for the shortcuts I have taken. Help me rebuild my character one honest choice at a time. I want to be someone You can trust with more. Amen.',
-    mission: 'Identify one area of your work or finances where you need to be more honest. Take one corrective step today, even a small one.'
-  },
-  { /* 3 Wed */
-    tag: 'FAITH & FUTURE',
-    title: "God's Plans Beat Your 5-Year Plan",
-    verse: '"\'For I know the plans I have for you,\' declares the Lord, \'plans to prosper you and not to harm you, plans to give you hope and a future.\'"',
-    ref: 'Jeremiah 29:11',
-    imgQuery: 'Jeremiah prophet painting lamentation biblical',
-    reflection: 'You had a plan. A good one. Stable career by a certain age, then a thriving business, financial freedom, a family. But here you are, and some of those plans are delayed, detoured, or completely different from what you imagined. And that disorientation is real.\n\nHere is what we miss about Jeremiah 29:11 — God spoke this to a people in exile. They had been ripped from their homes, their lives shattered, their plans destroyed. Into that pain, God says: "I know the plans I have for you." Not "I will show you eventually." Not "your plans are fine." But "I already know — and they are good."\n\nYour detour is not a disaster to God. It is data. Every closed door is a redirect toward something better. Every failed plan is creating space for a wiser one. Every delayed dream is being refined. This does not mean you stop planning. It means you hold your plans with an open hand — ready to pivot when God says turn.\n\nYour 5-year plan is good. God\'s eternal plan is better.',
-    takeaways: [
-      "Your detour is not a disaster — God is actively redirecting you toward something better than you planned",
-      "Hold your plans with an open hand; do the work but surrender the outcome to God",
-      "Trust delays: God's timing is not indifference — it is preparation"
-    ],
-    question: 'Which unfulfilled plan in your life do you need to genuinely surrender to God\'s better timeline today?',
-    prayer: 'God, I will be honest — I do not always understand Your timing. I have made plans and watched them fall apart. I have worked hard and not seen the results I expected. But today I choose to trust You. I believe Your plans for me are good — even when they look different from what I imagined. Help me to stop controlling the outcome and start trusting the process. Amen.',
-    mission: "Write down one plan you have been holding too tightly. Pray over it specifically and genuinely release it to God's timeline."
-  },
-  { /* 4 Thu */
-    tag: 'GENEROSITY & FINANCE',
-    title: "Generous People Don't Stay Broke",
-    verse: '"Give, and it will be given to you. A good measure, pressed down, shaken together and running over, will be poured into your lap."',
-    ref: 'Luke 6:38',
-    imgQuery: "widow's mite offering temple painting biblical",
-    reflection: 'Every financial advisor will tell you to save before you give. Build your emergency fund first. Max your investments. Achieve financial security — then be generous with what is left. God\'s economy runs in reverse.\n\nJesus says give first — and watch what happens. This sounds financially reckless until you observe the evidence: the most genuinely generous people are rarely the poorest. Generosity is not a financial risk — it is a spiritual strategy.\n\nAs an OFW, you already know the power of giving. The remittance feeding your family back home, paying school fees, building a house — that is generosity. But God is calling you to a deeper layer: giving even when you are not comfortable. The tithe. The offering for a struggling colleague. The meal for someone in need. These acts of faith tell God: I trust You more than I trust my balance sheet.\n\nLuke 6:38 does not promise you will become a millionaire. It promises the return is pressed down, shaken together, running over. Overflowing. Generous people do not stay broke — not because of a prosperity formula, but because generosity aligns your heart with God\'s. And God takes care of aligned hearts.',
-    takeaways: [
-      "Generosity is a spiritual discipline that God honors — give even before you feel financially ready",
-      "Your remittances and family provisions are not just transactions — they are acts of worship",
-      "The return on generosity is not always financial, but it always comes — and usually overflows"
-    ],
-    question: 'Is your current financial life built on a principle of generosity, or are you waiting until you have enough to start giving?',
-    prayer: 'Lord, I confess I hold too tightly to what I have. I worry about not having enough — so I give last, if at all. Forgive me. Today I choose to trust Your economy over the world\'s. Teach me to give generously — my money, my time, my resources — and trust that You will provide. I want to be a channel of Your blessing, not just a container. Amen.',
-    mission: 'Give something today — money, time, or a resource — to someone who needs it more than you. Do it without expecting anything in return.'
-  },
-  { /* 5 Fri */
-    tag: 'ANXIETY & PEACE',
-    title: 'Stop Overthinking. Start Trusting.',
-    verse: '"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God. And the peace of God, which transcends all understanding, will guard your hearts and your minds in Christ Jesus."',
-    ref: 'Philippians 4:6-7',
-    imgQuery: 'Jesus praying Gethsemane garden painting',
-    reflection: 'Your brain at 2am is a different creature entirely. The what-ifs multiply. Worst-case scenarios play out in detail. The unanswered messages, the unpaid bills, the uncertain future — they all crowd in when the noise stops and it is just you and your thoughts.\n\nAnxiety has become the unofficial currency of modern life. Young professionals are achieving more than any generation before them — and struggling internally more than any generation before them. Paul wrote Philippians 4 from prison. Not from a retreat center. Not from a comfortable office. He was writing from chains — and yet he says, be anxious for nothing.\n\nHow? Through prayer and petition, with thanksgiving. This is not toxic positivity. This is not pretending everything is fine. This is an active spiritual discipline: take the anxiety, bring it to God in prayer, include gratitude even in the hard season — and then God\'s peace, which your brain cannot manufacture or earn, guards your heart and mind.\n\nThe Greek word for guard here is a military term. God stations His peace like a soldier at the gate of your mind, keeping the panic out. You cannot think your way out of anxiety. You can only pray your way through it.',
-    takeaways: [
-      "Prayer is not passive — it is the most powerful action you can take against anxiety",
-      "Gratitude in hard moments is a spiritual weapon, not a denial of pain",
-      "God's peace is not the absence of problems; it is a divine guard that surpasses human understanding"
-    ],
-    question: 'What specific anxiety are you carrying right now that you need to bring to God in honest prayer instead of trying to solve alone?',
-    prayer: 'Lord, my mind is full of worries I cannot seem to turn off. I am anxious about money, about the future, about family, about things I cannot control. I bring it all to You right now. I choose thanksgiving — for what I have, for what You have already done, for who You are. Release Your peace into my mind. Guard my thoughts from the spiral of anxiety. I trust You with everything I am afraid of. Amen.',
-    mission: 'Write down 5 things you are anxious about. Pray over each one specifically. Then write beside each: "I trust God with this."'
-  },
-  { /* 6 Sat */
-    tag: 'SABBATH & REST',
-    title: "Rest Is Not a Reward — It's a Command",
-    verse: '"By the seventh day God had finished the work he had been doing; so on the seventh day he rested from all his work."',
-    ref: 'Genesis 2:2',
-    imgQuery: 'creation seventh day rest God painting biblical',
-    reflection: 'Hustle culture convinced us that rest is something you earn. You rest after you hit the target. You sleep after the project is done. You vacation after the savings goal is met. But even God rested — and He does not get tired.\n\nGod did not rest on the seventh day because He was exhausted. He rested to model something profound: creation has rhythms. Work and rest are not opposites — they are a partnership. When you refuse to rest, you are not being more productive. You are defying a divine rhythm built into the fabric of reality itself.\n\nAs OFWs and young professionals, we wear busyness as a badge of honor. Twelve-hour shifts. Seven-day work weeks. Always connected, always available. We confuse movement with progress. But rest is where integration happens — where your mind processes the week, your spirit reconnects with God, your body heals.\n\nThe Sabbath was designed as a gift, not a punishment. One day per week where you stop striving and simply exist. Not scrolling. Not planning next week. Simply resting in the knowledge that God is in control — and that the world will not fall apart if you take your hands off the wheel.',
-    takeaways: [
-      "Rest is not something you earn — it is a divine command built into the structure of creation itself",
-      "Busyness is not productivity; genuine rest produces the clarity and creativity that work requires",
-      "A Sabbath practice is a radical act of faith that declares: God is in control, not me"
-    ],
-    question: 'When did you last truly rest — not scroll, not plan, not hustle — but genuinely rest your body, mind, and spirit before God?',
-    prayer: 'God, I confess I have neglected rest. I have been so busy building, grinding, and striving that I have forgotten to simply be still with You. Forgive me for treating rest as weakness. Today I choose to honor the rhythm You built into creation. Help me release control and trust that You hold everything together even when I stop. Teach me the holy discipline of rest. Amen.',
-    mission: 'Block out a 4-hour window this weekend with no work, no social media, and no agenda — just rest, nature, prayer, and genuine presence.'
-  }
+  { tag:'WORK & WORSHIP', title:'Your Work Is Your Worship',
+    verse:'"Whatever you do, work at it with all your heart, as working for the Lord, not for human masters."', ref:'Colossians 3:23',
+    imgQuery:'Caillebotte floor scrapers Paris workers painting impressionist',
+    reflection:'You have been grinding all week. Overtime hours, demanding clients, targets that keep climbing. By Sunday, the exhaustion is real. And yet here you are, getting ready to face another week. Before you do — let us change how you see Monday.\n\nYour work is not just a paycheck. It is not just a career step. It is an act of worship. When Paul wrote to the Colossians, he was addressing literal slaves — the lowest rung of society. He told them to work with their whole heart, as if God Himself was their employer. If that applied to slaves, how much more does it apply to us?\n\nAs an OFW, you did not leave your family and homeland just for money. There is a calling embedded in that sacrifice. Every meeting you lead with integrity, every task you complete with excellence, every client you serve honestly — these are offerings to God. The problem is not that we work too hard. The problem is that we work for the wrong audience.\n\nWhen your boss does not notice your effort, God does. When your business is not growing as fast as you would like, God sees your faithfulness. When you feel invisible at work — God has His eyes on you. This week, do not just show up to work. Show up for God. Your desk is your altar.',
+    takeaways:["Shift your mindset from working for a paycheck to working as worship — it transforms how you approach even the most routine tasks","Bring your best to every task: excellence is not performance anxiety, it is a form of honoring God","When you feel unseen or undervalued at work, remember who the real Boss is"],
+    question:'Are you working to impress people, or to honor God? What would change today if you truly believed God was watching every task you do?',
+    prayer:'Lord, I offer You my work this week — my presentations, my emails, my meetings, my calls. I confess that sometimes I work only to be noticed and appreciated by people. Shift my heart toward You. Let my excellence be a testimony of Your goodness. When no one is watching, may I still give my best. Give me strength, focus, and real joy in my labor. Amen.',
+    mission:'Choose one task this week and do it with complete excellence — as if Jesus Himself will review your output.' },
+  { tag:'REST & RENEWAL', title:'When the Grind Feels Too Heavy',
+    verse:'"Come to me, all you who are weary and burdened, and I will give you rest."', ref:'Matthew 11:28',
+    imgQuery:'young professional woman resting nature park painting impressionist Morisot',
+    reflection:'You are running on broken sleep. Your inbox is a disaster zone. Savings are not growing fast enough, you have not called home in two weeks, and somewhere inside the grind you have lost track of why you started.\n\nHustle culture sold us a lie: that rest is weakness, slowing down means falling behind, and burnout is the price of success. Jesus offers a completely different economy. "Come to me, all who are weary and burdened, and I will give you rest." Not a productivity hack. Not a five-step morning routine. Rest — the kind that restores your soul.\n\nWhat makes this radical is the invitation itself: no conditions. Jesus does not say "come after you have hit your targets." He says come in the middle of the weariness. Come with the burden. He does not require you to have it together before approaching Him.\n\nThe strongest thing you can do today is not to push through. It is to surrender. Give God your deadlines, your financial pressure, your loneliness. Not because He will magically fix everything overnight — but because carrying those weights alone is costing you far more than you know.',
+    takeaways:["Rest is not laziness — it is a spiritual discipline that restores what hustle depletes","You do not need to have it together before going to God — He invites you in the middle of the mess","Surrendering your burdens to God is not giving up; it is gaining the strength to continue"],
+    question:'What burden have you been carrying alone this week that you need to honestly surrender to God right now?',
+    prayer:'Jesus, I am tired — not just physically, but deep in my spirit. The pressure of work, money, distance from home, and uncertainty have worn me down. I lay everything at Your feet. Give me the rest only You can give. Remind me I am not alone. Your grace is sufficient even on my worst days. Restore my soul. Amen.',
+    mission:'Block 20 minutes today — no phone, no work, just quiet. Sit with God. Let Him rest you.' },
+  { tag:'CHARACTER & INTEGRITY', title:'Your Integrity Is Your Net Worth',
+    verse:'"Whoever can be trusted with very little can also be trusted with much."', ref:'Luke 16:10',
+    imgQuery:'business colleagues handshake office professionals painting modern',
+    reflection:'In a world of highlight reels and curated success stories, it is tempting to cut corners when no one is watching. Exaggerate credentials a little. Fudge the numbers slightly. Take shortcuts — everyone does it, right? Jesus disagrees.\n\n"Whoever can be trusted with a little can be trusted with much." This is the foundation of real, sustainable success. We live in an age where people build careers on perception — the right posts, the right connections, the appearance of success. But God does not promote perception. He promotes faithfulness.\n\nYour current position — however small it feels — is a test of character. The way you handle your employer\'s time when no one is watching. The way you account for money. The way you treat the person who has nothing to offer you in return. These invisible acts of integrity are building your spiritual resume.\n\nEvery honest amount you earn is a seed of integrity. Every word kept, every promise fulfilled compounds over time into a life of trustworthy character. And a life of character is a life that God can genuinely use. He does not multiply the most talented. He multiplies the most faithful.',
+    takeaways:["Integrity in small, unseen things is the prerequisite for being entrusted with bigger opportunities","How you handle money, time, and responsibility when no one watches defines who you actually are","A life of consistent, trustworthy character is one God can multiply far beyond your own ability"],
+    question:'Is there an area in your work or finances where you have been cutting corners? What would one honest correction look like today?',
+    prayer:'Lord, I want to be trustworthy — not just in the big visible things, but in the quiet invisible moments. When no one reviews my work, let my integrity hold. Forgive me for the shortcuts I have taken. Help me rebuild my character one honest choice at a time. I want to be someone You can trust with more. Amen.',
+    mission:'Identify one area of your work or finances where you need to be more honest. Take one corrective step today, even a small one.' },
+  { tag:'FAITH & FUTURE', title:"God's Plans Beat Your 5-Year Plan",
+    verse:'"\'For I know the plans I have for you,\' declares the Lord, \'plans to prosper you and not to harm you, plans to give you hope and a future.\'"', ref:'Jeremiah 29:11',
+    imgQuery:'travelers journey road path horizon painting impressionist adventure',
+    reflection:'You had a plan. A good one. Stable career, then a thriving business, financial freedom, a family. But here you are, and some of those plans are delayed, detoured, or completely different from what you imagined. And that disorientation is real.\n\nHere is what we miss about Jeremiah 29:11 — God spoke this to a people in exile. They had been ripped from their homes, their plans shattered. Into that pain, God says: "I know the plans I have for you." Not "I will show you eventually." But "I already know — and they are good."\n\nYour detour is not a disaster to God. It is data. Every closed door is a redirect toward something better. Every failed plan is creating space for a wiser one. Every delayed dream is being refined. This does not mean you stop planning. It means you hold your plans with an open hand — ready to pivot when God says turn.\n\nYour 5-year plan is good. God\'s eternal plan is better.',
+    takeaways:["Your detour is not a disaster — God is actively redirecting you toward something better than you planned","Hold your plans with an open hand; do the work but surrender the outcome to God","Trust delays: God's timing is not indifference — it is preparation"],
+    question:'Which unfulfilled plan in your life do you need to genuinely surrender to God\'s better timeline today?',
+    prayer:'God, I do not always understand Your timing. I have made plans and watched them fall apart. But today I choose to trust You. I believe Your plans for me are good — even when they look different from what I imagined. Help me to stop controlling the outcome and start trusting the process. Amen.',
+    mission:"Write down one plan you have been holding too tightly. Pray over it specifically and genuinely release it to God's timeline." },
+  { tag:'GENEROSITY & FINANCE', title:"Generous People Don't Stay Broke",
+    verse:'"Give, and it will be given to you. A good measure, pressed down, shaken together and running over, will be poured into your lap."', ref:'Luke 6:38',
+    imgQuery:'young people community service helping volunteer group energetic',
+    reflection:'Every financial advisor will tell you to save before you give. Build your emergency fund first. Max your investments. Achieve financial security — then be generous. God\'s economy runs in reverse.\n\nJesus says give first — and watch what happens. This sounds financially reckless until you observe the evidence: the most genuinely generous people are rarely the poorest. Generosity is not a financial risk — it is a spiritual strategy.\n\nAs an OFW, you already know the power of giving. The remittance feeding your family back home, paying school fees, building a house — that is generosity. But God is calling you to a deeper layer: giving even when you are not comfortable. These acts of faith tell God: I trust You more than I trust my balance sheet.\n\nLuke 6:38 does not promise you will become a millionaire. It promises the return is pressed down, shaken together, running over. Generous people do not stay broke — not because of a formula, but because generosity aligns your heart with God\'s. And God takes care of aligned hearts.',
+    takeaways:["Generosity is a spiritual discipline that God honors — give even before you feel financially ready","Your remittances and family provisions are not just transactions — they are acts of worship","The return on generosity is not always financial, but it always comes — and usually overflows"],
+    question:'Is your current financial life built on a principle of generosity, or are you waiting until you have enough to start giving?',
+    prayer:'Lord, I confess I hold too tightly to what I have. I worry about not having enough — so I give last, if at all. Forgive me. Today I choose to trust Your economy. Teach me to give generously and trust that You will provide for my needs. Open my hands and grow my faith to give freely. Amen.',
+    mission:'Give something today — money, time, or a resource — to someone who needs it more than you. Do it without expecting anything in return.' },
+  { tag:'ANXIETY & PEACE', title:'Stop Overthinking. Start Trusting.',
+    verse:'"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God."', ref:'Philippians 4:6-7',
+    imgQuery:'young professionals friends laughing park outdoors city vibrant',
+    reflection:'Your brain at 2am is a different creature entirely. The what-ifs multiply. Worst-case scenarios play out in detail. The unanswered messages, the unpaid bills, the uncertain future — they all crowd in when the noise stops.\n\nAnxiety has become the unofficial currency of modern life. Young professionals are achieving more than any generation before them — and struggling internally more than any generation before them. Paul wrote Philippians 4 from prison. Writing from chains — and yet he says, be anxious for nothing.\n\nHow? Through prayer and petition, with thanksgiving. This is not toxic positivity. This is an active spiritual discipline: take the anxiety, bring it to God in prayer, include gratitude even in the hard season — and then God\'s peace, which your brain cannot manufacture or earn, guards your heart and mind.\n\nThe Greek word for guard here is a military term. God stations His peace like a soldier at the gate of your mind, keeping the panic out. You cannot think your way out of anxiety. You can only pray your way through it.',
+    takeaways:["Prayer is not passive — it is the most powerful action you can take against anxiety","Gratitude in hard moments is a spiritual weapon, not a denial of pain","God's peace is not the absence of problems; it is a divine guard that surpasses human understanding"],
+    question:'What specific anxiety are you carrying right now that you need to bring to God in honest prayer instead of trying to solve alone?',
+    prayer:'Lord, my mind is full of worries I cannot turn off. I am anxious about money, the future, family, things I cannot control. I bring it all to You right now. I choose thanksgiving — for what I have, for what You have already done. Release Your peace into my mind. Guard my thoughts. I trust You with everything I am afraid of. Amen.',
+    mission:'Write down 5 things you are anxious about. Pray over each one. Then write beside each: "I trust God with this."' },
+  { tag:'SABBATH & REST', title:"Rest Is Not a Reward — It's a Command",
+    verse:'"By the seventh day God had finished the work he had been doing; so on the seventh day he rested from all his work."', ref:'Genesis 2:2',
+    imgQuery:'Seurat Sunday afternoon island Grande Jatte park people leisure painting',
+    reflection:'Hustle culture convinced us that rest is something you earn. You rest after you hit the target. You sleep after the project is done. You vacation after the savings goal is met. But even God rested — and He does not get tired.\n\nGod did not rest on the seventh day because He was exhausted. He rested to model something profound: creation has rhythms. Work and rest are not opposites — they are a partnership. When you refuse to rest, you are not being more productive. You are defying a divine rhythm built into the fabric of reality itself.\n\nAs OFWs and young professionals, we wear busyness as a badge of honor. Twelve-hour shifts. Seven-day work weeks. Always connected, always available. We confuse movement with progress. But rest is where integration happens — where your mind processes the week, your spirit reconnects with God, your body heals.\n\nThe Sabbath was designed as a gift. One day per week where you stop striving and simply exist — resting in the knowledge that God is in control, and that the world will not fall apart if you take your hands off the wheel.',
+    takeaways:["Rest is not something you earn — it is a divine command built into the structure of creation","Busyness is not productivity; genuine rest produces the clarity and creativity that work requires","A Sabbath practice is a radical act of faith that declares: God is in control, not me"],
+    question:'When did you last truly rest — not scroll, not plan, not hustle — but genuinely rest your body, mind, and spirit before God?',
+    prayer:'God, I confess I have neglected rest. I have been so busy building, grinding, and striving that I have forgotten to simply be still with You. Forgive me for treating rest as weakness. Help me release control and trust that You hold everything together even when I stop. Teach me the holy discipline of rest. Amen.',
+    mission:'Block out a 4-hour window this weekend with no work, no social media, and no agenda — just rest, nature, prayer, and genuine presence.' }
 ];
 
 var primesDevotions = [
-  { /* 0 Sun */
-    title: 'The Legacy You Leave Behind',
-    verse: '"A good person leaves an inheritance for their children\'s children, but a sinner\'s wealth is stored up for the righteous."',
-    ref: 'Proverbs 13:22',
-    imgQuery: 'Return of the Prodigal Son Rembrandt painting',
-    reflection: 'At this stage of your life, the question has shifted. It is no longer only "How do I build success?" but "What does my success mean for those who come after me?" Legacy is the language of the second half of life.\n\nProverbs 13:22 speaks of something profound — the reach of a life well lived extends not just to your children, but to your grandchildren. Two generations of impact from one life of faithfulness. That is not accident. That is intentional stewardship.\n\nLegacy is not primarily about the financial inheritance you leave — though that matters. It is about the values you instill, the faith you model, the habits you demonstrate, the prayers you have prayed over your household for decades. A grandparent who spends Sunday mornings reading the Bible is planting seeds that bear fruit thirty years later when a grandchild, in her moment of crisis, reaches for that same Word.\n\nIf you have children or grandchildren, your most important investment is not their school fund — it is your relationship with them. The stories you tell, the values you live, the faith you share across the dinner table — these are assets that no financial crisis can ever take away.',
-    wisdom: [
-      "The truest measure of your life's success is the faith and character you pass to the next generation, not the wealth you accumulate",
-      "Financial inheritance matters — but the spiritual and values inheritance matters more, and lasts longer",
-      "Every day is an opportunity to plant seeds of legacy through how you live, give, forgive, and love the people nearest to you"
-    ],
-    questions: [
-      "What is one value or lesson from your life that you most want your children or grandchildren to carry forward — and are you actively modeling it today?",
-      "If your family were to describe your legacy in three words after you are gone, what do you hope and pray those words would be?"
-    ],
-    prayer: 'Lord, as I reflect on the years behind me and the ones that remain, I am humbled by the weight and privilege of legacy. Grant me wisdom to invest in what truly lasts — not merely in wealth, but in a family rooted in deep faith. Help me to model the life I want my children and grandchildren to live. May they see in me a person of integrity, generosity, and genuine devotion to You. Where I have fallen short as a parent and leader, grant me the grace to make it right while there is still time. Amen.',
-    act: 'Have a meaningful conversation with one family member this week — share a life lesson, a memory of God\'s faithfulness, or a value you want them to carry.'
-  },
-  { /* 1 Mon */
-    title: 'Leading with Wisdom, Not Just Experience',
-    verse: '"If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you."',
-    ref: 'James 1:5',
-    imgQuery: 'Solomon judgment wisdom painting biblical throne',
-    reflection: 'There is a dangerous assumption that can settle in at midlife and beyond: the idea that experience is enough. That because you have walked long roads and made many decisions, wisdom is automatic. But experience and wisdom are not the same thing. Experience is what happened to you. Wisdom is what you learned — and more importantly, what you allowed to transform you.\n\nJames writes these words to people navigating trials — situations where the path forward was genuinely unclear and the stakes were genuinely high. Sound familiar? Leadership at every level — leading a family, a team, a community, a business — constantly demands decisions that exceed our competence.\n\nWhat is remarkable about this promise is the qualifier: none. God gives wisdom generously, to all, without finding fault. He does not give it reluctantly. He does not audit your past failures before granting it. He does not require you to be perfect before He answers. He asks only one thing: that you ask in genuine faith.\n\nThe leaders God uses most are not the most experienced. They are the most consistently dependent on Him.',
-    wisdom: [
-      "Experience informs; wisdom transforms — and wisdom requires ongoing humility before God, not just accumulated years",
-      "The most dangerous leaders are those who stopped asking questions because they assumed they already knew the answers",
-      "God gives wisdom generously and without judgment — the only requirement is genuine, faith-filled asking"
-    ],
-    questions: [
-      "In which area of your leadership — family, work, or community — are you relying too heavily on your own experience rather than actively seeking God's wisdom?",
-      "Who in your life models the kind of wisdom you most admire? What specific habit or posture makes them wise?"
-    ],
-    prayer: 'Father, I have walked many roads and faced many trials. But I confess that I have sometimes leaned on my own understanding more than on Yours. I have confused experience with wisdom, and confidence with discernment. Today I come to You humbly and ask for genuine wisdom — the kind that sees clearly, speaks carefully, and acts with both truth and love. Guide my decisions at home and at work. Help me lead with patience and integrity. Amen.',
-    act: 'Identify one leadership decision you have been making from habit or assumption. Bring it before God this week and genuinely ask for His wisdom before you proceed.'
-  },
-  { /* 2 Tue */
-    title: 'The Faithful Steward',
-    verse: '"Well done, good and faithful servant! You have been faithful with a few things; I will put you in charge of many things."',
-    ref: 'Matthew 25:23',
-    imgQuery: 'parable talents master servants painting biblical Tissot',
-    reflection: 'These are the words every believer longs to hear at the end of their days: "Well done, good and faithful servant." Not well done, successful servant. Not well done, wealthy servant. Well done, faithful servant.\n\nThe parable of the talents is not primarily about how much you accumulate. It is about what you do with what you have been given. Each servant received a different amount — five talents, two, one. The reward did not go to the one who received the most. It went to the ones who were faithful with what they had. Both the five-talent servant and the two-talent servant heard the same praise: "Well done."\n\nAt this stage of life, the inventory matters. What has God entrusted to you? Financial resources. Professional expertise. Decades of experience. Relationships and influence. A family. A name. Time. These are your talents — and the question is not whether they are large or small, but whether you are investing them faithfully.\n\nStewardship begins with recognizing that nothing you have is ultimately yours. You are a manager, not an owner. And a faithful manager asks daily: "Lord, what do you want me to do with what You have placed in my hands today?"',
-    wisdom: [
-      "God measures your faithfulness, not your final total — 'well done' is available to every servant regardless of how much they were given",
-      "At this stage of life, a faithful inventory matters: what has God entrusted to you, and how are you currently deploying it?",
-      "Stewardship begins with the daily acknowledgment that nothing you have is ultimately yours — you are a manager of God's resources"
-    ],
-    questions: [
-      "If God reviewed how you have stewarded your resources — time, money, relationships, and influence — what areas would He call faithful? What areas still need growth?",
-      "Is there a talent, resource, or opportunity that God has placed in your hands that you have been holding back out of fear or comfort?"
-    ],
-    prayer: 'Lord, I want to hear those words — well done, faithful servant. Not because of pride, but because faithfulness is the deepest way I can honor You with the life You have given me. Show me what I have been entrusted with that I am not fully investing. Forgive me for hoarding comfort, time, or resources You intended to flow through me to others. Help me to be a faithful, generous, and joyful steward. Amen.',
-    act: 'Review one area of stewardship — finances, time, or relationships — and identify one specific way to invest more faithfully in it this week.'
-  },
-  { /* 3 Wed */
-    title: 'God Sustains You in Every Season',
-    verse: '"Even to your old age and gray hairs I am he, I am he who will sustain you. I have made you and I will carry you; I will sustain you and I will rescue you."',
-    ref: 'Isaiah 46:4',
-    imgQuery: 'Isaiah prophet vision painting biblical old testament',
-    reflection: 'There are seasons of life when the body reminds you of its limits. When the stamina of your thirties no longer answers the demands of your fifties. When children grow into adults and the nest empties and the house feels strangely quiet. When retirement approaches and with it, questions about purpose and identity that work once answered.\n\nIsaiah 46:4 was written to a people who feared being discarded. Their nation was aging, their strength was fading, and the gods of their conquerors seemed young and powerful. Into that fear, God speaks: "Even to your old age and gray hairs I am He who will sustain you. I have made you and I will carry you."\n\nGod does not phase you out. He does not have a mandatory retirement age for the people He loves. The same God who formed you in your mother\'s womb and carried you through the wildness of your younger years is the same God who walks beside you now — and will walk beside you into every season yet to come.\n\nThe word "sustain" in this verse carries the image of bearing weight — of someone taking what is too heavy for you to carry alone and carrying it Himself. Not from a distance. But with His own arms. Whatever you are carrying in this season — God is not asking you to carry it alone.',
-    wisdom: [
-      "God does not retire from caring for you when your hair turns gray — His faithfulness is not seasonal; it is eternal",
-      "The same God who carried you through your most intense years will carry you through the quieter, heavier ones too",
-      "Purpose does not end with career or an empty nest — God has meaningful assignments for every season of a faithful life"
-    ],
-    questions: [
-      "What is the heaviest thing you are carrying in this current season of life, and have you truly allowed God to carry it with you?",
-      "How has God specifically sustained you through the hardest season of your past? Write it down and share it with someone this week."
-    ],
-    prayer: 'Lord, I thank You for every season You have carried me through — the seasons of building and striving, and now this quieter, deeper season. I confess that sometimes I fear becoming irrelevant, or losing my strength, or not knowing who I am apart from the roles that have defined me. But You say You will sustain me — even here. Carry what is too heavy for me today. Remind me that my life in Your hands still has great purpose. Amen.',
-    act: 'Write a letter of thanksgiving to God — one full page — recounting the specific ways He has sustained and carried you across your life. Read it to someone you love.'
-  },
-  { /* 4 Thu */
-    title: "The Cheerful Giver's Reward",
-    verse: '"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."',
-    ref: '2 Corinthians 9:7',
-    imgQuery: 'widow two mites offering painting temple biblical',
-    reflection: 'After decades of providing — for children, for aging parents, for communities — there can arise a subtle form of giving fatigue. The heart grows weary of obligation. Generosity begins to feel like a duty performed rather than a joy expressed. And the offering placed in the basket on Sunday starts to feel more like a bill paid than a gift freely given.\n\nGod sees the heart behind the hand. "He loves a cheerful giver" — the Greek word used here is hilaros, from which we get the word "hilarious." God loves the exuberant giver. The one who gives with delight, not dread.\n\nAt this stage of life, the capacity to give is often greater than it has ever been — not just financially, but in wisdom, time, mentorship, presence, and prayer. Many of the most powerful forms of generosity available to a person in their forties, fifties, and beyond cost no money at all. A meal. A listening ear. A hard truth spoken with love. A business connection made for a young person just starting out.\n\nCheerful generosity returns you to the origin of your faith: the recognition that everything you have was given to you first. You are not the source. You are the channel. And channels, by nature, were designed to flow.',
-    wisdom: [
-      "Generosity at this stage of life includes far more than money — wisdom, time, mentorship, and presence are among the richest gifts you can offer",
-      "If giving has become joyless obligation, something has drifted in your relationship with God that needs honest attention",
-      "Cheerful generosity is rooted in remembering that you are not the source of what you have — you are a channel of God's provision to others"
-    ],
-    questions: [
-      "Has your giving in any area — money, time, or energy — become joyless obligation? What might help restore the cheerfulness to it?",
-      "Who in the next generation could benefit from a specific gift of your wisdom, mentorship, or connection this week?"
-    ],
-    prayer: 'Lord, restore to me the joy of giving. Forgive me for the seasons when generosity became mere performance — going through the motions without genuine love behind it. Remind me that everything I have was first Your gift to me. Let that remembrance make me freely and generously giving. Show me who needs what I have to offer today — not only my money, but my time, my experience, and my presence. Make me a channel that flows freely. Amen.',
-    act: 'Identify one person in the next generation who would benefit from a gift of your wisdom or connection. Reach out to them this week with a specific, generous offer.'
-  },
-  { /* 5 Fri */
-    title: 'Forgiveness: The Foundation of a Strong Family',
-    verse: '"Bear with each other and forgive one another if any of you has a grievance against someone. Forgive as the Lord forgave you."',
-    ref: 'Colossians 3:13',
-    imgQuery: 'Rembrandt Return Prodigal Son father embrace painting',
-    reflection: 'Families are the most intimate of all human institutions — and therefore the site of the deepest wounds. The sibling who was favored. The parent whose words cut deeper because they came from someone who should have known better. The marriage that bore years of unspoken resentment. The child who chose a path that felt like rejection. The misunderstanding that was never corrected and calcified into wall.\n\nPaul\'s instruction is direct and leaves little room for qualification: "Forgive one another as the Lord forgave you." Not as far as they deserve. Not until they apologize. Not halfway. As the Lord forgave you — fully, freely, at great personal cost.\n\nForgiveness is not the erasure of memory. It does not require pretending the wound did not happen. It does not mean that trust is automatically restored. Forgiveness is a decision of the will — a choice to release another person from the debt of their wrong against you. And it is, first and foremost, something you do for your own soul.\n\nUnforgiveness teaches the next generation what to do with pain. Forgiveness, by contrast, becomes one of the most powerful things you can model to your children and grandchildren. It says: in this family, love is stronger than offense.',
-    wisdom: [
-      "Forgiveness is not a feeling you wait for — it is a decision of the will that, once made, slowly releases the pain it carried",
-      "Unforgiveness in the home is generational: children inherit not only your values but your unresolved wounds",
-      "The family that practices forgiveness together builds a foundation resilient enough to survive nearly anything"
-    ],
-    questions: [
-      "Is there a family relationship where unforgiveness has built a wall — even a subtle one — that you have been unwilling or afraid to address?",
-      "What would it mean for your family's future generations if you chose forgiveness in the hardest relationship you are currently carrying?"
-    ],
-    prayer: 'Father, You forgave me at the greatest cost imaginable. Help me to forgive with even a fraction of that grace. Bring to my mind the faces of those I have not fully forgiven — family members, old friends, people whose wounds I still carry. Give me the courage to begin. Not to pretend nothing happened, but to release the debt and refuse to let it define the relationship. For the sake of my family, and for the sake of my own soul — help me to forgive as You have forgiven me. Amen.',
-    act: 'Write a letter of forgiveness to someone you have not fully forgiven — you do not have to send it, but write it fully and honestly. Then pray over it and release it to God.'
-  },
-  { /* 6 Sat */
-    title: 'Sacred Rest: Renewal for the Long Road',
-    verse: '"Remember the Sabbath day by keeping it holy. Six days you shall labor and do all your work, but the seventh day is a sabbath to the Lord your God."',
-    ref: 'Exodus 20:8-9',
-    imgQuery: 'creation rest seventh day painting God Michelangelo',
-    reflection: 'God did not include the Sabbath in the Ten Commandments as an afterthought. He placed it alongside commands about murder, theft, and idolatry. The Sabbath is not optional. It is holy. It is a commandment — and one of the few prefaced with the word "remember," which suggests that God already knew we would be prone to forgetting it.\n\nFor those of us in the second half of life, the Sabbath carries a different weight than it did in the building years. We have spent decades in the press of activity — raising children, building businesses, earning a living, managing households. The rhythm of that season was relentless. But the body keeps accounts, and eventually it presents its invoice.\n\nSabbath is not simply cessation. It is not the absence of work. It is the active presence of God in unhurried time. It is the one day of the week when you lay down the tools of your productivity and simply be — a beloved child of God, not a productive contributor to the economy.\n\nThere is something particularly beautiful about a Sabbath practiced in the company of family. When parents and grandparents model rest — genuine, unhurried, phone-free, grateful, prayerful rest — they give their children one of the rarest gifts in the modern world: permission to stop. Permission to simply exist in God\'s presence without earning it.',
-    wisdom: [
-      "The Sabbath is not optional — it is a commandment, and one God knew we would need the specific reminder to keep",
-      "In the second half of life, rest becomes not just a physical necessity but a spiritual discipline of profound depth",
-      "Modeling Sabbath rest for your children and grandchildren is a gift that shapes their relationship with work and God for generations"
-    ],
-    questions: [
-      "What would a genuinely holy Sabbath look like in your home — and what would need to change for that to become a consistent, faithful rhythm?",
-      "What is the deepest spiritual fruit you have experienced from seasons of consistent, unhurried rest with God?"
-    ],
-    prayer: 'Lord, I come to You in this quiet moment and choose rest. I lay down the doing and the striving and the managing. I choose to simply be Your child — beloved, held, and free. Thank You for the Sabbath — not as restriction but as invitation. Help me to protect this sacred rhythm in my home, to model it for those who watch me, and to receive the renewal You pour into unhurried souls. I am still. You are God. Amen.',
-    act: 'Plan a genuine Sabbath this weekend — no work, no errands, no social media. Invite your family to join you. Mark it as holy time with God.'
-  }
+  { title:'The Legacy You Leave Behind',
+    verse:'"A good person leaves an inheritance for their children\'s children."', ref:'Proverbs 13:22',
+    imgQuery:'Rembrandt return prodigal son painting father embrace',
+    reflection:'At this stage of your life, the question has shifted. It is no longer only "How do I build success?" but "What does my success mean for those who come after me?" Legacy is the language of the second half of life.\n\nProverbs 13:22 speaks of something profound — the reach of a life well lived extends not just to your children, but to your grandchildren. Two generations of impact from one life of faithfulness. That is not accident. That is intentional stewardship.\n\nLegacy is not primarily about the financial inheritance you leave — though that matters. It is about the values you instill, the faith you model, the habits you demonstrate, the prayers you have prayed over your household for decades. A grandparent who spends Sunday mornings reading the Bible is planting seeds that bear fruit thirty years later when a grandchild, in her moment of crisis, reaches for that same Word.\n\nIf you have children or grandchildren, your most important investment is not their school fund — it is your relationship with them. The stories you tell, the values you live, the faith you share across the dinner table — these are assets that no financial crisis can ever take away.',
+    wisdom:["The truest measure of your life's success is the faith and character you pass to the next generation, not the wealth you accumulate","Financial inheritance matters — but the spiritual and values inheritance matters more and lasts longer","Every day is an opportunity to plant seeds of legacy through how you live, give, forgive, and love the people nearest to you"],
+    questions:["What is one value or lesson from your life that you most want your children or grandchildren to carry forward — and are you actively modeling it today?","If your family were to describe your legacy in three words after you are gone, what do you hope and pray those words would be?"],
+    prayer:'Lord, as I reflect on the years behind me and the ones that remain, I am humbled by the weight and privilege of legacy. Grant me wisdom to invest in what truly lasts — not merely in wealth, but in a family rooted in deep faith. Help me to model the life I want my children and grandchildren to live. Where I have fallen short, grant me the grace to make it right while there is still time. Amen.',
+    act:'Have a meaningful conversation with one family member this week — share a life lesson, a memory of God\'s faithfulness, or a value you want them to carry.' },
+  { title:'Leading with Wisdom, Not Just Experience',
+    verse:'"If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you."', ref:'James 1:5',
+    imgQuery:'Saint Thomas Aquinas painting scholar writing study religious',
+    reflection:'There is a dangerous assumption that can settle in at midlife and beyond: the idea that experience is enough. That because you have walked long roads and made many decisions, wisdom is automatic. But experience and wisdom are not the same thing. Experience is what happened to you. Wisdom is what you learned — and more importantly, what you allowed to transform you.\n\nJames writes these words to people navigating trials — situations where the path forward was genuinely unclear and the stakes were genuinely high. Leadership at every level constantly demands decisions that exceed our competence. The parent whose adult child is making destructive choices. The community leader managing conflict between people he loves.\n\nWhat is remarkable about this promise is the qualifier: none. God gives wisdom generously, to all, without finding fault. He does not audit your past failures. He asks only one thing: that you ask in genuine faith.\n\nThe leaders God uses most are not the most experienced. They are the most consistently dependent on Him.',
+    wisdom:["Experience informs; wisdom transforms — and wisdom requires ongoing humility before God, not just accumulated years","The most dangerous leaders are those who stopped asking questions because they assumed they already knew the answers","God gives wisdom generously and without judgment — the only requirement is genuine, faith-filled asking"],
+    questions:["In which area of your leadership — family, work, or community — are you relying too heavily on your own experience rather than actively seeking God's wisdom?","Who in your life models the kind of wisdom you most admire? What specific habit or posture makes them wise?"],
+    prayer:'Father, I have walked many roads and faced many trials. But I confess I have sometimes leaned on my own understanding more than on Yours. I have confused experience with wisdom, and confidence with discernment. Today I come to You humbly and ask for genuine wisdom — the kind that sees clearly, speaks carefully, and acts with both truth and love. Guide my decisions at home and at work. Amen.',
+    act:'Identify one leadership decision you have been making from habit or assumption. Bring it before God this week and genuinely ask for His wisdom before you proceed.' },
+  { title:'The Faithful Steward',
+    verse:'"Well done, good and faithful servant! You have been faithful with a few things; I will put you in charge of many things."', ref:'Matthew 25:23',
+    imgQuery:'family elderly grandparent grandchild garden painting happy life',
+    reflection:'These are the words every believer longs to hear at the end of their days: "Well done, good and faithful servant." Not well done, successful servant. Not well done, wealthy servant. Well done, faithful servant.\n\nThe parable of the talents is not primarily about how much you accumulate. It is about what you do with what you have been given. Each servant received a different amount. The reward did not go to the one who received the most. It went to the ones who were faithful with what they had. Both the five-talent servant and the two-talent servant heard the same praise: "Well done."\n\nAt this stage of life, the inventory matters. What has God entrusted to you? Financial resources, professional expertise, decades of experience, relationships and influence, a family, a name, time. These are your talents — and the question is not whether they are large or small, but whether you are investing them faithfully.\n\nStewardship begins with recognizing that nothing you have is ultimately yours. You are a manager, not an owner. And a faithful manager asks daily: "Lord, what do you want me to do with what You have placed in my hands today?"',
+    wisdom:["God measures your faithfulness, not your final total — 'well done' is available to every servant regardless of how much they were given","At this stage of life, a faithful inventory matters: what has God entrusted to you, and how are you currently deploying it?","Stewardship begins with the daily acknowledgment that nothing you have is ultimately yours — you are a manager of God's resources"],
+    questions:["If God reviewed how you have stewarded your resources — time, money, relationships, and influence — what areas would He call faithful? What areas still need growth?","Is there a talent, resource, or opportunity God has placed in your hands that you have been holding back out of fear or comfort?"],
+    prayer:'Lord, I want to hear those words — well done, faithful servant. Not because of pride, but because faithfulness is the deepest way I can honor You with the life You have given me. Show me what I have been entrusted with that I am not fully investing. Help me to be a faithful, generous, and joyful steward. Amen.',
+    act:'Review one area of stewardship — finances, time, or relationships — and identify one specific way to invest more faithfully in it this week.' },
+  { title:'God Sustains You in Every Season',
+    verse:'"Even to your old age and gray hairs I am he who will sustain you. I have made you and I will carry you."', ref:'Isaiah 46:4',
+    imgQuery:'elderly couple walking garden nature painting happy life family',
+    reflection:'There are seasons of life when the body reminds you of its limits. When the stamina of your thirties no longer answers the demands of your fifties. When children grow into adults and the nest empties and the house feels strangely quiet. When retirement approaches and with it, questions about purpose and identity that work once answered.\n\nIsaiah 46:4 was written to a people who feared being discarded. Into that fear, God speaks: "Even to your old age and gray hairs I am He who will sustain you. I have made you and I will carry you."\n\nGod does not phase you out. He does not have a mandatory retirement age for the people He loves. The same God who formed you in your mother\'s womb and carried you through the wildness of your younger years is the same God who walks beside you now — and will walk beside you into every season yet to come.\n\nThe word "sustain" here carries the image of bearing weight — of someone taking what is too heavy for you to carry alone and carrying it Himself. Whatever you are carrying in this season — God is not asking you to carry it alone.',
+    wisdom:["God does not retire from caring for you when your hair turns gray — His faithfulness is not seasonal; it is eternal","The same God who carried you through your most intense years will carry you through the quieter, heavier ones too","Purpose does not end with career or an empty nest — God has meaningful assignments for every season of a faithful life"],
+    questions:["What is the heaviest thing you are carrying in this current season of life, and have you truly allowed God to carry it with you?","How has God specifically sustained you through the hardest season of your past? Write it down and share it with someone this week."],
+    prayer:'Lord, I thank You for every season You have carried me through. I confess that sometimes I fear becoming irrelevant, or losing my strength, or not knowing who I am apart from the roles that have defined me. But You say You will sustain me — even here, even now. Carry what is too heavy for me today. Remind me that my life in Your hands still has great purpose. Amen.',
+    act:'Write a letter of thanksgiving to God — one full page — recounting the specific ways He has sustained and carried you across your life. Read it to someone you love.' },
+  { title:"The Cheerful Giver's Reward",
+    verse:'"God loves a cheerful giver."', ref:'2 Corinthians 9:7',
+    imgQuery:'Saint Francis Assisi painting giving poor birds nature',
+    reflection:'After decades of providing — for children, for aging parents, for communities — there can arise a subtle form of giving fatigue. The heart grows weary of obligation. Generosity begins to feel like a duty performed rather than a joy expressed. And the offering placed in the basket on Sunday starts to feel more like a bill paid than a gift freely given.\n\nGod sees the heart behind the hand. "He loves a cheerful giver" — the Greek word used here is hilaros, from which we get the word hilarious. God loves the exuberant giver. The one who gives with delight, not dread.\n\nAt this stage of life, the capacity to give is often greater than it has ever been — not just financially, but in wisdom, time, mentorship, presence, and prayer. A meal. A listening ear. A hard truth spoken with love. A business connection made for a young person just starting out.\n\nCheerful generosity returns you to the origin of your faith: the recognition that everything you have was given to you first. You are not the source. You are the channel. And channels, by nature, were designed to flow.',
+    wisdom:["Generosity at this stage includes far more than money — wisdom, time, mentorship, and presence are among the richest gifts you can offer","If giving has become joyless obligation, something has drifted in your relationship with God that needs honest attention","Cheerful generosity is rooted in remembering that you are not the source of what you have — you are a channel of God's provision"],
+    questions:["Has your giving in any area — money, time, or energy — become joyless obligation? What might help restore the cheerfulness to it?","Who in the next generation could benefit from a specific gift of your wisdom, mentorship, or connection this week?"],
+    prayer:'Lord, restore to me the joy of giving. Forgive me for the seasons when generosity became mere performance. Remind me that everything I have was first Your gift to me. Let that remembrance make me freely and generously giving. Show me who needs what I have to offer today — not only my money, but my time, my experience, and my presence. Amen.',
+    act:'Identify one person in the next generation who would benefit from a gift of your wisdom or connection. Reach out to them this week with a specific, generous offer.' },
+  { title:'Forgiveness: The Foundation of a Strong Family',
+    verse:'"Forgive as the Lord forgave you."', ref:'Colossians 3:13',
+    imgQuery:'family gathering celebration painting happy reunion dinner table',
+    reflection:'Families are the most intimate of all human institutions — and therefore the site of the deepest wounds. The sibling who was favored. The parent whose words cut deeper because they came from someone who should have known better. The marriage that bore years of unspoken resentment. The misunderstanding that was never corrected and calcified into wall.\n\nPaul\'s instruction is direct and leaves little room for qualification: "Forgive one another as the Lord forgave you." Not as far as they deserve. Not until they apologize. Not halfway. As the Lord forgave you — fully, freely, at great personal cost.\n\nForgiveness is not the erasure of memory. It does not require pretending the wound did not happen. It does not mean trust is automatically restored. Forgiveness is a decision of the will — a choice to release another person from the debt of their wrong against you.\n\nUnforgiveness teaches the next generation what to do with pain. Forgiveness, by contrast, becomes one of the most powerful things you can model to your children and grandchildren. It says: in this family, love is stronger than offense.',
+    wisdom:["Forgiveness is not a feeling you wait for — it is a decision of the will that, once made, slowly releases the pain it carried","Unforgiveness in the home is generational: children inherit not only your values but your unresolved wounds","The family that practices forgiveness together builds a foundation resilient enough to survive nearly anything"],
+    questions:["Is there a family relationship where unforgiveness has built a wall — even a subtle one — that you have been unwilling or afraid to address?","What would it mean for your family's future generations if you chose forgiveness in the hardest relationship you are currently carrying?"],
+    prayer:'Father, You forgave me at the greatest cost imaginable. Help me to forgive with even a fraction of that grace. Bring to my mind the faces of those I have not fully forgiven. Give me the courage to begin. Not to pretend nothing happened, but to release the debt and refuse to let it define the relationship. For the sake of my family and my own soul — help me to forgive as You have forgiven me. Amen.',
+    act:'Write a letter of forgiveness to someone you have not fully forgiven — you do not have to send it, but write it fully and honestly. Then pray over it and release it to God.' },
+  { title:'Sacred Rest: Renewal for the Long Road',
+    verse:'"Remember the Sabbath day by keeping it holy."', ref:'Exodus 20:8',
+    imgQuery:'family Sabbath rest Sunday afternoon painting peaceful garden elderly',
+    reflection:'God did not include the Sabbath in the Ten Commandments as an afterthought. He placed it alongside commands about murder, theft, and idolatry. The Sabbath is not optional. It is holy. It is a commandment — and one of the few prefaced with the word "remember," which suggests that God already knew we would be prone to forgetting it.\n\nFor those of us in the second half of life, the Sabbath carries a different weight than it did in the building years. We have spent decades in the press of activity — raising children, building businesses, managing households. The rhythm of that season was relentless. But the body keeps accounts, and eventually it presents its invoice.\n\nSabbath is not simply cessation. It is the active presence of God in unhurried time. It is the one day of the week when you lay down the tools of your productivity and simply be — a beloved child of God, not a productive contributor to the economy.\n\nThere is something particularly beautiful about a Sabbath practiced in the company of family. When grandparents model rest — genuine, unhurried, prayerful rest — they give their children one of the rarest gifts in the modern world: permission to stop. Permission to simply exist in God\'s presence without earning it.',
+    wisdom:["The Sabbath is not optional — it is a commandment, and one God knew we would need the specific reminder to keep","In the second half of life, rest becomes not just a physical necessity but a spiritual discipline of profound depth","Modeling Sabbath rest for your children and grandchildren is a gift that shapes their relationship with work and God for generations"],
+    questions:["What would a genuinely holy Sabbath look like in your home — and what would need to change for that to become a consistent, faithful rhythm?","What is the deepest spiritual fruit you have experienced from seasons of consistent, unhurried rest with God?"],
+    prayer:'Lord, I come to You in this quiet moment and choose rest. I lay down the doing and the striving and the managing. I choose to simply be Your child — beloved, held, and free. Help me to protect this sacred rhythm in my home, to model it for those who watch me, and to receive the renewal You pour into unhurried souls. I am still. You are God. Amen.',
+    act:'Plan a genuine Sabbath this weekend — no work, no errands, no social media. Invite your family to join you. Mark it as holy time with God.' }
 ];
 
 /* ══ STATE ══ */
@@ -695,204 +601,158 @@ var currentEdition = localStorage.getItem('mm_devotional_edition') || 'kids';
 var currentDate = new Date();
 var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+function formatDate(d) { return MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear(); }
+function shiftDay(delta) { currentDate = new Date(currentDate.getTime() + delta*86400000); render(); }
+function setEdition(ed) { currentEdition = ed; localStorage.setItem('mm_devotional_edition', ed); render(); }
 
-function formatDate(d) {
-  return MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
-}
-function shiftDay(delta) {
-  currentDate = new Date(currentDate.getTime() + delta * 86400000);
-  render();
-}
-function setEdition(ed) {
-  currentEdition = ed;
-  localStorage.setItem('mm_devotional_edition', ed);
-  render();
-}
+/* ── SVG icons ── */
+function svgBook(){ return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'; }
+function svgStar(){ return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'; }
+function svgTarget(){ return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>'; }
+function svgHands(){ return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v1M14 7V4a2 2 0 0 0-4 0v1M10 8V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>'; }
+function svgLight(){ return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><circle cx="12" cy="12" r="5"/></svg>'; }
+function svgMission(){ return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>'; }
+function svgCross(){ return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg>'; }
+function svgDove(){ return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'; }
 
-/* ══ ICON HELPERS ══ */
-function iconBook() {
-  return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>';
-}
-function iconStar() {
-  return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
-}
-function iconTarget() {
-  return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>';
-}
-function iconHands() {
-  return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>';
-}
-function iconLight() {
-  return '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><circle cx="12" cy="12" r="5"/></svg>';
-}
-function iconMission() {
-  return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>';
-}
-function iconCross() {
-  return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="10" x2="22" y2="10"/></svg>';
-}
-function iconAct() {
-  return '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
-}
-
-/* ══ ILLUSTRATION BLOCK ══ */
-function illustrationBlock(id, creditId) {
-  return '<div class="dev-illustration" id="' + id + '">' +
-    '<span class="illus-loading">Loading illustration&hellip;</span>' +
+/* ── Illustration block HTML ── */
+function illustBlock(id, creditId) {
+  return '<div class="book-illus" id="' + id + '">' +
+    '<span class="illus-loader">Loading illustration…</span>' +
     '<img src="" alt="" />' +
   '</div>' +
-  '<div class="dev-illus-credit" id="' + creditId + '"></div>';
+  '<div class="book-illus-credit" id="' + creditId + '"></div>';
 }
 
-/* ══ KIDS RENDERER ══ */
+/* ── RENDER KIDS ── */
 function renderKids(d, dow) {
-  var illustId = 'kids-illus-' + dow;
-  var creditId = 'kids-credit-' + dow;
-  return '<div class="kids-card">' +
-    '<div class="kids-header">' +
-      '<h1 class="kids-title">' + d.title + '</h1>' +
-      '<div class="kids-verse-box">' +
-        '<p class="kids-verse-text">' + d.verse + '</p>' +
-        '<div class="kids-verse-ref">' + d.ref + '</div>' +
+  var iid = 'ki-'+dow, cid = 'kc-'+dow;
+  return '<div class="book-wrap"><div class="book-page">' +
+    '<div class="kids-page">' +
+      '<div class="kids-chap-banner">' +
+        '<div class="kids-chap-label">Today\'s Story</div>' +
+        '<h1 class="kids-title">' + d.title + '</h1>' +
+        '<div class="kids-verse-block">' +
+          '<p class="kids-verse-text">' + d.verse + '</p>' +
+          '<div class="kids-verse-ref">' + d.ref + '</div>' +
+        '</div>' +
+      '</div>' +
+      illustBlock(iid, cid) +
+      '<div class="kids-body">' +
+        '<div class="kids-section-title">' + svgBook() + ' Bible Story</div>' +
+        '<div class="kids-story">' + d.story.split('\n\n').map(function(p){ return '<p>'+p+'</p>'; }).join('') + '</div>' +
+        '<hr class="kids-hr" />' +
+        '<div class="kids-section-title">' + svgStar() + ' What God Wants Us to Learn</div>' +
+        '<ul class="kids-lessons">' + d.lessons.map(function(l){ return '<li>'+l+'</li>'; }).join('') + '</ul>' +
+        '<hr class="kids-hr" />' +
+        '<div class="kids-section-title">' + svgTarget() + ' Today\'s Challenge</div>' +
+        '<div class="kids-challenge">' + d.challenge + '</div>' +
+        '<hr class="kids-hr" />' +
+        '<div class="kids-section-title">' + svgHands() + ' Let\'s Pray Together</div>' +
+        '<div class="kids-prayer">' + d.prayer + '</div>' +
+        '<hr class="kids-hr" />' +
+        '<div class="kids-section-title">' + svgLight() + ' Fun Thought</div>' +
+        '<div class="kids-fun">' + d.fun + '</div>' +
       '</div>' +
     '</div>' +
-    '<div class="kids-illus-wrap">' + illustrationBlock(illustId, creditId) + '</div>' +
-    '<div class="kids-divider"></div>' +
-    '<div class="kids-section">' +
-      '<div class="kids-section-label">' + iconBook() + ' Bible Story</div>' +
-      d.story.split('\n\n').map(function(p){ return '<p class="kids-story">'+p+'</p>'; }).join('') +
-    '</div>' +
-    '<div class="kids-divider"></div>' +
-    '<div class="kids-section">' +
-      '<div class="kids-section-label">' + iconStar() + ' What God Wants Us to Learn</div>' +
-      '<ul class="kids-lessons">' + d.lessons.map(function(l){ return '<li>'+l+'</li>'; }).join('') + '</ul>' +
-    '</div>' +
-    '<div class="kids-divider"></div>' +
-    '<div class="kids-section">' +
-      '<div class="kids-section-label">' + iconTarget() + " Today's Challenge</div>" +
-      '<div class="kids-challenge">' + d.challenge + '</div>' +
-    '</div>' +
-    '<div class="kids-divider"></div>' +
-    '<div class="kids-section">' +
-      '<div class="kids-section-label">' + iconHands() + " Let's Pray Together</div>" +
-      '<div class="kids-prayer">' + d.prayer + '</div>' +
-    '</div>' +
-    '<div class="kids-divider"></div>' +
-    '<div class="kids-section">' +
-      '<div class="kids-section-label">' + iconLight() + ' Fun Thought</div>' +
-      '<div class="kids-fun">' + d.fun + '</div>' +
-    '</div>' +
-  '</div>';
+  '</div></div>';
 }
 
-/* ══ YUPPIES RENDERER ══ */
+/* ── RENDER YUPPIES ── */
 function renderYuppies(d, dow) {
-  var illustId = 'yup-illus-' + dow;
-  var creditId = 'yup-credit-' + dow;
-  return '<div class="yup-card">' +
-    '<div class="yup-header">' +
-      '<div class="yup-tag">' + d.tag + '</div>' +
-      '<h1 class="yup-title">' + d.title + '</h1>' +
-      '<div class="yup-verse-box">' +
-        '<p class="yup-verse-text">' + d.verse + '</p>' +
-        '<div class="yup-verse-ref">&#8212; ' + d.ref + '</div>' +
+  var iid = 'yi-'+dow, cid = 'yc-'+dow;
+  return '<div class="book-wrap"><div class="book-page">' +
+    '<div class="yup-page">' +
+      '<div class="yup-header">' +
+        '<div class="yup-tag">' + d.tag + '</div>' +
+        '<h1 class="yup-title">' + d.title + '</h1>' +
+        '<div class="yup-verse-block">' +
+          '<p class="yup-verse-text">' + d.verse + '</p>' +
+          '<div class="yup-verse-ref">&#8212; ' + d.ref + '</div>' +
+        '</div>' +
+      '</div>' +
+      illustBlock(iid, cid) +
+      '<div class="yup-body">' +
+        '<div class="yup-label">Reflection</div>' +
+        '<div class="yup-reflection">' + d.reflection.split('\n\n').map(function(p){ return '<p>'+p+'</p>'; }).join('') + '</div>' +
+        '<hr class="yup-hr" />' +
+        '<div class="yup-label">Key Takeaways</div>' +
+        '<ul class="yup-takeaways">' + d.takeaways.map(function(t){ return '<li>'+t+'</li>'; }).join('') + '</ul>' +
+        '<hr class="yup-hr" />' +
+        '<div class="yup-label">Reflection Question</div>' +
+        '<div class="yup-question">&#8220;' + d.question + '&#8221;</div>' +
+      '</div>' +
+      '<div class="yup-footer">' +
+        '<div class="yup-label">Prayer</div>' +
+        '<div class="yup-prayer">' + d.prayer + '</div>' +
+        '<hr class="yup-hr" />' +
+        '<div class="yup-label">Today\'s Mission</div>' +
+        '<div class="yup-mission">' + svgMission() + '<div class="yup-mission-text">' + d.mission + '</div></div>' +
       '</div>' +
     '</div>' +
-    '<div class="yup-illus-wrap">' + illustrationBlock(illustId, creditId) + '</div>' +
-    '<div class="yup-body">' +
-      '<div class="yup-section-label">Reflection</div>' +
-      '<div class="yup-reflection">' + d.reflection.split('\n\n').map(function(p){ return '<p>'+p+'</p>'; }).join('') + '</div>' +
-      '<div class="yup-divider"></div>' +
-      '<div class="yup-section-label">Key Takeaways</div>' +
-      '<ul class="yup-takeaways">' + d.takeaways.map(function(t){ return '<li>'+t+'</li>'; }).join('') + '</ul>' +
-      '<div class="yup-divider"></div>' +
-      '<div class="yup-section-label">Reflection Question</div>' +
-      '<div class="yup-question">&#8220;' + d.question + '&#8221;</div>' +
-    '</div>' +
-    '<div class="yup-footer">' +
-      '<div class="yup-section-label">Prayer</div>' +
-      '<div class="yup-prayer">' + d.prayer + '</div>' +
-      '<div class="yup-divider"></div>' +
-      '<div class="yup-section-label">Today\'s Mission</div>' +
-      '<div class="yup-mission">' +
-        iconMission() +
-        '<div class="yup-mission-text">' + d.mission + '</div>' +
-      '</div>' +
-    '</div>' +
-  '</div>';
+  '</div></div>';
 }
 
-/* ══ PRIMES RENDERER ══ */
+/* ── RENDER PRIMES ── */
 function renderPrimes(d, dow) {
-  var illustId = 'primes-illus-' + dow;
-  var creditId = 'primes-credit-' + dow;
-  var qs = d.questions.map(function(q, i) {
-    return '<div class="fq-item"><div class="fq-num">'+(i+1)+'</div><div class="fq-text">'+q+'</div></div>';
+  var iid = 'pi-'+dow, cid = 'pc-'+dow;
+  var qs = d.questions.map(function(q,i){
+    return '<div class="primes-fq-item"><div class="primes-fq-num">'+(i+1)+'</div><div class="primes-fq-text">'+q+'</div></div>';
   }).join('');
-  return '<div class="primes-card">' +
-    '<div class="primes-header">' +
-      '<span class="primes-cross-icon">' + iconCross() + '</span>' +
-      '<span class="primes-edition-tag">Daily Reflection &middot; Primes Edition</span>' +
-      '<h1 class="primes-title">' + d.title + '</h1>' +
-      '<div class="primes-verse-box">' +
-        '<p class="primes-verse-text">' + d.verse + '</p>' +
-        '<div class="primes-verse-ref">&#8212; ' + d.ref + '</div>' +
+  return '<div class="book-wrap"><div class="book-page">' +
+    '<div class="primes-page">' +
+      '<div class="primes-header">' +
+        '<span class="primes-ornament">' + svgCross() + '</span>' +
+        '<span class="primes-edition-tag">Daily Reflection &middot; Primes Edition</span>' +
+        '<h1 class="primes-title">' + d.title + '</h1>' +
+        '<div class="primes-verse-wrap">' +
+          '<hr class="primes-rule" />' +
+          '<p class="primes-verse-text">' + d.verse + '</p>' +
+          '<div class="primes-verse-ref">&#8212; ' + d.ref + '</div>' +
+        '</div>' +
+      '</div>' +
+      illustBlock(iid, cid) +
+      '<div class="primes-body">' +
+        '<div class="primes-label">Reflection</div>' +
+        '<div class="primes-reflection">' + d.reflection.split('\n\n').map(function(p){ return '<p>'+p+'</p>'; }).join('') + '</div>' +
+        '<div class="primes-ornament-hr">&#10022; &nbsp; &#10022; &nbsp; &#10022;</div>' +
+        '<div class="primes-label">Wisdom Points</div>' +
+        '<ul class="primes-wisdom">' + d.wisdom.map(function(w){ return '<li>'+w+'</li>'; }).join('') + '</ul>' +
+        '<hr class="primes-hr" />' +
+        '<div class="primes-label">For Family Discussion</div>' +
+        '<div class="primes-family-q">' + qs + '</div>' +
+      '</div>' +
+      '<div class="primes-footer">' +
+        '<div class="primes-label">Prayer</div>' +
+        '<div class="primes-prayer">' + d.prayer + '</div>' +
+        '<hr class="primes-hr" />' +
+        '<div class="primes-label">Today\'s Act of Faith</div>' +
+        '<div class="primes-act">' + svgDove() + '<div class="primes-act-text">' + d.act + '</div></div>' +
       '</div>' +
     '</div>' +
-    '<div class="primes-illus-wrap">' + illustrationBlock(illustId, creditId) + '</div>' +
-    '<div class="primes-body">' +
-      '<div class="primes-section-label">Reflection</div>' +
-      '<div class="primes-reflection">' + d.reflection.split('\n\n').map(function(p){ return '<p>'+p+'</p>'; }).join('') + '</div>' +
-      '<div class="primes-divider"></div>' +
-      '<div class="primes-section-label">Wisdom Points</div>' +
-      '<ul class="primes-wisdom">' + d.wisdom.map(function(w){ return '<li>'+w+'</li>'; }).join('') + '</ul>' +
-      '<div class="primes-divider"></div>' +
-      '<div class="primes-section-label">For Family Discussion</div>' +
-      '<div class="primes-family-q">' + qs + '</div>' +
-    '</div>' +
-    '<div class="primes-footer">' +
-      '<div class="primes-section-label">Prayer</div>' +
-      '<div class="primes-prayer">' + d.prayer + '</div>' +
-      '<div class="primes-divider"></div>' +
-      '<div class="primes-section-label">Today\'s Act of Faith</div>' +
-      '<div class="primes-act">' +
-        iconAct() +
-        '<div class="primes-act-text">' + d.act + '</div>' +
-      '</div>' +
-    '</div>' +
-  '</div>';
+  '</div></div>';
 }
 
-/* ══ RENDER ══ */
+/* ── RENDER ── */
 function render() {
   var page = document.getElementById('devPage');
   page.setAttribute('data-edition', currentEdition);
-  ['kids','yuppies','primes'].forEach(function(ed) {
-    var key = 'btn' + ed.charAt(0).toUpperCase() + ed.slice(1);
-    document.getElementById(key).classList.toggle('active', ed === currentEdition);
+  ['kids','yuppies','primes'].forEach(function(ed){
+    document.getElementById('btn'+ed.charAt(0).toUpperCase()+ed.slice(1)).classList.toggle('active', ed===currentEdition);
   });
   var dow = currentDate.getDay();
   document.getElementById('devDayName').textContent = DAYS[dow];
   document.getElementById('devFullDate').textContent = formatDate(currentDate);
-
   var content = document.getElementById('devContent');
-  var html, imgQuery, illustId, creditId;
-
   if (currentEdition === 'kids') {
-    var d = kidsDevotions[dow];
-    html = renderKids(d, dow);
-    content.innerHTML = html;
-    loadWikiImage(d.imgQuery, 'kids-illus-' + dow, 'kids-credit-' + dow);
+    content.innerHTML = renderKids(kidsDevotions[dow], dow);
+    loadWikiImage(kidsDevotions[dow].imgQuery, 'ki-'+dow, 'kc-'+dow);
   } else if (currentEdition === 'yuppies') {
-    var d = yuppiesDevotions[dow];
-    html = renderYuppies(d, dow);
-    content.innerHTML = html;
-    loadWikiImage(d.imgQuery, 'yup-illus-' + dow, 'yup-credit-' + dow);
+    content.innerHTML = renderYuppies(yuppiesDevotions[dow], dow);
+    loadWikiImage(yuppiesDevotions[dow].imgQuery, 'yi-'+dow, 'yc-'+dow);
   } else {
-    var d = primesDevotions[dow];
-    html = renderPrimes(d, dow);
-    content.innerHTML = html;
-    loadWikiImage(d.imgQuery, 'primes-illus-' + dow, 'primes-credit-' + dow);
+    content.innerHTML = renderPrimes(primesDevotions[dow], dow);
+    loadWikiImage(primesDevotions[dow].imgQuery, 'pi-'+dow, 'pc-'+dow);
   }
 }
 
