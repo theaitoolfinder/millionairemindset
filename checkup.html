@@ -297,7 +297,7 @@
                 <input class="calc-label-input" placeholder="Ipon / Savings" value="Ipon / Savings" />
                 <div class="calc-amount-wrap">
                   <span class="calc-currency">AED</span>
-                  <input type="text" inputmode="decimal" class="calc-amount" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
+                  <input type="text" inputmode="decimal" class="calc-amount" data-exclude-from-total="true" placeholder="0" oninput="calcUpdate()" onblur="calcResolveInput(this)" />
                 </div>
               </div>
             </div>
@@ -875,7 +875,9 @@
   function calcSum(containerId) {
     var rows = document.getElementById(containerId).querySelectorAll('.calc-amount');
     var total = 0;
-    rows.forEach(function(i){ total += calcEval(i.value); });
+    rows.forEach(function(i){
+      if (!i.dataset.excludeFromTotal) total += calcEval(i.value);
+    });
     return total;
   }
 
