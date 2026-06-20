@@ -1012,7 +1012,8 @@
         donutNet.style.stroke = '#f97316';
         donutNet.style.display = '';
         donutNet.style.strokeDasharray = expArc + ' ' + circ;
-        donutNet.setAttribute('stroke-dashoffset', circ / 4);
+        // dashoffset = expArc + circ/4 makes the arc start exactly at 12 o'clock (0%)
+        donutNet.setAttribute('stroke-dashoffset', expArc + circ / 4);
       } else {
         donutNet.style.stroke = 'none';
       }
@@ -1034,7 +1035,7 @@
       donutNet.style.stroke = '#dc2626';
       donutNet.style.display = '';
       donutNet.style.strokeDasharray = deficitArc + ' ' + circ;
-      donutNet.setAttribute('stroke-dashoffset', circ / 4);
+      donutNet.setAttribute('stroke-dashoffset', deficitArc + circ / 4);
 
       donutHatch.style.display = 'none';
       shine.style.display = 'none';
