@@ -4,8 +4,8 @@
     {
       "name": "millionairemindset",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "3456"],
-      "port": 3456
+      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "/Users/benjiegadiaza/projects/millionairemindset"],
+      "port": 8765
     }
   ]
 }

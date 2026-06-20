@@ -33,39 +33,72 @@
   .cart-item-sku { font-size:.68rem; color:#aaa; display:block; margin-top:2px; }
   .cart-item-unit { font-size:.78rem; color:#888; display:block; }
 
+  /* ── Checkout form layout ── */
+  .checkout-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .checkout-section-label {
+    font-size:.68rem; font-weight:700; color:var(--primary); text-transform:uppercase;
+    letter-spacing:.08em; margin:18px 0 8px; display:flex; align-items:center; gap:6px;
+  }
+  .checkout-section-label svg { flex-shrink:0; }
+
+  /* Address geotag area */
+  .addr-wrap { position:relative; }
+  .addr-wrap .checkout-input { padding-right:42px; }
+  .geo-btn {
+    position:absolute; right:8px; top:50%; transform:translateY(-50%);
+    background:none; border:none; cursor:pointer; padding:4px; color:var(--primary);
+    display:flex; align-items:center; line-height:1;
+  }
+  .geo-btn:hover { color:#CC1010; }
+  .geo-btn.loading { animation:spin .8s linear infinite; }
+  @keyframes spin { to { transform:translateY(-50%) rotate(360deg); } }
+
+  /* Location chip shown after geotagging */
+  .geo-chip {
+    display:none; align-items:center; gap:8px;
+    background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:10px;
+    padding:8px 12px; margin-top:8px; font-size:.75rem; color:#15803d;
+  }
+  .geo-chip.visible { display:flex; }
+  .geo-chip-coords { font-family:monospace; font-size:.72rem; color:#666; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .geo-share-btn {
+    flex-shrink:0; background:#16a34a; color:#fff; border:none; border-radius:8px;
+    padding:5px 10px; font-size:.72rem; font-weight:700; cursor:pointer; white-space:nowrap;
+  }
+  .geo-share-btn:hover { background:#15803d; }
+  .geo-share-btn.copied { background:#0369a1; }
+
   /* ── Payment instructions box ── */
   .pay-box {
     background:#fffbeb; border:1.5px solid #fde68a; border-radius:14px;
-    padding:18px 20px; margin-top:16px; font-size:.82rem; line-height:1.65; color:#555;
+    padding:16px 18px; margin-top:14px; font-size:.82rem; line-height:1.65; color:#555;
   }
-  .pay-box-title { font-weight:700; font-size:.9rem; color:#92400e; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+  .pay-box-title { font-weight:700; font-size:.88rem; color:#92400e; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
   .pay-box-ref { font-size:.78rem; background:#fff; border:1px solid #fde68a; border-radius:8px; padding:6px 10px; margin-top:10px; text-align:center; }
   .pay-box-ref strong { font-size:1rem; letter-spacing:.06em; color:#CC1010; }
 
   /* ── Success card ── */
   .order-success-card {
     background:#f0fdf4; border:1.5px solid #bbf7d0; border-radius:16px;
-    padding:24px 20px; text-align:center; margin-top:16px;
+    padding:20px 18px; text-align:center; margin-top:14px;
   }
-  .order-success-card .check-icon { font-size:2.5rem; margin-bottom:10px; }
-  .order-success-card h4 { font-size:1rem; font-weight:800; color:#16a34a; margin-bottom:6px; }
+  .order-success-card .check-icon { font-size:2.2rem; margin-bottom:8px; }
+  .order-success-card h4 { font-size:1rem; font-weight:800; color:#16a34a; margin-bottom:4px; }
   .order-success-card p { font-size:.82rem; color:#555; line-height:1.6; margin:0; }
   .order-success-card .ref-chip {
     display:inline-block; background:#fff; border:1.5px solid #bbf7d0;
-    border-radius:999px; padding:4px 16px; margin:10px auto 0;
+    border-radius:999px; padding:4px 16px; margin:8px auto 0;
     font-size:.85rem; font-weight:700; color:#16a34a; letter-spacing:.04em;
   }
 
-  /* ── Payment method select indicator ── */
-  .pay-method-list { display:flex; flex-direction:column; gap:8px; margin:12px 0; }
-  .pay-method-opt {
-    display:flex; align-items:center; gap:10px;
-    border:1.5px solid var(--border-soft); border-radius:12px; padding:10px 14px;
-    cursor:pointer; transition:border-color .2s, background .2s; font-size:.84rem;
+  /* Success location chip */
+  .success-map-link {
+    display:inline-flex; align-items:center; gap:6px;
+    background:#fff; border:1.5px solid #bbf7d0; border-radius:10px;
+    padding:7px 14px; margin-top:10px; font-size:.78rem; font-weight:600;
+    color:#16a34a; text-decoration:none; cursor:pointer;
   }
-  .pay-method-opt:hover { border-color:var(--primary); background:rgba(204,16,16,.03); }
-  .pay-method-opt.selected { border-color:var(--primary); background:rgba(204,16,16,.05); }
-  .pay-method-opt input[type=radio] { accent-color:var(--primary); width:16px; height:16px; }
+  .success-map-link:hover { background:#f0fdf4; }
 
   /* Stock badges on product cards */
   .stock-badge { font-size:.65rem; font-weight:700; padding:3px 8px; border-radius:999px; position:absolute; bottom:8px; left:8px; }
@@ -161,26 +194,55 @@
 
           <!-- ── STEP 1: Checkout form ── -->
           <div id="checkoutStep">
-            <h4 style="margin:24px 0 14px;">Your Details</h4>
             <form id="checkoutForm" novalidate>
-              <input type="text"  id="checkoutName"    placeholder="Full Name *"                         required class="checkout-input" autocomplete="name" />
-              <input type="email" id="checkoutEmail"   placeholder="Email Address *"                     required class="checkout-input" autocomplete="email" />
-              <input type="tel"   id="checkoutPhone"   placeholder="Phone / Viber / WhatsApp"                     class="checkout-input" autocomplete="tel" />
-              <input type="text"  id="checkoutAddress" placeholder="Delivery Address (if physical item)"           class="checkout-input" autocomplete="street-address" />
-              <input type="text"  id="checkoutZip"     placeholder="ZIP / Postal Code"                             class="checkout-input" autocomplete="postal-code" />
+
+              <!-- Contact -->
+              <div class="checkout-section-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Contact Info
+              </div>
+              <div class="checkout-row">
+                <input type="text"  id="checkoutName"  placeholder="Full Name *" required class="checkout-input" autocomplete="name" />
+                <input type="tel"   id="checkoutPhone" placeholder="Phone / Viber *" required class="checkout-input" autocomplete="tel" />
+              </div>
+              <input type="email" id="checkoutEmail" placeholder="Email Address *" required class="checkout-input" autocomplete="email" />
+
+              <!-- Delivery address -->
+              <div class="checkout-section-label">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                Delivery Location
+              </div>
+              <div class="addr-wrap">
+                <input type="text" id="checkoutAddress" placeholder="Street address, barangay, city *" required class="checkout-input" autocomplete="street-address" />
+                <button type="button" class="geo-btn" id="geoBtn" title="Use my current location" onclick="geoLocate()">
+                  <svg id="geoBtnIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/></svg>
+                </button>
+              </div>
+              <!-- ZIP on same row as landmark -->
+              <div class="checkout-row" style="margin-top:10px;">
+                <input type="text" id="checkoutLandmark" placeholder="Landmark (optional)" class="checkout-input" />
+                <input type="text" id="checkoutZip"      placeholder="ZIP Code" class="checkout-input" autocomplete="postal-code" />
+              </div>
+
+              <!-- Geotag chip (shown after location captured) -->
+              <div class="geo-chip" id="geoChip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                <span class="geo-chip-coords" id="geoCoords">—</span>
+                <button type="button" class="geo-share-btn" id="geoShareBtn" onclick="copyRiderLink()">Share to Rider</button>
+              </div>
 
               <div id="formError" style="display:none; color:#dc2626; font-size:.78rem; margin:10px 0; padding:8px 12px; background:#fef2f2; border-radius:8px;"></div>
             </form>
 
-            <!-- PayPal button renders here -->
-            <div style="margin-top:16px;">
+            <!-- PayPal button -->
+            <div style="margin-top:18px; padding-top:16px; border-top:1px solid var(--border-soft);">
               <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                 <span style="font-size:.72rem;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;">Secure Payment via PayPal</span>
               </div>
               <div id="paypal-button-container"></div>
             </div>
-            <p class="checkout-note" style="margin-top:10px;">Fields marked * are required. Clicking the PayPal button will validate your details and open PayPal checkout.</p>
+            <p class="checkout-note" style="margin-top:8px;font-size:.7rem;color:#aaa;">Fields marked * are required. Your location pin will be shared with the rider for accurate delivery.</p>
           </div>
 
           <!-- ── STEP 2: Success (shown after PayPal payment) ── -->
@@ -188,27 +250,34 @@
             <div class="order-success-card">
               <div class="check-icon">&#10003;</div>
               <h4>Payment Confirmed!</h4>
-              <p>Thank you! Your PayPal payment was successful. Your order is now being processed.</p>
+              <p>Your order is now being processed. The rider will be notified.</p>
               <div class="ref-chip" id="orderRefChip"></div>
+              <!-- Rider map link shown if geotag was captured -->
+              <div id="successMapWrap" style="display:none;">
+                <a class="success-map-link" id="successMapLink" target="_blank" rel="noopener">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Open Delivery Location in Maps
+                </a>
+                <button class="geo-share-btn" id="successCopyBtn" onclick="copySuccessLink()" style="margin-left:6px;">Copy Rider Link</button>
+              </div>
             </div>
 
             <div class="pay-box">
               <div class="pay-box-title">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
                 Order Details
               </div>
               <div id="payInstructionsBody"></div>
               <div class="pay-box-ref">
-                Order Reference: <strong id="orderRefChip2"></strong><br>
-                PayPal Transaction: <strong id="paypalTxnId"></strong>
+                Ref: <strong id="orderRefChip2"></strong> &nbsp;|&nbsp; PayPal: <strong id="paypalTxnId"></strong>
               </div>
             </div>
 
             <div style="margin-top:14px; text-align:center;">
               <a href="shop.html" class="btn-primary" style="display:inline-block; padding:10px 28px; font-size:.84rem;">Continue Shopping</a>
             </div>
-            <p style="font-size:.72rem; color:#aaa; text-align:center; margin-top:10px;">
-              A confirmation will be sent to your email once your order is dispatched.
+            <p style="font-size:.7rem; color:#aaa; text-align:center; margin-top:8px;">
+              Confirmation will be sent to your email once dispatched.
             </p>
           </div>
 
@@ -237,6 +306,85 @@
   <!-- PayPal JS SDK -->
   <script src="https://www.paypal.com/sdk/js?client-id=BAAk7LQMEa2Pqi2mXZaorCVohcLE2y0fiYz9pfi4-zw3yFmFP8NVLXLShyz1cRLstv3eed0k9Fd9Yhziqg&currency=PHP" data-sdk-integration-source="button-factory"></script>
   <script>
+  // ── Geolocation ──────────────────────────────────────────────────────
+  var _geoLat = null, _geoLng = null, _geoMapsUrl = null;
+
+  function geoLocate() {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser.');
+      return;
+    }
+    var btn = document.getElementById('geoBtn');
+    var icon = document.getElementById('geoBtnIcon');
+    btn.disabled = true;
+    icon.style.animation = 'spin .8s linear infinite';
+
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      _geoLat = pos.coords.latitude;
+      _geoLng = pos.coords.longitude;
+      _geoMapsUrl = 'https://www.google.com/maps?q=' + _geoLat + ',' + _geoLng;
+
+      // Reverse geocode via OpenStreetMap Nominatim (free, no API key)
+      fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + _geoLat + '&lon=' + _geoLng, {
+        headers: { 'Accept-Language': 'en' }
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(data) {
+        var addr = data.display_name || (_geoLat.toFixed(5) + ', ' + _geoLng.toFixed(5));
+        document.getElementById('checkoutAddress').value = addr;
+        showGeoChip();
+      })
+      .catch(function() {
+        // Fallback: just fill coords
+        document.getElementById('checkoutAddress').value = _geoLat.toFixed(6) + ', ' + _geoLng.toFixed(6);
+        showGeoChip();
+      })
+      .finally(function() { resetGeoBtn(); });
+
+    }, function(err) {
+      resetGeoBtn();
+      var msg = err.code === 1 ? 'Location access denied. Please allow location in your browser settings.'
+              : err.code === 2 ? 'Location unavailable. Try again or enter address manually.'
+              : 'Location request timed out.';
+      alert(msg);
+    }, { timeout: 10000 });
+  }
+
+  function showGeoChip() {
+    var chip = document.getElementById('geoChip');
+    var coords = document.getElementById('geoCoords');
+    coords.textContent = _geoLat.toFixed(5) + ', ' + _geoLng.toFixed(5);
+    chip.classList.add('visible');
+  }
+
+  function resetGeoBtn() {
+    var btn = document.getElementById('geoBtn');
+    var icon = document.getElementById('geoBtnIcon');
+    btn.disabled = false;
+    icon.style.animation = '';
+  }
+
+  function copyRiderLink() {
+    if (!_geoMapsUrl) return;
+    navigator.clipboard.writeText(_geoMapsUrl).then(function() {
+      var btn = document.getElementById('geoShareBtn');
+      var orig = btn.textContent;
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function(){ btn.textContent = orig; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function copySuccessLink() {
+    if (!_geoMapsUrl) return;
+    navigator.clipboard.writeText(_geoMapsUrl).then(function() {
+      var btn = document.getElementById('successCopyBtn');
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(function(){ btn.textContent = 'Copy Rider Link'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
   // ── Helpers ──────────────────────────────────────────────────────────
   function showFormErr(msg) {
     var el = document.getElementById('formError');
@@ -262,23 +410,28 @@
   }
 
   function validateForm() {
-    var name  = (document.getElementById('checkoutName') ||{value:''}).value.trim();
-    var email = (document.getElementById('checkoutEmail')||{value:''}).value.trim();
-    if (!name)                         { showFormErr('Please enter your full name.'); return false; }
-    if (!email || !email.includes('@')){ showFormErr('Please enter a valid email address.'); return false; }
+    var name    = (document.getElementById('checkoutName') ||{value:''}).value.trim();
+    var email   = (document.getElementById('checkoutEmail')||{value:''}).value.trim();
+    var phone   = (document.getElementById('checkoutPhone')||{value:''}).value.trim();
+    var address = (document.getElementById('checkoutAddress')||{value:''}).value.trim();
+    if (!name)                          { showFormErr('Please enter your full name.'); return false; }
+    if (!phone)                         { showFormErr('Please enter your phone / Viber number.'); return false; }
+    if (!email || !email.includes('@')) { showFormErr('Please enter a valid email address.'); return false; }
+    if (!address)                       { showFormErr('Please enter your delivery address or use the pin button.'); return false; }
     var cd = getCartData();
-    if (!cd.cartItems.length)          { showFormErr('Your cart is empty.'); return false; }
+    if (!cd.cartItems.length)           { showFormErr('Your cart is empty.'); return false; }
     showFormErr('');
     return true;
   }
 
   function saveAndShowSuccess(txnId, txnStatus) {
-    var name    = (document.getElementById('checkoutName')   ||{value:''}).value.trim();
-    var email   = (document.getElementById('checkoutEmail')  ||{value:''}).value.trim();
-    var phone   = (document.getElementById('checkoutPhone')  ||{value:''}).value.trim();
-    var address = (document.getElementById('checkoutAddress')||{value:''}).value.trim();
-    var zip     = (document.getElementById('checkoutZip')    ||{value:''}).value.trim();
-    var cd      = getCartData();
+    var name     = (document.getElementById('checkoutName')    ||{value:''}).value.trim();
+    var email    = (document.getElementById('checkoutEmail')   ||{value:''}).value.trim();
+    var phone    = (document.getElementById('checkoutPhone')   ||{value:''}).value.trim();
+    var address  = (document.getElementById('checkoutAddress') ||{value:''}).value.trim();
+    var landmark = (document.getElementById('checkoutLandmark')||{value:''}).value.trim();
+    var zip      = (document.getElementById('checkoutZip')     ||{value:''}).value.trim();
+    var cd       = getCartData();
 
     // Generate order ref
     var ref = typeof generateOrderRef === 'function'
@@ -304,7 +457,11 @@
       email: email,
       phone: phone,
       address: address,
+      landmark: landmark,
       zip: zip,
+      geoLat: _geoLat,
+      geoLng: _geoLng,
+      geoMapsUrl: _geoMapsUrl,
       items: cd.cartItems,
       total: cd.total,
       payment: 'PayPal',
@@ -336,8 +493,17 @@
     if (txnEl) txnEl.textContent = txnId || 'N/A';
     var bodyEl = document.getElementById('payInstructionsBody');
     if (bodyEl) bodyEl.innerHTML =
-      '<p style="margin:0 0 6px;">A confirmation email will be sent to <strong>' + email + '</strong> once your order is dispatched.</p>' +
-      '<p style="margin:0;">Items: <strong>' + cd.cartItems.length + '</strong> &nbsp;|&nbsp; Total paid: <strong>&#8369;' + cd.total.toFixed(2) + '</strong></p>';
+      '<p style="margin:0 0 4px;">Confirmation to: <strong>' + email + '</strong></p>' +
+      '<p style="margin:0 0 4px;">Deliver to: <strong>' + address + (landmark ? ' — ' + landmark : '') + (zip ? ', ' + zip : '') + '</strong></p>' +
+      '<p style="margin:0;">Items: <strong>' + cd.cartItems.length + '</strong> &nbsp;|&nbsp; Total: <strong>&#8369;' + cd.total.toFixed(2) + '</strong></p>';
+
+    // Show rider map link if geotag was captured
+    if (_geoMapsUrl) {
+      var mapWrap = document.getElementById('successMapWrap');
+      var mapLink = document.getElementById('successMapLink');
+      if (mapWrap) mapWrap.style.display = 'block';
+      if (mapLink) mapLink.href = _geoMapsUrl;
+    }
   }
 
   // ── PayPal Buttons ───────────────────────────────────────────────────
