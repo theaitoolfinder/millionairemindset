@@ -152,23 +152,20 @@
         </div>
       </div>
 
-      <div class="series-grid" id="seriesGrid">
-
-      <!-- ── Stage 1 ── -->
-      <div class="series-stage-wrap">
-      <div class="series-stage-header">
-        <div class="series-stage-header-inner">
-          <div>
-            <div class="series-stage-label">STAGE 1 — Foundation</div>
-            <div class="series-stage-desc">Just arrived? Start here. Survival basics before anything else.</div>
-          </div>
-          <div class="sc-nav-btns">
-            <button class="sc-arr sc-arr-prev" onclick="scPrev(this)" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="sc-arr sc-arr-next" onclick="scNext(this)" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-          </div>
+      <!-- ── Single unified carousel with stage dividers ── -->
+      <div id="seriesGrid">
+        <div class="sc-nav-bar">
+          <button class="sc-arr sc-arr-prev" id="scMainPrev" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <button class="sc-arr sc-arr-next" id="scMainNext" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
         </div>
-      </div>
-      <div class="series-carousel-track" tabindex="0">
+        <div class="series-single-track" id="mainSeriesTrack" tabindex="0">
+
+        <!-- ── Stage 1 divider ── -->
+        <div class="stage-div">
+          <div class="stage-div-num">01</div>
+          <div class="stage-div-name">Foundation</div>
+          <div class="stage-div-desc">Just arrived? Start here. Survival basics before anything else.</div>
+        </div>
 
         <!-- Series: First 100 Days -->
         <a href="post.html?series=first-100-days&day=1" class="series-card" data-step="1">
@@ -193,24 +190,14 @@
           </div>
         </a>
 
-      </div><!-- /carousel-track stage1 -->
-      </div><!-- /stage-wrap stage1 -->
-
-      <!-- ── Stage 2 ── -->
-      <div class="series-stage-wrap">
-      <div class="series-stage-header">
-        <div class="series-stage-header-inner">
-          <div>
-            <div class="series-stage-label">STAGE 2 — Protect</div>
-            <div class="series-stage-desc">Build your safety net and shield yourself from financial emergencies.</div>
-          </div>
-          <div class="sc-nav-btns">
-            <button class="sc-arr sc-arr-prev" onclick="scPrev(this)" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="sc-arr sc-arr-next" onclick="scNext(this)" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-          </div>
+        <!-- ── Stage 2 divider ── -->
+        <div class="stage-div">
+          <div class="stage-div-num">02</div>
+          <div class="stage-div-name">Protect</div>
+          <div class="stage-div-desc">Build your safety net and shield yourself from financial emergencies.</div>
         </div>
-      </div>
-      <div class="series-carousel-track" tabindex="0">
+
+        <!-- stage 2 cards open -->
 
         <!-- Series: Emergency Fund & Debt -->
         <a href="post.html?series=emergency-debt&day=1" class="series-card" data-step="2">
@@ -252,24 +239,12 @@
           </div>
         </a>
 
-      </div><!-- /carousel-track stage2 -->
-      </div><!-- /stage-wrap stage2 -->
-
-      <!-- ── Stage 3 ── -->
-      <div class="series-stage-wrap">
-      <div class="series-stage-header">
-        <div class="series-stage-header-inner">
-          <div>
-            <div class="series-stage-label">STAGE 3 — Manage</div>
-            <div class="series-stage-desc">Control where every peso goes — sending, banking, and family money.</div>
-          </div>
-          <div class="sc-nav-btns">
-            <button class="sc-arr sc-arr-prev" onclick="scPrev(this)" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="sc-arr sc-arr-next" onclick="scNext(this)" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-          </div>
+        <!-- ── Stage 3 divider ── -->
+        <div class="stage-div">
+          <div class="stage-div-num">03</div>
+          <div class="stage-div-name">Manage</div>
+          <div class="stage-div-desc">Control where every peso goes — sending, banking, and family money.</div>
         </div>
-      </div>
-      <div class="series-carousel-track" tabindex="0">
 
         <!-- Series: Smart Remittance -->
 
@@ -334,24 +309,12 @@
           </div>
         </a>
 
-      </div><!-- /carousel-track stage3 -->
-      </div><!-- /stage-wrap stage3 -->
-
-      <!-- ── Stage 4 ── -->
-      <div class="series-stage-wrap">
-      <div class="series-stage-header">
-        <div class="series-stage-header-inner">
-          <div>
-            <div class="series-stage-label">STAGE 4 — Grow</div>
-            <div class="series-stage-desc">Put your money to work. Invest, build assets, and multiply income.</div>
-          </div>
-          <div class="sc-nav-btns">
-            <button class="sc-arr sc-arr-prev" onclick="scPrev(this)" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="sc-arr sc-arr-next" onclick="scNext(this)" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-          </div>
+        <!-- ── Stage 4 divider ── -->
+        <div class="stage-div">
+          <div class="stage-div-num">04</div>
+          <div class="stage-div-name">Grow</div>
+          <div class="stage-div-desc">Put your money to work. Invest, build assets, and multiply income.</div>
         </div>
-      </div>
-      <div class="series-carousel-track" tabindex="0">
 
         <!-- Series: Stock Market 101 -->
         <a href="post.html?series=stock-market-101&day=1" class="series-card" data-step="7">
@@ -413,24 +376,12 @@
           </div>
         </a>
 
-      </div><!-- /carousel-track stage4 -->
-      </div><!-- /stage-wrap stage4 -->
-
-      <!-- ── Stage 5 ── -->
-      <div class="series-stage-wrap">
-      <div class="series-stage-header">
-        <div class="series-stage-header-inner">
-          <div>
-            <div class="series-stage-label">STAGE 5 — Build</div>
-            <div class="series-stage-desc">Create income streams and businesses that work even while you sleep.</div>
-          </div>
-          <div class="sc-nav-btns">
-            <button class="sc-arr sc-arr-prev" onclick="scPrev(this)" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="sc-arr sc-arr-next" onclick="scNext(this)" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-          </div>
+        <!-- ── Stage 5 divider ── -->
+        <div class="stage-div">
+          <div class="stage-div-num">05</div>
+          <div class="stage-div-name">Build</div>
+          <div class="stage-div-desc">Create income streams and businesses that work even while you sleep.</div>
         </div>
-      </div>
-      <div class="series-carousel-track" tabindex="0">
 
         <!-- Series: Side Hustle from Abroad -->
         <a href="post.html?series=side-hustle-abroad&day=1" class="series-card" data-step="10">
@@ -512,24 +463,12 @@
           </div>
         </a>
 
-      </div><!-- /carousel-track stage5 -->
-      </div><!-- /stage-wrap stage5 -->
-
-      <!-- ── Stage 6 ── -->
-      <div class="series-stage-wrap">
-      <div class="series-stage-header">
-        <div class="series-stage-header-inner">
-          <div>
-            <div class="series-stage-label">STAGE 6 — Return &amp; Legacy</div>
-            <div class="series-stage-desc">Plan your homecoming. Build lasting wealth. Leave something behind.</div>
-          </div>
-          <div class="sc-nav-btns">
-            <button class="sc-arr sc-arr-prev" onclick="scPrev(this)" aria-label="Scroll left"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
-            <button class="sc-arr sc-arr-next" onclick="scNext(this)" aria-label="Scroll right"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>
-          </div>
+        <!-- ── Stage 6 divider ── -->
+        <div class="stage-div">
+          <div class="stage-div-num">06</div>
+          <div class="stage-div-name">Return &amp; Legacy</div>
+          <div class="stage-div-desc">Plan your homecoming. Build lasting wealth. Leave something behind.</div>
         </div>
-      </div>
-      <div class="series-carousel-track" tabindex="0">
 
         <!-- Series: Balik-Bayan Blueprint -->
         <a href="post.html?series=balik-bayan-blueprint&day=1" class="series-card" data-step="14">
@@ -591,10 +530,8 @@
           </div>
         </a>
 
-      </div><!-- /carousel-track stage6 -->
-      </div><!-- /stage-wrap stage6 -->
-
-      </div><!-- /series-grid -->
+        </div><!-- /series-single-track -->
+      </div><!-- /seriesGrid -->
     </div>
   </section>
 
@@ -1391,34 +1328,30 @@
   </script>
 
   <script>
-  /* ── Carousel helpers ── */
-  function getTrack(btn) {
-    return btn.closest('.series-stage-wrap').querySelector('.series-carousel-track');
-  }
-  function scNext(btn) {
-    var t = getTrack(btn);
-    var card = t.querySelector('.series-card');
-    var step = card ? card.offsetWidth + 16 : 300;
-    t.scrollBy({ left: step, behavior: 'smooth' });
-  }
-  function scPrev(btn) {
-    var t = getTrack(btn);
-    var card = t.querySelector('.series-card');
-    var step = card ? card.offsetWidth + 16 : 300;
-    t.scrollBy({ left: -step, behavior: 'smooth' });
-  }
-  /* Disable arrows at scroll boundaries */
-  document.querySelectorAll('.series-carousel-track').forEach(function(track) {
+  /* ── Single-track carousel ── */
+  (function() {
+    var track = document.getElementById('mainSeriesTrack');
+    var btnPrev = document.getElementById('scMainPrev');
+    var btnNext = document.getElementById('scMainNext');
+    if (!track) return;
+
+    function scrollStep() {
+      var card = track.querySelector('.series-card');
+      return card ? card.offsetWidth + 16 : 300;
+    }
+    btnNext.addEventListener('click', function() {
+      track.scrollBy({ left: scrollStep(), behavior: 'smooth' });
+    });
+    btnPrev.addEventListener('click', function() {
+      track.scrollBy({ left: -scrollStep(), behavior: 'smooth' });
+    });
     function updateArrows() {
-      var wrap = track.closest('.series-stage-wrap');
-      var prev = wrap.querySelector('.sc-arr-prev');
-      var next = wrap.querySelector('.sc-arr-next');
-      if (prev) prev.disabled = track.scrollLeft <= 4;
-      if (next) next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      btnPrev.disabled = track.scrollLeft <= 4;
+      btnNext.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
     }
     track.addEventListener('scroll', updateArrows, { passive: true });
     updateArrows();
-  });
+  })();
   </script>
 
 
@@ -1501,32 +1434,13 @@
 
   <!-- ══ EPISODE DRAWER ══ -->
   <style>
-  /* ── Override series-grid to single column for carousel layout ── */
-  #seriesGrid {
-    display: flex !important;
-    flex-direction: column;
-    gap: 0;
-  }
+  /* ── Single unified carousel ── */
+  #seriesGrid { position: relative; }
 
-  /* ── Carousel Stage Wrapper ── */
-  .series-stage-wrap { margin-bottom: 40px; width: 100%; }
-  .series-stage-header {
-    margin: 0;
-    padding-bottom: 14px;
-    border-bottom: 2px solid var(--border-soft, #f0e0e0);
+  .sc-nav-bar {
+    display: flex; justify-content: flex-end; gap: 8px;
+    margin-bottom: 10px;
   }
-  .series-stage-header-inner {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  }
-  .series-stage-label {
-    font-size: .68rem; font-weight: 800; letter-spacing: .1em;
-    text-transform: uppercase; color: var(--primary, #CC1010);
-    margin-bottom: 3px;
-  }
-  .series-stage-desc {
-    font-size: .82rem; color: var(--text-dim, #777); line-height: 1.4;
-  }
-  .sc-nav-btns { display: flex; gap: 8px; flex-shrink: 0; }
   .sc-arr {
     width: 36px; height: 36px; border-radius: 50%;
     border: 1.5px solid var(--border, #e5e7eb);
@@ -1538,22 +1452,44 @@
   .sc-arr:hover:not(:disabled) { background: var(--primary, #CC1010); border-color: var(--primary, #CC1010); color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.15); }
   .sc-arr:disabled { opacity: .25; cursor: default; }
 
-  /* ── Carousel Track ── */
-  .series-carousel-track {
-    display: flex; gap: 20px;
+  .series-single-track {
+    display: flex; gap: 16px; align-items: stretch;
     overflow-x: auto; overflow-y: visible;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    padding: 20px 2px 16px;
-    scrollbar-width: none;
-    outline: none;
+    padding: 8px 4px 20px;
+    scrollbar-width: none; outline: none;
   }
-  .series-carousel-track::-webkit-scrollbar { display: none; }
-  .series-carousel-track .series-card {
-    flex: 0 0 300px; scroll-snap-align: start; min-width: 0;
+  .series-single-track::-webkit-scrollbar { display: none; }
+
+  /* Stage divider cards */
+  .stage-div {
+    flex: 0 0 150px; scroll-snap-align: start;
+    background: var(--primary, #CC1010);
+    color: #fff; border-radius: 16px;
+    padding: 20px 16px;
+    display: flex; flex-direction: column; justify-content: center; gap: 6px;
+    min-height: 200px;
+  }
+  .stage-div-num {
+    font-size: 2rem; font-weight: 900; line-height: 1;
+    opacity: .35; letter-spacing: -.02em;
+  }
+  .stage-div-name {
+    font-size: .9rem; font-weight: 800; line-height: 1.2;
+    text-transform: uppercase; letter-spacing: .06em;
+  }
+  .stage-div-desc {
+    font-size: .72rem; line-height: 1.45; opacity: .8; margin-top: 2px;
+  }
+
+  /* Series cards inside single track */
+  .series-single-track .series-card {
+    flex: 0 0 280px; scroll-snap-align: start; min-width: 0;
   }
   @media(max-width:600px) {
-    .series-carousel-track .series-card { flex: 0 0 260px; }
+    .series-single-track .series-card { flex: 0 0 240px; }
+    .stage-div { flex: 0 0 120px; }
   }
 
   /* ── Step badge: replace ::before with a dedicated position so it doesn't clash with .series-card-badge ── */
