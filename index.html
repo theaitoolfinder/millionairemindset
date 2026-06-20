@@ -39,6 +39,7 @@
         <li><a href="shop.html">Shop</a></li>
         <li><a href="business.html">Business</a></li>
         <li><a href="checkup.html">Check-up</a></li>
+        <li><a href="devotional.html">Devotional</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="index.html#contact" class="btn-nav">Contact</a></li>
       </ul>
@@ -74,6 +75,7 @@
       <li><a href="shop.html" onclick="toggleMenu()">Shop</a></li>
       <li><a href="business.html" onclick="toggleMenu()">Business</a></li>
       <li><a href="checkup.html" onclick="toggleMenu()">Check-up</a></li>
+      <li><a href="devotional.html" onclick="toggleMenu()">Devotional</a></li>
       <li><a href="about.html" onclick="toggleMenu()">About</a></li>
       <li><a href="index.html#contact" onclick="toggleMenu()">Contact</a></li>
     </ul>
@@ -82,12 +84,12 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container hero-content">
-      <p class="hero-tag">Para sa mga OFW na Naghahanap ng Tunay na Kalayaan</p>
-      <h1>Your Sacrifice<br />Deserves a<br /><span class="gold-text">Millionaire Plan.</span></h1>
-      <p class="hero-sub">Financial literacy, extra income opportunities, and curated products — everything an OFW needs to build real wealth from abroad.</p>
+      <p class="hero-tag" data-i18n="hero_tag">Para sa mga OFW na Naghahanap ng Tunay na Kalayaan</p>
+      <h1><span data-i18n="hero_h1_line1">Your Sacrifice</span><br /><span data-i18n="hero_h1_line2">Deserves a</span><br /><span class="gold-text" data-i18n="hero_h1_line3">Millionaire Plan.</span></h1>
+      <p class="hero-sub" data-i18n="hero_sub">Financial literacy, extra income opportunities, and curated products — everything an OFW needs to build real wealth from abroad.</p>
       <div class="hero-btns">
-        <a href="blog.html" class="btn-primary">Learn &amp; Grow</a>
-        <a href="shop.html" class="btn-outline">Browse Shop</a>
+        <a href="blog.html" class="btn-primary" data-i18n="hero_btn1">Learn &amp; Grow</a>
+        <a href="shop.html" class="btn-outline" data-i18n="hero_btn2">Browse Shop</a>
       </div>
     </div>
   </section>
@@ -117,9 +119,9 @@
   <section class="section">
     <div class="container">
       <div class="section-header">
-        <p class="label">What We Cover</p>
-        <h2>Built for the OFW Journey</h2>
-        <p class="section-sub">From your first remittance to your first investment — we guide every step.</p>
+        <p class="label" data-i18n="topics_label">What We Cover</p>
+        <h2 data-i18n="topics_h2">Built for the OFW Journey</h2>
+        <p class="section-sub" data-i18n="topics_sub">From your first remittance to your first investment — we guide every step.</p>
       </div>
       <div class="categories">
         <div class="cat-card">
@@ -150,8 +152,8 @@
   <section class="section bg-dark2">
     <div class="container">
       <div class="section-header">
-        <p class="label">Latest Articles</p>
-        <h2>Financial Tips for OFWs</h2>
+        <p class="label" data-i18n="articles_label">Latest Articles</p>
+        <h2 data-i18n="articles_h2">Financial Tips for OFWs</h2>
       </div>
       <div class="cards-grid">
         <article class="card">
@@ -215,7 +217,7 @@
       </div>
 
       <div style="text-align:center; margin-top:16px;">
-        <a href="blog.html" class="btn-outline">View All Articles</a>
+        <a href="blog.html" class="btn-outline" data-i18n="view_all">View All Articles</a>
       </div>
     </div>
   </section>
@@ -224,15 +226,15 @@
   <section class="section">
     <div class="container">
       <div class="section-header">
-        <p class="label">Our Shop</p>
-        <h2>Products for the OFW Lifestyle</h2>
-        <p class="section-sub">Curated products to support your health, growth, and hustle.</p>
+        <p class="label" data-i18n="shop_label">Our Shop</p>
+        <h2 data-i18n="shop_h2">Products for the OFW Lifestyle</h2>
+        <p class="section-sub" data-i18n="shop_sub">Curated products to support your health, growth, and hustle.</p>
       </div>
       <div class="cards-grid" id="homeFeaturedProducts">
         <!-- Populated by JS -->
       </div>
       <div style="text-align:center; margin-top:40px;">
-        <a href="shop.html" class="btn-primary">Browse Full Shop</a>
+        <a href="shop.html" class="btn-primary" data-i18n="shop_btn">Browse Full Shop</a>
       </div>
     </div>
   </section>
@@ -241,17 +243,17 @@
   <section class="section business-promo">
     <div class="container business-inner">
       <div class="business-text">
-        <p class="label">Extra Income</p>
-        <h2>Build a Business While You Work Abroad</h2>
-        <p>Network marketing is one of the most OFW-friendly businesses you can run — low capital, flexible hours, and you can operate it from anywhere using just your phone.</p>
+        <p class="label" data-i18n="biz_label">Extra Income</p>
+        <h2 data-i18n="biz_h2">Build a Business While You Work Abroad</h2>
+        <p data-i18n="biz_desc">Network marketing is one of the most OFW-friendly businesses you can run — low capital, flexible hours, and you can operate it from anywhere using just your phone.</p>
         <ul class="biz-benefits">
-          <li>&#10003; No need to quit your job — start part-time</li>
-          <li>&#10003; Work from any country, earn globally</li>
-          <li>&#10003; Help your family back home earn too</li>
-          <li>&#10003; Build passive income streams</li>
-          <li>&#10003; Join a supportive Filipino community</li>
+          <li>&#10003; <span data-i18n="biz_b1">No need to quit your job — start part-time</span></li>
+          <li>&#10003; <span data-i18n="biz_b2">Work from any country, earn globally</span></li>
+          <li>&#10003; <span data-i18n="biz_b3">Help your family back home earn too</span></li>
+          <li>&#10003; <span data-i18n="biz_b4">Build passive income streams</span></li>
+          <li>&#10003; <span data-i18n="biz_b5">Join a supportive Filipino community</span></li>
         </ul>
-        <a href="business.html" class="btn-primary" style="margin-top:28px;">Learn About the Opportunity</a>
+        <a href="business.html" class="btn-primary" style="margin-top:28px;" data-i18n="biz_btn">Learn About the Opportunity</a>
       </div>
       <div class="business-visual">
         <div class="biz-card">
@@ -280,12 +282,12 @@
   <section class="newsletter">
     <div class="container newsletter-inner">
       <div>
-        <h2>Join Our OFW Community</h2>
-        <p>Free weekly tips on saving, investing, and building income. <strong>Libre. Walang spam.</strong></p>
+        <h2 data-i18n="nl_h2">Join Our OFW Community</h2>
+        <p data-i18n="nl_p">Free weekly tips on saving, investing, and building income. No spam, ever.</p>
       </div>
       <form class="newsletter-form" onsubmit="handleSubscribe(event)">
-        <input type="email" placeholder="Enter your email address" required />
-        <button type="submit" class="btn-primary">Subscribe Free</button>
+        <input type="email" data-i18n="nl_placeholder" placeholder="Enter your email address" required />
+        <button type="submit" class="btn-primary" data-i18n="nl_btn">Subscribe Free</button>
       </form>
     </div>
   </section>
@@ -294,13 +296,13 @@
   <section class="section" id="contact">
     <div class="container">
       <div class="section-header">
-        <p class="label">Get In Touch</p>
-        <h2>Let's Talk</h2>
-        <p class="section-sub">Questions about the business, products, or financial advice? Message me anytime.</p>
+        <p class="label" data-i18n="contact_label">Get In Touch</p>
+        <h2 data-i18n="contact_h2">Let's Talk</h2>
+        <p class="section-sub" data-i18n="contact_sub">Questions about the business, products, or financial advice? Message me anytime.</p>
       </div>
       <div class="contact-grid">
         <div class="contact-info">
-          <p>Whether you want to learn about financial literacy, explore the business opportunity, or just connect with a fellow Filipino — I'm here.</p>
+          <p data-i18n="contact_p">Whether you want to learn about financial literacy, explore the business opportunity, or just connect with a fellow Filipino — I'm here.</p>
           <ul class="contact-details">
             <li>&#9993;&nbsp; hello@millionairemindset.ae</li>
             <li>millionairemindset.ae</li>
@@ -313,17 +315,17 @@
           </div>
         </div>
         <form class="contact-form" onsubmit="handleContact(event)">
-          <input type="text" placeholder="Your Name" required />
-          <input type="email" placeholder="Your Email" required />
+          <input type="text" data-i18n="contact_placeholder_name" placeholder="Your Name" required />
+          <input type="email" data-i18n="contact_placeholder_email" placeholder="Your Email" required />
           <select>
-            <option value="">What are you interested in?</option>
-            <option>Financial Literacy Resources</option>
-            <option>Business Opportunity</option>
-            <option>Product Inquiry</option>
-            <option>General Inquiry</option>
+            <option value="" data-i18n="contact_select0">What are you interested in?</option>
+            <option data-i18n="contact_select1">Financial Literacy Resources</option>
+            <option data-i18n="contact_select2">Business Opportunity</option>
+            <option data-i18n="contact_select3">Product Inquiry</option>
+            <option data-i18n="contact_select4">General Inquiry</option>
           </select>
-          <textarea placeholder="Your Message" rows="5" required></textarea>
-          <button type="submit" class="btn-primary">Send Message</button>
+          <textarea data-i18n="contact_placeholder_msg" placeholder="Your Message" rows="5" required></textarea>
+          <button type="submit" class="btn-primary" data-i18n="contact_btn">Send Message</button>
         </form>
       </div>
     </div>
@@ -352,6 +354,7 @@
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js?v=20260616"></script>
+  <script src="js/i18n.js"></script>
   <script src="js/chat-widget.js?v=20260701"></script>
 </body>
 </html>
