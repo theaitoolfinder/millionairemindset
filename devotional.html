@@ -49,20 +49,86 @@
 /* ── Date Navigator ── */
 .date-nav {
   display:flex; align-items:center; justify-content:center;
-  gap:20px; padding:24px 16px 8px;
+  gap:12px; padding:20px 16px 8px; position:relative;
 }
 .date-nav-btn {
-  width:34px; height:34px; border-radius:50%; border:none; cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  transition:all 0.2s; background:transparent; color:#94a3b8;
+  width:34px; height:34px; border-radius:50%; border:1.5px solid var(--border,#e5e7eb); cursor:pointer;
+  display:flex; align-items:center; justify-content:center; background:#fff;
+  transition:all 0.2s; color:#94a3b8; flex-shrink:0;
 }
-.date-nav-btn:hover { transform:scale(1.15); }
-.date-display { text-align:center; min-width:220px; }
+.date-nav-btn:hover { background:var(--primary,#0284c7); border-color:var(--primary,#0284c7); color:#fff; transform:scale(1.08); }
+.date-display {
+  text-align:center; min-width:0; cursor:pointer; padding:6px 14px;
+  border-radius:10px; border:1.5px solid transparent; transition:all 0.2s;
+  user-select:none;
+}
+.date-display:hover { border-color:var(--primary,#0284c7); background:var(--primary-light,#e0f2fe); }
 .date-display .day-name {
   font-size:0.7rem; font-weight:700; letter-spacing:0.14em;
   text-transform:uppercase; opacity:0.55;
 }
-.date-display .full-date { font-size:1.25rem; font-weight:700; }
+.date-display .full-date { font-size:1.2rem; font-weight:700; white-space:nowrap; }
+.date-display .cal-hint {
+  font-size:0.62rem; color:var(--primary,#0284c7); font-weight:600; letter-spacing:0.08em;
+  opacity:0.7; margin-top:1px;
+}
+
+/* ── Calendar Popup ── */
+.cal-popup {
+  position:absolute; top:calc(100% - 4px); left:50%; transform:translateX(-50%);
+  z-index:200; background:#fff; border-radius:16px;
+  box-shadow:0 8px 40px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08);
+  border:1px solid var(--border,#e5e7eb);
+  width:320px; overflow:hidden;
+  animation:calIn 0.18s cubic-bezier(.32,1,.23,1);
+}
+@keyframes calIn { from { opacity:0; transform:translateX(-50%) translateY(-8px) scale(0.97); } to { opacity:1; transform:translateX(-50%) translateY(0) scale(1); } }
+.cal-popup.hidden { display:none; }
+.cal-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 16px 10px; border-bottom:1px solid var(--border-soft,#f1f5f9);
+}
+.cal-month-label { font-weight:800; font-size:0.95rem; color:#1e293b; }
+.cal-nav-btn {
+  width:30px; height:30px; border-radius:50%; border:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  background:transparent; color:#64748b; transition:all 0.15s;
+}
+.cal-nav-btn:hover { background:var(--primary-light,#e0f2fe); color:var(--primary,#0284c7); }
+.cal-grid {
+  display:grid; grid-template-columns:repeat(7,1fr);
+  gap:2px; padding:10px 12px 14px;
+}
+.cal-dow {
+  text-align:center; font-size:0.62rem; font-weight:800; letter-spacing:0.1em;
+  text-transform:uppercase; color:#94a3b8; padding:4px 0;
+}
+.cal-day {
+  aspect-ratio:1; display:flex; align-items:center; justify-content:center;
+  border-radius:8px; font-size:0.82rem; font-weight:600; cursor:pointer;
+  border:none; background:transparent; color:#374151; transition:all 0.15s;
+}
+.cal-day:hover:not(.cal-day-empty):not(.cal-day-today):not(.cal-day-selected) {
+  background:var(--primary-light,#e0f2fe); color:var(--primary,#0284c7);
+}
+.cal-day-today {
+  background:var(--primary-light,#e0f2fe); color:var(--primary,#0284c7); font-weight:800;
+}
+.cal-day-selected {
+  background:var(--primary,#0284c7); color:#fff !important; font-weight:800;
+}
+.cal-day-empty { cursor:default; }
+.cal-month-jump {
+  display:flex; flex-wrap:wrap; gap:6px; padding:0 12px 14px;
+  border-top:1px solid var(--border-soft,#f1f5f9); padding-top:10px;
+}
+.cal-mj-btn {
+  flex:1 1 auto; min-width:calc(25% - 6px); padding:5px 4px;
+  font-size:0.72rem; font-weight:700; border-radius:6px; border:1px solid var(--border,#e5e7eb);
+  background:#fff; color:#374151; cursor:pointer; text-align:center; transition:all 0.15s;
+}
+.cal-mj-btn:hover { background:var(--primary-light,#e0f2fe); color:var(--primary,#0284c7); border-color:var(--primary,#0284c7); }
+.cal-mj-btn.active { background:var(--primary,#0284c7); color:#fff; border-color:var(--primary,#0284c7); }
 
 /* ── Shared Book Page Shell ── */
 .book-wrap { max-width:720px; margin:16px auto 64px; padding:0 18px; }
@@ -104,7 +170,6 @@
   background:#fffdf5; color:#d97706; border-color:#fde68a;
   box-shadow:0 -2px 0 #f59e0b inset;
 }
-.dev-page[data-edition="kids"] .date-nav-btn:hover { color:#f59e0b; }
 .dev-page[data-edition="kids"] .date-display .day-name { color:#d97706; }
 .dev-page[data-edition="kids"] .date-display .full-date { color:#92400e; font-family:'Poppins',sans-serif; }
 .dev-page[data-edition="kids"] .book-page { border-left:6px solid #fbbf24; }
@@ -169,7 +234,6 @@
   background:#fff; color:#4f46e5; border-color:#c7d2fe;
   box-shadow:0 -2px 0 #6366f1 inset;
 }
-.dev-page[data-edition="yuppies"] .date-nav-btn:hover { color:#6366f1; }
 .dev-page[data-edition="yuppies"] .date-display .day-name { color:#6366f1; }
 .dev-page[data-edition="yuppies"] .date-display .full-date { color:#1e293b; }
 .dev-page[data-edition="yuppies"] .book-page { border-left:5px solid #6366f1; }
@@ -232,7 +296,6 @@
   background:#fffdf7; color:#92400e; border-color:#fcd34d;
   box-shadow:0 -2px 0 #b45309 inset;
 }
-.dev-page[data-edition="primes"] .date-nav-btn:hover { color:#b45309; }
 .dev-page[data-edition="primes"] .date-display .day-name { color:#92400e; }
 .dev-page[data-edition="primes"] .date-display .full-date { color:#3c1a00; font-family:'Merriweather',serif; }
 .dev-page[data-edition="primes"] .book-page { border-left:5px solid #b45309; }
@@ -360,17 +423,33 @@
   </div>
 
   <!-- Date navigator -->
-  <div class="date-nav">
+  <div class="date-nav" id="dateNavWrap">
     <button class="date-nav-btn" onclick="shiftDay(-1)" title="Previous day">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
     </button>
-    <div class="date-display">
+    <div class="date-display" onclick="toggleCal(event)" title="Pick a date">
       <div class="day-name" id="devDayName"></div>
       <div class="full-date" id="devFullDate"></div>
+      <div class="cal-hint">tap to pick date</div>
     </div>
     <button class="date-nav-btn" onclick="shiftDay(1)" title="Next day">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
     </button>
+
+    <!-- Calendar popup -->
+    <div class="cal-popup hidden" id="calPopup">
+      <div class="cal-header">
+        <button class="cal-nav-btn" onclick="calShiftMonth(-1,event)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div class="cal-month-label" id="calMonthLabel"></div>
+        <button class="cal-nav-btn" onclick="calShiftMonth(1,event)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-month-jump" id="calMonthJump"></div>
+    </div>
   </div>
 
   <div id="devContent"></div>
@@ -756,7 +835,87 @@ function render() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function(){ render(); });
+document.addEventListener('DOMContentLoaded', function(){
+  render();
+  // close calendar on outside click
+  document.addEventListener('click', function(e) {
+    var popup = document.getElementById('calPopup');
+    var nav = document.getElementById('dateNavWrap');
+    if (!popup.classList.contains('hidden') && !nav.contains(e.target)) {
+      popup.classList.add('hidden');
+    }
+  });
+});
+
+/* ══ CALENDAR POPUP ══ */
+var calViewDate = new Date(); // month being displayed in calendar
+
+function toggleCal(e) {
+  e.stopPropagation();
+  var popup = document.getElementById('calPopup');
+  if (popup.classList.contains('hidden')) {
+    calViewDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    renderCal();
+    popup.classList.remove('hidden');
+  } else {
+    popup.classList.add('hidden');
+  }
+}
+
+function calShiftMonth(delta, e) {
+  e.stopPropagation();
+  calViewDate = new Date(calViewDate.getFullYear(), calViewDate.getMonth() + delta, 1);
+  renderCal();
+}
+
+function calPickDay(y, m, d, e) {
+  e.stopPropagation();
+  currentDate = new Date(y, m, d);
+  render();
+  document.getElementById('calPopup').classList.add('hidden');
+}
+
+function renderCal() {
+  var y = calViewDate.getFullYear();
+  var m = calViewDate.getMonth();
+  document.getElementById('calMonthLabel').textContent = MONTHS[m] + ' ' + y;
+
+  var today = new Date();
+  var todayStr = today.getFullYear()+'-'+today.getMonth()+'-'+today.getDate();
+  var selStr = currentDate.getFullYear()+'-'+currentDate.getMonth()+'-'+currentDate.getDate();
+
+  var firstDow = new Date(y, m, 1).getDay();
+  var daysInMonth = new Date(y, m+1, 0).getDate();
+
+  var html = '';
+  var dows = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+  dows.forEach(function(d){ html += '<div class="cal-dow">'+d+'</div>'; });
+
+  for (var i = 0; i < firstDow; i++) html += '<div class="cal-day cal-day-empty"></div>';
+  for (var day = 1; day <= daysInMonth; day++) {
+    var ds = y+'-'+m+'-'+day;
+    var cls = 'cal-day';
+    if (ds === selStr) cls += ' cal-day-selected';
+    else if (ds === todayStr) cls += ' cal-day-today';
+    var _y=y,_m=m,_d=day;
+    html += '<button class="'+cls+'" onclick="calPickDay('+_y+','+_m+','+_d+',event)">'+day+'</button>';
+  }
+  document.getElementById('calGrid').innerHTML = html;
+
+  // Month jump buttons
+  var mjHtml = '';
+  MONTHS.forEach(function(name, idx) {
+    var active = (idx === m) ? ' active' : '';
+    mjHtml += '<button class="cal-mj-btn'+active+'" onclick="calJumpMonth('+idx+','+y+',event)">'+name.slice(0,3)+'</button>';
+  });
+  document.getElementById('calMonthJump').innerHTML = mjHtml;
+}
+
+function calJumpMonth(monthIdx, y, e) {
+  e.stopPropagation();
+  calViewDate = new Date(y, monthIdx, 1);
+  renderCal();
+}
 </script>
 </body>
 </html>
