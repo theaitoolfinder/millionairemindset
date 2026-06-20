@@ -128,6 +128,21 @@
   .cart-trust-item strong { display:block; font-size:.82rem; font-weight:700; color:var(--text); margin-bottom:2px; }
   .cart-trust-item span { font-size:.74rem; color:var(--text-dim); line-height:1.45; }
 
+  /* ── New cart layout ── */
+  .cart-checkout-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 28px;
+    margin-top: 28px;
+    align-items: start;
+  }
+  .cart-checkout-left { display: flex; flex-direction: column; gap: 16px; }
+  .cart-checkout-right .summary-box { padding: 28px 32px; }
+  @media(max-width: 860px) {
+    .cart-checkout-grid { grid-template-columns: 1fr; }
+    .cart-checkout-right .summary-box { padding: 22px 20px; }
+  }
+
   /* Input validation states */
   .checkout-input.invalid { border-color:#dc2626; background:#fef2f2; }
   .checkout-input.valid   { border-color:#16a34a; }
@@ -202,57 +217,52 @@
   </div>
 
   <section class="section" style="padding-top:36px;">
-    <div class="container cart-layout">
+    <div class="container">
 
-      <!-- LEFT: cart items + trust content -->
-      <div class="cart-main">
-        <div id="cartItems"><!-- Rendered by JS --></div>
+      <!-- Cart items — always full width -->
+      <div id="cartItems"><!-- Rendered by JS --></div>
 
-        <!-- Trust / Why buy section — fills blank space when cart is short -->
-        <div class="cart-trust-wrap">
-          <div class="cart-trust-title">Why buy from us?</div>
-          <div class="cart-trust-grid">
-            <div class="cart-trust-item">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              <div>
-                <strong>Secure Payment</strong>
-                <span>Protected by PayPal Buyer Protection</span>
+      <!-- Bottom section: shown when cart has items -->
+      <div id="cartSummary" style="display:none;" class="cart-checkout-grid">
+
+        <!-- LEFT: Order totals + Trust badges -->
+        <div class="cart-checkout-left">
+
+          <div class="summary-box" style="margin-bottom:0;">
+            <h3>Order Summary</h3>
+            <div class="summary-row"><span>Subtotal</span><span class="cart-grand-total">&#8369;0</span></div>
+            <div class="summary-row"><span>Shipping</span><span class="summary-free">FREE</span></div>
+            <div class="summary-divider"></div>
+            <div class="summary-row summary-total"><span>Total</span><span class="cart-grand-total">&#8369;0</span></div>
+          </div>
+
+          <div class="cart-trust-wrap" style="margin-top:0;">
+            <div class="cart-trust-title">Why buy from us?</div>
+            <div class="cart-trust-grid">
+              <div class="cart-trust-item">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <div><strong>Secure Payment</strong><span>Protected by PayPal Buyer Protection</span></div>
               </div>
-            </div>
-            <div class="cart-trust-item">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
-              <div>
-                <strong>Instant Delivery</strong>
-                <span>Digital items sent to your email within 24 hours</span>
+              <div class="cart-trust-item">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V22H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                <div><strong>Instant Delivery</strong><span>Digital items sent to your email within 24 hours</span></div>
               </div>
-            </div>
-            <div class="cart-trust-item">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-              <div>
-                <strong>OFW-Focused</strong>
-                <span>Built for Filipino workers abroad — in Taglish</span>
+              <div class="cart-trust-item">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <div><strong>OFW-Focused</strong><span>Built for Filipino workers abroad — in Taglish</span></div>
               </div>
-            </div>
-            <div class="cart-trust-item">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-              <div>
-                <strong>Proven Results</strong>
-                <span>Thousands of OFWs have improved their finances</span>
+              <div class="cart-trust-item">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                <div><strong>Proven Results</strong><span>Thousands of OFWs have improved their finances</span></div>
               </div>
             </div>
           </div>
+
         </div>
-      </div>
 
-      <!-- RIGHT: order summary + checkout -->
-      <div class="cart-aside" id="cartSummary" style="display:none;">
-        <div class="summary-box">
-
-          <h3>Order Summary</h3>
-          <div class="summary-row"><span>Subtotal</span><span class="cart-grand-total">&#8369;0</span></div>
-          <div class="summary-row"><span>Shipping</span><span class="summary-free">FREE</span></div>
-          <div class="summary-divider"></div>
-          <div class="summary-row summary-total"><span>Total</span><span class="cart-grand-total">&#8369;0</span></div>
+        <!-- RIGHT: Checkout form — full remaining width -->
+        <div class="cart-checkout-right">
+          <div class="summary-box">
 
           <!-- ── STEP 1: Checkout form ── -->
           <div id="checkoutStep">
@@ -377,10 +387,14 @@
             </p>
           </div>
 
-        </div>
-      </div>
+          </div><!-- /checkoutStep or paymentStep -->
 
-    </div>
+          </div><!-- /summary-box -->
+        </div><!-- /cart-checkout-right -->
+
+      </div><!-- /cart-checkout-grid -->
+
+    </div><!-- /container -->
   </section>
 
   <footer class="footer">
