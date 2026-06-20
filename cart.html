@@ -274,22 +274,48 @@
               <div class="field-err" id="errEmail">Enter a valid email address (e.g. juan@gmail.com).</div>
 
               <!-- Delivery address -->
-              <div class="checkout-section-label">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                Delivery Location
-              </div>
-              <div class="addr-wrap">
-                <input type="text" id="checkoutAddress" placeholder="House no., street, barangay, city *" required class="checkout-input" autocomplete="street-address" oninput="liveValidateAddress(this)" />
-                <button type="button" class="geo-btn" id="geoBtn" title="Use my current location" onclick="geoLocate()">
-                  <svg id="geoBtnIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/></svg>
+              <div class="checkout-section-label" style="justify-content:space-between;">
+                <span style="display:flex;align-items:center;gap:6px;">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  Delivery Location
+                </span>
+                <button type="button" class="geo-btn" id="geoBtn" title="Auto-fill with my current location" onclick="geoLocate()" style="position:static;transform:none;display:flex;align-items:center;gap:5px;font-size:.7rem;font-weight:700;color:var(--primary);background:none;border:none;cursor:pointer;padding:0;">
+                  <svg id="geoBtnIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><circle cx="12" cy="12" r="9" stroke-dasharray="2 2"/></svg>
+                  Use My Location
                 </button>
               </div>
-              <div class="field-err" id="errAddress">Please provide a complete address (house no., street, barangay, city).</div>
-              <!-- ZIP on same row as landmark -->
-              <div class="checkout-row" style="margin-top:10px;">
-                <input type="text" id="checkoutLandmark" placeholder="Landmark (optional)" class="checkout-input" />
-                <input type="text" id="checkoutZip"      placeholder="ZIP Code" class="checkout-input" autocomplete="postal-code" />
+
+              <!-- Row 1: Unit/Room + Building -->
+              <div class="checkout-row">
+                <input type="text" id="addrUnit"     placeholder="Unit / Room / House No. *" required class="checkout-input" autocomplete="address-line1" oninput="liveValidateUnit(this)" />
+                <input type="text" id="addrBuilding" placeholder="Building / Subdivision" class="checkout-input" />
               </div>
+              <div class="field-err" id="errUnit">Please enter your unit or house number.</div>
+
+              <!-- Row 2: Street -->
+              <input type="text" id="addrStreet" placeholder="Street Name *" required class="checkout-input" autocomplete="address-line2" oninput="liveValidateStreet(this)" />
+              <div class="field-err" id="errStreet">Please enter the street name.</div>
+
+              <!-- Row 3: Barangay + City -->
+              <div class="checkout-row">
+                <div>
+                  <input type="text" id="addrBarangay" placeholder="Barangay *" required class="checkout-input" oninput="liveValidateBarangay(this)" />
+                  <div class="field-err" id="errBarangay">Please enter the barangay.</div>
+                </div>
+                <div>
+                  <input type="text" id="addrCity" placeholder="City / Municipality *" required class="checkout-input" autocomplete="address-level2" oninput="liveValidateCity(this)" />
+                  <div class="field-err" id="errCity">Please enter the city or municipality.</div>
+                </div>
+              </div>
+
+              <!-- Row 4: Province + ZIP -->
+              <div class="checkout-row">
+                <input type="text" id="addrProvince" placeholder="Province / State" class="checkout-input" autocomplete="address-level1" />
+                <input type="text" id="checkoutZip"  placeholder="ZIP Code" class="checkout-input" autocomplete="postal-code" />
+              </div>
+
+              <!-- Row 5: Landmark -->
+              <input type="text" id="checkoutLandmark" placeholder="Landmark (nearest corner, mall, church…)" class="checkout-input" />
 
               <!-- Geotag chip (shown after location captured) -->
               <div class="geo-chip" id="geoChip">
@@ -397,13 +423,28 @@
       })
       .then(function(r){ return r.json(); })
       .then(function(data) {
-        var addr = data.display_name || (_geoLat.toFixed(5) + ', ' + _geoLng.toFixed(5));
-        document.getElementById('checkoutAddress').value = addr;
+        var a = data.address || {};
+        // Fill each address field from Nominatim response
+        var unit = a.house_number || '';
+        var building = a.building || a.amenity || '';
+        var street = a.road || a.pedestrian || a.footway || '';
+        var barangay = a.suburb || a.neighbourhood || a.village || a.hamlet || a.quarter || '';
+        var city = a.city || a.town || a.municipality || a.county || '';
+        var province = a.state || a.region || '';
+        var zip = a.postcode || '';
+
+        if (unit)     { document.getElementById('addrUnit').value = unit; }
+        if (building) { document.getElementById('addrBuilding').value = building; }
+        if (street)   { document.getElementById('addrStreet').value = street; }
+        if (barangay) { document.getElementById('addrBarangay').value = barangay; }
+        if (city)     { document.getElementById('addrCity').value = city; }
+        if (province) { document.getElementById('addrProvince').value = province; }
+        if (zip)      { document.getElementById('checkoutZip').value = zip; }
         showGeoChip();
       })
       .catch(function() {
-        // Fallback: just fill coords
-        document.getElementById('checkoutAddress').value = _geoLat.toFixed(6) + ', ' + _geoLng.toFixed(6);
+        // Fallback: fill coords into unit field so something is there
+        document.getElementById('addrUnit').value = _geoLat.toFixed(6) + ', ' + _geoLng.toFixed(6);
         showGeoChip();
       })
       .finally(function() { resetGeoBtn(); });
@@ -496,26 +537,28 @@
     el.classList.toggle('valid', ok);
     document.getElementById('errEmail').classList.toggle('show', !ok && el.value.length > 0);
   }
-  function liveValidateAddress(el) {
-    var ok = el.value.trim().length >= 10;
+  function liveValidateUnit(el)     { liveCheck(el, el.value.trim().length >= 1, 'errUnit'); }
+  function liveValidateStreet(el)   { liveCheck(el, el.value.trim().length >= 2, 'errStreet'); }
+  function liveValidateBarangay(el) { liveCheck(el, el.value.trim().length >= 2, 'errBarangay'); }
+  function liveValidateCity(el)     { liveCheck(el, el.value.trim().length >= 2, 'errCity'); }
+  function liveCheck(el, ok, errId) {
     el.classList.toggle('invalid', !ok && el.value.length > 0);
     el.classList.toggle('valid', ok);
-    document.getElementById('errAddress').classList.toggle('show', !ok && el.value.length > 0);
+    document.getElementById(errId).classList.toggle('show', !ok && el.value.length > 0);
   }
 
   function validateForm() {
-    var nameEl  = document.getElementById('checkoutName');
-    var phoneEl = document.getElementById('checkoutPhone');
-    var emailEl = document.getElementById('checkoutEmail');
-    var addrEl  = document.getElementById('checkoutAddress');
+    var nameEl     = document.getElementById('checkoutName');
+    var phoneEl    = document.getElementById('checkoutPhone');
+    var emailEl    = document.getElementById('checkoutEmail');
+    var unitEl     = document.getElementById('addrUnit');
+    var streetEl   = document.getElementById('addrStreet');
+    var barangayEl = document.getElementById('addrBarangay');
+    var cityEl     = document.getElementById('addrCity');
 
-    var name    = nameEl.value.trim();
-    var phone   = phoneEl.value.trim();
-    var email   = emailEl.value.trim();
-    var address = addrEl.value.trim();
-    var digits  = phone.replace(/\D/g, '');
+    var digits = phoneEl.value.replace(/\D/g, '');
 
-    if (name.length < 2) {
+    if (nameEl.value.trim().length < 2) {
       liveValidateName(nameEl); nameEl.focus();
       showFormErr('Please enter your full name.'); return false;
     }
@@ -523,13 +566,25 @@
       liveValidatePhone(phoneEl); phoneEl.focus();
       showFormErr('Enter a valid mobile number — e.g. +639171234567 or 09171234567.'); return false;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailEl.value.trim())) {
       liveValidateEmail(emailEl); emailEl.focus();
       showFormErr('Enter a valid email address — e.g. juan@gmail.com.'); return false;
     }
-    if (address.length < 10) {
-      liveValidateAddress(addrEl); addrEl.focus();
-      showFormErr('Please provide a complete address including house no., street, barangay and city.'); return false;
+    if (!unitEl.value.trim()) {
+      liveValidateUnit(unitEl); unitEl.focus();
+      showFormErr('Please enter your unit or house number.'); return false;
+    }
+    if (streetEl.value.trim().length < 2) {
+      liveValidateStreet(streetEl); streetEl.focus();
+      showFormErr('Please enter the street name.'); return false;
+    }
+    if (barangayEl.value.trim().length < 2) {
+      liveValidateBarangay(barangayEl); barangayEl.focus();
+      showFormErr('Please enter the barangay.'); return false;
+    }
+    if (cityEl.value.trim().length < 2) {
+      liveValidateCity(cityEl); cityEl.focus();
+      showFormErr('Please enter the city or municipality.'); return false;
     }
     var cd = getCartData();
     if (!cd.cartItems.length) { showFormErr('Your cart is empty.'); return false; }
@@ -541,9 +596,16 @@
     var name     = (document.getElementById('checkoutName')    ||{value:''}).value.trim();
     var email    = (document.getElementById('checkoutEmail')   ||{value:''}).value.trim();
     var phone    = (document.getElementById('checkoutPhone')   ||{value:''}).value.trim();
-    var address  = (document.getElementById('checkoutAddress') ||{value:''}).value.trim();
+    var unit     = (document.getElementById('addrUnit')        ||{value:''}).value.trim();
+    var building = (document.getElementById('addrBuilding')    ||{value:''}).value.trim();
+    var street   = (document.getElementById('addrStreet')      ||{value:''}).value.trim();
+    var barangay = (document.getElementById('addrBarangay')    ||{value:''}).value.trim();
+    var city     = (document.getElementById('addrCity')        ||{value:''}).value.trim();
+    var province = (document.getElementById('addrProvince')    ||{value:''}).value.trim();
     var landmark = (document.getElementById('checkoutLandmark')||{value:''}).value.trim();
     var zip      = (document.getElementById('checkoutZip')     ||{value:''}).value.trim();
+    // Compose full address string
+    var address = [unit, building, street, barangay, city, province, zip].filter(Boolean).join(', ');
     var cd       = getCartData();
 
     // Generate order ref
@@ -570,6 +632,12 @@
       email: email,
       phone: phone,
       address: address,
+      addrUnit: unit,
+      addrBuilding: building,
+      addrStreet: street,
+      addrBarangay: barangay,
+      addrCity: city,
+      addrProvince: province,
       landmark: landmark,
       zip: zip,
       geoLat: _geoLat,
