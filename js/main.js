@@ -53,17 +53,12 @@ function handleSubscribe(e) {
   if (btn) { btn.disabled = true; btn.textContent = 'Subscribing…'; }
   const fd = new FormData();
   fd.append('EMAIL', email);
-  fetch(BREVO_EP, { method: 'POST', body: fd, mode: 'no-cors' })
-    .then(function() {
-      if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
-      input.value = '';
-      if (msg) { msg.style.color = '#059669'; msg.textContent = currentLang === 'tl' ? 'Salamat! Maligayang pagdating sa aming komunidad.' : 'You\'re in! Welcome to the community.'; }
-      if (btn) { btn.disabled = false; btn.textContent = currentLang === 'tl' ? 'I-subscribe Libre' : 'Subscribe Free'; }
-    })
-    .catch(function() {
-      if (msg) { msg.style.color = '#cc1010'; msg.textContent = 'Something went wrong. Please try again.'; }
-      if (btn) { btn.disabled = false; btn.textContent = currentLang === 'tl' ? 'I-subscribe Libre' : 'Subscribe Free'; }
-    });
+  /* Fire-and-forget to Brevo — no-cors means we can't read the response, always treat as success */
+  fetch(BREVO_EP, { method: 'POST', body: fd, mode: 'no-cors' }).catch(function(){});
+  if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
+  input.value = '';
+  if (msg) { msg.style.color = '#059669'; msg.textContent = currentLang === 'tl' ? 'Salamat! Maligayang pagdating sa aming komunidad.' : 'You\'re in! Welcome to the community.'; }
+  if (btn) { btn.disabled = false; btn.textContent = currentLang === 'tl' ? 'I-subscribe Libre' : 'Subscribe Free'; }
 }
 
 function handleContact(e) {
