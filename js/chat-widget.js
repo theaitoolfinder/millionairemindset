@@ -1676,7 +1676,7 @@
       + '<input id="mm-cg-email" type="email" placeholder="your@email.com" autocomplete="email" style="width:100%;box-sizing:border-box;border:1.5px solid #e0e0e0;border-radius:10px;padding:10px 14px;font-size:.9rem;font-family:Poppins,sans-serif;margin-bottom:10px;outline:none;">'
       + '<div id="mm-cg-msg" style="font-size:.78rem;min-height:18px;margin-bottom:10px;color:#cc1010;"></div>'
       + '<button onclick="mmChatGateVerify()" style="width:100%;background:#CC1010;color:#fff;border:none;border-radius:10px;padding:11px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif;margin-bottom:8px;">Verify Access</button>'
-      + '<p style="text-align:center;margin:0;font-size:.75rem;color:#888;">Not subscribed yet? <a href="https://bb0b0867.sibforms.com/serve/MUIFAOGDJeXWoD51BjwMfv68XSaz0v90tEtIP4j7fWleHs6hcXvvW59DvRO_ULI5cVeWpFz--du9WCjUPi-wuhIhngKkkv4OkRXymONeiAKq6NUmSsZaxZEjzXzPwOQPwIAYEnFwUugNyHeTgKFv4i9Kv4nuKKNy3zM4zlwgk6coRZy63tOLzVnlVoVBq5AN2uiZDuQW-rU1Kgz9GQ==" target="_blank" rel="noopener" style="color:#CC1010;text-decoration:none;font-weight:600;">Subscribe free</a></p>'
+      + '<p style="text-align:center;margin:0;font-size:.75rem;color:#888;">Not subscribed yet? <a href="index.html#newsletter" style="color:#CC1010;text-decoration:none;font-weight:600;">Subscribe free</a></p>'
       + '<button onclick="document.getElementById(\'mm-chat-gate-overlay\').style.display=\'none\'" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#999;">×</button>'
       + '</div>';
     document.body.appendChild(el);
