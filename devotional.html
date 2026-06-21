@@ -465,95 +465,93 @@
 
 <script>
 /* ══ WIKIMEDIA IMAGE LOADER ══ */
-/* Only block the most obvious non-photo files */
-var WIKI_BAD = /\b(flag|seal|coat.of.arms|logo|vector|svg|clipart|cartoon|diagram|map)\b/i;
-
-/* Hardcoded fallback Philippine nature photos (Wikimedia Commons direct URLs) */
-var PHIL_FALLBACKS = [
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Mayon_Volcano_Perfect_Cone.jpg/800px-Mayon_Volcano_Perfect_Cone.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Chocolate_Hills_overview.JPG/800px-Chocolate_Hills_overview.JPG',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Banaue_Rice_Terraces_2.jpg/800px-Banaue_Rice_Terraces_2.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Kawasan_Falls.jpg/800px-Kawasan_Falls.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Taal_Lake_from_Tagaytay.jpg/800px-Taal_Lake_from_Tagaytay.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Hinatuan_Enchanted_River.jpg/800px-Hinatuan_Enchanted_River.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Batanes_Islands_Philippines.jpg/800px-Batanes_Islands_Philippines.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Puerto_Princesa_Subterranean_River.jpg/800px-Puerto_Princesa_Subterranean_River.jpg'
+/* Philippine nature photo categories on Wikimedia Commons — all verified to contain actual photographs */
+var PHIL_CATS = [
+  'Landscape photographs of the Philippines',
+  'Photographs of mountains in the Philippines',
+  'Waterfalls of the Philippines',
+  'Beaches of the Philippines',
+  'Lakes of the Philippines',
+  'Rivers of the Philippines',
+  'Forests of the Philippines',
+  'Photographs of Palawan',
+  'Photographs of Cebu',
+  'Photographs of Bohol',
+  'Photographs of Ifugao',
+  'Photographs of Batanes'
 ];
 
-function loadWikiImage(query, containerId, creditId) {
-  var url = 'https://commons.wikimedia.org/w/api.php?action=query&list=search' +
-    '&srsearch=' + encodeURIComponent(query) +
-    '&srnamespace=6&format=json&origin=*&srlimit=20';
+/* Seed a counter so each devotion card gets a different photo */
+var _wikiSeed = 0;
 
-  function useFallback() {
-    var src = PHIL_FALLBACKS[Math.floor(Math.random() * PHIL_FALLBACKS.length)];
+function loadWikiImage(query, containerId, creditId) {
+  /* Pick a category — rotate through list using a counter so cards vary */
+  var cat = PHIL_CATS[(_wikiSeed++) % PHIL_CATS.length];
+  /* Random offset within the category so we don't always get the same first file */
+  var offset = Math.floor(Math.random() * 80);
+
+  function setImage(src, title, credit) {
     var c = document.getElementById(containerId);
     if (!c) return;
     var img = c.querySelector('img');
     var ldr = c.querySelector('.illus-loader');
-    img.onload = function(){ img.classList.add('loaded'); if (ldr) ldr.style.display='none'; };
+    img.onload  = function(){ img.classList.add('loaded'); if (ldr) ldr.style.display='none'; };
     img.onerror = function(){ hideIllus(containerId, creditId); };
-    img.alt = 'Philippine nature';
+    img.alt = title || 'Philippine scenery';
     img.src = src;
     var creditEl = document.getElementById(creditId);
-    if (creditEl) creditEl.textContent = 'Wikimedia Commons';
+    if (creditEl) creditEl.textContent = credit || 'Wikimedia Commons';
   }
 
-  fetch(url)
+  /* Step 1 — get file names from the category */
+  var catUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers'
+    + '&cmtitle=' + encodeURIComponent('Category:' + cat)
+    + '&cmtype=file&cmlimit=30&cmoffset=' + offset
+    + '&format=json&origin=*';
+
+  fetch(catUrl)
     .then(function(r){ return r.json(); })
     .then(function(data){
-      var results = (data.query && data.query.search) || [];
-      /* Prefer .jpg/.jpeg/.png files, skip obvious non-photos */
-      var photos = results.filter(function(r){
-        var t = r.title.toLowerCase();
-        return /\.(jpg|jpeg|png)$/i.test(t) && !WIKI_BAD.test(t);
-      });
-      /* Fall back to any .jpg/.png if strict filter left nothing */
-      if (!photos.length) {
-        photos = results.filter(function(r){ return /\.(jpg|jpeg|png)$/i.test(r.title); });
+      var members = (data.query && data.query.categorymembers) || [];
+      /* Keep only .jpg / .jpeg files */
+      var jpgs = members.filter(function(m){ return /\.(jpg|jpeg)$/i.test(m.title); });
+      if (!jpgs.length) {
+        /* Try without offset if category might be small */
+        return fetch('https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers'
+          + '&cmtitle=' + encodeURIComponent('Category:' + cat)
+          + '&cmtype=file&cmlimit=30&format=json&origin=*')
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            var m2 = (d.query && d.query.categorymembers) || [];
+            return m2.filter(function(m){ return /\.(jpg|jpeg)$/i.test(m.title); });
+          });
       }
-      if (!photos.length) { useFallback(); return; }
-
-      var titles = photos.slice(0, 10).map(function(r){ return r.title; }).join('|');
-      var infoUrl = 'https://commons.wikimedia.org/w/api.php?action=query' +
-        '&titles=' + encodeURIComponent(titles) +
-        '&prop=imageinfo&iiprop=url|mime|size|extmetadata&iiurlwidth=500&format=json&origin=*';
+      return jpgs;
+    })
+    .then(function(jpgs){
+      if (!jpgs || !jpgs.length) { hideIllus(containerId, creditId); return; }
+      /* Pick a random one from what we got */
+      var pick = jpgs[Math.floor(Math.random() * jpgs.length)];
+      /* Step 2 — get the actual image URL */
+      var infoUrl = 'https://commons.wikimedia.org/w/api.php?action=query'
+        + '&titles=' + encodeURIComponent(pick.title)
+        + '&prop=imageinfo&iiprop=url|mime|size|extmetadata&iiurlwidth=600&format=json&origin=*';
       return fetch(infoUrl).then(function(r){ return r.json(); }).then(function(d){
         var pages = d.query && d.query.pages;
-        if (!pages) { useFallback(); return; }
-        /* Pick first image/jpeg or image/png with width >= 300px */
-        var page = null;
-        for (var k in pages) {
-          var p = pages[k];
-          var ii = p.imageinfo && p.imageinfo[0];
-          if (!ii) continue;
-          var mime = ii.mime || '';
-          if (!mime.startsWith('image/jpeg') && !mime.startsWith('image/png')) continue;
-          if ((ii.width || 0) < 300) continue;
-          page = p;
-          break;
-        }
-        if (!page) { useFallback(); return; }
-        var info = page.imageinfo[0];
-        var src = info.thumburl || info.url;
-        if (!src) { useFallback(); return; }
-        var c = document.getElementById(containerId);
-        if (!c) return;
-        var img = c.querySelector('img');
-        var ldr = c.querySelector('.illus-loader');
-        img.onload = function(){
-          img.classList.add('loaded');
-          if (ldr) ldr.style.display = 'none';
-        };
-        img.onerror = function(){ hideIllus(containerId, creditId); };
-        img.alt = (page.title||'').replace('File:','').replace(/_/g,' ').replace(/\.[^.]+$/,'');
-        img.src = src;
-        var meta = info.extmetadata || {};
-        var artist = ((meta.Artist && meta.Artist.value) || '').replace(/<[^>]+>/g,'').trim();
-        var creditEl = document.getElementById(creditId);
-        if (creditEl) creditEl.textContent = (artist ? artist + ' — ' : '') + 'Wikimedia Commons';
+        if (!pages) { hideIllus(containerId, creditId); return; }
+        var key = Object.keys(pages)[0];
+        var ii  = pages[key].imageinfo && pages[key].imageinfo[0];
+        if (!ii) { hideIllus(containerId, creditId); return; }
+        if ((ii.width || 0) < 400) { hideIllus(containerId, creditId); return; }
+        var src = ii.thumburl || ii.url;
+        if (!src) { hideIllus(containerId, creditId); return; }
+        var meta   = ii.extmetadata || {};
+        var artist = ((meta.Artist && meta.Artist.value) || '').replace(/<[^>]+>/g,'').trim().slice(0,60);
+        var title  = pick.title.replace('File:','').replace(/_/g,' ').replace(/\.[^.]+$/,'');
+        setImage(src, title, (artist ? artist + ' — ' : '') + 'Wikimedia Commons');
       });
-    }).catch(function(){ hideIllus(containerId, creditId); });
+    })
+    .catch(function(){ hideIllus(containerId, creditId); });
 }
 function hideIllus(cid, rid) {
   var c = document.getElementById(cid); if(c) c.style.display='none';
