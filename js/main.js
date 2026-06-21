@@ -41,7 +41,7 @@ function toggleMenu() {
   if (btn) btn.classList.toggle('open', isOpen);
 }
 
-var SUBSCRIBE_EP = 'YOUR_CLOUDFLARE_WORKER_URL'; // e.g. https://mm-subscribe.yourname.workers.dev
+var SUBSCRIBE_EP = 'https://mm-subscribe.info-myaitoolbox.workers.dev';
 
 function handleSubscribe(e) {
   e.preventDefault();
