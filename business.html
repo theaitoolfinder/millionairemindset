@@ -518,6 +518,7 @@
   <script src="js/events.js"></script>
   <script src="js/leads.js"></script>
   <script src="js/i18n.js"></script>
+  <script src="js/subscriber.js"></script>
   <script src="js/main.js?v=20260616"></script>
   <script>
   (function(){
@@ -611,37 +612,65 @@
       var btn     = document.getElementById('gateSubmitBtn');
 
       if (!name || !email) {
+        errEl.textContent = 'Please fill in all required fields.';
         errEl.style.display = 'block';
         return;
       }
       errEl.style.display = 'none';
-
-      // Disable button, show loading
       btn.disabled = true;
-      btn.textContent = 'Unlocking…';
+      btn.textContent = 'Verifying…';
 
-      // Submit lead (leads.js)
-      if (typeof submitLead === 'function') {
-        submitLead({ name: name, email: email, country: country, source: 'business-gate' });
-      }
+      mmIsSubscriber(email).then(function(isSub) {
+        if (isSub) {
+          // Already subscribed — just unlock
+          mmCacheSubscriber && mmCacheSubscriber(
+            Array.from(new Uint8Array(
+              new TextEncoder().encode(email.trim().toLowerCase())
+            )).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('')
+          );
+          showSuccess();
+        } else {
+          // Not subscribed yet — subscribe them via Worker then unlock
+          btn.textContent = 'Subscribing…';
+          fetch(typeof SUBSCRIBE_EP !== 'undefined' ? SUBSCRIBE_EP : '', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, firstname: name })
+          })
+          .then(function(r){ return r.json(); })
+          .then(function(d){
+            if (d.success) {
+              if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
+              showSuccess();
+            } else {
+              errEl.textContent = d.error || 'Could not subscribe. Please try again.';
+              errEl.style.display = 'block';
+              btn.disabled = false;
+              btn.textContent = 'Unlock Business Details — It\'s Free';
+            }
+          })
+          .catch(function(){
+            errEl.textContent = 'Network error. Please try again.';
+            errEl.style.display = 'block';
+            btn.disabled = false;
+            btn.textContent = 'Unlock Business Details — It\'s Free';
+          });
+        }
+      });
 
-      // Save unlock state
-      try { localStorage.setItem(STORAGE_KEY, '1'); } catch(ex) {}
-
-      // Short delay for feel, then reveal
-      setTimeout(function(){
-        // Show success message briefly
+      function showSuccess() {
+        if (typeof submitLead === 'function') {
+          submitLead({ name: name, email: email, country: country, source: 'business-gate' });
+        }
         var formEl = document.getElementById('gateForm');
         var successEl = document.getElementById('gate-success');
         if (formEl) formEl.style.display = 'none';
         if (successEl) successEl.style.display = 'block';
-
-        // After 1.5s reveal businesses
         setTimeout(function(){
           unlock(true);
           scrollToBiz();
         }, 1600);
-      }, 800);
+      }
     };
 
     window.scrollToBiz = function() {
@@ -751,10 +780,14 @@
     renderBusinesses();
     renderEvents();
 
-    var unlocked = false;
-    try { unlocked = localStorage.getItem(STORAGE_KEY) === '1'; } catch(ex){}
-
-    if (unlocked) {
+    // Check subscriber cache (same mechanism as theme/chat gates)
+    var hashes = [];
+    var expiry = 0;
+    try {
+      hashes = JSON.parse(localStorage.getItem('mm_sub_hashes') || '[]');
+      expiry = parseInt(localStorage.getItem('mm_sub_expiry') || '0', 10);
+    } catch(ex){}
+    if (hashes.length > 0 && Date.now() < expiry) {
       unlock(false);
     }
 
