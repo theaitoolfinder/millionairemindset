@@ -1652,7 +1652,60 @@
   /* ══════════════════════════════════════════════
      9. PUBLIC API (window-level so onclick works)
   ══════════════════════════════════════════════ */
+  /* ── Subscriber gate helpers ── */
+  function chatIsUnlocked() {
+    try {
+      var expiry = parseInt(localStorage.getItem('mm_sub_expiry') || '0');
+      if (expiry > Date.now()) {
+        var hashes = JSON.parse(localStorage.getItem('mm_sub_hashes') || '[]');
+        return Array.isArray(hashes) && hashes.length > 0;
+      }
+    } catch(e) {}
+    return false;
+  }
+
+  function showChatGate() {
+    var existing = document.getElementById('mm-chat-gate-overlay');
+    if (existing) { existing.style.display = 'flex'; return; }
+    var el = document.createElement('div');
+    el.id = 'mm-chat-gate-overlay';
+    el.style.cssText = 'position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;';
+    el.innerHTML = '<div style="position:relative;background:#fff;border-radius:20px;padding:32px 28px;max-width:360px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);font-family:Poppins,sans-serif;">'
+      + '<h3 style="margin:0 0 6px;font-size:1.1rem;color:#1a1a1a;">Subscriber Perk</h3>'
+      + '<p style="margin:0 0 18px;font-size:.85rem;color:#555;line-height:1.5;">Chat with Hira and Aya is free for subscribers. Enter your email to verify your access.</p>'
+      + '<input id="mm-cg-email" type="email" placeholder="your@email.com" autocomplete="email" style="width:100%;box-sizing:border-box;border:1.5px solid #e0e0e0;border-radius:10px;padding:10px 14px;font-size:.9rem;font-family:Poppins,sans-serif;margin-bottom:10px;outline:none;">'
+      + '<div id="mm-cg-msg" style="font-size:.78rem;min-height:18px;margin-bottom:10px;color:#cc1010;"></div>'
+      + '<button onclick="mmChatGateVerify()" style="width:100%;background:#CC1010;color:#fff;border:none;border-radius:10px;padding:11px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:Poppins,sans-serif;margin-bottom:8px;">Verify Access</button>'
+      + '<p style="text-align:center;margin:0;font-size:.75rem;color:#888;">Not subscribed yet? <a href="index.html#newsletter" style="color:#CC1010;text-decoration:none;font-weight:600;">Subscribe free</a></p>'
+      + '<button onclick="document.getElementById(\'mm-chat-gate-overlay\').style.display=\'none\'" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.2rem;cursor:pointer;color:#999;">×</button>'
+      + '</div>';
+    document.body.appendChild(el);
+    setTimeout(function(){ el.querySelector('#mm-cg-email').focus(); }, 80);
+  }
+
+  window.mmChatGateVerify = function() {
+    var email = (document.getElementById('mm-cg-email').value || '').trim().toLowerCase();
+    var msg   = document.getElementById('mm-cg-msg');
+    if (!email || !email.includes('@')) { msg.textContent = 'Please enter a valid email.'; return; }
+    msg.textContent = 'Verifying…'; msg.style.color = '#888';
+    if (typeof mmIsSubscriber !== 'function') { msg.textContent = 'Verification unavailable. Try again later.'; return; }
+    mmIsSubscriber(email).then(function(result) {
+      if (result === true) {
+        msg.textContent = 'Access granted!'; msg.style.color = '#059669';
+        setTimeout(function(){
+          document.getElementById('mm-chat-gate-overlay').style.display = 'none';
+          window.mmToggleChat();
+        }, 700);
+      } else if (result === false) {
+        msg.textContent = 'Email not found. Subscribe free to unlock the chat.'; msg.style.color = '#cc1010';
+      } else {
+        msg.textContent = 'Could not verify. Please try again.'; msg.style.color = '#cc1010';
+      }
+    });
+  };
+
   window.mmToggleChat = function() {
+    if (!isOpen && !chatIsUnlocked()) { showChatGate(); return; }
     isOpen = !isOpen;
     var panel   = document.getElementById('mm-chat-panel');
     var fab     = document.getElementById('mm-chat-fab');
