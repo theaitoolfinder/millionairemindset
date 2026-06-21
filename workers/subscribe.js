@@ -18,7 +18,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-const ALLOWED_ORIGIN = 'https://theaitoolfinder.github.io';
+const ALLOWED_ORIGIN = 'https://www.millionairemindset.ae';
 const BREVO_LIST_ID  = 4;
 const BREVO_URL      = 'https://api.brevo.com/v3/contacts';
 
