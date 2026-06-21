@@ -173,18 +173,18 @@
 .dev-page[data-edition="kids"] { background:linear-gradient(160deg,#fff9db 0%,#fff8e1 60%,#f0fff8 100%); }
 .dev-page[data-edition="kids"] .edition-btn.active {
   background:#fffdf5; color:#d97706; border-color:#fde68a;
-  box-shadow:0 -2px 0 #f59e0b inset;
+  box-shadow:0 -2px 0 var(--primary,#f59e0b) inset;
 }
 .dev-page[data-edition="kids"] .date-display .day-name { color:#d97706; }
 .dev-page[data-edition="kids"] .date-display .full-date { color:#92400e; font-family:'Poppins',sans-serif; }
-.dev-page[data-edition="kids"] .book-page { border-left:6px solid #fbbf24; }
+.dev-page[data-edition="kids"] .book-page { border-left:6px solid var(--primary,#fbbf24); }
 .dev-page[data-edition="kids"] .book-illus { background:#fef9c3; }
 .dev-page[data-edition="kids"] .book-illus .illus-loader { color:#d97706; }
 .dev-page[data-edition="kids"] .book-illus-credit { color:#b45309; }
 
 .kids-page { background:#fffdf5; }
 .kids-chap-banner {
-  background:linear-gradient(135deg,#fbbf24,#f59e0b);
+  background:linear-gradient(135deg,var(--primary,#fbbf24),var(--primary-2,#f59e0b));
   padding:22px 28px 18px 36px;
 }
 .kids-chap-label { font-size:0.65rem; font-weight:800; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.8); margin-bottom:6px; }
@@ -203,16 +203,16 @@
 /* Drop cap on first paragraph */
 .kids-story p:first-child::first-letter {
   float:left; font-size:3.2rem; font-weight:900; line-height:0.8;
-  color:#f59e0b; margin:4px 8px 0 0; font-family:'Poppins',sans-serif;
+  color:var(--primary,#f59e0b); margin:4px 8px 0 0; font-family:'Poppins',sans-serif;
 }
 .kids-lessons { list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px; }
 .kids-lessons li {
   display:flex; align-items:flex-start; gap:10px;
   background:#fefce8; border-radius:10px; padding:11px 14px;
   font-size:0.93rem; color:#713f12; line-height:1.55;
-  border-left:3px solid #fbbf24;
+  border-left:3px solid var(--primary,#fbbf24);
 }
-.kids-lessons li::before { content:''; width:7px; height:7px; border-radius:50%; background:#fbbf24; flex-shrink:0; margin-top:7px; }
+.kids-lessons li::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--primary,#fbbf24); flex-shrink:0; margin-top:7px; }
 .kids-challenge {
   background:#fef2f2; border-radius:10px; padding:14px 18px;
   font-size:0.95rem; color:#b91c1c; font-weight:600; line-height:1.6;
@@ -459,6 +459,8 @@
   <div id="devContent"></div>
 </div>
 
+<script src="js/subscriber.js"></script>
+<script src="js/main.js"></script>
 <script src="devotions-kids.js"></script>
 <script src="devotions-yuppies.js"></script>
 <script src="devotions-primes.js"></script>
