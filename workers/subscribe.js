@@ -18,13 +18,20 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-const ALLOWED_ORIGIN = 'https://www.millionairemindset.ae';
+const ALLOWED_ORIGINS = [
+  'https://www.millionairemindset.ae',
+  'https://millionairemindset.ae',
+  'https://theaitoolfinder.github.io',
+  'http://localhost',
+  'http://127.0.0.1',
+];
 const BREVO_LIST_ID  = 4;
 const BREVO_URL      = 'https://api.brevo.com/v3/contacts';
 
 function cors(origin) {
-  const allowed = [ALLOWED_ORIGIN, 'http://localhost', 'http://127.0.0.1'];
-  const o = allowed.find(a => origin && origin.startsWith(a)) ? origin : ALLOWED_ORIGIN;
+  const o = ALLOWED_ORIGINS.find(a => origin && origin.startsWith(a))
+    ? origin
+    : ALLOWED_ORIGINS[0];
   return {
     'Access-Control-Allow-Origin':  o,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
