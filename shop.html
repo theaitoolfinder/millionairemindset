@@ -525,26 +525,76 @@
   <!-- ══════════════════════════════════════ -->
   <section class="shop-section" id="our-store">
     <div class="container">
-      <div class="section-header">
-        <div>
-          <span class="section-label">Digital &amp; Physical Products</span>
-          <h2>Our Store</h2>
-          <p>Guides, planners, courses, and tools created to help you manage your finances and build wealth from anywhere.</p>
+      <!-- ADMIN VIEW: full store (visible only when logged into admin) -->
+      <div id="store-admin-view" style="display:none;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px;">
+          <div>
+            <span class="section-label">Digital &amp; Physical Products</span>
+            <h2>Our Store</h2>
+            <p>Guides, planners, courses, and tools created to help you manage your finances and build wealth from anywhere.</p>
+          </div>
+          <a href="cart.html" class="btn-outline" style="flex-shrink:0;white-space:nowrap;">
+            View Cart &nbsp;<span id="headerCartCount" style="background:var(--primary);color:#fff;border-radius:999px;padding:1px 9px;font-size:0.72rem;font-weight:700;">0</span>
+          </a>
         </div>
-        <a href="cart.html" class="btn-outline" style="flex-shrink:0;white-space:nowrap;">
-          View Cart &nbsp;<span id="headerCartCount" style="background:var(--primary);color:#fff;border-radius:999px;padding:1px 9px;font-size:0.72rem;font-weight:700;">0</span>
-        </a>
+        <div style="background:var(--primary-light,#fee2e2);border:1px solid var(--border-soft);border-radius:10px;padding:10px 16px;margin-bottom:20px;font-size:0.82rem;color:var(--primary,#CC1010);font-weight:600;">
+          Admin view — store is under construction for the public.
+        </div>
+        <div class="filter-bar">
+          <button class="filter-btn active" onclick="filterProducts('All',this)">All</button>
+          <button class="filter-btn" onclick="filterProducts('Digital',this)">Digital</button>
+          <button class="filter-btn" onclick="filterProducts('Course',this)">Courses</button>
+          <button class="filter-btn" onclick="filterProducts('Health',this)">Health</button>
+          <button class="filter-btn" onclick="filterProducts('Physical',this)">Physical</button>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
       </div>
-      <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterProducts('All',this)">All</button>
-        <button class="filter-btn" onclick="filterProducts('Digital',this)">Digital</button>
-        <button class="filter-btn" onclick="filterProducts('Course',this)">Courses</button>
-        <button class="filter-btn" onclick="filterProducts('Health',this)">Health</button>
-        <button class="filter-btn" onclick="filterProducts('Physical',this)">Physical</button>
+
+      <!-- PUBLIC VIEW: under construction -->
+      <div id="store-public-view" style="
+        border: 2px dashed var(--border);
+        border-radius: 20px;
+        padding: 60px 40px;
+        text-align: center;
+        background: var(--surface-2, #f8fafc);
+        max-width: 680px;
+        margin: 0 auto;
+      ">
+        <div style="
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: var(--primary-light, #fee2e2);
+          color: var(--primary, #CC1010);
+          border: 1px solid var(--border-soft);
+          border-radius: 999px;
+          padding: 6px 18px;
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          margin-bottom: 24px;
+        ">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          Under Construction
+        </div>
+        <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 14px; letter-spacing: -.03em;">Our Store is Coming Soon</h2>
+        <p style="color: var(--text-dim); line-height: 1.8; font-size: 0.95rem; margin-bottom: 28px;">We are building something great — digital guides, courses, and tools made specifically for OFWs building wealth from abroad. Check back soon.</p>
+        <p style="font-size: 0.88rem; color: var(--text-dim);">In the meantime, browse our curated partner stores below.</p>
+        <svg style="margin-top: 24px; color: var(--primary); animation: bounce 1.4s infinite;" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
       </div>
-      <div class="products-grid" id="productsGrid"></div>
     </div>
   </section>
+  <style>
+    @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+  </style>
+  <script>
+    (function(){
+      var isAdmin = !!localStorage.getItem('mm_admin_auth');
+      document.getElementById('store-admin-view').style.display = isAdmin ? '' : 'none';
+      document.getElementById('store-public-view').style.display = isAdmin ? 'none' : '';
+    })();
+  </script>
 
   <!-- ══════════════════════════════════════ -->
   <!--  2. AMAZON                            -->
