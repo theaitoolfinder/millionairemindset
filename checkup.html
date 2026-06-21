@@ -1406,6 +1406,13 @@
     };
     mmSaveProfile(profile);
 
+    /* Send to Brevo */
+    var _bfd = new FormData();
+    _bfd.append('EMAIL', email);
+    _bfd.append('FIRSTNAME', name);
+    fetch('https://bb0b0867.sibforms.com/serve/MUIFAOGDJeXWoD51BjwMfv68XSaz0v90tEtIP4j7fWleHs6hcXvvW59DvRO_ULI5cVeWpFz--du9WCjUPi-wuhIhngKkkv4OkRXymONeiAKq6NUmSsZaxZEjzXzPwOQPwIAYEnFwUugNyHeTgKFv4i9Kv4nuKKNy3zM4zlwgk6coRZy63tOLzVnlVoVBq5AN2uiZDuQW-rU1Kgz9GQ==', { method:'POST', body:_bfd, mode:'no-cors' }).catch(function(){});
+    if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
+
     /* Send to leads system if configured */
     if (typeof LEADS_SCRIPT_URL !== 'undefined' && LEADS_SCRIPT_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
       fetch(LEADS_SCRIPT_URL, {
@@ -1518,6 +1525,7 @@
   </footer>
 
   <script src="js/i18n.js"></script>
+  <script src="js/subscriber.js"></script>
   <script src="js/main.js?v=20260616"></script>
   <script src="js/checkup.js"></script>
   <script src="js/chat-widget.js?v=20260701"></script>

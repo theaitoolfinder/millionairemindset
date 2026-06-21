@@ -41,9 +41,17 @@ function toggleMenu() {
   if (btn) btn.classList.toggle('open', isOpen);
 }
 
+var BREVO_EP = 'https://bb0b0867.sibforms.com/serve/MUIFAOGDJeXWoD51BjwMfv68XSaz0v90tEtIP4j7fWleHs6hcXvvW59DvRO_ULI5cVeWpFz--du9WCjUPi-wuhIhngKkkv4OkRXymONeiAKq6NUmSsZaxZEjzXzPwOQPwIAYEnFwUugNyHeTgKFv4i9Kv4nuKKNy3zM4zlwgk6coRZy63tOLzVnlVoVBq5AN2uiZDuQW-rU1Kgz9GQ==';
+
 function handleSubscribe(e) {
   e.preventDefault();
   const input = e.target.querySelector('input');
+  const email = (input.value || '').trim();
+  if (!email) return;
+  const fd = new FormData();
+  fd.append('EMAIL', email);
+  fetch(BREVO_EP, { method: 'POST', body: fd, mode: 'no-cors' }).catch(function(){});
+  if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
   alert(currentLang === 'tl'
     ? 'Salamat sa pag-subscribe! Maligayang pagdating sa aming komunidad.'
     : 'Thank you for subscribing! Welcome to the community.');

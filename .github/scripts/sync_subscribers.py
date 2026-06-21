@@ -19,7 +19,7 @@ import os, json, hashlib, datetime
 import urllib.request, urllib.error
 
 BREVO_API_KEY = os.environ.get("BREVO_API_KEY", "").strip()
-BREVO_LIST_ID = 4           # Millionaire Mindset list in Brevo
+BREVO_LIST_ID = 4           # informational only — sync fetches all account contacts
 DB_FILE       = "data/subscribers_db.json"
 OUT_FILE      = "data/subscribers.json"
 
@@ -45,6 +45,7 @@ def load_db() -> dict:
 
 
 def fetch_list_contacts() -> list:
+    """Fetch all active contacts from the Brevo account (all lists)."""
     if not BREVO_API_KEY:
         print("BREVO_API_KEY not set — no contacts fetched.")
         return []
@@ -55,8 +56,8 @@ def fetch_list_contacts() -> list:
 
     while True:
         url = (
-            f"https://api.brevo.com/v3/contacts/lists/{BREVO_LIST_ID}/contacts"
-            f"?limit={limit}&offset={offset}"
+            f"https://api.brevo.com/v3/contacts"
+            f"?limit={limit}&offset={offset}&sort=desc"
         )
         req = urllib.request.Request(
             url,
@@ -92,7 +93,7 @@ def main():
 
     contacts = fetch_list_contacts()
     active   = [c for c in contacts if not c.get("emailBlacklisted", False) and c.get("email")]
-    print(f"[Brevo list {BREVO_LIST_ID}] {len(active)} active contacts ({len(contacts)} total).")
+    print(f"[Brevo] {len(active)} active contacts fetched ({len(contacts)} total incl. unsubscribed).")
 
     active_hashes = {sha256(c["email"]) for c in active}
     new_hashes    = active_hashes - existing_hashes
