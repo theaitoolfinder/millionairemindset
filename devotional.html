@@ -465,30 +465,36 @@
 
 <script>
 /* ══ WIKIMEDIA IMAGE LOADER ══ */
-/* Philippine nature photo categories on Wikimedia Commons — all verified to contain actual photographs */
+/* Philippine nature photo categories on Wikimedia Commons — verified to contain 10+ actual JPG photos */
 var PHIL_CATS = [
-  'Landscape photographs of the Philippines',
-  'Photographs of mountains in the Philippines',
-  'Waterfalls of the Philippines',
-  'Beaches of the Philippines',
-  'Lakes of the Philippines',
-  'Rivers of the Philippines',
-  'Forests of the Philippines',
-  'Photographs of Palawan',
-  'Photographs of Cebu',
-  'Photographs of Bohol',
-  'Photographs of Ifugao',
-  'Photographs of Batanes'
+  'Banaue_Rice_Terraces',
+  'El_Nido,_Palawan',
+  'Landscapes_of_the_Philippines',
+  'Mountains_of_the_Philippines',
+  'Rivers_of_the_Philippines',
+  'Chocolate_Hills',
+  'Tubbataha_Reef',
+  'Mount_Apo',
+  'Mount_Pulag',
+  'Boracay',
+  'Siargao',
+  'Coron,_Palawan',
+  'Batanes',
+  'Taal_Volcano',
+  'Hundred_Islands_National_Park',
+  'Mount_Pinatubo',
+  'Apo_Island',
+  'Hinatuan_Enchanted_River'
 ];
 
 /* Seed a counter so each devotion card gets a different photo */
 var _wikiSeed = 0;
 
 function loadWikiImage(query, containerId, creditId) {
-  /* Pick a category — rotate through list using a counter so cards vary */
-  var cat = PHIL_CATS[(_wikiSeed++) % PHIL_CATS.length];
-  /* Random offset within the category so we don't always get the same first file */
-  var offset = Math.floor(Math.random() * 80);
+  /* Rotate categories so each devotion card gets a different scene */
+  var catKey = PHIL_CATS[(_wikiSeed++) % PHIL_CATS.length];
+  /* API uses spaces not underscores */
+  var catName = 'Category:' + catKey.replace(/_/g, ' ');
 
   function setImage(src, title, credit) {
     var c = document.getElementById(containerId);
@@ -503,34 +509,20 @@ function loadWikiImage(query, containerId, creditId) {
     if (creditEl) creditEl.textContent = credit || 'Wikimedia Commons';
   }
 
-  /* Step 1 — get file names from the category */
+  /* Fetch up to 50 files from the category, then pick one randomly */
   var catUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers'
-    + '&cmtitle=' + encodeURIComponent('Category:' + cat)
-    + '&cmtype=file&cmlimit=30&cmoffset=' + offset
-    + '&format=json&origin=*';
+    + '&cmtitle=' + encodeURIComponent(catName)
+    + '&cmtype=file&cmlimit=50&format=json&origin=*';
 
   fetch(catUrl)
     .then(function(r){ return r.json(); })
     .then(function(data){
       var members = (data.query && data.query.categorymembers) || [];
-      /* Keep only .jpg / .jpeg files */
       var jpgs = members.filter(function(m){ return /\.(jpg|jpeg)$/i.test(m.title); });
-      if (!jpgs.length) {
-        /* Try without offset if category might be small */
-        return fetch('https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers'
-          + '&cmtitle=' + encodeURIComponent('Category:' + cat)
-          + '&cmtype=file&cmlimit=30&format=json&origin=*')
-          .then(function(r){ return r.json(); })
-          .then(function(d){
-            var m2 = (d.query && d.query.categorymembers) || [];
-            return m2.filter(function(m){ return /\.(jpg|jpeg)$/i.test(m.title); });
-          });
-      }
       return jpgs;
     })
     .then(function(jpgs){
       if (!jpgs || !jpgs.length) { hideIllus(containerId, creditId); return; }
-      /* Pick a random one from what we got */
       var pick = jpgs[Math.floor(Math.random() * jpgs.length)];
       /* Step 2 — get the actual image URL */
       var infoUrl = 'https://commons.wikimedia.org/w/api.php?action=query'
