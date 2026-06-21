@@ -1406,11 +1406,16 @@
     };
     mmSaveProfile(profile);
 
-    /* Send to Brevo */
-    var _bfd = new FormData();
-    _bfd.append('EMAIL', email);
-    _bfd.append('FIRSTNAME', name);
-    fetch('https://bb0b0867.sibforms.com/serve/MUIFAOGDJeXWoD51BjwMfv68XSaz0v90tEtIP4j7fWleHs6hcXvvW59DvRO_ULI5cVeWpFz--du9WCjUPi-wuhIhngKkkv4OkRXymONeiAKq6NUmSsZaxZEjzXzPwOQPwIAYEnFwUugNyHeTgKFv4i9Kv4nuKKNy3zM4zlwgk6coRZy63tOLzVnlVoVBq5AN2uiZDuQW-rU1Kgz9GQ==', { method:'POST', body:_bfd, mode:'no-cors' }).catch(function(){});
+    /* Send to Cloudflare Worker → Brevo list 4 */
+    if (typeof SUBSCRIBE_EP !== 'undefined' && SUBSCRIBE_EP !== 'YOUR_CLOUDFLARE_WORKER_URL') {
+      fetch(SUBSCRIBE_EP, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, firstname: name })
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if (d.success && typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
+      }).catch(function(){});
+    }
     if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
 
     /* Send to leads system if configured */

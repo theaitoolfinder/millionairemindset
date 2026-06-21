@@ -1240,17 +1240,20 @@
     document.getElementById('ks-alias-wrap').style.display = cb.checked ? 'block' : 'none';
   };
 
-  var BREVO_EP = 'https://bb0b0867.sibforms.com/serve/MUIFAOGDJeXWoD51BjwMfv68XSaz0v90tEtIP4j7fWleHs6hcXvvW59DvRO_ULI5cVeWpFz--du9WCjUPi-wuhIhngKkkv4OkRXymONeiAKq6NUmSsZaxZEjzXzPwOQPwIAYEnFwUugNyHeTgKFv4i9Kv4nuKKNy3zM4zlwgk6coRZy63tOLzVnlVoVBq5AN2uiZDuQW-rU1Kgz9GQ==';
-
   window.ksDoSubscribe = function() {
     var name  = (document.getElementById('ks-sub-name').value || '').trim();
     var email = (document.getElementById('ks-sub-email').value || '').trim();
     if (!name)  { document.getElementById('ks-sub-name').focus(); return; }
     if (!email || !email.includes('@')) { document.getElementById('ks-sub-email').focus(); return; }
-    var fd = new FormData();
-    fd.append('EMAIL', email);
-    fd.append('FIRSTNAME', name);
-    fetch(BREVO_EP, { method: 'POST', body: fd, mode: 'no-cors' }).catch(function(){});
+    if (typeof SUBSCRIBE_EP !== 'undefined' && SUBSCRIBE_EP !== 'YOUR_CLOUDFLARE_WORKER_URL') {
+      fetch(SUBSCRIBE_EP, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, firstname: name })
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if (d.success && typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
+      }).catch(function(){});
+    }
     if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
     try {
       localStorage.setItem('mm_ks_subscribed', JSON.stringify({name:name, email:email, date: new Date().toISOString()}));

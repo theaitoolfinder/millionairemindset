@@ -41,7 +41,7 @@ function toggleMenu() {
   if (btn) btn.classList.toggle('open', isOpen);
 }
 
-var BREVO_EP = 'https://bb0b0867.sibforms.com/serve/MUIFAOGDJeXWoD51BjwMfv68XSaz0v90tEtIP4j7fWleHs6hcXvvW59DvRO_ULI5cVeWpFz--du9WCjUPi-wuhIhngKkkv4OkRXymONeiAKq6NUmSsZaxZEjzXzPwOQPwIAYEnFwUugNyHeTgKFv4i9Kv4nuKKNy3zM4zlwgk6coRZy63tOLzVnlVoVBq5AN2uiZDuQW-rU1Kgz9GQ==';
+var SUBSCRIBE_EP = 'YOUR_CLOUDFLARE_WORKER_URL'; // e.g. https://mm-subscribe.yourname.workers.dev
 
 function handleSubscribe(e) {
   e.preventDefault();
@@ -51,14 +51,27 @@ function handleSubscribe(e) {
   const msg = document.getElementById('nl-msg');
   const btn = e.target.querySelector('button[type="submit"]');
   if (btn) { btn.disabled = true; btn.textContent = 'Subscribing…'; }
-  const fd = new FormData();
-  fd.append('EMAIL', email);
-  /* Fire-and-forget to Brevo — no-cors means we can't read the response, always treat as success */
-  fetch(BREVO_EP, { method: 'POST', body: fd, mode: 'no-cors' }).catch(function(){});
-  if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
-  input.value = '';
-  if (msg) { msg.style.color = '#059669'; msg.textContent = currentLang === 'tl' ? 'Salamat! Maligayang pagdating sa aming komunidad.' : 'You\'re in! Welcome to the community.'; }
-  if (btn) { btn.disabled = false; btn.textContent = currentLang === 'tl' ? 'I-subscribe Libre' : 'Subscribe Free'; }
+  if (msg) { msg.textContent = ''; }
+  fetch(SUBSCRIBE_EP, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: email })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.success) {
+      if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
+      input.value = '';
+      if (msg) { msg.style.color = '#059669'; msg.textContent = currentLang === 'tl' ? 'Salamat! Maligayang pagdating sa aming komunidad.' : 'You\'re in! Welcome to the community.'; }
+    } else {
+      if (msg) { msg.style.color = '#cc1010'; msg.textContent = d.error || 'Something went wrong. Please try again.'; }
+    }
+    if (btn) { btn.disabled = false; btn.textContent = currentLang === 'tl' ? 'I-subscribe Libre' : 'Subscribe Free'; }
+  })
+  .catch(function() {
+    if (msg) { msg.style.color = '#cc1010'; msg.textContent = 'Something went wrong. Please try again.'; }
+    if (btn) { btn.disabled = false; btn.textContent = currentLang === 'tl' ? 'I-subscribe Libre' : 'Subscribe Free'; }
+  });
 }
 
 function handleContact(e) {
