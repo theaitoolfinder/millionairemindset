@@ -465,24 +465,44 @@
 
 <script>
 /* ══ WIKIMEDIA IMAGE LOADER ══ */
+var WIKI_BAD = /paint|art|drawing|sketch|illustration|diagram|map|flag|seal|coat|logo|stamp|icon|portrait|book|cover|poster|chart|text|abstract|vector|cartoon|clipart/i;
+
 function loadWikiImage(query, containerId, creditId) {
   var url = 'https://commons.wikimedia.org/w/api.php?action=query&list=search' +
     '&srsearch=' + encodeURIComponent(query) +
-    '&srnamespace=6&format=json&origin=*&srlimit=8';
+    '&srnamespace=6&format=json&origin=*&srlimit=20';
   fetch(url)
     .then(function(r){ return r.json(); })
     .then(function(data){
       var results = (data.query && data.query.search) || [];
-      var hit = results.find(function(r){ return /\.(jpg|jpeg|png)/i.test(r.title); }) || results[0];
+      /* Keep only photo-looking filenames, skip artwork/paintings */
+      var photos = results.filter(function(r){
+        var t = r.title.toLowerCase();
+        return /\.(jpg|jpeg|png)$/i.test(t) && !WIKI_BAD.test(t);
+      });
+      var hit = photos[0];
       if (!hit) { hideIllus(containerId, creditId); return; }
+      /* Fetch all candidate titles at once and pick the first photo */
+      var titles = photos.slice(0, 8).map(function(r){ return r.title; }).join('|');
       var infoUrl = 'https://commons.wikimedia.org/w/api.php?action=query' +
-        '&titles=' + encodeURIComponent(hit.title) +
-        '&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=500&format=json&origin=*';
+        '&titles=' + encodeURIComponent(titles) +
+        '&prop=imageinfo&iiprop=url|mime|extmetadata&iiurlwidth=500&format=json&origin=*';
       return fetch(infoUrl).then(function(r){ return r.json(); }).then(function(d){
         var pages = d.query && d.query.pages;
         if (!pages) { hideIllus(containerId, creditId); return; }
-        var page = pages[Object.keys(pages)[0]];
-        if (!page.imageinfo || !page.imageinfo[0]) { hideIllus(containerId, creditId); return; }
+        /* Find first page that is actually an image/jpeg or image/png */
+        var page = null;
+        for (var k in pages) {
+          var p = pages[k];
+          var ii = p.imageinfo && p.imageinfo[0];
+          if (!ii) continue;
+          var mime = ii.mime || '';
+          var thumbUrl = ii.thumburl || ii.url || '';
+          if (!mime.startsWith('image/') || WIKI_BAD.test(thumbUrl)) continue;
+          page = p;
+          break;
+        }
+        if (!page) { hideIllus(containerId, creditId); return; }
         var info = page.imageinfo[0];
         var src = info.thumburl || info.url;
         if (!src) { hideIllus(containerId, creditId); return; }
