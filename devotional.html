@@ -465,47 +465,78 @@
 
 <script>
 /* ══ WIKIMEDIA IMAGE LOADER ══ */
-var WIKI_BAD = /paint|art|drawing|sketch|illustration|diagram|map|flag|seal|coat|logo|stamp|icon|portrait|book|cover|poster|chart|text|abstract|vector|cartoon|clipart/i;
+/* Only block the most obvious non-photo files */
+var WIKI_BAD = /\b(flag|seal|coat.of.arms|logo|vector|svg|clipart|cartoon|diagram|map)\b/i;
+
+/* Hardcoded fallback Philippine nature photos (Wikimedia Commons direct URLs) */
+var PHIL_FALLBACKS = [
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Mayon_Volcano_Perfect_Cone.jpg/800px-Mayon_Volcano_Perfect_Cone.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Chocolate_Hills_overview.JPG/800px-Chocolate_Hills_overview.JPG',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Banaue_Rice_Terraces_2.jpg/800px-Banaue_Rice_Terraces_2.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Kawasan_Falls.jpg/800px-Kawasan_Falls.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Taal_Lake_from_Tagaytay.jpg/800px-Taal_Lake_from_Tagaytay.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Hinatuan_Enchanted_River.jpg/800px-Hinatuan_Enchanted_River.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Batanes_Islands_Philippines.jpg/800px-Batanes_Islands_Philippines.jpg',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Puerto_Princesa_Subterranean_River.jpg/800px-Puerto_Princesa_Subterranean_River.jpg'
+];
 
 function loadWikiImage(query, containerId, creditId) {
   var url = 'https://commons.wikimedia.org/w/api.php?action=query&list=search' +
     '&srsearch=' + encodeURIComponent(query) +
     '&srnamespace=6&format=json&origin=*&srlimit=20';
+
+  function useFallback() {
+    var src = PHIL_FALLBACKS[Math.floor(Math.random() * PHIL_FALLBACKS.length)];
+    var c = document.getElementById(containerId);
+    if (!c) return;
+    var img = c.querySelector('img');
+    var ldr = c.querySelector('.illus-loader');
+    img.onload = function(){ img.classList.add('loaded'); if (ldr) ldr.style.display='none'; };
+    img.onerror = function(){ hideIllus(containerId, creditId); };
+    img.alt = 'Philippine nature';
+    img.src = src;
+    var creditEl = document.getElementById(creditId);
+    if (creditEl) creditEl.textContent = 'Wikimedia Commons';
+  }
+
   fetch(url)
     .then(function(r){ return r.json(); })
     .then(function(data){
       var results = (data.query && data.query.search) || [];
-      /* Keep only photo-looking filenames, skip artwork/paintings */
+      /* Prefer .jpg/.jpeg/.png files, skip obvious non-photos */
       var photos = results.filter(function(r){
         var t = r.title.toLowerCase();
         return /\.(jpg|jpeg|png)$/i.test(t) && !WIKI_BAD.test(t);
       });
-      var hit = photos[0];
-      if (!hit) { hideIllus(containerId, creditId); return; }
-      /* Fetch all candidate titles at once and pick the first photo */
-      var titles = photos.slice(0, 8).map(function(r){ return r.title; }).join('|');
+      /* Fall back to any .jpg/.png if strict filter left nothing */
+      if (!photos.length) {
+        photos = results.filter(function(r){ return /\.(jpg|jpeg|png)$/i.test(r.title); });
+      }
+      if (!photos.length) { useFallback(); return; }
+
+      var titles = photos.slice(0, 10).map(function(r){ return r.title; }).join('|');
       var infoUrl = 'https://commons.wikimedia.org/w/api.php?action=query' +
         '&titles=' + encodeURIComponent(titles) +
-        '&prop=imageinfo&iiprop=url|mime|extmetadata&iiurlwidth=500&format=json&origin=*';
+        '&prop=imageinfo&iiprop=url|mime|size|extmetadata&iiurlwidth=500&format=json&origin=*';
       return fetch(infoUrl).then(function(r){ return r.json(); }).then(function(d){
         var pages = d.query && d.query.pages;
-        if (!pages) { hideIllus(containerId, creditId); return; }
-        /* Find first page that is actually an image/jpeg or image/png */
+        if (!pages) { useFallback(); return; }
+        /* Pick first image/jpeg or image/png with width >= 300px */
         var page = null;
         for (var k in pages) {
           var p = pages[k];
           var ii = p.imageinfo && p.imageinfo[0];
           if (!ii) continue;
           var mime = ii.mime || '';
-          var thumbUrl = ii.thumburl || ii.url || '';
-          if (!mime.startsWith('image/') || WIKI_BAD.test(thumbUrl)) continue;
+          if (!mime.startsWith('image/jpeg') && !mime.startsWith('image/png')) continue;
+          if ((ii.width || 0) < 300) continue;
           page = p;
           break;
         }
-        if (!page) { hideIllus(containerId, creditId); return; }
+        if (!page) { useFallback(); return; }
         var info = page.imageinfo[0];
         var src = info.thumburl || info.url;
-        if (!src) { hideIllus(containerId, creditId); return; }
+        if (!src) { useFallback(); return; }
         var c = document.getElementById(containerId);
         if (!c) return;
         var img = c.querySelector('img');
@@ -515,7 +546,7 @@ function loadWikiImage(query, containerId, creditId) {
           if (ldr) ldr.style.display = 'none';
         };
         img.onerror = function(){ hideIllus(containerId, creditId); };
-        img.alt = hit.title.replace('File:','').replace(/_/g,' ').replace(/\.[^.]+$/,'');
+        img.alt = (page.title||'').replace('File:','').replace(/_/g,' ').replace(/\.[^.]+$/,'');
         img.src = src;
         var meta = info.extmetadata || {};
         var artist = ((meta.Artist && meta.Artist.value) || '').replace(/<[^>]+>/g,'').trim();
