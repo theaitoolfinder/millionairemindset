@@ -1671,36 +1671,43 @@
   <script>
   (function(){
     var queries = [
-      "El Nido limestone cliffs lagoon Palawan Philippines",
-      "Batanes green hills coast landscape Philippines",
-      "Banaue Rice Terraces mountain valley Ifugao Philippines",
-      "Chocolate Hills green hills Bohol Philippines",
-      "Mount Pulag sea of clouds Benguet Philippines",
-      "Coron lagoon crystal water Palawan Philippines",
-      "Kawasan Falls turquoise waterfall Cebu Philippines",
-      "Nacpan Beach twin beach El Nido Palawan Philippines"
+      "El Nido Palawan beach landscape Philippines",
+      "Batanes hills coast Philippines landscape",
+      "Banaue Rice Terraces Ifugao Philippines",
+      "Chocolate Hills Bohol Philippines landscape",
+      "Mount Pulag sea of clouds Philippines",
+      "Coron Palawan lagoon Philippines landscape",
+      "Kawasan Falls Cebu Philippines waterfall",
+      "Mayon Volcano Philippines landscape"
     ];
+    var BAD = /book|cover|map|flag|seal|coat|logo|stamp|icon|portrait|drawing|illustration|diagram|chart|poster|text/i;
     var q = queries[Math.floor(Math.random() * queries.length)];
     var bg = document.getElementById('blogHeroBg');
-    fetch('https://en.wikipedia.org/w/api.php?action=query&list=search&srnamespace=6&srlimit=8&srsearch=' + encodeURIComponent(q) + '&format=json&origin=*')
+    fetch('https://commons.wikimedia.org/w/api.php?action=query&list=search&srnamespace=6&srlimit=20&srsearch=' + encodeURIComponent(q) + '&format=json&origin=*')
       .then(function(r){ return r.json(); })
       .then(function(d){
         var hits = (d.query && d.query.search) || [];
-        if (!hits.length) return;
-        var titles = hits.map(function(h){ return h.title; }).join('|');
-        return fetch('https://en.wikipedia.org/w/api.php?action=query&titles=' + encodeURIComponent(titles) + '&prop=imageinfo&iiprop=url&iiurlwidth=1600&format=json&origin=*');
+        /* keep only hits whose title looks like a photo */
+        hits = hits.filter(function(h){
+          var t = h.title.toLowerCase();
+          return !BAD.test(t) && /\.(jpe?g|png)$/i.test(t);
+        });
+        if (!hits.length) return null;
+        var titles = hits.slice(0,8).map(function(h){ return h.title; }).join('|');
+        return fetch('https://commons.wikimedia.org/w/api.php?action=query&titles=' + encodeURIComponent(titles) + '&prop=imageinfo&iiprop=url|mime&iiurlwidth=1600&format=json&origin=*');
       })
       .then(function(r){ return r && r.json(); })
       .then(function(d){
         if (!d) return;
         var pages = d.query && d.query.pages;
-        var url = null;
         for (var k in pages) {
           var ii = pages[k].imageinfo;
-          if (ii && ii[0]) { url = ii[0].thumburl || ii[0].url; break; }
-        }
-        if (url && bg) {
+          if (!ii || !ii[0]) continue;
+          var mime = ii[0].mime || '';
+          var url  = ii[0].thumburl || ii[0].url || '';
+          if (!mime.startsWith('image/') || BAD.test(url)) continue;
           bg.style.backgroundImage = 'url(' + url + ')';
+          return;
         }
       })
       .catch(function(){});
