@@ -75,7 +75,7 @@
 
   <!-- ══ HERO — Series 1: First 100 Days ══ -->
   <div class="blog-hero">
-    <div class="blog-hero-bg" style="background-image:url('https://images.unsplash.com/photo-1488085061387-422e29b40080?w=1600&q=90&auto=format&fit=crop&crop=center');"></div>
+    <div class="blog-hero-bg" id="blogHeroBg"></div>
     <div class="blog-hero-overlay"></div>
     <div class="blog-hero-content">
       <div class="blog-hero-eyebrow">
@@ -1666,6 +1666,44 @@
     document.addEventListener('keydown', function(e){
       if (e.key === 'Escape') closeEpDrawer();
     });
+  })();
+  </script>
+  <script>
+  (function(){
+    var queries = [
+      "El Nido limestone cliffs lagoon Palawan Philippines",
+      "Batanes green hills coast landscape Philippines",
+      "Banaue Rice Terraces mountain valley Ifugao Philippines",
+      "Chocolate Hills green hills Bohol Philippines",
+      "Mount Pulag sea of clouds Benguet Philippines",
+      "Coron lagoon crystal water Palawan Philippines",
+      "Kawasan Falls turquoise waterfall Cebu Philippines",
+      "Nacpan Beach twin beach El Nido Palawan Philippines"
+    ];
+    var q = queries[Math.floor(Math.random() * queries.length)];
+    var bg = document.getElementById('blogHeroBg');
+    fetch('https://en.wikipedia.org/w/api.php?action=query&list=search&srnamespace=6&srlimit=8&srsearch=' + encodeURIComponent(q) + '&format=json&origin=*')
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var hits = (d.query && d.query.search) || [];
+        if (!hits.length) return;
+        var titles = hits.map(function(h){ return h.title; }).join('|');
+        return fetch('https://en.wikipedia.org/w/api.php?action=query&titles=' + encodeURIComponent(titles) + '&prop=imageinfo&iiprop=url&iiurlwidth=1600&format=json&origin=*');
+      })
+      .then(function(r){ return r && r.json(); })
+      .then(function(d){
+        if (!d) return;
+        var pages = d.query && d.query.pages;
+        var url = null;
+        for (var k in pages) {
+          var ii = pages[k].imageinfo;
+          if (ii && ii[0]) { url = ii[0].thumburl || ii[0].url; break; }
+        }
+        if (url && bg) {
+          bg.style.backgroundImage = 'url(' + url + ')';
+        }
+      })
+      .catch(function(){});
   })();
   </script>
 </body>
