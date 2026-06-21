@@ -48,14 +48,22 @@ function handleSubscribe(e) {
   const input = e.target.querySelector('input');
   const email = (input.value || '').trim();
   if (!email) return;
+  const msg = document.getElementById('nl-msg');
+  const btn = e.target.querySelector('button[type="submit"]');
+  if (btn) { btn.disabled = true; btn.textContent = 'Subscribing…'; }
   const fd = new FormData();
   fd.append('EMAIL', email);
-  fetch(BREVO_EP, { method: 'POST', body: fd, mode: 'no-cors' }).catch(function(){});
-  if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
-  alert(currentLang === 'tl'
-    ? 'Salamat sa pag-subscribe! Maligayang pagdating sa aming komunidad.'
-    : 'Thank you for subscribing! Welcome to the community.');
-  input.value = '';
+  fetch(BREVO_EP, { method: 'POST', body: fd, mode: 'no-cors' })
+    .then(function() {
+      if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
+      input.value = '';
+      if (msg) { msg.style.color = '#059669'; msg.textContent = currentLang === 'tl' ? 'Salamat! Maligayang pagdating sa aming komunidad.' : 'You\'re in! Welcome to the community.'; }
+      if (btn) { btn.disabled = false; btn.textContent = currentLang === 'tl' ? 'I-subscribe Libre' : 'Subscribe Free'; }
+    })
+    .catch(function() {
+      if (msg) { msg.style.color = '#cc1010'; msg.textContent = 'Something went wrong. Please try again.'; }
+      if (btn) { btn.disabled = false; btn.textContent = currentLang === 'tl' ? 'I-subscribe Libre' : 'Subscribe Free'; }
+    });
 }
 
 function handleContact(e) {

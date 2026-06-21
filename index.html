@@ -286,9 +286,10 @@
         <p data-i18n="nl_p">Free weekly tips on saving, investing, and building income. No spam, ever.</p>
       </div>
       <form class="newsletter-form" onsubmit="handleSubscribe(event)">
-        <input type="email" data-i18n="nl_placeholder" placeholder="Enter your email address" required />
+        <input type="email" id="nl-email-input" data-i18n="nl_placeholder" placeholder="Enter your email address" required />
         <button type="submit" class="btn-primary" data-i18n="nl_btn">Subscribe Free</button>
       </form>
+      <div id="nl-msg" style="margin-top:12px;font-size:.9rem;font-weight:600;min-height:20px;"></div>
     </div>
   </section>
 
