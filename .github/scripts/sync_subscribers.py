@@ -19,7 +19,7 @@ import os, json, hashlib, datetime
 import urllib.request, urllib.error
 
 BREVO_API_KEY = os.environ.get("BREVO_API_KEY", "").strip()
-BREVO_LIST_ID = 4           # informational only — sync fetches all account contacts
+BREVO_LIST_ID = 4           # Millionaire Mindset list in Brevo
 DB_FILE       = "data/subscribers_db.json"
 OUT_FILE      = "data/subscribers.json"
 
@@ -56,8 +56,8 @@ def fetch_list_contacts() -> list:
 
     while True:
         url = (
-            f"https://api.brevo.com/v3/contacts"
-            f"?limit={limit}&offset={offset}&sort=desc"
+            f"https://api.brevo.com/v3/contacts/lists/{BREVO_LIST_ID}/contacts"
+            f"?limit={limit}&offset={offset}"
         )
         req = urllib.request.Request(
             url,
