@@ -1170,5 +1170,24 @@
       if (!isOpen) item.classList.add('open');
     }
   </script>
+
+  <script>
+  /* Coming Soon — blur non-event sections */
+  (function(){
+    var KEEP = ['vl-events-full', 'vlTopBanner'];
+    document.querySelectorAll('section, .vl-events-banner').forEach(function(el){
+      var skip = KEEP.some(function(id){ return el.id === id || el.closest('#'+id); });
+      if (!skip && el.closest('nav') === null && el.closest('footer') === null) {
+        el.style.filter = 'blur(6px)';
+        el.style.pointerEvents = 'none';
+        el.style.userSelect = 'none';
+      }
+    });
+    var notice = document.createElement('div');
+    notice.style.cssText = 'position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:9999;background:#0f172a;color:#f8fafc;padding:14px 28px;border-radius:14px;font-size:0.88rem;font-weight:700;letter-spacing:0.04em;box-shadow:0 8px 32px rgba(0,0,0,0.35);display:flex;align-items:center;gap:12px;white-space:nowrap;';
+    notice.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Full details coming soon — events are open now';
+    document.body.appendChild(notice);
+  })();
+  </script>
 </body>
 </html>

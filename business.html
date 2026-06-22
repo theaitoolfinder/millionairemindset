@@ -581,25 +581,38 @@
       wrap.innerHTML = html;
     }
 
-    /* ── Unlock: show businesses, hide gate ─────────── */
+    /* ── Unlock: show coming soon instead of business content ─── */
     function unlock(animate) {
-      // Show businesses
-      var bizContent = document.getElementById('biz-content');
-      if (bizContent) bizContent.classList.add('unlocked');
-
-      // Show bottom CTA
-      var cta = document.getElementById('biz-cta');
-      if (cta) cta.style.display = '';
-
-      // Hide gate section or show success
-      var formWrap = document.getElementById('gate-form-wrap');
+      var formWrap  = document.getElementById('gate-form-wrap');
       var gateSection = document.getElementById('biz-gate');
-      if (formWrap) formWrap.style.display = 'none';
-      if (gateSection) gateSection.style.display = 'none';
+      var teasers   = document.getElementById('teaserGrid');
+      var bizContent = document.getElementById('biz-content');
+      var cta       = document.getElementById('biz-cta');
 
-      // Hide teaser grid
-      var teasers = document.getElementById('teaserGrid');
-      if (teasers) teasers.style.display = 'none';
+      if (formWrap)   formWrap.style.display   = 'none';
+      if (teasers)    teasers.style.display     = 'none';
+      if (bizContent) bizContent.style.display  = 'none';
+      if (cta)        cta.style.display         = 'none';
+
+      // Show coming soon message inside the gate section
+      if (gateSection) {
+        var cs = document.getElementById('biz-coming-soon');
+        if (!cs) {
+          cs = document.createElement('div');
+          cs.id = 'biz-coming-soon';
+          cs.style.cssText = 'max-width:600px;margin:0 auto 60px;text-align:center;padding:60px 32px;background:var(--surface-2,#f8fafc);border:2px dashed var(--border);border-radius:20px;';
+          cs.innerHTML = ''
+            + '<div style="display:inline-flex;align-items:center;gap:8px;background:var(--primary-light);color:var(--primary);border:1px solid var(--border-soft);border-radius:999px;padding:6px 18px;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:24px;">'
+            +   '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+            +   'Coming Soon'
+            + '</div>'
+            + '<h2 style="font-size:1.6rem;font-weight:800;margin-bottom:14px;letter-spacing:-.03em;">You\'re on the List!</h2>'
+            + '<p style="color:var(--text-dim);line-height:1.8;font-size:0.95rem;margin-bottom:10px;">Thank you for signing up. We are finalizing the business opportunity details and will notify you as soon as everything is ready.</p>'
+            + '<p style="color:var(--text-dim);font-size:0.88rem;">Watch your inbox — big things are coming.</p>';
+          gateSection.querySelector('.container').appendChild(cs);
+        }
+        cs.style.display = '';
+      }
     }
 
     /* ── Gate form submit ───────────────────────────── */
