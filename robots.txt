@@ -1,6 +1,7 @@
 User-agent: *
 Disallow: /data/
 Disallow: /.github/
+Disallow: /gate.html
 Allow: /
 
 # Block AI training crawlers
