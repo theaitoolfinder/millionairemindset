@@ -821,15 +821,15 @@
      7. CHATBOT BRAIN
   ══════════════════════════════════════════════ */
   var BIZ_TL = '<div class="mm-biz-card"><div class="mm-biz-title">Mga Pwedeng Pagkakakitaan Mo</div>'
-    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>JC Premiere</strong> — Ibenta ang premium health products online — kahit nasa abroad ka, works via phone!</div></div>'
-    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>IMG International</strong> — Part-time financial advisor — kumita habang nagtutulungan kayo ng kapwa OFW.</div></div>'
-    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>Vista Land</strong> — Referral agent — earn commissions just by referring fellow OFWs to properties.</div></div>'
+    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>Health &amp; Wellness Partner</strong> — Ibenta ang premium health products online — kahit nasa abroad ka, works via phone!</div></div>'
+    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>Financial Literacy Partner</strong> — Part-time financial advisor — kumita habang nagtutulungan kayo ng kapwa OFW.</div></div>'
+    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>Real Estate Partner</strong> — Referral agent — earn commissions just by referring fellow OFWs to properties.</div></div>'
     + '<a href="business.html" class="mm-biz-link">See All Opportunities →</a></div>';
 
   var BIZ_EN = '<div class="mm-biz-card"><div class="mm-biz-title">Business Opportunities For You</div>'
-    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>JC Premiere</strong> — Sell health products while working abroad.</div></div>'
-    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>IMG International</strong> — Learn financial literacy and earn through insurance and investments.</div></div>'
-    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>Vista Land</strong> — Become a property agent for fellow OFWs.</div></div>'
+    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>Health &amp; Wellness Partner</strong> — Sell health products while working abroad.</div></div>'
+    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>Financial Literacy Partner</strong> — Learn financial literacy and earn through insurance and investments.</div></div>'
+    + '<div class="mm-biz-item"><span class="mm-biz-dot"></span><div><strong>Real Estate Partner</strong> — Become a property agent for fellow OFWs.</div></div>'
     + '<a href="business.html" class="mm-biz-link">Learn More →</a></div>';
 
   /* ══════════════════════════════════════════════════════════
@@ -882,21 +882,21 @@
       money_earn: [
         "Gusto mo bang may extra income sa tabi ng trabaho mo? Marami na OFW na kumikita sa side — health products, insurance, referrals, online selling. Hindi kailangan malaki ang puhunan!",
         "Real talk: ang trabaho abroad ay may expiry date. Ang side income mo? Walang contract, walang renewals. Anong nag-iinteresa sa iyo — products, services, o referrals?",
-        "Top OFW side incomes: 1) JC Premiere health products, 2) IMG insurance agency, 3) Vista Land property referrals, 4) Online selling. Alin parang akma sa setup mo?",
+        "Top OFW side incomes: 1) Health products online, 2) Insurance agency, 3) Property referrals, 4) Online selling. Alin parang akma sa setup mo?",
         "Pinaka-magandang side hustle para sa OFW — yung kaya mong i-manage kahit nasa abroad ka. Online, referral-based, o pina-run ng family mo sa Pinas.",
         "Tanong lang: kung tinanggal ka ng trabaho bukas, may ibang pera ka bang papasok? Kung hindi pa — time to build that backup. Dahan-dahan, pero magsimula na.",
       ],
       money_earn_biz: [
-        "JC Premiere — perfect for OFW setup. Online mo ibebenta, phone lang ang kailangan, kahit nasa abroad ka. Laging may naghahanap ng health products.",
-        "IMG Financial Advisors — part-time, flexible, at actual na tulong sa kapwa Pinoy. Kumikita ka habang nagtuturo ng financial literacy. Parang win-win 'di ba?",
-        "Vista Land property agent — zero capital, referral-based lang. Kung may kilala kang OFW na gustong bumili ng bahay, may komisyon ka na agad.",
+        "Health & wellness network — perfect for OFW setup. Online mo ibebenta, phone lang ang kailangan, kahit nasa abroad ka. Laging may naghahanap ng health products.",
+        "Financial literacy advocacy — part-time, flexible, at actual na tulong sa kapwa Pinoy. Kumikita ka habang nagtuturo ng financial literacy. Parang win-win 'di ba?",
+        "Real estate partner — zero capital, referral-based lang. Kung may kilala kang OFW na gustong bumili ng bahay, may komisyon ka na agad.",
         "Yung pinaka-successful na OFW — may negosyo na naghihintay sa kanila pag-uwi. Huwag aabangan yung last day mo abroad bago mag-plano. Ngayon na.",
       ],
       health: [
         "Alagaan mo ang sarili mo ha — walang kikita para sa pamilya mo kung ikaw ay may sakit. Kumakain ka ba nang maayos? Hindi puro fast food at instant noodles! 😄",
         "Health is wealth — literal. Kahit 20 minutes na lakad lang bawat araw, malaking pagbabago sa mood at energy mo. Try mo bukas.",
         "OFW stress is very real at nag-a-affect sa immune system mo. Sleep, tubig, at exercise — hindi 'to optional, part siya ng trabaho mo.",
-        "JC Premiere may health supplements para sa taong busy at stressed — designed talaga para sa demanding work lifestyle. Gusto mo malaman kung ano yung best para sa iyo?",
+        "May health supplements kami para sa taong busy at stressed — designed talaga para sa demanding work lifestyle. Gusto mo malaman kung ano yung best para sa iyo?",
         "Ingat ka lagi, ha — healthy ka man o hindi, pamilya mo ang naghihintay. Eat well, magpahinga, at huwag hayaang maubos ang sarili mo.",
       ],
       homesick: [
@@ -911,22 +911,22 @@
         "Investing is one of the best things you can do for your pamilya. Pero rule #1: huwag i-invest yung pera na kailangan mo ngayon. Kumpleto ka na ba sa emergency fund?",
         "Para sa beginners: GInvest sa GCash — kahit ₱50 lang. The habit matters more than the amount. Consistent ka lang, malaki ang mangyayari sa 5-10 years.",
         "PSEi stocks avg 8–10% annually over the long run — but kailangan ng patience, hindi quick money. Think 5–10 years, hindi 5–10 months.",
-        "VUL from IMG — interesting 'to kasi pinagsama nila ang life insurance at investment sa isang product. Worth checking out kung wala ka pang coverage at gusto mo ring mag-grow ng pera.",
+        "VUL insurance — interesting 'to kasi pinagsama ang life insurance at investment sa isang product. Worth checking out kung wala ka pang coverage at gusto mo ring mag-grow ng pera.",
         "Real estate — OG investment ng mga Pilipino. Tangible, tumaas ang value, pwede ring i-rent out. May ipon ka na ba para magsimula?",
       ],
       insurance: [
         "Insurance is not an expense — it's your family's backup plan. Tanong lang: kung may mangyari sa iyo bukas, kayang-kaya ba ng family mo ang susunod na 1–2 years?",
         "Breadwinner ka. Kung hindi ka na dyan, sino ang magbabayad ng bills? Life insurance is not optional para sa OFW — it's a responsibility.",
-        "IMG International — nagse-specialize sila sa OFW insurance at financial planning. Yung VUL nila, pinagsama ang life coverage at investment sa isang bayad. Check mo.",
+        "May financial literacy partner kami na nagse-specialize sa OFW insurance at financial planning. Yung VUL nila, pinagsama ang life coverage at investment sa isang bayad. Check mo.",
         "3 kailangan ng bawat OFW: (1) Life insurance, (2) Health insurance, (3) Accident at disability coverage. Kumpleto ka na ba sa tatlo?",
         "SSS, PhilHealth, Pag-IBIG — active pa ba ang contributions mo? Maraming OFW ang huminto tapos nalaman later na wala na palang benefits. I-check agad.",
       ],
       realestate: [
         "Real estate — isa sa pinaka-solid na investment para sa OFW. Lupa at bahay sa Pinas patuloy na tumataas ang value, at pwede pang kumita sa renta.",
-        "Gusto mo bang may sariling bahay sa Pinas kahit nasa abroad ka pa? Vista Land may OFW-friendly terms at SPA setup — hindi mo kailangan umuwi para pumirma.",
+        "Gusto mo bang may sariling bahay sa Pinas kahit nasa abroad ka pa? May real estate partner kami na may OFW-friendly terms at SPA setup — hindi mo kailangan umuwi para pumirma.",
         "Popular OFW strategy: (1) Bilhin pre-selling (mas mura pa), (2) Hintayin matapos, (3) I-rent out o ibenta sa mas mataas na presyo. Done right, malaking return 'yan.",
         "Simple math: ₱3M na property ngayon, ₱5M na sa 10 years. That's ₱2M earned — walang ginawa, basta nag-hawak ka lang.",
-        "Vista Land partner kami. Pwede kang maging referral agent — walang capital, pag may nairefer kang bumili, may komisyon ka. Try mo.",
+        "May real estate partner kami. Pwede kang maging referral agent — walang capital, pag may nairefer kang bumili, may komisyon ka. Try mo.",
       ],
       work: [
         "Kamusta ang trabaho? Sana okay. Remember — kahit grabe ang araw, may purpose ka: yung family mo at yung future na ginagawa mo para sa kanila.",
@@ -1039,19 +1039,19 @@
       money_earn: [
         "Want to earn more on top of your salary? Many OFWs are building side income streams without leaving their full-time job. What are you interested in?",
         "The truth: your job contract abroad will end someday. A side income is your insurance that the money keeps flowing after. Let's talk about your options.",
-        "Here are the most popular OFW side incomes: 1) Health products (JC Premiere) 2) Insurance agency (IMG) 3) Property referrals (Vista Land) 4) Online freelancing. Any of these speak to you?",
+        "Here are the most popular OFW side incomes: 1) Health products online 2) Insurance agency 3) Property referrals 4) Online freelancing. Any of these speak to you?",
         "Small steps work: even ₱5,000/month from a side hustle means ₱60,000/year — enough for an emergency fund or school tuition. It doesn't have to be big to matter.",
       ],
       money_earn_biz: [
-        "JC Premiere is a great OFW-friendly business — sell premium health products online from wherever you are. No physical store needed, just your phone and network.",
-        "IMG International lets OFWs become financial advisors part-time. Flexible hours, good income potential, and you'd be helping fellow OFWs protect their families. Win-win.",
-        "Vista Land property agents earn referral commissions — meaning you can earn from introducing other OFWs to their dream property, without needing your own capital.",
-        "HOF Siomai King is a food franchise your family can run in the Philippines while you fund it from abroad. Proven brand, manageable investment.",
+        "Our health & wellness partner is a great OFW-friendly business — sell premium health products online from wherever you are. No physical store needed, just your phone and network.",
+        "Our financial literacy partner lets OFWs become advisors part-time. Flexible hours, good income potential, and you'd be helping fellow OFWs protect their families. Win-win.",
+        "Our real estate partner's referral agents earn commissions — meaning you can earn from introducing other OFWs to their dream property, without needing your own capital.",
+        "We also have a food franchise partner your family can run in the Philippines while you fund it from abroad. Proven brand, manageable investment.",
       ],
       health: [
         "Your health is your most important asset — especially when you're far from home. Are you eating well, staying hydrated, and getting enough sleep?",
         "OFW stress is real and affects your immune system. Even a 20-minute walk daily can significantly improve your mood and energy levels.",
-        "JC Premiere has premium health supplements designed for people with demanding jobs and lifestyles. Want to know more about what might help you specifically?",
+        "We have premium health supplements designed for people with demanding jobs and lifestyles. Want to know more about what might help you specifically?",
       ],
       homesick: [
         "Feeling homesick? Call your family right now — even a 5-minute voice note goes a long way.",
@@ -1062,19 +1062,19 @@
         "Great thinking! For OFWs, the recommended investment order is: 1) Emergency fund first, 2) VUL insurance for protection + growth, 3) Philippine stocks or UITFs, 4) Real estate.",
         "You don't need a lot to start investing. GInvest on GCash lets you start with as little as ₱50 in mutual funds. The habit matters more than the amount.",
         "Philippine stocks have historically returned 8–10% annually over the long term. But it requires patience — think 5–10 year horizon, not quick profits.",
-        "VUL insurance from IMG combines life coverage with an investment component. For OFWs who want protection AND growth in one product, it's worth exploring.",
+        "VUL insurance combines life coverage with an investment component. For OFWs who want protection AND growth in one product, it's worth exploring.",
       ],
       insurance: [
         "Insurance is non-negotiable for OFWs. You are often the sole breadwinner — if something happens to you, your family needs financial protection.",
         "Three insurance types every OFW needs: 1) Life insurance, 2) Health insurance, 3) Accident and disability coverage. Do you have all three?",
         "Keep your SSS, PhilHealth, and Pag-IBIG contributions active as a voluntary member — many OFWs stop paying and lose their benefits without realizing it.",
-        "IMG International specializes in OFW insurance and financial planning. Their advisors can assess your specific situation and recommend the right coverage.",
+        "Our financial literacy partner specializes in OFW insurance and financial planning. Their advisors can assess your specific situation and recommend the right coverage.",
       ],
       realestate: [
         "Real estate is one of the most tangible investments — land and property in the Philippines generally appreciate over time.",
-        "You can buy property in the Philippines while abroad! Vista Land has OFW-friendly payment terms and a Special Power of Attorney setup so a trusted person can sign for you.",
+        "You can buy property in the Philippines while abroad! Our real estate partner has OFW-friendly payment terms and a Special Power of Attorney setup so a trusted person can sign for you.",
         "Consider this: a ₱3M property today could be worth ₱5M in 10 years. That's ₱2M earned just by owning it — without doing anything else.",
-        "You can also become a Vista Land agent and earn commissions from referring other OFWs to properties. No capital needed — just referrals.",
+        "You can also become a referral agent through our real estate partner and earn commissions from introducing other OFWs to properties. No capital needed — just referrals.",
       ],
       work: [
         "How's work going? Remember: your overseas job is temporary. The financial foundation you're building right now is permanent.",
@@ -1242,10 +1242,10 @@
       money_save:  ['Ano ang 50-30-20 rule?','Paano magsimula ng emergency fund?','Pakita ang budget template'],
       remittance:  ['Paano gumagamit ng TapTap Send?','Alin ang mas mura?','Paano mag-ipadala sa GCash?'],
       money_earn:  ['Anong negosyo ang akma sa OFW?','Paano mag-sell ng health products?','Maging agent?'],
-      money_earn_biz:['JC Premiere — paano?','IMG International — paano?','Vista Land agent'],
+      money_earn_biz:['Health products — paano?','Financial literacy partner — paano?','Real estate agent'],
       invest:      ['Paano mag-stock market?','Ano ang VUL?','Saan mag-simula sa ₱1000?'],
       insurance:   ['Gaano karami ang coverage ko?','Ano ang VUL vs Term?','SSS at PhilHealth ko'],
-      realestate:  ['Paano maging Vista Land agent?','Pag-IBIG housing loan','Pre-selling vs RFO'],
+      realestate:  ['Paano maging referral agent?','Pag-IBIG housing loan','Pre-selling vs RFO'],
       retirement:  ['Magkano kailangan ko?','Paano mag-compute ng retirement fund?'],
       debt:        ['Debt snowball method','Paano mabayaran ang utang nang mabilis?'],
       budget:      ['Subukan ang calculator!','50-30-20 rule','Paano gumawa ng budget?'],
@@ -1256,10 +1256,10 @@
       greet:       ['How to save more?','I want extra income','Life as an OFW'],
       money_save:  ['50-30-20 rule?','How to start emergency fund?'],
       remittance:  ['TapTap Send tips?','Best rates for UAE-PH?'],
-      money_earn:  ['Best OFW side hustles?','Start with JC Premiere?','Become an agent?'],
+      money_earn:  ['Best OFW side hustles?','Start with health products?','Become an agent?'],
       invest:      ['How to start in stocks?','What is VUL?','GInvest for beginners'],
       insurance:   ['How much coverage?','VUL vs Term Insurance?'],
-      realestate:  ['Become a Vista Land agent?','Housing loan guide'],
+      realestate:  ['Become a referral agent?','Housing loan guide'],
       retirement:  ['How much do I need?','Retirement calculation'],
       default:     ['How to save more?','I want extra income','Check my finances']
     }
@@ -1412,10 +1412,10 @@
 
     + '\n=== PARTNERS — MENTION NATURALLY WHEN RELEVANT ===\n'
     + '- TapTap Send — best remittance from UAE/Middle East to Philippines, low fees, referral code BENJIE83. External: https://taptapsend.com\n'
-    + '- JC Premiere — health supplements, OFWs can sell online. See <a href="business.html">Business page</a>.\n'
-    + '- IMG International — financial coaching + insurance. OFWs can become advisors. See <a href="business.html">Business page</a>.\n'
-    + '- Vista Land — Philippine real estate. See <a href="business.html">Business page</a>.\n'
-    + '- HOF Siomai King — food franchise for family back home. See <a href="business.html">Business page</a>.\n'
+    + '- Health & Wellness Partner — health supplements, OFWs can sell online. See <a href="business.html">Business page</a>.\n'
+    + '- Financial Literacy Partner — financial coaching + insurance. OFWs can become advisors. See <a href="business.html">Business page</a>.\n'
+    + '- Real Estate Partner — Philippine real estate referrals. See <a href="business.html">Business page</a>.\n'
+    + '- Food Franchise Partner — food franchise for family back home. See <a href="business.html">Business page</a>.\n'
 
     + '\n=== OFW FINANCIAL KNOWLEDGE ===\n'
     + '- Emergency fund: 3–6 months expenses FIRST before any investment\n'

@@ -547,7 +547,17 @@
           <button class="filter-btn" onclick="filterProducts('Health',this)">Health</button>
           <button class="filter-btn" onclick="filterProducts('Physical',this)">Physical</button>
         </div>
-        <div class="products-grid" id="productsGrid"></div>
+        <div style="position:relative;">
+          <div class="products-grid" id="productsGrid" style="filter:blur(5px);pointer-events:none;user-select:none;"></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;z-index:10;">
+            <div style="background:var(--bg,#fff);border:2px solid var(--border);border-radius:18px;padding:28px 36px;text-align:center;box-shadow:0 4px 32px rgba(0,0,0,0.10);max-width:340px;">
+              <div style="display:inline-block;background:var(--primary-light,#fee2e2);color:var(--primary,#CC1010);border-radius:999px;padding:4px 16px;font-size:0.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;">Coming Soon</div>
+              <div style="font-size:1.05rem;font-weight:700;margin-bottom:8px;color:var(--text);">Our store is almost ready</div>
+              <div style="font-size:0.85rem;color:var(--text-dim);margin-bottom:18px;">While we finalize, browse our partner stores below.</div>
+              <a href="#amazon" style="display:inline-block;background:var(--primary,#CC1010);color:#fff;border-radius:999px;padding:9px 24px;font-size:0.85rem;font-weight:700;text-decoration:none;">Browse Partner Stores</a>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- PUBLIC VIEW: under construction -->
