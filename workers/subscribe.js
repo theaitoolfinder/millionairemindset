@@ -55,11 +55,13 @@ export default {
     }
 
     /* Parse body */
-    let email, firstname;
+    let email, firstname, country, source;
     try {
       const body = await request.json();
       email     = (body.email     || '').trim().toLowerCase();
-      firstname = (body.firstname || '').trim();
+      firstname = (body.firstname || body.name || '').trim();
+      country   = (body.country   || '').trim();
+      source    = (body.source    || '').trim();
     } catch {
       return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
         status: 400, headers: { 'Content-Type': 'application/json', ...cors(origin) }
@@ -79,7 +81,11 @@ export default {
         listIds:        [BREVO_LIST_ID],
         updateEnabled:  true,          // update if contact already exists
       };
-      if (firstname) payload.attributes = { FIRSTNAME: firstname };
+      const attrs = {};
+      if (firstname) attrs.FIRSTNAME = firstname;
+      if (country)   attrs.COUNTRY   = country;
+      if (source)    attrs.SOURCE     = source;
+      if (Object.keys(attrs).length) payload.attributes = attrs;
 
       const brevoRes = await fetch(BREVO_URL, {
         method:  'POST',
