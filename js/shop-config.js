@@ -19,6 +19,7 @@ const SHOP_CONFIG = {
     accentBorder: 'rgba(255,153,0,0.2)',
     cover: 'https://images.unsplash.com/photo-1523474438810-b04a2480633c?w=1200&q=85&auto=format&fit=crop&crop=center',
     /* Optional: featured product tiles shown before the CTA */
+    notice: 'Limited offer — get up to 20% off when you shop NOW through our store.',
     featured: [
       { name: 'Home Essentials', desc: 'Kitchen, bedroom & living room picks' },
       { name: 'Productivity Tools', desc: 'Planners, gadgets & work-from-home gear' },
