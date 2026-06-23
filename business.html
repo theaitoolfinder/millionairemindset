@@ -793,6 +793,24 @@
     renderBusinesses();
     renderEvents();
 
+    /* Blur teaser cards and events after render */
+    setTimeout(function(){
+      var tg = document.getElementById('teaserGrid');
+      if (tg) {
+        tg.style.position = 'relative';
+        tg.style.filter = 'blur(5px)';
+        tg.style.pointerEvents = 'none';
+        tg.style.userSelect = 'none';
+      }
+      var ev = document.getElementById('biz-events');
+      if (ev) {
+        ev.style.position = 'relative';
+        ev.style.filter = 'blur(5px)';
+        ev.style.pointerEvents = 'none';
+        ev.style.userSelect = 'none';
+      }
+    }, 300);
+
     // Check subscriber cache (same mechanism as theme/chat gates)
     var hashes = [];
     var expiry = 0;

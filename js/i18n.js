@@ -277,15 +277,13 @@ const LANG = {
   }
 };
 
-let currentLang = localStorage.getItem('mm_lang') || 'tl';
+let currentLang = localStorage.getItem('mm_lang') || 'en';
 
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('mm_lang', lang);
-  applyLang();
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
-  });
+  // Reload so all content re-renders in the chosen language
+  window.location.reload();
 }
 
 function applyLang() {
