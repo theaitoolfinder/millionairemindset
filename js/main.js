@@ -50,28 +50,27 @@
       + '<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>'
       + 'More</button></li>';
 
+    function moreIconItem(href, iconPath, label, isBtn) {
+      var dot = '<span class="mm-mic-dot"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">' + iconPath + '</svg></span>';
+      var lbl = '<span class="mm-mic-label">' + label + '</span>';
+      if (isBtn) {
+        return '<button class="mm-more-icon-item" onclick="' + href + '" type="button">' + dot + lbl + '</button>';
+      }
+      var active = cur === href ? ' mm-mic-active' : '';
+      return '<a href="' + href + '" class="mm-more-icon-item' + active + '">' + dot + lbl + '</a>';
+    }
+
     var moreLinks = MORE_ITEMS.map(function(item){
-      var active = cur === item.href ? ' style="color:var(--primary)"' : '';
-      return '<a href="' + item.href + '"' + active + '>'
-        + '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">' + item.icon + '</svg>'
-        + item.label + '</a>';
+      return moreIconItem(item.href, item.icon, item.label, false);
     }).join('');
 
-    var themeColors = [
-      {t:'brand',c:'#CC1010'},{t:'ocean',c:'#0284c7'},{t:'forest',c:'#059669'},
-      {t:'sunset',c:'#ea580c'},{t:'lavender',c:'#7c3aed'},{t:'rose',c:'#e11d48'},
-      {t:'teal',c:'#0d9488'},{t:'amber',c:'#d97706'},{t:'pink',c:'#db2777'},
-    ];
-    var swatches = themeColors.map(function(tc){
-      return '<button onclick="mmApplyTheme(\'' + tc.t + '\');document.getElementById(\'mmMorePanel\').classList.remove(\'open\');document.getElementById(\'mmMoreOverlay\').style.display=\'none\';" '
-        + 'style="width:26px;height:26px;border-radius:50%;background:' + tc.c + ';border:2px solid rgba(255,255,255,.5);cursor:pointer;flex-shrink:0;" '
-        + 'title="' + tc.t + '"></button>';
-    }).join('');
-
-    var themeRow = '<div style="border-top:1px solid var(--border);margin-top:6px;padding:10px 14px 4px;">'
-      + '<div style="font-size:0.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">Theme Color</div>'
-      + '<div style="display:flex;flex-wrap:wrap;gap:8px;">' + swatches + '</div>'
-      + '</div>';
+    /* Theme item — opens the full colour-wheel panel */
+    moreLinks += moreIconItem(
+      'mmToggleThemePanel();mmToggleMoreMenu();',
+      '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>',
+      'Theme',
+      true
+    );
 
     var nav = document.createElement('nav');
     nav.id = 'mmBottomNav';
@@ -79,7 +78,7 @@
     nav.setAttribute('aria-label', 'Main navigation');
     nav.innerHTML = '<ul>' + ul + '</ul>'
       + '<div id="mmMoreOverlay" onclick="mmToggleMoreMenu()" style="display:none;position:fixed;inset:0;z-index:1099;"></div>'
-      + '<div id="mmMorePanel" class="mm-more-panel">' + moreLinks + themeRow + '</div>';
+      + '<div id="mmMorePanel" class="mm-more-panel">' + moreLinks + '</div>';
     document.body.appendChild(nav);
   }
 
