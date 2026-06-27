@@ -152,7 +152,18 @@ ul{list-style:none}
 .nav-theme-wrap{position:relative;display:flex;align-items:center}
 @media(max-width:768px){
   #mm-theme-btn{display:none!important}
-  #mm-theme-panel{right:auto;left:50%;transform:translateX(-50%);max-width:calc(100vw - 16px)}
+  #mm-theme-panel{
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    right:auto;
+    max-width:calc(100vw - 32px);
+    width:320px;
+    z-index:10002;
+    max-height:80vh;
+    overflow-y:auto;
+  }
   .cart-icon{padding:7px 12px}
   .nav-right{gap:6px}
   .nav-right .lang-switcher{display:none}
