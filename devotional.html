@@ -801,5 +801,26 @@ function calJumpMonth(monthIdx, y, e) {
   renderCal();
 }
 </script>
+<script src="js/share.js"></script>
+<script>
+  // Inject share bar after devotion renders
+  var _origRender = render;
+  render = function(){
+    _origRender.apply(this, arguments);
+    var bar = document.getElementById('devShareBar');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'devShareBar';
+      bar.style.cssText = 'max-width:700px;margin:0 auto;padding:0 20px 24px;';
+      var content = document.getElementById('devContent');
+      if (content && content.parentNode) content.parentNode.insertBefore(bar, content.nextSibling);
+    }
+    bar.innerHTML = '';
+    mmShareBar('devShareBar', {
+      url: window.location.href,
+      title: "Today's devotional from Millionaire Mindset — a daily word for OFWs and their families.",
+    });
+  };
+</script>
 </body>
 </html>

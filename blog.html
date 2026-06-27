@@ -1452,6 +1452,48 @@
   <script src="js/cart.js"></script>
   <script src="js/subscriber.js"></script>
   <script src="js/main.js?v=20260628"></script>
+  <script src="js/share.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function(){
+      // Share bar below the hero stats
+      var statsBar = document.querySelector('.blog-stats-bar');
+      if (statsBar) {
+        var shareWrap = document.createElement('div');
+        shareWrap.style.cssText = 'max-width:960px;margin:0 auto;padding:12px 28px 0;';
+        statsBar.parentNode.insertBefore(shareWrap, statsBar.nextSibling);
+        mmShareBar(shareWrap, {
+          url: window.location.href,
+          title: 'Millionaire Mindset Blog — Financial literacy series for OFWs. One lesson a day.',
+        });
+      }
+      // Share icon on each series card
+      document.querySelectorAll('.series-card').forEach(function(card){
+        var footer = card.querySelector('.series-card-footer');
+        if (!footer) return;
+        var btn = document.createElement('button');
+        btn.title = 'Share this series';
+        btn.style.cssText = 'background:none;border:none;cursor:pointer;padding:4px 6px;color:var(--text-dim);display:inline-flex;align-items:center;gap:4px;font-size:0.72rem;font-weight:600;';
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share';
+        btn.onclick = function(e){
+          e.preventDefault(); e.stopPropagation();
+          var link = card.href || window.location.href;
+          var title = (card.querySelector('.series-card-title') || {}).textContent || document.title;
+          var tmp = document.createElement('div');
+          tmp.style.cssText = 'position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:9999;background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 8px 32px rgba(0,0,0,.15);min-width:300px;';
+          tmp.id = 'mmCardSharePop';
+          document.getElementById('mmCardSharePop') && document.getElementById('mmCardSharePop').remove();
+          document.body.appendChild(tmp);
+          mmShareBar(tmp, { url: link, title: title });
+          var close = document.createElement('button');
+          close.textContent = 'Close';
+          close.style.cssText = 'display:block;margin:10px auto 0;background:none;border:none;font-size:0.8rem;color:var(--text-dim);cursor:pointer;';
+          close.onclick = function(){ tmp.remove(); };
+          tmp.appendChild(close);
+        };
+        footer.appendChild(btn);
+      });
+    });
+  </script>
   <script src="js/chat-widget.js?v=20260627"></script>
 
   <!-- ══ EPISODE DRAWER ══ -->

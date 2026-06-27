@@ -168,10 +168,7 @@
 
           <div class="results-share">
             <p>Share your results and help a fellow OFW:</p>
-            <div class="share-btns">
-              <a href="#" class="share-btn share-fb" onclick="shareFacebook()">Facebook</a>
-              <a href="#" class="share-btn share-wa" onclick="shareWhatsapp()">WhatsApp / Viber</a>
-            </div>
+            <div id="checkupShareBar"></div>
           </div>
         </div>
 
@@ -1533,6 +1530,29 @@
   <script src="js/subscriber.js"></script>
   <script src="js/main.js?v=20260628"></script>
   <script src="js/checkup.js"></script>
+  <script src="js/share.js"></script>
+  <script>
+    // Called after quiz results render
+    var _origShowResults = window.showResults;
+    document.addEventListener('mmCheckupDone', function(e){
+      if (document.getElementById('checkupShareBar').children.length) return;
+      mmShareBar('checkupShareBar', {
+        url: window.location.href,
+        title: 'I just took the OFW Financial Check-up on Millionaire Mindset — find out your Financial Health Score!',
+      });
+    });
+    // fallback: inject when results section becomes visible
+    var _obs = new MutationObserver(function(){
+      var res = document.getElementById('screen-results');
+      if (res && res.style.display !== 'none' && !document.getElementById('checkupShareBar').children.length) {
+        mmShareBar('checkupShareBar', {
+          url: window.location.href,
+          title: 'I just took the OFW Financial Check-up on Millionaire Mindset — find out your Financial Health Score!',
+        });
+      }
+    });
+    _obs.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['style', 'class'] });
+  </script>
   <script src="js/chat-widget.js?v=20260627"></script>
 </body>
 </html>
