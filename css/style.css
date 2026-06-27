@@ -2,6 +2,12 @@
    MILLIONAIRE MINDSET — Poppins Design System (ported from toolfinder-ai)
    =================================================================== */
 
+/* ===== PAGE TRANSITIONS ===== */
+body{opacity:1;transition:opacity .22s ease;}
+body.mm-fade-out{opacity:0;}
+@keyframes mm-fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.mm-page-in{animation:mm-fade-in .3s ease forwards;}
+
 /* ===== RESET ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 

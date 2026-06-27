@@ -57,13 +57,29 @@
         + item.label + '</a>';
     }).join('');
 
+    var themeColors = [
+      {t:'brand',c:'#CC1010'},{t:'ocean',c:'#0284c7'},{t:'forest',c:'#059669'},
+      {t:'sunset',c:'#ea580c'},{t:'lavender',c:'#7c3aed'},{t:'rose',c:'#e11d48'},
+      {t:'teal',c:'#0d9488'},{t:'amber',c:'#d97706'},{t:'pink',c:'#db2777'},
+    ];
+    var swatches = themeColors.map(function(tc){
+      return '<button onclick="mmApplyTheme(\'' + tc.t + '\');document.getElementById(\'mmMorePanel\').classList.remove(\'open\');document.getElementById(\'mmMoreOverlay\').style.display=\'none\';" '
+        + 'style="width:26px;height:26px;border-radius:50%;background:' + tc.c + ';border:2px solid rgba(255,255,255,.5);cursor:pointer;flex-shrink:0;" '
+        + 'title="' + tc.t + '"></button>';
+    }).join('');
+
+    var themeRow = '<div style="border-top:1px solid var(--border);margin-top:6px;padding:10px 14px 4px;">'
+      + '<div style="font-size:0.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;">Theme Color</div>'
+      + '<div style="display:flex;flex-wrap:wrap;gap:8px;">' + swatches + '</div>'
+      + '</div>';
+
     var nav = document.createElement('nav');
     nav.id = 'mmBottomNav';
     nav.className = 'mm-bottom-nav';
     nav.setAttribute('aria-label', 'Main navigation');
     nav.innerHTML = '<ul>' + ul + '</ul>'
       + '<div id="mmMoreOverlay" onclick="mmToggleMoreMenu()" style="display:none;position:fixed;inset:0;z-index:1099;"></div>'
-      + '<div id="mmMorePanel" class="mm-more-panel">' + moreLinks + '</div>';
+      + '<div id="mmMorePanel" class="mm-more-panel">' + moreLinks + themeRow + '</div>';
     document.body.appendChild(nav);
   }
 
@@ -407,4 +423,27 @@ window.addEventListener('scroll', () => {
     } catch(e){}
     applyBrand();
   })();
+})();
+
+/* ── Page Transitions ── */
+(function(){
+  // Fade in on load
+  document.addEventListener('DOMContentLoaded', function(){
+    document.body.classList.add('mm-page-in');
+  });
+
+  // Fade out before navigating away
+  document.addEventListener('click', function(e){
+    var a = e.target.closest('a');
+    if (!a) return;
+    var href = a.getAttribute('href');
+    if (!href || href.charAt(0) === '#' || href.indexOf('mailto:') === 0 || href.indexOf('tel:') === 0 || href.indexOf('viber:') === 0) return;
+    if (a.target === '_blank' || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    // Only internal links
+    var isInternal = href.indexOf('http') !== 0 || href.indexOf(window.location.origin) === 0;
+    if (!isInternal) return;
+    e.preventDefault();
+    document.body.classList.add('mm-fade-out');
+    setTimeout(function(){ window.location.href = href; }, 200);
+  });
 })();
