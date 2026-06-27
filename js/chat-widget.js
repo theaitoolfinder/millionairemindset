@@ -488,9 +488,9 @@
   @keyframes mm-talk-aya { from{d:path("M68,116 Q80,126 92,116")} to{d:path("M70,114 Q80,120 90,114")} }
 
   /* mobile */
-  @media (max-width: 480px) {
-    #mm-chat-widget { bottom: 16px; right: 16px; }
-    #mm-chat-panel { width: calc(100vw - 32px); right: 0; bottom: 70px; }
+  @media (max-width: 768px) {
+    #mm-chat-widget { bottom: calc(70px + env(safe-area-inset-bottom)); right: 16px; }
+    #mm-chat-panel { width: calc(100vw - 32px); right: 0; bottom: calc(130px + env(safe-area-inset-bottom)); }
   }
   `;
   document.head.appendChild(style);
