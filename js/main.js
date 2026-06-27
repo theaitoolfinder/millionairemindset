@@ -1,33 +1,69 @@
 /* ── Mobile Bottom Navigation Bar ── */
 (function(){
   var NAV_ITEMS = [
-    { href:'index.html',    label:'Home',
+    { href:'index.html',      label:'Home',
       icon:'<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
-    { href:'blog.html',     label:'Blog',
-      icon:'<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>' },
-    { href:'shop.html',     label:'Shop',
+    { href:'devotional.html', label:'Devotional',
+      icon:'<path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>' },
+    { href:'shop.html',       label:'Shop',
       icon:'<path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>' },
-    { href:'business.html', label:'Business',
-      icon:'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>' },
-    { href:'checkup.html',  label:'Check-up',
+    { href:'checkup.html',    label:'Check-up',
       icon:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>' },
   ];
+
+  var MORE_ITEMS = [
+    { href:'blog.html',          label:'Blog',       icon:'<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>' },
+    { href:'business.html',      label:'Business',   icon:'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>' },
+    { href:'about.html',         label:'About',      icon:'<path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>' },
+    { href:'index.html#contact', label:'Contact',    icon:'<path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>' },
+  ];
+
+  function toggleMoreMenu() {
+    var panel = document.getElementById('mmMorePanel');
+    var overlay = document.getElementById('mmMoreOverlay');
+    var isOpen = panel.classList.contains('open');
+    if (isOpen) {
+      panel.classList.remove('open');
+      overlay.style.display = 'none';
+    } else {
+      panel.classList.add('open');
+      overlay.style.display = 'block';
+    }
+  }
+  window.mmToggleMoreMenu = toggleMoreMenu;
 
   function injectBottomNav() {
     if (document.getElementById('mmBottomNav')) return;
     var cur = window.location.pathname.split('/').pop() || 'index.html';
+
+    var moreActive = MORE_ITEMS.some(function(i){ return cur === i.href; }) ? ' active' : '';
+
     var ul = NAV_ITEMS.map(function(item){
       var active = cur === item.href || (cur === '' && item.href === 'index.html') ? ' active' : '';
       return '<li><a href="' + item.href + '" class="' + active + '">'
         + '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + item.icon + '</svg>'
-        + item.label
-        + '</a></li>';
+        + item.label + '</a></li>';
     }).join('');
+
+    ul += '<li><button class="mm-more-btn' + moreActive + '" onclick="mmToggleMoreMenu()" aria-label="More pages">'
+      + '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'
+      + '<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/></svg>'
+      + 'More</button></li>';
+
+    var moreLinks = MORE_ITEMS.map(function(item){
+      var active = cur === item.href ? ' style="color:var(--primary)"' : '';
+      return '<a href="' + item.href + '"' + active + '>'
+        + '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20">' + item.icon + '</svg>'
+        + item.label + '</a>';
+    }).join('');
+
     var nav = document.createElement('nav');
     nav.id = 'mmBottomNav';
     nav.className = 'mm-bottom-nav';
     nav.setAttribute('aria-label', 'Main navigation');
-    nav.innerHTML = '<ul>' + ul + '</ul>';
+    nav.innerHTML = '<ul>' + ul + '</ul>'
+      + '<div id="mmMoreOverlay" onclick="mmToggleMoreMenu()" style="display:none;position:fixed;inset:0;z-index:1099;"></div>'
+      + '<div id="mmMorePanel" class="mm-more-panel">' + moreLinks + '</div>';
     document.body.appendChild(nav);
   }
 
