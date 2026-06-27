@@ -76,10 +76,21 @@
     nav.id = 'mmBottomNav';
     nav.className = 'mm-bottom-nav';
     nav.setAttribute('aria-label', 'Main navigation');
-    nav.innerHTML = '<ul>' + ul + '</ul>'
-      + '<div id="mmMoreOverlay" onclick="mmToggleMoreMenu()" style="display:none;position:fixed;inset:0;z-index:1099;"></div>'
-      + '<div id="mmMorePanel" class="mm-more-panel">' + moreLinks + '</div>';
+    nav.innerHTML = '<ul>' + ul + '</ul>';
     document.body.appendChild(nav);
+
+    /* Panel + overlay live on body directly so they're in the root stacking context */
+    var overlay = document.createElement('div');
+    overlay.id = 'mmMoreOverlay';
+    overlay.onclick = toggleMoreMenu;
+    overlay.style.cssText = 'display:none;position:fixed;inset:0;z-index:10000;';
+    document.body.appendChild(overlay);
+
+    var panel = document.createElement('div');
+    panel.id = 'mmMorePanel';
+    panel.className = 'mm-more-panel';
+    panel.innerHTML = moreLinks;
+    document.body.appendChild(panel);
   }
 
   if (document.readyState === 'loading') {
