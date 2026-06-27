@@ -444,6 +444,8 @@ window.addEventListener('scroll', () => {
     if (!isInternal) return;
     e.preventDefault();
     document.body.classList.add('mm-fade-out');
-    setTimeout(function(){ window.location.href = href; }, 200);
+    var nav = setTimeout(function(){ window.location.href = href; }, 200);
+    // Safety: remove fade-out if navigation doesn't fire within 1s
+    setTimeout(function(){ clearTimeout(nav); document.body.classList.remove('mm-fade-out'); }, 1000);
   });
 })();
