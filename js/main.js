@@ -1,3 +1,43 @@
+/* ── Mobile Bottom Navigation Bar ── */
+(function(){
+  var NAV_ITEMS = [
+    { href:'index.html',    label:'Home',
+      icon:'<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+    { href:'blog.html',     label:'Blog',
+      icon:'<path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>' },
+    { href:'shop.html',     label:'Shop',
+      icon:'<path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>' },
+    { href:'business.html', label:'Business',
+      icon:'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/>' },
+    { href:'checkup.html',  label:'Check-up',
+      icon:'<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>' },
+  ];
+
+  function injectBottomNav() {
+    if (document.getElementById('mmBottomNav')) return;
+    var cur = window.location.pathname.split('/').pop() || 'index.html';
+    var ul = NAV_ITEMS.map(function(item){
+      var active = cur === item.href || (cur === '' && item.href === 'index.html') ? ' active' : '';
+      return '<li><a href="' + item.href + '" class="' + active + '">'
+        + '<svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + item.icon + '</svg>'
+        + item.label
+        + '</a></li>';
+    }).join('');
+    var nav = document.createElement('nav');
+    nav.id = 'mmBottomNav';
+    nav.className = 'mm-bottom-nav';
+    nav.setAttribute('aria-label', 'Main navigation');
+    nav.innerHTML = '<ul>' + ul + '</ul>';
+    document.body.appendChild(nav);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', injectBottomNav);
+  } else {
+    injectBottomNav();
+  }
+})();
+
 /* ── Inject theme + lang footer into mobile menu ── */
 (function(){
   document.addEventListener('DOMContentLoaded', function(){
