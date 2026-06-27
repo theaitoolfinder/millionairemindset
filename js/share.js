@@ -40,6 +40,7 @@
   .mm-share-wa   { background: #25d366; color: #fff; }
   .mm-share-viber{ background: #7360f2; color: #fff; }
   .mm-share-tg   { background: #229ed9; color: #fff; }
+  .mm-share-native{ background: var(--primary, #CC1010); color: #fff; }
   .mm-share-copy { background: var(--primary-light, #fee2e2); color: var(--primary, #CC1010); border: 1.5px solid var(--border, #eee); }
   .mm-share-copy.copied { background: #d1fae5; color: #065f46; border-color: #a7f3d0; }
   `;
@@ -61,11 +62,23 @@
     var title = opts && opts.title ? opts.title : document.title;
     var msg   = opts && opts.msg   ? opts.msg   : title + ' — ' + url;
 
+    var nativeBtn = '';
+    if (navigator.share) {
+      var safeUrl   = url.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      var safeTitle = title.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      var safeMsg   = msg.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      nativeBtn = '<button class="mm-share-btn mm-share-native" '
+        + 'onclick="navigator.share({url:\'' + safeUrl + '\',title:\'' + safeTitle + '\',text:\'' + safeMsg + '\'})">'
+        + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>'
+        + 'Share Now</button>';
+    }
+
     var bar = document.createElement('div');
     bar.className = 'mm-share-bar';
     bar.innerHTML =
       '<span class="mm-share-label">Share</span>'
-      + '<a class="mm-share-btn mm-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl(url) + '" target="_blank" rel="noopener">'
+      + nativeBtn
+      + '<a class="mm-share-btn mm-share-fb" href="https://www.facebook.com/sharer.php?u=' + encodedUrl(url) + '" target="_blank" rel="noopener">'
         + '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook</a>'
       + '<a class="mm-share-btn mm-share-x" href="https://twitter.com/intent/tweet?url=' + encodedUrl(url) + '&text=' + encodedText(title) + '" target="_blank" rel="noopener">'
         + '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a>'
