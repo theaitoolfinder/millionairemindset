@@ -416,6 +416,14 @@ window.addEventListener('scroll', () => {
     }
   });
 
+  /* Move panel to body so position:fixed escapes navbar's backdrop-filter */
+  document.addEventListener('DOMContentLoaded', function() {
+    var panel = document.getElementById('mm-theme-panel');
+    if (panel && panel.parentNode !== document.body) {
+      document.body.appendChild(panel);
+    }
+  });
+
   /* Init — restore saved theme */
   (function init() {
     try {
