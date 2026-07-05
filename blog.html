@@ -878,6 +878,10 @@
         <input class="ks-input" id="ks-sub-name" type="text" placeholder="e.g. Maria, Kuya Jun, OFW Mom" />
       </div>
       <div class="ks-form-group">
+        <label class="ks-form-label">Mobile Number</label>
+        <input class="ks-input" id="ks-sub-mobile" type="tel" placeholder="e.g. +971501234567" autocomplete="tel" />
+      </div>
+      <div class="ks-form-group">
         <label class="ks-form-label">Email Address</label>
         <input class="ks-input" id="ks-sub-email" type="email" placeholder="yourname@email.com" />
       </div>
@@ -1275,15 +1279,17 @@
   };
 
   window.ksDoSubscribe = function() {
-    var name  = (document.getElementById('ks-sub-name').value || '').trim();
-    var email = (document.getElementById('ks-sub-email').value || '').trim();
-    if (!name)  { document.getElementById('ks-sub-name').focus(); return; }
+    var name   = (document.getElementById('ks-sub-name').value || '').trim();
+    var mobile = (document.getElementById('ks-sub-mobile').value || '').trim();
+    var email  = (document.getElementById('ks-sub-email').value || '').trim();
+    if (!name)   { document.getElementById('ks-sub-name').focus(); return; }
+    if (!mobile) { document.getElementById('ks-sub-mobile').focus(); return; }
     if (!email || !email.includes('@')) { document.getElementById('ks-sub-email').focus(); return; }
     if (typeof SUBSCRIBE_EP !== 'undefined' && SUBSCRIBE_EP !== 'YOUR_CLOUDFLARE_WORKER_URL') {
       fetch(SUBSCRIBE_EP, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, firstname: name })
+        body: JSON.stringify({ email: email, firstname: name, mobile: mobile })
       }).then(function(r){ return r.json(); }).then(function(d){
         if (d.success && typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
       }).catch(function(){});
@@ -1529,7 +1535,7 @@
       });
     });
   </script>
-  <script src="js/chat-widget.js?v=20260627"></script>
+  <script src="js/chat-widget.js?v=20260705"></script>
 
   <!-- ══ EPISODE DRAWER ══ -->
   <style>

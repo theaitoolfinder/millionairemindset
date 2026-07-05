@@ -71,13 +71,14 @@ export default {
     }
 
     /* Parse body */
-    let email, firstname, country, source;
+    let email, firstname, country, source, mobile;
     try {
       const body = await request.json();
       email     = (body.email     || '').trim().toLowerCase();
       firstname = (body.firstname || body.name || '').trim();
       country   = (body.country   || '').trim();
       source    = (body.source    || '').trim();
+      mobile    = (body.mobile    || body.phone || '').trim();
     } catch {
       return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
         status: 400, headers: { 'Content-Type': 'application/json', ...cors(origin) },
@@ -90,28 +91,45 @@ export default {
       });
     }
 
+    /* Normalise mobile to international format Brevo accepts (+XXXXXXXXXXX).
+       "00" prefix becomes "+"; spaces, dashes and parens are stripped.       */
+    if (mobile) {
+      mobile = mobile.replace(/[\s\-().]/g, '');
+      if (mobile.startsWith('00')) mobile = '+' + mobile.slice(2);
+      if (!/^\+[0-9]{8,15}$/.test(mobile)) mobile = ''; // drop if not valid intl format
+    }
+
     /* Add / update contact in Brevo list 4 */
     try {
-      const payload = {
-        email,
-        listIds:       [BREVO_LIST_ID],
-        updateEnabled: true,
-      };
       const attrs = {};
       if (firstname) attrs.FIRSTNAME = firstname;
       if (country)   attrs.COUNTRY   = country;
       if (source)    attrs.SOURCE     = source;
-      if (Object.keys(attrs).length) payload.attributes = attrs;
+      if (mobile)    attrs.SMS        = mobile;
 
-      const brevoRes = await fetch(BREVO_URL, {
+      const buildPayload = (a) => {
+        const p = { email, listIds: [BREVO_LIST_ID], updateEnabled: true };
+        if (Object.keys(a).length) p.attributes = a;
+        return p;
+      };
+      const send = (a) => fetch(BREVO_URL, {
         method:  'POST',
         headers: {
           'api-key':      env.BREVO_API_KEY,
           'Content-Type': 'application/json',
           'Accept':       'application/json',
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(buildPayload(a)),
       });
+
+      let brevoRes = await send(attrs);
+
+      /* If Brevo rejected the SMS value (format/duplicate), retry without it
+         so the subscription itself never fails because of the phone number. */
+      if (brevoRes.status !== 201 && brevoRes.status !== 204 && attrs.SMS) {
+        delete attrs.SMS;
+        brevoRes = await send(attrs);
+      }
 
       /* 201 = created, 204 = already existed and was updated */
       if (brevoRes.status === 201 || brevoRes.status === 204) {

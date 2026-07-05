@@ -362,7 +362,9 @@
         <p data-i18n="nl_p">Free weekly tips on saving, investing, and building income. No spam, ever.</p>
       </div>
       <form class="newsletter-form" onsubmit="handleSubscribe(event)">
-        <input type="email" id="nl-email-input" data-i18n="nl_placeholder" placeholder="Enter your email address" required />
+        <input type="text" id="nl-name-input" placeholder="Your name" autocomplete="name" required />
+        <input type="tel" id="nl-mobile-input" placeholder="Mobile number (e.g. +971501234567)" autocomplete="tel" required />
+        <input type="email" id="nl-email-input" data-i18n="nl_placeholder" placeholder="Enter your email address" autocomplete="email" required />
         <button type="submit" class="btn-primary" data-i18n="nl_btn">Subscribe Free</button>
       </form>
       <div id="nl-msg" style="margin-top:12px;font-size:.9rem;font-weight:600;min-height:20px;"></div>
@@ -433,6 +435,6 @@
   <script src="js/subscriber.js"></script>
   <script src="js/main.js?v=20260705"></script>
   <script src="js/i18n.js"></script>
-  <script src="js/chat-widget.js?v=20260627"></script>
+  <script src="js/chat-widget.js?v=20260705"></script>
 </body>
 </html>

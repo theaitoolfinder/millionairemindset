@@ -147,9 +147,14 @@ var SUBSCRIBE_EP = 'https://mm-subscribe.info-myaitoolbox.workers.dev';
 
 function handleSubscribe(e) {
   e.preventDefault();
-  const input = e.target.querySelector('input');
-  const email = (input.value || '').trim();
+  const emailInput  = e.target.querySelector('input[type="email"]');
+  const nameInput   = e.target.querySelector('input[type="text"]');
+  const mobileInput = e.target.querySelector('input[type="tel"]');
+  const email  = (emailInput && emailInput.value || '').trim();
+  const name   = (nameInput && nameInput.value || '').trim();
+  const mobile = (mobileInput && mobileInput.value || '').trim();
   if (!email) return;
+  const input = emailInput;
   const msg = document.getElementById('nl-msg');
   const btn = e.target.querySelector('button[type="submit"]');
   if (btn) { btn.disabled = true; btn.textContent = 'Subscribing…'; }
@@ -157,13 +162,13 @@ function handleSubscribe(e) {
   fetch(SUBSCRIBE_EP, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: email })
+    body: JSON.stringify({ email: email, firstname: name, mobile: mobile })
   })
   .then(function(r) { return r.json(); })
   .then(function(d) {
     if (d.success) {
       if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
-      input.value = '';
+      e.target.reset();
       if (msg) { msg.style.color = '#059669'; msg.textContent = currentLang === 'tl' ? 'Salamat! Maligayang pagdating sa aming komunidad.' : 'You\'re in! Welcome to the community.'; }
     } else {
       if (msg) { msg.style.color = '#cc1010'; msg.textContent = d.error || 'Something went wrong. Please try again.'; }
@@ -466,7 +471,9 @@ window.addEventListener('scroll', () => {
         + '<p>Free weekly tips on saving, investing, and building income. No spam, ever.</p>'
       + '</div>'
       + '<form class="newsletter-form" onsubmit="handleSubscribe(event)">'
-        + '<input type="email" id="nl-email-input" placeholder="Enter your email address" required />'
+        + '<input type="text" id="nl-name-input" placeholder="Your name" autocomplete="name" required />'
+        + '<input type="tel" id="nl-mobile-input" placeholder="Mobile number (e.g. +971501234567)" autocomplete="tel" required />'
+        + '<input type="email" id="nl-email-input" placeholder="Enter your email address" autocomplete="email" required />'
         + '<button type="submit" class="btn-primary">Subscribe Free</button>'
       + '</form>'
       + '<div id="nl-msg" style="margin-top:12px;font-size:.9rem;font-weight:600;min-height:20px;"></div>'
