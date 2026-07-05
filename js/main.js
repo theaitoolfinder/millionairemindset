@@ -443,6 +443,38 @@ window.addEventListener('scroll', () => {
   })();
 })();
 
+/* ── Subscribe section on every content page ──
+   The newsletter form used to exist only on index.html, so blog/post/
+   devotional/checkup readers never saw it. Inject it before the footer
+   on any page that doesn't already have one.                          */
+(function(){
+  var SKIP = ['cart.html', 'admin.html', 'admin-orders.html', 'gate.html', 'chat.html'];
+  document.addEventListener('DOMContentLoaded', function(){
+    var page = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    if (SKIP.indexOf(page) !== -1) return;
+    if (document.querySelector('.newsletter-form')) return; // index.html already has it
+    var footer = document.querySelector('footer');
+    if (!footer) return;
+
+    var sec = document.createElement('section');
+    sec.className = 'newsletter';
+    sec.id = 'subscribe';
+    sec.innerHTML =
+      '<div class="container newsletter-inner">'
+      + '<div>'
+        + '<h2>Join Our OFW Community</h2>'
+        + '<p>Free weekly tips on saving, investing, and building income. No spam, ever.</p>'
+      + '</div>'
+      + '<form class="newsletter-form" onsubmit="handleSubscribe(event)">'
+        + '<input type="email" id="nl-email-input" placeholder="Enter your email address" required />'
+        + '<button type="submit" class="btn-primary">Subscribe Free</button>'
+      + '</form>'
+      + '<div id="nl-msg" style="margin-top:12px;font-size:.9rem;font-weight:600;min-height:20px;"></div>'
+      + '</div>';
+    footer.parentNode.insertBefore(sec, footer);
+  });
+})();
+
 /* ── Page Transitions ── */
 (function(){
   // Fade in on load

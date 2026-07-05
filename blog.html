@@ -1485,7 +1485,8 @@
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/subscriber.js"></script>
-  <script src="js/main.js?v=20260704"></script>
+  <script src="js/blog-series.js?v=20260705"></script>
+  <script src="js/main.js?v=20260705"></script>
   <script src="js/share.js?v=20260705"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function(){
@@ -1794,7 +1795,7 @@
               + '<button type="submit" class="ep-sub-gate-btn">Unlock</button>'
             + '</form>'
             + '<div class="ep-sub-gate-msg" id="ep-sub-msg"></div>'
-            + '<a href="#subscribe" class="ep-sub-gate-link" onclick="closeEpDrawer()">Not subscribed yet? Join free ↓</a>'
+            + '<a href="#subscribe" class="ep-sub-gate-link" onclick="event.preventDefault();closeEpDrawer();setTimeout(function(){var s=document.getElementById(\'subscribe\');if(s)s.scrollIntoView({behavior:\'smooth\'});},350)">Not subscribed yet? Join free ↓</a>'
             + '</div>';
         }
 

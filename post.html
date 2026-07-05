@@ -451,7 +451,7 @@
 
   <script src="js/blog-series.js?v=20260702"></script>
   <script src="js/i18n.js"></script>
-  <script src="js/main.js?v=20260704"></script>
+  <script src="js/main.js?v=20260705"></script>
   <script>
   (function(){
     var wrap = document.getElementById('postWrap');
@@ -647,7 +647,29 @@
     window.notifySubmit = function(e) {
       e.preventDefault();
       var form = e.target;
-      form.innerHTML = '<p style="color:var(--accent);font-weight:600;">We\'ll notify you when Day ' + day + ' publishes!</p>';
+      var email = (form.querySelector('input[type="email"]').value || '').trim();
+      if (!email) return;
+      var btn = form.querySelector('button[type="submit"]');
+      if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+      fetch(SUBSCRIBE_EP, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'post-notify' })
+      })
+      .then(function(r){ return r.json(); })
+      .then(function(d) {
+        if (d.success) {
+          if (typeof mmOnSubscribe === 'function') mmOnSubscribe(email);
+          form.innerHTML = '<p style="color:var(--accent);font-weight:600;">You\'re in! We\'ll notify you when Day ' + day + ' publishes.</p>';
+        } else {
+          if (btn) { btn.disabled = false; btn.textContent = 'Notify Me'; }
+          alert(d.error || 'Something went wrong. Please try again.');
+        }
+      })
+      .catch(function() {
+        if (btn) { btn.disabled = false; btn.textContent = 'Notify Me'; }
+        alert('Network error. Please try again.');
+      });
     };
 
     // ── Sticky reading bar ──
