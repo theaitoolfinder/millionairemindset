@@ -1654,6 +1654,37 @@
   }
   .ep-status svg { opacity:.5; }
   .ep-item.ep-done .ep-status svg { opacity:1; }
+  /* Subscriber gate */
+  .ep-sub-gate {
+    margin:16px 0 8px; padding:18px 16px 14px;
+    background:var(--primary-light,#fdecea);
+    border-radius:14px; border:1px solid rgba(204,16,16,.12);
+    text-align:center;
+  }
+  .ep-sub-gate-icon { color:var(--primary,#CC1010); margin-bottom:8px; }
+  .ep-sub-gate-txt { font-size:0.84rem; font-weight:600; color:var(--text); margin-bottom:12px; line-height:1.4; }
+  .ep-sub-gate-form { display:flex; gap:6px; margin-bottom:8px; }
+  .ep-sub-gate-input {
+    flex:1; padding:8px 12px; border-radius:8px;
+    border:1px solid var(--border,#e5e7eb); font-size:0.82rem;
+    background:#fff; color:var(--text); outline:none; font-family:inherit;
+  }
+  .ep-sub-gate-input:focus { border-color:var(--primary,#CC1010); }
+  .ep-sub-gate-btn {
+    padding:8px 14px; border-radius:8px; background:var(--primary,#CC1010);
+    color:#fff; border:none; font-size:0.82rem; font-weight:700;
+    cursor:pointer; white-space:nowrap; font-family:inherit;
+    transition:opacity .15s;
+  }
+  .ep-sub-gate-btn:disabled { opacity:.6; cursor:not-allowed; }
+  .ep-sub-gate-msg { font-size:0.78rem; min-height:18px; margin-bottom:6px; font-weight:500; }
+  .ep-sub-gate-link { font-size:0.76rem; color:var(--primary,#CC1010); text-decoration:none; font-weight:500; }
+  .ep-sub-gate-link:hover { text-decoration:underline; }
+  .ep-sub-badge {
+    margin:12px 0 4px; padding:9px 14px;
+    background:#d1fae5; border-radius:8px; color:#065f46;
+    font-size:0.79rem; font-weight:600; display:flex; align-items:center; gap:6px;
+  }
   </style>
 
   <!-- Drawer HTML -->
@@ -1673,8 +1704,12 @@
     function isEpDone(sid, day) {
       try { return !!localStorage.getItem(epKey(sid, day)); } catch(e){ return false; }
     }
+    function isSubUnlocked() {
+      try { return !!localStorage.getItem('mm_sub_unlocked'); } catch(e){ return false; }
+    }
     function isEpUnlocked(sid, day) {
       if (day <= 1) return true;
+      if (isSubUnlocked()) return true; // subscribers bypass progress lock
       return isEpDone(sid, day - 1);
     }
 
@@ -1719,26 +1754,88 @@
 
       title.textContent = series.title + ' — ' + series.posts.length + ' Episodes';
 
-      list.innerHTML = series.posts.map(function(p) {
-        var done     = isEpDone(sid, p.day);
-        var unlocked = isEpUnlocked(sid, p.day);
-        var cls = done ? 'ep-item ep-done' : (unlocked ? 'ep-item' : 'ep-item ep-locked');
-        var statusIcon = done
-          ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
-          : (unlocked
-              ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
-              : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>');
+      function renderList() {
+        var subOk = isSubUnlocked();
+        var hasLocked = false;
 
-        var href = unlocked ? 'post.html?series=' + sid + '&day=' + p.day : '#';
-        return '<a href="' + href + '" class="' + cls + '">'
-          + '<div class="ep-num">' + p.day + '</div>'
-          + '<div class="ep-info">'
-            + '<div class="ep-title">' + escHtmlEp(p.title) + '</div>'
-            + '<div class="ep-meta">' + (p.readTime || '5 min') + (done ? ' · Completed' : (unlocked ? '' : ' · Locked')) + '</div>'
-          + '</div>'
-          + '<div class="ep-status">' + statusIcon + '</div>'
-          + '</a>';
-      }).join('');
+        var items = series.posts.map(function(p) {
+          var done     = isEpDone(sid, p.day);
+          var unlocked = isEpUnlocked(sid, p.day);
+          if (!unlocked) hasLocked = true;
+          var cls = done ? 'ep-item ep-done' : (unlocked ? 'ep-item' : 'ep-item ep-locked');
+          var statusIcon = done
+            ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
+            : (unlocked
+                ? '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>'
+                : '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>');
+          var href = unlocked ? 'post.html?series=' + sid + '&day=' + p.day : '#';
+          return '<a href="' + href + '" class="' + cls + '">'
+            + '<div class="ep-num">' + p.day + '</div>'
+            + '<div class="ep-info">'
+              + '<div class="ep-title">' + escHtmlEp(p.title) + '</div>'
+              + '<div class="ep-meta">' + (p.readTime || '5 min') + (done ? ' · Completed' : (unlocked ? '' : ' · Locked')) + '</div>'
+            + '</div>'
+            + '<div class="ep-status">' + statusIcon + '</div>'
+            + '</a>';
+        }).join('');
+
+        var footer = '';
+        if (subOk) {
+          footer = '<div class="ep-sub-badge">'
+            + '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>'
+            + ' Subscriber access active — all episodes unlocked'
+            + '</div>';
+        } else if (hasLocked) {
+          footer = '<div class="ep-sub-gate">'
+            + '<div class="ep-sub-gate-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>'
+            + '<p class="ep-sub-gate-txt">Subscribers get instant access to all episodes.<br>Enter your subscribed email to unlock.</p>'
+            + '<form class="ep-sub-gate-form" onsubmit="mmVerifySub(event,\'' + sid + '\')">'
+              + '<input type="email" class="ep-sub-gate-input" placeholder="your@email.com" required autocomplete="email" />'
+              + '<button type="submit" class="ep-sub-gate-btn">Unlock</button>'
+            + '</form>'
+            + '<div class="ep-sub-gate-msg" id="ep-sub-msg"></div>'
+            + '<a href="#subscribe" class="ep-sub-gate-link" onclick="closeEpDrawer()">Not subscribed yet? Join free ↓</a>'
+            + '</div>';
+        }
+
+        list.innerHTML = items + footer;
+      }
+
+      window.mmVerifySub = function(e, drawerSid) {
+        e.preventDefault();
+        var input = e.target.querySelector('.ep-sub-gate-input');
+        var btn   = e.target.querySelector('.ep-sub-gate-btn');
+        var msg   = document.getElementById('ep-sub-msg');
+        var email = (input.value || '').trim();
+        if (!email || !msg) return;
+        btn.disabled = true; btn.textContent = 'Checking…';
+        msg.style.color = ''; msg.textContent = '';
+
+        if (typeof mmIsSubscriber !== 'function') {
+          msg.style.color = '#cc1010';
+          msg.textContent = 'Verification unavailable. Try again later.';
+          btn.disabled = false; btn.textContent = 'Unlock';
+          return;
+        }
+        mmIsSubscriber(email).then(function(ok) {
+          if (ok === true) {
+            try { localStorage.setItem('mm_sub_unlocked', '1'); } catch(ex){}
+            msg.style.color = '#059669';
+            msg.textContent = 'Confirmed! Unlocking all episodes…';
+            setTimeout(function() { openEpDrawer(drawerSid); }, 700);
+          } else if (ok === false) {
+            msg.style.color = '#cc1010';
+            msg.textContent = 'Email not found. Subscribe free below to unlock.';
+            btn.disabled = false; btn.textContent = 'Unlock';
+          } else {
+            msg.style.color = '#cc1010';
+            msg.textContent = 'Network error. Check your connection and try again.';
+            btn.disabled = false; btn.textContent = 'Unlock';
+          }
+        });
+      };
+
+      renderList();
 
       overlay.style.display = 'block';
       requestAnimationFrame(function(){

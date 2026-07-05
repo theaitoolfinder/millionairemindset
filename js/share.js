@@ -6,42 +6,50 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 8px;
-    margin: 24px 0;
+    gap: 7px;
+    margin: 20px 0;
   }
   .mm-share-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     font-weight: 700;
-    letter-spacing: .08em;
+    letter-spacing: .09em;
     text-transform: uppercase;
-    color: var(--text-dim);
-    margin-right: 4px;
+    color: var(--text-dim, #888);
+    margin-right: 2px;
     white-space: nowrap;
+    align-self: center;
   }
   .mm-share-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 7px 14px;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 700;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.74rem;
+    font-weight: 600;
     text-decoration: none;
-    border: none;
     cursor: pointer;
     font-family: inherit;
-    transition: opacity .18s, transform .15s;
+    line-height: 1;
+    transition: background .17s, color .17s, border-color .17s, box-shadow .17s, transform .15s;
     white-space: nowrap;
   }
-  .mm-share-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+  .mm-share-btn:hover { transform: translateY(-1px); box-shadow: 0 3px 10px rgba(0,0,0,.10); }
   .mm-share-btn svg { flex-shrink: 0; }
-  .mm-share-fb   { background: #1877f2; color: #fff; }
-  .mm-share-x    { background: #000;    color: #fff; }
-  .mm-share-wa   { background: #25d366; color: #fff; }
-  .mm-share-viber{ background: #7360f2; color: #fff; }
-  .mm-share-tg   { background: #229ed9; color: #fff; }
-  .mm-share-native{ background: var(--primary, #CC1010); color: #fff; }
-  .mm-share-copy { background: var(--primary-light, #fee2e2); color: var(--primary, #CC1010); border: 1.5px solid var(--border, #eee); }
+  .mm-share-fb   { background: #ebf2ff; color: #1877f2; border: 1px solid rgba(24,119,242,.22); }
+  .mm-share-fb:hover   { background: #1877f2; color: #fff; border-color: #1877f2; }
+  .mm-share-x    { background: #f2f2f2; color: #111;    border: 1px solid rgba(0,0,0,.15); }
+  .mm-share-x:hover    { background: #111;    color: #fff; border-color: #111; }
+  .mm-share-wa   { background: #eafaf2; color: #128c4a; border: 1px solid rgba(37,211,102,.22); }
+  .mm-share-wa:hover   { background: #25d366; color: #fff; border-color: #25d366; }
+  .mm-share-viber{ background: #f1effe; color: #5f4ee0; border: 1px solid rgba(115,96,242,.22); }
+  .mm-share-viber:hover{ background: #7360f2; color: #fff; border-color: #7360f2; }
+  .mm-share-tg   { background: #e7f5fc; color: #0088cc; border: 1px solid rgba(34,158,217,.22); }
+  .mm-share-tg:hover   { background: #229ed9; color: #fff; border-color: #229ed9; }
+  .mm-share-native{ background: var(--primary-light, #fdecea); color: var(--primary, #CC1010); border: 1px solid rgba(204,16,16,.22); }
+  .mm-share-native:hover{ background: var(--primary, #CC1010); color: #fff; border-color: var(--primary, #CC1010); }
+  .mm-share-copy { background: var(--surface, #fff); color: var(--text-dim, #666); border: 1px solid var(--border, #e5e7eb); }
+  .mm-share-copy:hover { background: #f4f4f5; }
   .mm-share-copy.copied { background: #d1fae5; color: #065f46; border-color: #a7f3d0; }
   `;
 
