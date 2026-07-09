@@ -366,6 +366,13 @@
       white-space: nowrap;
     }
     .ep-tray-ep-day.coming { color: var(--text-dim); }
+    /* On mobile the fixed bottom nav (z-index 1100, ~60px tall) sits over
+       the tray, so lift the tray to rest on top of the nav instead. */
+    @media (max-width: 768px) {
+      .ep-tray { bottom: calc(54px + max(6px, env(safe-area-inset-bottom))); }
+      .ep-tray.open .ep-tray-panel { max-height: min(340px, 45vh); }
+      .ep-tray-inner { max-height: min(320px, 43vh); }
+    }
   </style>
 </head>
 <body>
