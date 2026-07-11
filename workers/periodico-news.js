@@ -105,10 +105,13 @@ export default {
     }
 
     try {
-      const rssRes = await fetch(RSS_URL);
+      const rssRes = await fetch(RSS_URL, {
+        headers: { 'User-Agent': 'MillionaireMindsetPeriodico/1.0 (https://www.millionairemindset.ae; hello@millionairemindset.ae)' },
+      });
+      if (!rssRes.ok) throw new Error('rss2json HTTP ' + rssRes.status);
       const rssData = await rssRes.json();
       if (rssData.status !== 'ok' || !rssData.items || !rssData.items.length) {
-        throw new Error('RSS fetch failed');
+        throw new Error('rss2json returned: ' + JSON.stringify(rssData).slice(0, 200));
       }
       const items = rssData.items.slice(0, 10);
 
