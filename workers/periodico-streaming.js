@@ -76,22 +76,30 @@ Respond with ONLY this JSON object, no markdown, no explanation:
   return JSON.parse(jsonMatch[0]);
 }
 
-/* Look up a poster on TMDB by title. Movies and series live in separate
-   TMDB endpoints, so /search/multi covers both without needing to trust
-   Claude's "Movie"/"Series" label. Returns '' (no poster) on any miss —
-   never blocks the pick from showing without one. */
-async function findPoster(title, readAccessToken) {
+/* Look up a title on TMDB. Movies and series live in separate TMDB
+   endpoints, so /search/multi covers both without needing to trust
+   Claude's "Movie"/"Series" label. Returns the poster AND a link to
+   that exact title's TMDB page — Claude's own source_url is often a
+   generic "what's new this month" roundup article, not a page for the
+   specific title, so the TMDB page is used as the "More info" link
+   whenever there's a match. Returns nulls on any miss — never blocks
+   the pick from showing without them. */
+async function findTmdbMatch(title, readAccessToken) {
   try {
     const url = 'https://api.themoviedb.org/3/search/multi?query=' + encodeURIComponent(title) + '&include_adult=false';
     const res = await fetch(url, {
       headers: { Authorization: 'Bearer ' + readAccessToken, Accept: 'application/json' },
     });
-    if (!res.ok) return '';
+    if (!res.ok) return { poster: '', url: '' };
     const data = await res.json();
     const hit = (data.results || []).find(r => (r.media_type === 'movie' || r.media_type === 'tv') && r.poster_path);
-    return hit ? 'https://image.tmdb.org/t/p/w342' + hit.poster_path : '';
+    if (!hit) return { poster: '', url: '' };
+    return {
+      poster: 'https://image.tmdb.org/t/p/w342' + hit.poster_path,
+      url: 'https://www.themoviedb.org/' + hit.media_type + '/' + hit.id,
+    };
   } catch {
-    return '';
+    return { poster: '', url: '' };
   }
 }
 
@@ -101,7 +109,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
 
     const cache = caches.default;
-    const cacheKey = new Request('https://periodico-streaming.internal/edition?v=3&day=' + todayKey());
+    const cacheKey = new Request('https://periodico-streaming.internal/edition?v=4&day=' + todayKey());
     const cached = await cache.match(cacheKey);
     if (cached) {
       const body = await cached.text();
@@ -113,7 +121,10 @@ export default {
       const rawPicks = data.picks || [];
 
       const picks = env.TMDB_API_KEY
-        ? await Promise.all(rawPicks.map(async p => ({ ...p, poster: await findPoster(p.title, env.TMDB_API_KEY) })))
+        ? await Promise.all(rawPicks.map(async p => {
+            const m = await findTmdbMatch(p.title, env.TMDB_API_KEY);
+            return { ...p, poster: m.poster, source_url: m.url || p.source_url };
+          }))
         : rawPicks;
 
       const payload = JSON.stringify({ status: 'ok', day: todayKey(), picks });
