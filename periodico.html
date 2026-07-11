@@ -431,13 +431,17 @@
       window.scrollTo({ top: document.querySelector('.per-tabs').offsetTop - 66, behavior: 'smooth' });
     };
 
-    /* ── Philippines news via rss2json (client-side, no key needed) ──
-       Fetched once per calendar day and cached in localStorage, like a
-       real printed edition — every visitor on the same day sees the same
-       front page instead of headlines shifting on every reload. */
-    var RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://www.philstar.com/rss/headlines');
+    /* ── Philippines news via the periodico-news Worker ──
+       The headlines and summaries are rewritten in original wording by
+       the periodico-news Worker (Claude Haiku) before they ever reach
+       this page — we never display another outlet's sentences verbatim,
+       only credit and link back to the source. Fetched once per
+       calendar day and cached in localStorage, like a real printed
+       edition — every visitor on the same day sees the same front page
+       instead of headlines shifting on every reload. */
+    var NEWS_EP = 'https://mm-periodico-news.info-myaitoolbox.workers.dev';
     var TODAY_KEY = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-    var CACHE_KEY = 'mm_periodico_edition';
+    var CACHE_KEY = 'mm_periodico_edition_v2';
 
     function timeAgo(pubDate) {
       var diffMs = Date.now() - new Date(pubDate.replace(' ', 'T') + 'Z').getTime();
@@ -447,15 +451,14 @@
       return Math.floor(hrs / 24) + 'd ago';
     }
     function escHtml(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-    function stripHtml(s) { return (s || '').replace(/<[^>]+>/g, '').trim(); }
 
     function renderNews(items) {
       var lead = items[0];
       document.getElementById('perLeadStory').innerHTML =
-        '<div class="per-lead-kicker">Top Story · Philstar.com</div>'
+        '<div class="per-lead-kicker">Top Story · via ' + escHtml(lead.source) + '</div>'
         + '<h2 class="per-lead-title"><a href="' + lead.link + '" target="_blank" rel="noopener">' + escHtml(lead.title) + '</a></h2>'
-        + '<div class="per-byline">' + (lead.author ? 'By ' + escHtml(lead.author) + ' · ' : '') + timeAgo(lead.pubDate) + '</div>'
-        + '<div class="per-body per-drop"><p>' + escHtml(stripHtml(lead.description)).slice(0, 400) + '… <a href="' + lead.link + '" target="_blank" rel="noopener">Read full story at Philstar.com →</a></p></div>';
+        + '<div class="per-byline">' + timeAgo(lead.pubDate) + '</div>'
+        + '<div class="per-body per-drop"><p>' + escHtml(lead.summary) + ' <a href="' + lead.link + '" target="_blank" rel="noopener">Read full story at ' + escHtml(lead.source) + ' →</a></p></div>';
 
       var wireHtml = items.slice(1, 6).map(function(it){
         return '<a class="per-wire-item" href="' + it.link + '" target="_blank" rel="noopener">'
@@ -468,15 +471,15 @@
       var newsHtml = items.map(function(it){
         return '<div class="per-news-item"><a href="' + it.link + '" target="_blank" rel="noopener">'
           + '<div class="per-news-title">' + escHtml(it.title) + '</div>'
-          + '<div class="per-news-desc">' + escHtml(stripHtml(it.description)).slice(0, 160) + '…</div>'
-          + '<div class="per-news-meta">' + (it.author ? escHtml(it.author) + ' · ' : '') + timeAgo(it.pubDate) + ' · Philstar.com</div>'
+          + '<div class="per-news-desc">' + escHtml(it.summary) + '</div>'
+          + '<div class="per-news-meta">via ' + escHtml(it.source) + ' · ' + timeAgo(it.pubDate) + '</div>'
           + '</a></div>';
       }).join('');
       document.getElementById('perNewsCols').innerHTML = newsHtml;
     }
 
     function showNewsError() {
-      var msg = '<div class="per-error">Could not load live headlines right now. <a href="https://www.philstar.com" target="_blank" rel="noopener" style="color:var(--primary,#CC1010);">Visit Philstar.com directly →</a></div>';
+      var msg = '<div class="per-error">Could not load today\'s edition right now. <a href="https://www.philstar.com" target="_blank" rel="noopener" style="color:var(--primary,#CC1010);">Visit Philstar.com directly →</a></div>';
       document.getElementById('perLeadStory').innerHTML = msg;
       document.getElementById('perWireList').innerHTML = '';
       document.getElementById('perNewsCols').innerHTML = msg;
@@ -488,13 +491,12 @@
     if (cached && cached.day === TODAY_KEY && cached.items && cached.items.length) {
       renderNews(cached.items);
     } else {
-      fetch(RSS_URL)
+      fetch(NEWS_EP)
         .then(function(r){ return r.json(); })
         .then(function(data){
           if (data.status !== 'ok' || !data.items || !data.items.length) throw new Error('no items');
-          var items = data.items.slice(0, 14);
-          renderNews(items);
-          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ day: TODAY_KEY, items: items })); } catch(e) {}
+          renderNews(data.items);
+          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ day: TODAY_KEY, items: data.items })); } catch(e) {}
         })
         .catch(function(){
           if (cached && cached.items && cached.items.length) {
