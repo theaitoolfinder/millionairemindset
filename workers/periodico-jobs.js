@@ -86,6 +86,23 @@ export default {
     const origin = request.headers.get('Origin') || '';
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
 
+    const url = new URL(request.url);
+    if (url.searchParams.get('debug') === '1') {
+      try {
+        const probe = await fetch(DMW_API + '?page=1&limit=1000&sortBy=eventDate&sortOrder=asc', {
+          headers: { 'X-API-Key': DMW_API_KEY, Accept: 'application/json', 'User-Agent': 'MillionaireMindsetPeriodico/1.0 (https://www.millionairemindset.ae; hello@millionairemindset.ae)' },
+        });
+        const probeText = await probe.text();
+        return new Response(JSON.stringify({ probeStatus: probe.status, probeBodyStart: probeText.slice(0, 500) }), {
+          status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) },
+        });
+      } catch (err) {
+        return new Response(JSON.stringify({ debugError: String(err && err.message || err) }), {
+          status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) },
+        });
+      }
+    }
+
     const cache = caches.default;
     const cacheKey = new Request('https://periodico-jobs.internal/edition?v=4&day=' + todayKey());
     const cached = await cache.match(cacheKey);
