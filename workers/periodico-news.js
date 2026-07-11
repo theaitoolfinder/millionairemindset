@@ -29,8 +29,36 @@ const ALLOWED_ORIGINS = [
   'http://localhost',
   'http://127.0.0.1',
 ];
-const RSS_URL = 'https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent('https://www.philstar.com/rss/headlines');
+const RSS_URL = 'https://www.philstar.com/rss/headlines';
 const SOURCE_NAME = 'Philstar.com';
+
+function decodeEntities(s) {
+  return (s || '')
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
+    .replace(/&#0?39;/g, "'").replace(/&amp;/g, '&');
+}
+
+function tag(block, name) {
+  const m = block.match(new RegExp('<' + name + '[^>]*>([\\s\\S]*?)<\\/' + name + '>'));
+  return m ? decodeEntities(m[1].replace(/^<!\[CDATA\[|\]\]>$/g, '').trim()) : '';
+}
+
+/* Philstar's RSS is a plain, regular RSS 2.0 feed — parse it directly
+   instead of depending on a rate-limited third-party proxy. */
+function parseRss(xml) {
+  const items = [];
+  const itemBlocks = xml.match(/<item>[\s\S]*?<\/item>/g) || [];
+  for (const block of itemBlocks) {
+    items.push({
+      title: tag(block, 'title'),
+      link: tag(block, 'link'),
+      description: tag(block, 'description'),
+      author: tag(block, 'author'),
+      pubDate: tag(block, 'pubDate'),
+    });
+  }
+  return items;
+}
 
 function cors(origin) {
   const o = ALLOWED_ORIGINS.find(a => origin && origin.startsWith(a)) ? origin : ALLOWED_ORIGINS[0];
@@ -108,12 +136,11 @@ export default {
       const rssRes = await fetch(RSS_URL, {
         headers: { 'User-Agent': 'MillionaireMindsetPeriodico/1.0 (https://www.millionairemindset.ae; hello@millionairemindset.ae)' },
       });
-      if (!rssRes.ok) throw new Error('rss2json HTTP ' + rssRes.status);
-      const rssData = await rssRes.json();
-      if (rssData.status !== 'ok' || !rssData.items || !rssData.items.length) {
-        throw new Error('rss2json returned: ' + JSON.stringify(rssData).slice(0, 200));
-      }
-      const items = rssData.items.slice(0, 10);
+      if (!rssRes.ok) throw new Error('Philstar RSS HTTP ' + rssRes.status);
+      const xml = await rssRes.text();
+      const allItems = parseRss(xml);
+      if (!allItems.length) throw new Error('RSS parse returned 0 items');
+      const items = allItems.slice(0, 10);
 
       const rewritten = await rewriteWithClaude(items, env.ANTHROPIC_API_KEY);
 

@@ -444,7 +444,7 @@
     var CACHE_KEY = 'mm_periodico_edition_v2';
 
     function timeAgo(pubDate) {
-      var diffMs = Date.now() - new Date(pubDate.replace(' ', 'T') + 'Z').getTime();
+      var diffMs = Date.now() - new Date(pubDate).getTime();
       var hrs = Math.floor(diffMs / 3600000);
       if (hrs < 1) return 'Just now';
       if (hrs < 24) return hrs + 'h ago';
