@@ -69,6 +69,26 @@ function stripHtml(s) {
   return (s || '').replace(/<[^>]+>/g, '').trim();
 }
 
+/* Philstar's RSS doesn't embed a thumbnail, but each article page has a
+   proper og:image — fetch it directly so the newspaper actually looks
+   like a newspaper. Runs in parallel across all items; a failure on any
+   one article just leaves that item without an image, never blocks the
+   rest of the response. */
+async function fetchOgImage(articleUrl) {
+  try {
+    const res = await fetch(articleUrl, {
+      headers: { 'User-Agent': 'MillionaireMindsetPeriodico/1.0 (https://www.millionairemindset.ae; hello@millionairemindset.ae)' },
+    });
+    if (!res.ok) return '';
+    const html = await res.text();
+    const m = html.match(/<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/i)
+      || html.match(/<meta\s+content=["']([^"']+)["']\s+property=["']og:image["']/i);
+    return m ? m[1] : '';
+  } catch {
+    return '';
+  }
+}
+
 async function rewriteWithClaude(items, apiKey) {
   const source = items.map((it, i) => ({ id: i, title: it.title, summary: stripHtml(it.description).slice(0, 500) }));
   const prompt = `You are a newspaper sub-editor rewriting wire headlines for "Periodico", an OFW-focused newspaper. For each item below, write a NEW headline and a NEW 2-sentence summary in your own original wording — do not copy phrases from the source. Stay strictly factually faithful; never add, remove, or change facts, names, numbers, or dates. Keep a neutral, professional newspaper tone.
@@ -119,7 +139,10 @@ export default {
       if (!allItems.length) throw new Error('RSS parse returned 0 items');
       const items = allItems.slice(0, 10);
 
-      const rewritten = await rewriteWithClaude(items, env.ANTHROPIC_API_KEY);
+      const [rewritten, images] = await Promise.all([
+        rewriteWithClaude(items, env.ANTHROPIC_API_KEY),
+        Promise.all(items.map(it => fetchOgImage(it.link))),
+      ]);
 
       const result = items.map((it, i) => {
         const r = rewritten.find(x => x.id === i) || {};
@@ -130,6 +153,7 @@ export default {
           author: it.author || '',
           pubDate: it.pubDate,
           source: feed.source,
+          image: images[i] || '',
         };
       });
 
