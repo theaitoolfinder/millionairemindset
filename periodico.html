@@ -685,7 +685,7 @@
 
     function loadStreamingPicks() {
       var grid = document.getElementById('perStreamingGrid');
-      var cached = dayCache('mm_periodico_streaming_v2');
+      var cached = dayCache('mm_periodico_streaming_v3');
       function render(picks) {
         if (!picks || !picks.length) {
           grid.innerHTML = '<div class="per-loading">No verifiable picks found today — check back tomorrow.</div>';
@@ -700,7 +700,7 @@
               + '<div class="per-stream-title">' + escHtml(p.title) + '</div>'
               + '<div class="per-stream-type">' + escHtml(p.type || '') + '</div>'
               + '<div class="per-stream-blurb">' + escHtml(p.blurb) + '</div>'
-              + (p.source_url ? '<a class="per-stream-link" href="' + p.source_url + '" target="_blank" rel="noopener">More info →</a>' : '')
+              + (p.source_url ? '<a class="per-stream-link" href="' + p.source_url + '" target="_blank" rel="noopener">Watch on ' + escHtml(p.platform) + ' →</a>' : '')
             + '</div></div>';
         }).join('');
       }
@@ -710,7 +710,7 @@
         .then(function(data){
           if (data.status !== 'ok') throw new Error(data.error || 'failed');
           render(data.picks);
-          setDayCache('mm_periodico_streaming_v2', data.picks);
+          setDayCache('mm_periodico_streaming_v3', data.picks);
         })
         .catch(function(){ render([]); });
     }

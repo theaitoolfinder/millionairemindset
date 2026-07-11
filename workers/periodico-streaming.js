@@ -14,6 +14,10 @@
  * return clean, valid poster image URLs. A pick without a TMDB match
  * still shows (title/platform/blurb), just without a poster.
  *
+ * "More info" links go to a search results page on the pick's own
+ * platform (e.g. netflix.com/search?q=...) so a click actually leads
+ * toward watching it, not to an info-only page or unrelated article.
+ *
  * Cached at Cloudflare's edge for 24h — Claude + web search runs once
  * per day total, not per visitor.
  *
@@ -76,31 +80,41 @@ Respond with ONLY this JSON object, no markdown, no explanation:
   return JSON.parse(jsonMatch[0]);
 }
 
-/* Look up a title on TMDB. Movies and series live in separate TMDB
-   endpoints, so /search/multi covers both without needing to trust
-   Claude's "Movie"/"Series" label. Returns the poster AND a link to
-   that exact title's TMDB page — Claude's own source_url is often a
-   generic "what's new this month" roundup article, not a page for the
-   specific title, so the TMDB page is used as the "More info" link
-   whenever there's a match. Returns nulls on any miss — never blocks
-   the pick from showing without them. */
-async function findTmdbMatch(title, readAccessToken) {
+/* Look up a poster on TMDB by title. Movies and series live in separate
+   TMDB endpoints, so /search/multi covers both without needing to trust
+   Claude's "Movie"/"Series" label. Returns '' (no poster) on any miss —
+   never blocks the pick from showing without one. */
+async function findPoster(title, readAccessToken) {
   try {
     const url = 'https://api.themoviedb.org/3/search/multi?query=' + encodeURIComponent(title) + '&include_adult=false';
     const res = await fetch(url, {
       headers: { Authorization: 'Bearer ' + readAccessToken, Accept: 'application/json' },
     });
-    if (!res.ok) return { poster: '', url: '' };
+    if (!res.ok) return '';
     const data = await res.json();
     const hit = (data.results || []).find(r => (r.media_type === 'movie' || r.media_type === 'tv') && r.poster_path);
-    if (!hit) return { poster: '', url: '' };
-    return {
-      poster: 'https://image.tmdb.org/t/p/w342' + hit.poster_path,
-      url: 'https://www.themoviedb.org/' + hit.media_type + '/' + hit.id,
-    };
+    return hit ? 'https://image.tmdb.org/t/p/w342' + hit.poster_path : '';
   } catch {
-    return { poster: '', url: '' };
+    return '';
   }
+}
+
+/* Send the click straight to the streaming platform itself — a search
+   results page for the title — rather than an info-only page like TMDB
+   or a random news article. Not every platform's search URL format is
+   public/stable, so anything not explicitly matched falls back to a
+   Google search scoped to that platform's site, which still lands the
+   user one click from actually watching it. */
+function watchUrl(platform, title) {
+  const q = encodeURIComponent(title);
+  const p = (platform || '').toLowerCase();
+  if (p.includes('netflix')) return 'https://www.netflix.com/search?q=' + q;
+  if (p.includes('prime')) return 'https://www.amazon.com/s?k=' + q + '&i=instant-video';
+  if (p.includes('disney')) return 'https://www.disneyplus.com/search?q=' + q;
+  if (p.includes('hbo') || p.includes('max')) return 'https://play.max.com/search?q=' + q;
+  if (p.includes('apple')) return 'https://tv.apple.com/search?term=' + q;
+  if (p.includes('peacock')) return 'https://www.peacocktv.com/search?q=' + q;
+  return 'https://www.google.com/search?q=' + q + '+watch+on+' + encodeURIComponent(platform || '');
 }
 
 export default {
@@ -109,7 +123,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
 
     const cache = caches.default;
-    const cacheKey = new Request('https://periodico-streaming.internal/edition?v=4&day=' + todayKey());
+    const cacheKey = new Request('https://periodico-streaming.internal/edition?v=5&day=' + todayKey());
     const cached = await cache.match(cacheKey);
     if (cached) {
       const body = await cached.text();
@@ -120,12 +134,11 @@ export default {
       const data = await researchStreaming(env.ANTHROPIC_API_KEY);
       const rawPicks = data.picks || [];
 
-      const picks = env.TMDB_API_KEY
-        ? await Promise.all(rawPicks.map(async p => {
-            const m = await findTmdbMatch(p.title, env.TMDB_API_KEY);
-            return { ...p, poster: m.poster, source_url: m.url || p.source_url };
-          }))
-        : rawPicks;
+      const picks = await Promise.all(rawPicks.map(async p => ({
+        ...p,
+        poster: env.TMDB_API_KEY ? await findPoster(p.title, env.TMDB_API_KEY) : '',
+        source_url: watchUrl(p.platform, p.title),
+      })));
 
       const payload = JSON.stringify({ status: 'ok', day: todayKey(), picks });
       const toCache = new Response(payload, { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=86400' } });
