@@ -101,7 +101,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
 
     const cache = caches.default;
-    const cacheKey = new Request('https://periodico-streaming.internal/edition?day=' + todayKey());
+    const cacheKey = new Request('https://periodico-streaming.internal/edition?v=2&day=' + todayKey());
     const cached = await cache.match(cacheKey);
     if (cached) {
       const body = await cached.text();
