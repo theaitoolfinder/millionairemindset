@@ -65,15 +65,23 @@ async function resolveWikiImage(query) {
   if (cached) return cached.json();
 
   try {
-    const searchUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=search'
-      + '&srnamespace=6&srlimit=20&srsearch=' + encodeURIComponent(query)
-      + '&format=json&origin=*';
-    const searchRes = await fetch(searchUrl);
-    const searchData = await searchRes.json();
-    const hits = ((searchData.query && searchData.query.search) || []).filter(h => {
-      const t = h.title.toLowerCase();
-      return !IMG_BAD.test(t) && /\.(jpe?g|png)$/i.test(t);
-    });
+    async function searchCommons(q) {
+      const searchUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=search'
+        + '&srnamespace=6&srlimit=20&srsearch=' + encodeURIComponent(q)
+        + '&format=json&origin=*';
+      const searchRes = await fetch(searchUrl);
+      const searchData = await searchRes.json();
+      return ((searchData.query && searchData.query.search) || []).filter(h => {
+        const t = h.title.toLowerCase();
+        return !IMG_BAD.test(t) && /\.(jpe?g|png)$/i.test(t);
+      });
+    }
+
+    // Some devotion-specific queries are too narrow and return zero real
+    // photos on Commons — fall back to a broad, reliable query so the
+    // preview image always resolves, matching the client's behavior.
+    let hits = await searchCommons(query);
+    if (!hits.length) hits = await searchCommons('Philippines landscape nature scenery');
     if (!hits.length) return null;
     const pick = hits[0]; // deterministic — same query, same top hit as the client
 

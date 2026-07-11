@@ -521,20 +521,26 @@ function loadWikiImage(query, containerId, creditId) {
     if (creditEl) creditEl.textContent = credit || 'Wikimedia Commons';
   }
 
-  /* Fetch up to 50 files from the category, then pick one randomly */
-  var catUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers'
-  var searchUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=search'
-    + '&srnamespace=6&srlimit=20&srsearch=' + encodeURIComponent(query || 'Philippines landscape')
-    + '&format=json&origin=*';
-
-  fetch(searchUrl)
-    .then(function(r){ return r.json(); })
-    .then(function(data){
+  function searchCommons(q) {
+    var searchUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=search'
+      + '&srnamespace=6&srlimit=20&srsearch=' + encodeURIComponent(q)
+      + '&format=json&origin=*';
+    return fetch(searchUrl).then(function(r){ return r.json(); }).then(function(data){
       var hits = (data.query && data.query.search) || [];
       return hits.filter(function(h){
         var t = h.title.toLowerCase();
         return !IMG_BAD.test(t) && /\.(jpe?g|png)$/i.test(t);
       });
+    });
+  }
+
+  /* Some devotion-specific queries are too narrow and return zero real
+     photos on Commons — fall back to a broad, reliable query rather than
+     showing no illustration at all. */
+  searchCommons(query || 'Philippines landscape')
+    .then(function(hits){
+      if (hits && hits.length) return hits;
+      return searchCommons('Philippines landscape nature scenery');
     })
     .then(function(hits){
       if (!hits || !hits.length) { hideIllus(containerId, creditId); return; }
