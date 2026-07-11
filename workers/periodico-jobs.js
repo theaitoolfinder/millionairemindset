@@ -50,7 +50,8 @@ function titleCase(s) {
    (sorted ascending by eventDate, so the last page holds the newest/
    furthest-future records) and filter to today-or-later ourselves. */
 async function fetchJobFairs() {
-  const probe = await fetch(DMW_API + '?page=1&limit=1&sortBy=eventDate&sortOrder=asc', {
+  const PAGE_LIMIT = 1000;
+  const probe = await fetch(DMW_API + '?page=1&limit=' + PAGE_LIMIT + '&sortBy=eventDate&sortOrder=asc', {
     headers: { 'X-API-Key': DMW_API_KEY, Accept: 'application/json', 'User-Agent': 'MillionaireMindsetPeriodico/1.0 (https://www.millionairemindset.ae; hello@millionairemindset.ae)' },
   });
   if (!probe.ok) throw new Error('DMW API ' + probe.status);
@@ -58,7 +59,7 @@ async function fetchJobFairs() {
   const lastPage = probeData.meta && probeData.meta.lastPage;
   if (!lastPage) throw new Error('DMW API: no lastPage in meta');
 
-  const res = await fetch(DMW_API + '?page=' + lastPage + '&limit=1000&sortBy=eventDate&sortOrder=asc', {
+  const res = await fetch(DMW_API + '?page=' + lastPage + '&limit=' + PAGE_LIMIT + '&sortBy=eventDate&sortOrder=asc', {
     headers: { 'X-API-Key': DMW_API_KEY, Accept: 'application/json', 'User-Agent': 'MillionaireMindsetPeriodico/1.0 (https://www.millionairemindset.ae; hello@millionairemindset.ae)' },
   });
   if (!res.ok) throw new Error('DMW API ' + res.status);
@@ -86,7 +87,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
 
     const cache = caches.default;
-    const cacheKey = new Request('https://periodico-jobs.internal/edition?v=2&day=' + todayKey());
+    const cacheKey = new Request('https://periodico-jobs.internal/edition?v=3&day=' + todayKey());
     const cached = await cache.match(cacheKey);
     if (cached) {
       const body = await cached.text();
