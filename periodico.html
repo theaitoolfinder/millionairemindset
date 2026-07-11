@@ -200,6 +200,8 @@
 .per-jobs-note strong { color:var(--per-brown); }
 .per-job-list { display:flex; flex-direction:column; gap:0; }
 .per-job-item { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 0; border-bottom:1px solid #ddd8cc; }
+.per-job-type { display:inline-block; font-family:'Oswald',sans-serif; font-size:0.6rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--per-gold); padding:2px 7px; border-radius:3px; margin-bottom:5px; }
+.per-job-type.fair { background:var(--per-brown); }
 .per-job-title { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:1rem; color:var(--per-brown); }
 .per-job-meta { font-family:'Oswald',sans-serif; font-size:0.7rem; letter-spacing:.03em; text-transform:uppercase; color:#9a9a9a; margin-top:3px; }
 .per-job-apply { font-family:'Oswald',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; color:var(--per-brown); text-decoration:none; border:1px solid var(--per-brown); padding:7px 12px; white-space:nowrap; }
@@ -642,16 +644,19 @@
     var JOBS_EP = 'https://mm-periodico-jobs.info-myaitoolbox.workers.dev';
     function loadJobs() {
       var list = document.getElementById('perJobList');
-      var cached = dayCache('mm_periodico_jobs_v1');
+      var cached = dayCache('mm_periodico_jobs_v2');
       function render(listings) {
         if (!listings || !listings.length) {
-          list.innerHTML = '<div class="per-loading">No verifiable postings found today. Check <a href="https://dmw.gov.ph" target="_blank" rel="noopener" style="color:var(--primary,#CC1010);">dmw.gov.ph</a> directly for current openings.</div>';
+          list.innerHTML = '<div class="per-loading">No verifiable postings found today. Check <a href="https://dmw.gov.ph" target="_blank" rel="noopener" style="color:var(--primary,#CC1010);">dmw.gov.ph</a> directly for current openings and job fairs.</div>';
           return;
         }
         list.innerHTML = listings.map(function(j){
+          var isFair = (j.type || '').toLowerCase().indexOf('fair') !== -1;
+          var metaParts = [j.country, j.employer, j.date].filter(Boolean).map(escHtml);
           return '<div class="per-job-item">'
-            + '<div><div class="per-job-title">' + escHtml(j.title) + '</div>'
-            + '<div class="per-job-meta">' + escHtml(j.country || '') + (j.employer ? ' · ' + escHtml(j.employer) : '') + ' · via ' + escHtml(j.source_name || '') + '</div></div>'
+            + '<div><span class="per-job-type' + (isFair ? ' fair' : '') + '">' + escHtml(j.type || 'Job Opening') + '</span>'
+            + '<div class="per-job-title">' + escHtml(j.title) + '</div>'
+            + '<div class="per-job-meta">' + metaParts.join(' · ') + (metaParts.length ? ' · ' : '') + 'via ' + escHtml(j.source_name || '') + '</div></div>'
             + '<a class="per-job-apply" href="' + j.source_url + '" target="_blank" rel="noopener">View →</a>'
           + '</div>';
         }).join('');
@@ -662,7 +667,7 @@
         .then(function(data){
           if (data.status !== 'ok') throw new Error(data.error || 'failed');
           render(data.listings);
-          setDayCache('mm_periodico_jobs_v1', data.listings);
+          setDayCache('mm_periodico_jobs_v2', data.listings);
         })
         .catch(function(){ render([]); });
     }

@@ -1,19 +1,22 @@
 /**
  * periodico-jobs — Cloudflare Worker
  * ─────────────────────────────────────────────────────────────────────────────
- * Uses Claude's web search tool to find current job openings/postings
- * published by DMW (Department of Migrant Workers), POEA-licensed
- * agencies, or Philippine embassy/consulate/MWO job boards, and lists
- * them as classified ads with source links.
+ * Uses Claude's web search tool to find real, current OFW job openings
+ * AND upcoming DMW/POEA job fair events, surfaced through news coverage,
+ * press releases, and public social posts — then lists them with source
+ * links.
  *
- * IMPORTANT LIMITATION: DMW/MWO/consulate sites are not RSS/API-friendly
- * and job postings change constantly — search coverage on any given day
- * may be sparse. This worker never invents a listing; if nothing
- * verifiable is found it returns an empty list rather than fabricating
- * job posts, since fake job ads could genuinely harm someone job-hunting.
- * Every listing must link back to its real source so a user can verify
- * and apply directly on the official site — never treat this list as
- * a substitute for checking dmw.gov.ph directly.
+ * IMPORTANT LIMITATION: dmw.gov.ph itself is a client-side rendered app
+ * (Nuxt/Vue with SSR disabled) — its job fair and job-opening listings
+ * only exist after JavaScript runs in a browser, so neither a server
+ * fetch nor Claude's web search can read them directly from the site.
+ * This worker instead searches for the same information as reported by
+ * news outlets, DMW's own press releases/Facebook posts, and licensed
+ * agencies — which is real, but naturally less complete than the site's
+ * live listings. It never invents a listing; if nothing verifiable is
+ * found it returns an empty list rather than fabricating job posts,
+ * since fake job ads could genuinely harm someone job-hunting. Always
+ * point users to dmw.gov.ph directly for the authoritative, current list.
  *
  * Cached at Cloudflare's edge for 24h.
  *
@@ -43,22 +46,25 @@ function todayKey() {
 }
 
 async function researchJobs(apiKey) {
-  const prompt = `Search the web for current, real job openings or hiring announcements for Overseas Filipino Workers (OFWs) — specifically from official or credible sources such as dmw.gov.ph (Department of Migrant Workers), POEA-licensed recruitment agencies, Philippine embassy/consulate job boards, or MWO (Migrant Workers Office) postings. Look for actual named positions with an employer/country/agency, not generic advice pages.
+  const prompt = `Search the web for two kinds of real, current opportunities for Overseas Filipino Workers (OFWs):
 
-List up to 8 real postings you find. For each, extract: job title, country, employer or hiring agency name if stated, and the source URL where someone could see the full posting.
+1. JOB OPENINGS: named positions with a stated employer/agency and country, from POEA-licensed recruitment agencies, Philippine embassy/consulate job boards, or news coverage of hiring drives.
+2. JOB FAIR EVENTS: upcoming DMW/POEA/LGU job fairs — search news coverage, press releases (PNA, Manila Bulletin, Philstar, local government sites), and DMW's public Facebook page posts for the event name, date, and venue/location. dmw.gov.ph's own site cannot be searched directly (it's a JavaScript app with no readable static content), so rely on secondary sources reporting on DMW's job fairs and hiring events.
 
-Never invent a listing. If you find fewer than 8 real postings, list only what you actually found — do not pad the list with made-up entries. If you find none at all, return an empty array.
+List up to 10 real items total, mixing both types as available. For each, give: type ("Job Opening" or "Job Fair"), title (job title, or the job fair's name/theme), country (destination country for a job opening, or "Philippines" for a domestic job fair), employer (agency/employer for a job opening, or organizer for a job fair — empty string if not stated), date (event date if it's a job fair, empty string otherwise), and the source URL.
+
+Never invent an item. If you find fewer than 10 real ones, list only what you actually found — do not pad the list with made-up entries. If you find none at all, return an empty array.
 
 Respond with ONLY this JSON object, no markdown, no explanation:
-{"listings": [{"title": "<job title>", "country": "<country>", "employer": "<employer/agency or empty string>", "source_name": "<site name>", "source_url": "<url>"}]}`;
+{"listings": [{"type": "<Job Opening or Job Fair>", "title": "<title>", "country": "<country>", "employer": "<employer/agency/organizer or empty string>", "date": "<event date or empty string>", "source_name": "<site name>", "source_url": "<url>"}]}`;
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1536,
-      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 5 }],
+      max_tokens: 2048,
+      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 8 }],
       messages: [{ role: 'user', content: prompt }],
     }),
   });
