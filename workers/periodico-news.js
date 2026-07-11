@@ -1,24 +1,19 @@
 /**
  * periodico-news — Cloudflare Worker
  * ─────────────────────────────────────────────────────────────────────────────
- * Fetches today's Philippine headlines from Philstar's RSS feed, then uses
- * Claude Haiku to rewrite each headline + summary in original wording —
- * factually faithful, but not a copy of the source's phrasing. Source
- * attribution and the original article link are always kept and shown
- * on the page; this rewrite step exists so Periodico isn't just
- * republishing another outlet's sentences verbatim.
+ * Fetches today's headlines from Philstar's Business or Sports RSS feed
+ * (?feed=business|sports, defaults to business), then uses Claude Haiku to
+ * rewrite each headline + summary in original wording — factually faithful,
+ * but not a copy of the source's phrasing. Source attribution and the
+ * original article link are always kept and shown on the page.
  *
- * Runs once per calendar day: the result is cached at Cloudflare's edge
- * for 24h, so the LLM is called once per day total (not per visitor) and
- * every visitor that day sees the same rewritten edition.
+ * Business feed is used (not the general headlines feed) so Periodico's
+ * front page naturally stays on economy/work/OFW-relevant news instead of
+ * partisan political conflict.
  *
- * Worker secret required (Settings → Variables → Secrets):
- *   ANTHROPIC_API_KEY — Claude API key (console.anthropic.com)
+ * Runs once per calendar day per feed: cached at Cloudflare's edge for 24h.
  *
- * To deploy:
- *   1. Cloudflare Workers → Create Worker → paste this file → Deploy
- *   2. Settings → Variables → add ANTHROPIC_API_KEY as a secret
- *   3. Confirm the worker URL matches NEWS_EP in periodico.html
+ * Worker secret required: ANTHROPIC_API_KEY (console.anthropic.com)
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -29,22 +24,20 @@ const ALLOWED_ORIGINS = [
   'http://localhost',
   'http://127.0.0.1',
 ];
-const RSS_URL = 'https://www.philstar.com/rss/headlines';
-const SOURCE_NAME = 'Philstar.com';
+const FEEDS = {
+  business: { url: 'https://www.philstar.com/rss/business', source: 'Philstar.com Business' },
+  sports:   { url: 'https://www.philstar.com/rss/sports',   source: 'Philstar.com Sports' },
+};
 
 function decodeEntities(s) {
   return (s || '')
     .replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"')
     .replace(/&#0?39;/g, "'").replace(/&amp;/g, '&');
 }
-
 function tag(block, name) {
   const m = block.match(new RegExp('<' + name + '[^>]*>([\\s\\S]*?)<\\/' + name + '>'));
   return m ? decodeEntities(m[1].replace(/^<!\[CDATA\[|\]\]>$/g, '').trim()) : '';
 }
-
-/* Philstar's RSS is a plain, regular RSS 2.0 feed — parse it directly
-   instead of depending on a rate-limited third-party proxy. */
 function parseRss(xml) {
   const items = [];
   const itemBlocks = xml.match(/<item>[\s\S]*?<\/item>/g) || [];
@@ -59,7 +52,6 @@ function parseRss(xml) {
   }
   return items;
 }
-
 function cors(origin) {
   const o = ALLOWED_ORIGINS.find(a => origin && origin.startsWith(a)) ? origin : ALLOWED_ORIGINS[0];
   return {
@@ -68,49 +60,32 @@ function cors(origin) {
     'Access-Control-Allow-Headers': 'Content-Type',
   };
 }
-
 function todayKey() {
   const d = new Date();
   return d.getUTCFullYear() + '-' + (d.getUTCMonth() + 1) + '-' + d.getUTCDate();
 }
-
 function stripHtml(s) {
   return (s || '').replace(/<[^>]+>/g, '').trim();
 }
 
 async function rewriteWithClaude(items, apiKey) {
-  const source = items.map((it, i) => ({
-    id: i,
-    title: it.title,
-    summary: stripHtml(it.description).slice(0, 500),
-  }));
+  const source = items.map((it, i) => ({ id: i, title: it.title, summary: stripHtml(it.description).slice(0, 500) }));
+  const prompt = `You are a newspaper sub-editor rewriting wire headlines for "Periodico", an OFW-focused newspaper. For each item below, write a NEW headline and a NEW 2-sentence summary in your own original wording — do not copy phrases from the source. Stay strictly factually faithful; never add, remove, or change facts, names, numbers, or dates. Keep a neutral, professional newspaper tone.
 
-  const prompt = `You are a newspaper sub-editor rewriting wire headlines for "Periodico", an OFW-focused newspaper. For each item below, write a NEW headline and a NEW 2-sentence summary in your own original wording — do not copy phrases from the source. Stay strictly factually faithful to the source; never add, remove, or change facts, names, numbers, or dates. Keep a neutral, professional newspaper tone.
-
-Return ONLY a JSON array, same length and order as the input, each element: {"id": <number>, "title": "<rewritten headline>", "summary": "<rewritten 2-sentence summary>"}. No markdown, no explanation, just the JSON array.
+Return ONLY a JSON array, same length and order as the input, each element: {"id": <number>, "title": "<rewritten headline>", "summary": "<rewritten 2-sentence summary>"}. No markdown, no explanation.
 
 Source items:
 ${JSON.stringify(source, null, 2)}`;
 
   const res = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: {
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 4096,
-      messages: [{ role: 'user', content: prompt }],
-    }),
+    headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 4096, messages: [{ role: 'user', content: prompt }] }),
   });
-
   if (!res.ok) throw new Error('Claude API error ' + res.status);
   const data = await res.json();
   const text = data.content && data.content[0] && data.content[0].text;
   if (!text) throw new Error('empty Claude response');
-
   const jsonMatch = text.match(/\[[\s\S]*\]/);
   if (!jsonMatch) throw new Error('no JSON array in Claude response');
   return JSON.parse(jsonMatch[0]);
@@ -119,13 +94,14 @@ ${JSON.stringify(source, null, 2)}`;
 export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
+    if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
 
-    if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: cors(origin) });
-    }
+    const url = new URL(request.url);
+    const feedKey = FEEDS[url.searchParams.get('feed')] ? url.searchParams.get('feed') : 'business';
+    const feed = FEEDS[feedKey];
 
     const cache = caches.default;
-    const cacheKey = new Request('https://periodico-news.internal/edition?day=' + todayKey());
+    const cacheKey = new Request('https://periodico-news.internal/edition?feed=' + feedKey + '&day=' + todayKey());
     const cached = await cache.match(cacheKey);
     if (cached) {
       const body = await cached.text();
@@ -133,7 +109,7 @@ export default {
     }
 
     try {
-      const rssRes = await fetch(RSS_URL, {
+      const rssRes = await fetch(feed.url, {
         headers: { 'User-Agent': 'MillionaireMindsetPeriodico/1.0 (https://www.millionairemindset.ae; hello@millionairemindset.ae)' },
       });
       if (!rssRes.ok) throw new Error('Philstar RSS HTTP ' + rssRes.status);
@@ -152,15 +128,13 @@ export default {
           link: it.link,
           author: it.author || '',
           pubDate: it.pubDate,
-          source: SOURCE_NAME,
+          source: feed.source,
         };
       });
 
-      const payload = JSON.stringify({ status: 'ok', day: todayKey(), items: result });
-
+      const payload = JSON.stringify({ status: 'ok', day: todayKey(), feed: feedKey, items: result });
       const toCache = new Response(payload, { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=86400' } });
       ctx.waitUntil(cache.put(cacheKey, toCache));
-
       return new Response(payload, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });
     } catch (err) {
       return new Response(JSON.stringify({ status: 'error', error: String(err && err.message || err) }), {

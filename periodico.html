@@ -6,12 +6,12 @@
   <title>Periodico | Millionaire Mindset — The OFW Newspaper</title>
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <link rel="manifest" href="site.webmanifest" />
-  <meta name="description" content="Periodico — the daily newspaper for OFWs. Philippine news, embassy and consulate advisories for every major OFW destination, and a dedicated section for OFW success stories and business." />
+  <meta name="description" content="Periodico — the daily newspaper for OFWs. Business news, consulate updates, real success stories, sports, classified job ads, and puzzles — built for Filipinos working abroad." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.millionairemindset.ae/periodico.html" />
   <meta property="og:site_name" content="Millionaire Mindset" />
   <meta property="og:title" content="Periodico | Millionaire Mindset — The OFW Newspaper" />
-  <meta property="og:description" content="The daily newspaper for OFWs — Philippine news, consulate watch by country, and OFW success stories &amp; business." />
+  <meta property="og:description" content="Business news, consulate updates, real success stories, sports, classified job ads, and puzzles — for Filipinos working abroad." />
   <meta property="og:image" content="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=1200&h=630&fit=crop&auto=format&q=80" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
@@ -19,7 +19,7 @@
   <meta property="og:locale" content="en_US" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Periodico | Millionaire Mindset — The OFW Newspaper" />
-  <meta name="twitter:description" content="The daily newspaper for OFWs — Philippine news, consulate watch by country, and OFW success stories &amp; business." />
+  <meta name="twitter:description" content="Business news, consulate updates, real success stories, sports, classified job ads, and puzzles — for Filipinos working abroad." />
   <meta name="twitter:image" content="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=1200&h=630&fit=crop&auto=format&q=80" />
   <link rel="canonical" href="https://www.millionairemindset.ae/periodico.html" />
   <meta name="robots" content="index, follow" />
@@ -33,7 +33,7 @@
   "@id": "https://www.millionairemindset.ae/periodico.html",
   "name": "Periodico | Millionaire Mindset",
   "url": "https://www.millionairemindset.ae/periodico.html",
-  "description": "The daily newspaper for OFWs — Philippine news, consulate watch by country, and OFW success stories & business.",
+  "description": "Business news, consulate updates, real success stories, sports, classified job ads, and puzzles — for Filipinos working abroad.",
   "publisher": {
     "@id": "https://www.millionairemindset.ae/#organization"
   }
@@ -65,6 +65,7 @@
    PERIODICO — NEWSPAPER LAYOUT
 ══════════════════════════════════════ */
 .per-page { min-height:100vh; padding-top:64px; background:#f7f4ee; color:#1a1a1a; }
+.per-serif { font-family:Georgia,'Times New Roman',serif; }
 
 /* ── Masthead ── */
 .per-utility {
@@ -102,7 +103,6 @@
   letter-spacing:.06em; text-transform:uppercase; color:rgba(255,255,255,.68);
   padding:13px 16px; cursor:pointer; border-bottom:3px solid transparent;
   transition:all .15s; background:none; border-top:none; border-left:none; border-right:none;
-  font-family:'Oswald',sans-serif;
 }
 .per-tab:hover { color:#fff; }
 .per-tab.active { color:#fff; border-bottom-color:var(--primary,#CC1010); }
@@ -111,7 +111,6 @@
 .per-section { display:none; }
 .per-section.active { display:block; }
 
-/* Kicker / section labels */
 .per-kicker {
   font-family:'Oswald',sans-serif; font-weight:700; font-size:0.76rem;
   letter-spacing:.12em; text-transform:uppercase; color:var(--primary,#CC1010);
@@ -119,116 +118,105 @@
   display:flex; align-items:center; justify-content:space-between;
 }
 .per-kicker .per-date { color:#8a8a8a; font-weight:500; letter-spacing:.03em; }
+.per-subkicker {
+  font-family:'Oswald',sans-serif; font-weight:700; font-size:0.7rem;
+  letter-spacing:.1em; text-transform:uppercase; color:#1a1a1a;
+  border-bottom:1px solid #1a1a1a; padding-bottom:6px; margin-bottom:14px;
+}
 
 /* ── Front page grid ── */
 .per-front-grid { display:grid; grid-template-columns:2fr 1fr; gap:36px; }
 @media (max-width:860px) { .per-front-grid { grid-template-columns:1fr; } }
-
-.per-lead-img {
-  width:100%; height:320px; object-fit:cover; background:#e5e1d8;
-  margin-bottom:14px; filter:grayscale(.08);
-}
-.per-lead-kicker {
-  font-family:'Oswald',sans-serif; font-weight:700; font-size:0.72rem;
-  letter-spacing:.1em; text-transform:uppercase; color:var(--primary,#CC1010);
-  margin-bottom:8px;
-}
-.per-lead-title {
-  font-family:Georgia,'Times New Roman',serif; font-weight:800; line-height:1.08;
-  font-size:clamp(1.6rem,3.4vw,2.5rem); color:#1a1a1a; margin:0 0 12px;
-}
+.per-lead-img { width:100%; height:320px; object-fit:cover; background:#e5e1d8; margin-bottom:14px; filter:grayscale(.08); }
+.per-lead-kicker { font-family:'Oswald',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:.1em; text-transform:uppercase; color:var(--primary,#CC1010); margin-bottom:8px; }
+.per-lead-title { font-family:Georgia,'Times New Roman',serif; font-weight:800; line-height:1.08; font-size:clamp(1.6rem,3.4vw,2.5rem); color:#1a1a1a; margin:0 0 12px; }
 .per-lead-title a { color:inherit; text-decoration:none; }
 .per-lead-title a:hover { text-decoration:underline; }
-.per-byline {
-  font-family:'Oswald',sans-serif; font-size:0.72rem; letter-spacing:.04em;
-  text-transform:uppercase; color:#8a8a8a; margin-bottom:14px;
-}
-.per-drop p:first-child::first-letter {
-  float:left; font-family:Georgia,'Times New Roman',serif; font-weight:900;
-  font-size:3.6rem; line-height:.82; padding:4px 8px 0 0; color:#1a0505;
-}
-.per-body p {
-  font-family:Georgia,'Times New Roman',serif; font-size:0.98rem; line-height:1.85;
-  color:#2a2a2a; margin:0 0 1em;
-}
+.per-byline { font-family:'Oswald',sans-serif; font-size:0.72rem; letter-spacing:.04em; text-transform:uppercase; color:#8a8a8a; margin-bottom:14px; }
+.per-drop p:first-child::first-letter { float:left; font-family:Georgia,'Times New Roman',serif; font-weight:900; font-size:3.6rem; line-height:.82; padding:4px 8px 0 0; color:#1a0505; }
+.per-body p { font-family:Georgia,'Times New Roman',serif; font-size:0.98rem; line-height:1.85; color:#2a2a2a; margin:0 0 1em; }
 .per-body a { color:var(--primary,#CC1010); }
 
-/* Sidebar wire list */
 .per-wire-list { display:flex; flex-direction:column; }
-.per-wire-item {
-  padding:13px 0; border-bottom:1px solid #ddd8cc;
-  text-decoration:none; display:block; color:inherit;
-}
+.per-wire-item { padding:13px 0; border-bottom:1px solid #ddd8cc; text-decoration:none; display:block; color:inherit; }
 .per-wire-item:first-child { padding-top:0; }
-.per-wire-title {
-  font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:0.98rem;
-  line-height:1.3; color:#1a1a1a; margin-bottom:4px;
-}
+.per-wire-title { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:0.98rem; line-height:1.3; color:#1a1a1a; margin-bottom:4px; }
 .per-wire-item:hover .per-wire-title { color:var(--primary,#CC1010); }
-.per-wire-meta {
-  font-family:'Oswald',sans-serif; font-size:0.68rem; letter-spacing:.04em;
-  text-transform:uppercase; color:#9a9a9a;
-}
+.per-wire-meta { font-family:'Oswald',sans-serif; font-size:0.68rem; letter-spacing:.04em; text-transform:uppercase; color:#9a9a9a; }
 
-/* PH news two-column list */
 .per-news-cols { columns:2; column-gap:36px; }
 @media (max-width:760px) { .per-news-cols { columns:1; } }
 .per-news-item { break-inside:avoid; margin-bottom:22px; padding-bottom:18px; border-bottom:1px solid #ddd8cc; }
 .per-news-item a { text-decoration:none; color:inherit; }
-.per-news-title {
-  font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:1.08rem;
-  line-height:1.3; color:#1a1a1a; margin-bottom:6px;
-}
+.per-news-title { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:1.08rem; line-height:1.3; color:#1a1a1a; margin-bottom:6px; }
 .per-news-item a:hover .per-news-title { color:var(--primary,#CC1010); }
 .per-news-desc { font-family:Georgia,'Times New Roman',serif; font-size:0.86rem; line-height:1.6; color:#4a4a4a; margin-bottom:6px; }
 .per-news-meta { font-family:'Oswald',sans-serif; font-size:0.68rem; letter-spacing:.04em; text-transform:uppercase; color:#9a9a9a; }
-.per-loading, .per-error {
-  font-family:Georgia,'Times New Roman',serif; font-style:italic; color:#8a8a8a; font-size:0.9rem; padding:30px 0; text-align:center;
-}
+.per-loading, .per-error { font-family:Georgia,'Times New Roman',serif; font-style:italic; color:#8a8a8a; font-size:0.9rem; padding:30px 0; text-align:center; }
 
 /* Consulate Watch */
-.per-consulate-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:18px; }
+.per-consulate-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:18px; }
 .per-country-card { background:#fff; border:1px solid #ddd8cc; padding:20px; }
 .per-country-flag { font-size:1.9rem; margin-bottom:6px; }
-.per-country-name {
-  font-family:Georgia,'Times New Roman',serif; font-weight:800; font-size:1.1rem;
-  color:#1a1a1a; margin-bottom:6px;
-}
-.per-country-fact { font-family:Georgia,'Times New Roman',serif; font-size:0.84rem; line-height:1.6; color:#4a4a4a; margin-bottom:14px; }
+.per-country-name { font-family:Georgia,'Times New Roman',serif; font-weight:800; font-size:1.1rem; color:#1a1a1a; margin-bottom:8px; }
+.per-country-bullets { list-style:none; padding:0; margin:0 0 12px; }
+.per-country-bullets li { font-family:Georgia,'Times New Roman',serif; font-size:0.82rem; line-height:1.55; color:#3a3a3a; padding:0 0 8px 14px; position:relative; }
+.per-country-bullets li::before { content:'—'; position:absolute; left:0; color:var(--primary,#CC1010); }
+.per-country-sources { font-family:'Oswald',sans-serif; font-size:0.66rem; letter-spacing:.02em; color:#9a9a9a; margin-bottom:12px; }
+.per-country-sources a { color:#9a9a9a; }
 .per-country-links { display:flex; gap:8px; flex-wrap:wrap; }
-.per-clink {
-  font-family:'Oswald',sans-serif; font-size:0.68rem; font-weight:600; letter-spacing:.03em;
-  text-transform:uppercase; color:var(--primary,#CC1010); text-decoration:none;
-  border:1px solid var(--primary,#CC1010); padding:6px 10px;
-}
+.per-clink { font-family:'Oswald',sans-serif; font-size:0.68rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; color:var(--primary,#CC1010); text-decoration:none; border:1px solid var(--primary,#CC1010); padding:6px 10px; }
 .per-clink:hover { background:var(--primary,#CC1010); color:#fff; }
+.per-country-loading { font-family:Georgia,'Times New Roman',serif; font-style:italic; font-size:0.8rem; color:#9a9a9a; }
 
 /* Success & Business */
 .per-success-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:36px; }
 @media (max-width:860px) { .per-success-grid { grid-template-columns:1fr; } }
+.per-story-img { width:100%; height:220px; object-fit:cover; margin-bottom:6px; background:#e5e1d8; }
+.per-story-credit { font-family:'Oswald',sans-serif; font-size:0.62rem; color:#9a9a9a; margin-bottom:14px; text-align:right; }
+.per-story-title { font-family:Georgia,'Times New Roman',serif; font-weight:800; font-size:1.4rem; color:#1a1a1a; margin:0 0 8px; line-height:1.15; }
 .per-biz-list { list-style:none; padding:0; margin:0; }
-.per-biz-list li {
-  font-family:Georgia,'Times New Roman',serif; font-size:0.94rem; line-height:1.6;
-  padding:14px 0; border-bottom:1px solid #ddd8cc; color:#2a2a2a;
-}
+.per-biz-list li { font-family:Georgia,'Times New Roman',serif; font-size:0.94rem; line-height:1.6; padding:14px 0; border-bottom:1px solid #ddd8cc; color:#2a2a2a; }
 .per-biz-list li strong { font-family:Georgia,'Times New Roman',serif; color:#1a1a1a; display:block; margin-bottom:3px; }
-
 .per-cta-box { background:#1a0505; color:#fff; padding:28px 26px; }
-.per-cta-box h3 {
-  font-family:Georgia,'Times New Roman',serif; font-weight:800; font-size:1.3rem; margin:0 0 10px; color:#fff;
-}
+.per-cta-box h3 { font-family:Georgia,'Times New Roman',serif; font-weight:800; font-size:1.3rem; margin:0 0 10px; color:#fff; }
 .per-cta-box p { font-family:Georgia,'Times New Roman',serif; font-size:0.88rem; line-height:1.7; color:rgba(255,255,255,.78); margin:0 0 18px; }
-.per-cta-btn {
-  display:inline-block; background:var(--primary,#CC1010); color:#fff; text-decoration:none;
-  font-family:'Oswald',sans-serif; font-weight:600; font-size:0.8rem; letter-spacing:.05em;
-  text-transform:uppercase; padding:12px 22px;
-}
+.per-cta-btn { display:inline-block; background:var(--primary,#CC1010); color:#fff; text-decoration:none; font-family:'Oswald',sans-serif; font-weight:600; font-size:0.8rem; letter-spacing:.05em; text-transform:uppercase; padding:12px 22px; }
 .per-cta-btn:hover { opacity:.9; }
-
-.per-empty-story {
-  border:1px dashed #c9c2af; padding:26px; text-align:center; margin-bottom:20px;
-}
+.per-empty-story { border:1px dashed #c9c2af; padding:26px; text-align:center; margin-bottom:20px; }
 .per-empty-story p { font-family:Georgia,'Times New Roman',serif; font-style:italic; color:#8a8a8a; font-size:0.9rem; margin:0; }
+
+/* Classified Ads */
+.per-jobs-note { background:#fdf6e3; border:1px solid #e8d9a8; padding:14px 18px; font-family:Georgia,'Times New Roman',serif; font-size:0.84rem; color:#5a4a1a; line-height:1.6; margin-bottom:22px; }
+.per-jobs-note strong { color:#1a1a1a; }
+.per-job-list { display:flex; flex-direction:column; gap:0; }
+.per-job-item { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 0; border-bottom:1px solid #ddd8cc; }
+.per-job-title { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:1rem; color:#1a1a1a; }
+.per-job-meta { font-family:'Oswald',sans-serif; font-size:0.7rem; letter-spacing:.03em; text-transform:uppercase; color:#9a9a9a; margin-top:3px; }
+.per-job-apply { font-family:'Oswald',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; color:var(--primary,#CC1010); text-decoration:none; border:1px solid var(--primary,#CC1010); padding:7px 12px; white-space:nowrap; }
+.per-job-apply:hover { background:var(--primary,#CC1010); color:#fff; }
+
+/* Entertainment */
+.per-ent-grid { display:grid; grid-template-columns:1fr; gap:32px; }
+.per-ent-card { background:#fff; border:1px solid #ddd8cc; padding:24px; }
+.per-comic-panel { background:#fdfbf6; border:2px solid #1a1a1a; padding:22px; text-align:center; }
+.per-comic-panel svg { max-width:220px; margin:0 auto 14px; display:block; }
+.per-comic-caption { font-family:Georgia,'Times New Roman',serif; font-style:italic; font-size:1rem; color:#1a1a1a; max-width:420px; margin:0 auto; line-height:1.5; }
+.per-fillin-list { display:flex; flex-direction:column; gap:16px; }
+.per-fillin-clue { font-family:Georgia,'Times New Roman',serif; font-size:0.9rem; color:#2a2a2a; margin-bottom:6px; }
+.per-fillin-boxes { display:flex; gap:4px; }
+.per-fillin-box { width:30px; height:34px; border:1.5px solid #1a1a1a; text-align:center; text-transform:uppercase; font-family:'Oswald',sans-serif; font-weight:600; font-size:1rem; }
+.per-fillin-box.correct { background:#d1fae5; border-color:#16a34a; }
+.per-fillin-check { margin-top:10px; }
+.per-check-btn { font-family:'Oswald',sans-serif; font-size:0.72rem; font-weight:600; letter-spacing:.04em; text-transform:uppercase; background:var(--primary,#CC1010); color:#fff; border:none; padding:9px 16px; cursor:pointer; }
+.per-check-btn:hover { opacity:.9; }
+.per-sfd-wrap { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+@media (max-width:640px) { .per-sfd-wrap { grid-template-columns:1fr; } }
+.per-sfd-img { position:relative; border:2px solid #1a1a1a; background:#eef0f3; }
+.per-sfd-img svg { display:block; width:100%; height:auto; }
+.per-sfd-spot { position:absolute; border:2px solid transparent; border-radius:50%; cursor:pointer; }
+.per-sfd-spot.found { border-color:#16a34a; background:rgba(22,163,74,.15); }
+.per-sfd-status { font-family:'Oswald',sans-serif; font-size:0.78rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; color:#1a1a1a; margin-top:12px; text-align:center; }
   </style>
 </head>
 <body><!-- NAV -->
@@ -304,8 +292,11 @@
       <div class="per-tabs-inner">
         <button class="per-tab active" data-tab="front" onclick="perShowTab('front')">Front Page</button>
         <button class="per-tab" data-tab="ph" onclick="perShowTab('ph')">Pilipinas</button>
+        <button class="per-tab" data-tab="sports" onclick="perShowTab('sports')">Sports</button>
         <button class="per-tab" data-tab="consulate" onclick="perShowTab('consulate')">Consulate Watch</button>
         <button class="per-tab" data-tab="success" onclick="perShowTab('success')">OFW Success &amp; Business</button>
+        <button class="per-tab" data-tab="ent" onclick="perShowTab('ent')">Entertainment</button>
+        <button class="per-tab" data-tab="jobs" onclick="perShowTab('jobs')">Classified Ads</button>
       </div>
     </div>
 
@@ -319,7 +310,7 @@
             <img class="per-lead-img" src="https://images.unsplash.com/photo-1495020689067-958852a7765e?w=1200&q=80&auto=format&fit=crop" alt="Manila skyline" />
             <div id="perLeadStory">
               <div class="per-lead-kicker">Top Story</div>
-              <h2 class="per-lead-title">Loading today's top headline from the Philippines…</h2>
+              <h2 class="per-lead-title">Loading today's top business headline…</h2>
               <div class="per-byline">Millionaire Mindset Wire</div>
               <div class="per-body per-drop"><p>Fetching the latest news…</p></div>
             </div>
@@ -333,19 +324,28 @@
         </div>
       </section>
 
-      <!-- ══ PILIPINAS ══ -->
+      <!-- ══ PILIPINAS (business/economy) ══ -->
       <section class="per-section" id="per-ph">
-        <div class="per-kicker"><span>News From the Philippines</span><span class="per-date" id="perPhDate">—</span></div>
+        <div class="per-kicker"><span>Business &amp; Economy News</span><span class="per-date" id="perPhDate">—</span></div>
+        <p class="per-serif" style="font-size:0.85rem;color:#5a5a5a;margin:-8px 0 22px;">Focused on what actually helps OFWs get ahead — business, jobs, economy, remittances — not political noise.</p>
         <div class="per-news-cols" id="perNewsCols">
-          <div class="per-loading">Loading headlines from the Philippines…</div>
+          <div class="per-loading">Loading headlines…</div>
+        </div>
+      </section>
+
+      <!-- ══ SPORTS ══ -->
+      <section class="per-section" id="per-sports">
+        <div class="per-kicker"><span>Sports</span><span class="per-date" id="perSportsDate">—</span></div>
+        <div class="per-news-cols" id="perSportsCols">
+          <div class="per-loading">Loading sports headlines…</div>
         </div>
       </section>
 
       <!-- ══ CONSULATE WATCH ══ -->
       <section class="per-section" id="per-consulate">
-        <div class="per-kicker"><span>Consulate Watch</span><span class="per-date">By Country</span></div>
-        <p style="font-family:Georgia,'Times New Roman',serif;font-size:0.88rem;color:#5a5a5a;line-height:1.7;margin:-8px 0 22px;max-width:760px;">
-          Quick links to the official Philippine Embassy/Consulate resources and government advisory portals for the countries with the largest OFW communities. Always confirm details directly with the official site before acting on any advisory.
+        <div class="per-kicker"><span>Consulate Watch</span><span class="per-date">Researched Daily</span></div>
+        <p class="per-serif" style="font-size:0.88rem;color:#5a5a5a;line-height:1.7;margin:-8px 0 22px;max-width:760px;">
+          Researched fresh each day from embassy, consulate, and government sources. Always confirm anything urgent (visa deadlines, amnesty programs) directly on the official site linked in each card.
         </p>
         <div class="per-consulate-grid" id="perConsulateGrid"></div>
       </section>
@@ -354,18 +354,11 @@
       <section class="per-section" id="per-success">
         <div class="per-kicker"><span>OFW Success &amp; Business</span><span class="per-date">Every Issue</span></div>
         <div class="per-success-grid">
-          <div>
-            <div class="per-empty-story">
-              <p>This page is reserved for real OFW success stories. Be the first to share yours — it could inspire the next reader.</p>
-            </div>
-            <div class="per-cta-box">
-              <h3>Share Your Success Story</h3>
-              <p>Started a business abroad? Bought your first property? Paid off debt and built savings? Tell us your journey and we'll feature it in a future issue of Periodico.</p>
-              <a class="per-cta-btn" href="mailto:hello@millionairemindset.ae?subject=My%20OFW%20Success%20Story">Submit Your Story →</a>
-            </div>
+          <div id="perSuccessStory">
+            <div class="per-loading">Researching today's success story…</div>
           </div>
           <div>
-            <div class="per-kicker" style="border-bottom-width:1px;margin-bottom:12px;padding-bottom:6px;">Business Ideas for OFWs</div>
+            <div class="per-subkicker">Business Ideas for OFWs</div>
             <ul class="per-biz-list">
               <li><strong>Online Reselling</strong>Start a small online shop selling in-demand goods to family and friends back home — low capital, manageable from abroad.</li>
               <li><strong>Sari-Sari Store Franchise</strong>Fund a family member to run a neighborhood store — a common first business for OFW families building passive income.</li>
@@ -373,10 +366,52 @@
               <li><strong>Freelancing &amp; Remote Skills</strong>Writing, design, bookkeeping, or virtual assistance can become a second income stream that keeps earning after you return home.</li>
               <li><strong>Food &amp; Catering Business</strong>Filipino food businesses — from small eateries to catering services — remain one of the most common OFW-funded ventures.</li>
             </ul>
-            <p style="font-family:Georgia,'Times New Roman',serif;font-size:0.86rem;color:#5a5a5a;margin-top:16px;">
+            <p class="per-serif" style="font-size:0.86rem;color:#5a5a5a;margin-top:16px;">
               See more opportunities on our <a href="business.html" style="color:var(--primary,#CC1010);">full Business page →</a>
             </p>
+            <div class="per-cta-box" style="margin-top:20px;">
+              <h3>Share Your Success Story</h3>
+              <p>Started a business abroad? Tell us your journey and we may feature it in a future issue.</p>
+              <a class="per-cta-btn" href="mailto:hello@millionairemindset.ae?subject=My%20OFW%20Success%20Story">Submit Your Story →</a>
+            </div>
           </div>
+        </div>
+      </section>
+
+      <!-- ══ ENTERTAINMENT ══ -->
+      <section class="per-section" id="per-ent">
+        <div class="per-kicker"><span>Entertainment</span><span class="per-date">Puzzles &amp; Fun</span></div>
+        <div class="per-ent-grid">
+
+          <div class="per-ent-card">
+            <div class="per-subkicker">Tambay Corner</div>
+            <div class="per-comic-panel" id="perComicPanel"></div>
+          </div>
+
+          <div class="per-ent-card">
+            <div class="per-subkicker">Salitaan — Fill-In Word Puzzle</div>
+            <div class="per-fillin-list" id="perFillinList"></div>
+            <div class="per-fillin-check"><button class="per-check-btn" onclick="perCheckFillin()">Check Answers</button></div>
+          </div>
+
+          <div class="per-ent-card">
+            <div class="per-subkicker">Hanapin ang Pagkakaiba — Spot the Difference</div>
+            <p class="per-serif" style="font-size:0.84rem;color:#5a5a5a;margin:-6px 0 14px;">Find the 5 differences between the two scenes. Click a spot when you find one.</p>
+            <div class="per-sfd-wrap" id="perSfdWrap"></div>
+            <div class="per-sfd-status" id="perSfdStatus">0 of 5 found</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ══ CLASSIFIED ADS ══ -->
+      <section class="per-section" id="per-jobs">
+        <div class="per-kicker"><span>Classified Ads — Job Openings</span><span class="per-date">Researched Daily</span></div>
+        <div class="per-jobs-note">
+          <strong>Safety first:</strong> these listings are gathered from public DMW, POEA-licensed agency, and consulate/MWO sources as a starting point only. Never pay a recruiter for a job placement, always verify directly on <a href="https://dmw.gov.ph" target="_blank" rel="noopener" style="color:#1a1a1a;">dmw.gov.ph</a>, and report suspicious offers. This list can be incomplete or out of date — it is not a substitute for checking official sources yourself.
+        </div>
+        <div class="per-job-list" id="perJobList">
+          <div class="per-loading">Researching current job postings…</div>
         </div>
       </section>
 
@@ -420,29 +455,14 @@
     document.getElementById('perDateline').textContent = dateline;
     document.getElementById('perFrontDate').textContent = dateline;
     document.getElementById('perPhDate').textContent = dateline;
-    var start = new Date(2026, 0, 1);
-    var issueNo = Math.max(1, Math.floor((d - start) / 86400000) + 1);
+    document.getElementById('perSportsDate').textContent = dateline;
+    var yearStart = new Date(d.getFullYear(), 0, 1);
+    var dayOfYear = Math.floor((d - yearStart) / 86400000);
+    var issueNo = Math.max(1, dayOfYear + 1);
     document.getElementById('perIssueNo').textContent = issueNo;
 
-    /* ── Tabs ── */
-    window.perShowTab = function(name) {
-      document.querySelectorAll('.per-tab').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-tab') === name); });
-      document.querySelectorAll('.per-section').forEach(function(s){ s.classList.toggle('active', s.id === 'per-' + name); });
-      window.scrollTo({ top: document.querySelector('.per-tabs').offsetTop - 66, behavior: 'smooth' });
-    };
-
-    /* ── Philippines news via the periodico-news Worker ──
-       The headlines and summaries are rewritten in original wording by
-       the periodico-news Worker (Claude Haiku) before they ever reach
-       this page — we never display another outlet's sentences verbatim,
-       only credit and link back to the source. Fetched once per
-       calendar day and cached in localStorage, like a real printed
-       edition — every visitor on the same day sees the same front page
-       instead of headlines shifting on every reload. */
-    var NEWS_EP = 'https://mm-periodico-news.info-myaitoolbox.workers.dev';
     var TODAY_KEY = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-    var CACHE_KEY = 'mm_periodico_edition_v2';
-
+    function escHtml(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
     function timeAgo(pubDate) {
       var diffMs = Date.now() - new Date(pubDate).getTime();
       var hrs = Math.floor(diffMs / 3600000);
@@ -450,7 +470,35 @@
       if (hrs < 24) return hrs + 'h ago';
       return Math.floor(hrs / 24) + 'd ago';
     }
-    function escHtml(s) { return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function dayCache(key) {
+      try {
+        var c = JSON.parse(localStorage.getItem(key) || 'null');
+        if (c && c.day === TODAY_KEY) return c.data;
+      } catch(e) {}
+      return null;
+    }
+    function setDayCache(key, data) {
+      try { localStorage.setItem(key, JSON.stringify({ day: TODAY_KEY, data: data })); } catch(e) {}
+    }
+
+    /* ── Tabs (lazy-load each section's data on first visit) ── */
+    var tabLoaded = {};
+    window.perShowTab = function(name) {
+      document.querySelectorAll('.per-tab').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-tab') === name); });
+      document.querySelectorAll('.per-section').forEach(function(s){ s.classList.toggle('active', s.id === 'per-' + name); });
+      window.scrollTo({ top: document.querySelector('.per-tabs').offsetTop - 66, behavior: 'smooth' });
+      if (!tabLoaded[name]) {
+        tabLoaded[name] = true;
+        if (name === 'sports') loadSports();
+        if (name === 'consulate') loadConsulate();
+        if (name === 'success') loadSuccess();
+        if (name === 'jobs') loadJobs();
+        if (name === 'ent') loadEntertainment();
+      }
+    };
+
+    /* ══ NEWS (Front Page + Pilipinas) — business feed ══ */
+    var NEWS_EP = 'https://mm-periodico-news.info-myaitoolbox.workers.dev';
 
     function renderNews(items) {
       var lead = items[0];
@@ -463,76 +511,274 @@
       var wireHtml = items.slice(1, 6).map(function(it){
         return '<a class="per-wire-item" href="' + it.link + '" target="_blank" rel="noopener">'
           + '<div class="per-wire-title">' + escHtml(it.title) + '</div>'
-          + '<div class="per-wire-meta">' + timeAgo(it.pubDate) + '</div>'
-          + '</a>';
+          + '<div class="per-wire-meta">' + timeAgo(it.pubDate) + '</div></a>';
       }).join('');
       document.getElementById('perWireList').innerHTML = wireHtml;
 
-      var newsHtml = items.map(function(it){
+      document.getElementById('perNewsCols').innerHTML = items.map(function(it){
         return '<div class="per-news-item"><a href="' + it.link + '" target="_blank" rel="noopener">'
           + '<div class="per-news-title">' + escHtml(it.title) + '</div>'
           + '<div class="per-news-desc">' + escHtml(it.summary) + '</div>'
-          + '<div class="per-news-meta">via ' + escHtml(it.source) + ' · ' + timeAgo(it.pubDate) + '</div>'
-          + '</a></div>';
+          + '<div class="per-news-meta">via ' + escHtml(it.source) + ' · ' + timeAgo(it.pubDate) + '</div></a></div>';
       }).join('');
-      document.getElementById('perNewsCols').innerHTML = newsHtml;
     }
-
     function showNewsError() {
-      var msg = '<div class="per-error">Could not load today\'s edition right now. <a href="https://www.philstar.com" target="_blank" rel="noopener" style="color:var(--primary,#CC1010);">Visit Philstar.com directly →</a></div>';
+      var msg = '<div class="per-error">Could not load today\'s edition right now. <a href="https://www.philstar.com/business" target="_blank" rel="noopener" style="color:var(--primary,#CC1010);">Visit Philstar.com Business →</a></div>';
       document.getElementById('perLeadStory').innerHTML = msg;
       document.getElementById('perWireList').innerHTML = '';
       document.getElementById('perNewsCols').innerHTML = msg;
     }
-
-    var cached = null;
-    try { cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); } catch(e) {}
-
-    if (cached && cached.day === TODAY_KEY && cached.items && cached.items.length) {
-      renderNews(cached.items);
-    } else {
-      fetch(NEWS_EP)
+    (function loadFrontAndPh() {
+      var cached = dayCache('mm_periodico_business_v3');
+      if (cached && cached.length) { renderNews(cached); return; }
+      fetch(NEWS_EP + '?feed=business')
         .then(function(r){ return r.json(); })
         .then(function(data){
           if (data.status !== 'ok' || !data.items || !data.items.length) throw new Error('no items');
           renderNews(data.items);
-          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ day: TODAY_KEY, items: data.items })); } catch(e) {}
+          setDayCache('mm_periodico_business_v3', data.items);
         })
         .catch(function(){
-          if (cached && cached.items && cached.items.length) {
-            renderNews(cached.items); // yesterday's edition is better than nothing
-          } else {
-            showNewsError();
-          }
+          if (cached && cached.length) renderNews(cached); else showNewsError();
+        });
+    })();
+
+    /* ══ SPORTS ══ */
+    function loadSports() {
+      var cached = dayCache('mm_periodico_sports_v1');
+      if (cached && cached.length) { renderSports(cached); return; }
+      fetch(NEWS_EP + '?feed=sports')
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          if (data.status !== 'ok' || !data.items || !data.items.length) throw new Error('no items');
+          renderSports(data.items);
+          setDayCache('mm_periodico_sports_v1', data.items);
+        })
+        .catch(function(){
+          document.getElementById('perSportsCols').innerHTML = '<div class="per-error">Could not load sports headlines. <a href="https://www.philstar.com/sports" target="_blank" rel="noopener" style="color:var(--primary,#CC1010);">Visit Philstar.com Sports →</a></div>';
         });
     }
+    function renderSports(items) {
+      document.getElementById('perSportsCols').innerHTML = items.map(function(it){
+        return '<div class="per-news-item"><a href="' + it.link + '" target="_blank" rel="noopener">'
+          + '<div class="per-news-title">' + escHtml(it.title) + '</div>'
+          + '<div class="per-news-desc">' + escHtml(it.summary) + '</div>'
+          + '<div class="per-news-meta">via ' + escHtml(it.source) + ' · ' + timeAgo(it.pubDate) + '</div></a></div>';
+      }).join('');
+    }
 
-    /* ── Consulate Watch — top OFW destination countries ── */
+    /* ══ CONSULATE WATCH — researched per country, parallel requests ══ */
+    var CONSULATE_EP = 'https://mm-periodico-consulate.info-myaitoolbox.workers.dev';
     var COUNTRIES = [
-      { flag:'🇦🇪', name:'United Arab Emirates', fact:'Home to one of the largest Filipino communities in the Middle East, concentrated in Dubai and Abu Dhabi.' },
-      { flag:'🇸🇦', name:'Saudi Arabia', fact:'The single largest OFW population worldwide, working across construction, healthcare, and domestic sectors.' },
-      { flag:'🇶🇦', name:'Qatar', fact:'A major hub for OFWs in construction, hospitality, and services since the 2022 World Cup development boom.' },
-      { flag:'🇰🇼', name:'Kuwait', fact:'Home to a large community of Filipino household service workers and professionals.' },
-      { flag:'🇭🇰', name:'Hong Kong', fact:'One of the top destinations for Filipino domestic workers and healthcare professionals in Asia.' },
-      { flag:'🇸🇬', name:'Singapore', fact:'A key destination for Filipino professionals, nurses, and skilled workers in Southeast Asia.' },
-      { flag:'🇮🇹', name:'Italy', fact:'The largest Filipino community in Europe, concentrated in Rome, Milan, and surrounding regions.' },
-      { flag:'🇯🇵', name:'Japan', fact:'A growing destination for Filipino caregivers, entertainers, and technical intern trainees.' },
-      { flag:'🇨🇦', name:'Canada', fact:'A top destination for Filipino nurses, caregivers, and skilled migrants pursuing permanent residency.' },
-      { flag:'🇬🇧', name:'United Kingdom', fact:'Home to a large community of Filipino nurses and healthcare workers in the NHS.' },
-      { flag:'🇺🇸', name:'United States', fact:'One of the largest overseas Filipino populations globally, spanning healthcare, hospitality, and maritime work.' },
-      { flag:'🇧🇭', name:'Bahrain', fact:'A long-established Filipino community working in banking, hospitality, and skilled trades.' }
+      { flag:'🇦🇪', name:'United Arab Emirates' }, { flag:'🇸🇦', name:'Saudi Arabia' },
+      { flag:'🇶🇦', name:'Qatar' }, { flag:'🇰🇼', name:'Kuwait' },
+      { flag:'🇭🇰', name:'Hong Kong' }, { flag:'🇸🇬', name:'Singapore' },
+      { flag:'🇮🇹', name:'Italy' }, { flag:'🇯🇵', name:'Japan' },
+      { flag:'🇨🇦', name:'Canada' }, { flag:'🇬🇧', name:'United Kingdom' },
+      { flag:'🇺🇸', name:'United States' }, { flag:'🇧🇭', name:'Bahrain' }
     ];
-    document.getElementById('perConsulateGrid').innerHTML = COUNTRIES.map(function(c){
-      return '<div class="per-country-card">'
-        + '<div class="per-country-flag">' + c.flag + '</div>'
-        + '<div class="per-country-name">' + c.name + '</div>'
-        + '<div class="per-country-fact">' + c.fact + '</div>'
-        + '<div class="per-country-links">'
-          + '<a class="per-clink" href="https://dfa.gov.ph" target="_blank" rel="noopener">DFA Advisories</a>'
-          + '<a class="per-clink" href="https://dmw.gov.ph" target="_blank" rel="noopener">DMW / OWWA</a>'
-        + '</div>'
-      + '</div>';
-    }).join('');
+    function loadConsulate() {
+      var grid = document.getElementById('perConsulateGrid');
+      grid.innerHTML = COUNTRIES.map(function(c){
+        return '<div class="per-country-card" id="perCountry-' + c.name.replace(/\s/g,'') + '">'
+          + '<div class="per-country-flag">' + c.flag + '</div>'
+          + '<div class="per-country-name">' + c.name + '</div>'
+          + '<div class="per-country-loading">Researching…</div>'
+        + '</div>';
+      }).join('');
+
+      var cached = dayCache('mm_periodico_consulate_v1') || {};
+      COUNTRIES.forEach(function(c){
+        var id = 'perCountry-' + c.name.replace(/\s/g,'');
+        function render(bullets, sources) {
+          var bulletsHtml = bullets && bullets.length
+            ? '<ul class="per-country-bullets">' + bullets.map(function(b){ return '<li>' + escHtml(b) + '</li>'; }).join('') + '</ul>'
+            : '<p class="per-country-loading">No fresh updates found today — check the official sites below.</p>';
+          var sourcesHtml = sources && sources.length
+            ? '<div class="per-country-sources">Sources: ' + sources.map(function(s,i){ return (i>0?' · ':'') + '<a href="' + s.url + '" target="_blank" rel="noopener">' + escHtml(s.title || 'link') + '</a>'; }).join('') + '</div>'
+            : '';
+          document.getElementById(id).innerHTML =
+            '<div class="per-country-flag">' + c.flag + '</div>'
+            + '<div class="per-country-name">' + c.name + '</div>'
+            + bulletsHtml + sourcesHtml
+            + '<div class="per-country-links">'
+              + '<a class="per-clink" href="https://dfa.gov.ph" target="_blank" rel="noopener">DFA</a>'
+              + '<a class="per-clink" href="https://dmw.gov.ph" target="_blank" rel="noopener">DMW/OWWA</a>'
+            + '</div>';
+        }
+        if (cached[c.name]) { render(cached[c.name].bullets, cached[c.name].sources); return; }
+        fetch(CONSULATE_EP + '?country=' + encodeURIComponent(c.name))
+          .then(function(r){ return r.json(); })
+          .then(function(data){
+            if (data.status !== 'ok') throw new Error(data.error || 'failed');
+            render(data.bullets, data.sources);
+            cached[c.name] = { bullets: data.bullets, sources: data.sources };
+            setDayCache('mm_periodico_consulate_v1', cached);
+          })
+          .catch(function(){ render([], []); });
+      });
+    }
+
+    /* ══ SUCCESS STORY — researched + written by the Worker ══ */
+    var SUCCESS_EP = 'https://mm-periodico-success.info-myaitoolbox.workers.dev';
+    function loadSuccess() {
+      var box = document.getElementById('perSuccessStory');
+      function renderPlaceholder() {
+        box.innerHTML = '<div class="per-empty-story"><p>Couldn\'t find a fresh, verifiable success story today. Be the first to share yours — it could inspire the next reader.</p></div>';
+      }
+      var cached = dayCache('mm_periodico_success_v1');
+      function render(story) {
+        if (!story || !story.found) { renderPlaceholder(); return; }
+        var img = story.image_url
+          ? '<img class="per-story-img" src="' + story.image_url + '" alt="" onerror="this.style.display=\'none\'" />'
+            + '<div class="per-story-credit">' + escHtml(story.image_credit || ('Photo courtesy of ' + story.source_name)) + '</div>'
+          : '';
+        var paragraphs = (story.article || '').split(/\n\n+/).map(function(p){ return '<p>' + escHtml(p) + '</p>'; }).join('');
+        box.innerHTML = img
+          + '<div class="per-lead-kicker">OFW Success Story · via ' + escHtml(story.source_name) + '</div>'
+          + '<h2 class="per-story-title">' + escHtml(story.headline) + '</h2>'
+          + '<div class="per-body">' + paragraphs + '<p><a href="' + story.source_url + '" target="_blank" rel="noopener">Read the full original story at ' + escHtml(story.source_name) + ' →</a></p></div>';
+      }
+      if (cached) { render(cached); return; }
+      fetch(SUCCESS_EP)
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          if (data.status !== 'ok') throw new Error(data.error || 'failed');
+          render(data);
+          setDayCache('mm_periodico_success_v1', data);
+        })
+        .catch(function(){ renderPlaceholder(); });
+    }
+
+    /* ══ CLASSIFIED ADS — researched job listings ══ */
+    var JOBS_EP = 'https://mm-periodico-jobs.info-myaitoolbox.workers.dev';
+    function loadJobs() {
+      var list = document.getElementById('perJobList');
+      var cached = dayCache('mm_periodico_jobs_v1');
+      function render(listings) {
+        if (!listings || !listings.length) {
+          list.innerHTML = '<div class="per-loading">No verifiable postings found today. Check <a href="https://dmw.gov.ph" target="_blank" rel="noopener" style="color:var(--primary,#CC1010);">dmw.gov.ph</a> directly for current openings.</div>';
+          return;
+        }
+        list.innerHTML = listings.map(function(j){
+          return '<div class="per-job-item">'
+            + '<div><div class="per-job-title">' + escHtml(j.title) + '</div>'
+            + '<div class="per-job-meta">' + escHtml(j.country || '') + (j.employer ? ' · ' + escHtml(j.employer) : '') + ' · via ' + escHtml(j.source_name || '') + '</div></div>'
+            + '<a class="per-job-apply" href="' + j.source_url + '" target="_blank" rel="noopener">View →</a>'
+          + '</div>';
+        }).join('');
+      }
+      if (cached) { render(cached); return; }
+      fetch(JOBS_EP)
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          if (data.status !== 'ok') throw new Error(data.error || 'failed');
+          render(data.listings);
+          setDayCache('mm_periodico_jobs_v1', data.listings);
+        })
+        .catch(function(){ render([]); });
+    }
+
+    /* ══ ENTERTAINMENT — comic corner, fill-in puzzle, spot the difference ══ */
+    function loadEntertainment() {
+      loadComic();
+      loadFillin();
+      loadSfd();
+    }
+
+    var COMICS = [
+      "“Boss, pwede po ba OT?” — the four most spoken words in every OFW household group chat.",
+      "Budol texts asking for your OTP: the real villain of every telenovela, every single day.",
+      "Balikbayan box packing level: expert. Tetris players wish they had this skill.",
+      "Time zones: the reason “Good morning” and “Good night” are basically the same text message.",
+      "The most powerful WiFi signal in the world is the one connecting a Lola to her apo on video call.",
+      "Sweldo diary: 60% remittance, 30% savings, 10% “treat para sa sarili” — the OFW budgeting triathlon.",
+      "Pasalubong request list from the whole barangay: longer than the actual plane ticket itinerary.",
+      "“Isang text lang ‘yan” — famous last words before a 45-minute video call about family drama.",
+      "The real OFW superpower: staying awake for a 2am birthday greeting after a full 12-hour shift.",
+      "Home for the holidays: where everyone suddenly remembers exactly how much pasalubong money they need."
+    ];
+    function loadComic() {
+      var idx = dayOfYear % COMICS.length;
+      document.getElementById('perComicPanel').innerHTML =
+        '<svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">'
+        + '<circle cx="100" cy="55" r="34" fill="#fdecea" stroke="#1a1a1a" stroke-width="2"/>'
+        + '<circle cx="88" cy="50" r="4" fill="#1a1a1a"/><circle cx="112" cy="50" r="4" fill="#1a1a1a"/>'
+        + '<path d="M85 66 Q100 76 115 66" stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+        + '<rect x="70" y="92" width="60" height="46" rx="10" fill="#CC1010" stroke="#1a1a1a" stroke-width="2"/>'
+        + '<rect x="40" y="96" width="26" height="10" rx="5" fill="#fdecea" stroke="#1a1a1a" stroke-width="1.5"/>'
+        + '<rect x="134" y="96" width="26" height="10" rx="5" fill="#fdecea" stroke="#1a1a1a" stroke-width="1.5"/>'
+        + '</svg>'
+        + '<div class="per-comic-caption">' + COMICS[idx] + '</div>';
+    }
+
+    var FILLIN_SETS = [
+      [ { clue:'1. Money sent home by an OFW', answer:'REMITTANCE' }, { clue:'2. Box packed full of pasalubong', answer:'BALIKBAYAN' }, { clue:'3. Monthly spending plan', answer:'BUDGET' } ],
+      [ { clue:'1. Government agency for migrant workers (abbr.)', answer:'DMW' }, { clue:'2. Money put aside for the future', answer:'SAVINGS' }, { clue:'3. Working outside your home country', answer:'ABROAD' } ],
+      [ { clue:'1. Document needed to work in another country', answer:'VISA' }, { clue:'2. Starting your own small business', answer:'ENTREPRENEUR' }, { clue:'3. Owning a house and lot', answer:'PROPERTY' } ]
+    ];
+    function loadFillin() {
+      var set = FILLIN_SETS[dayOfYear % FILLIN_SETS.length];
+      document.getElementById('perFillinList').innerHTML = set.map(function(item, i){
+        var boxes = item.answer.split('').map(function(ch, ci){
+          return '<input class="per-fillin-box" maxlength="1" data-answer="' + ch + '" id="fb-' + i + '-' + ci + '" oninput="this.value=this.value.toUpperCase();var n=document.getElementById(\'fb-' + i + '-' + (ci+1) + '\');if(this.value&&n)n.focus();" />';
+        }).join('');
+        return '<div><div class="per-fillin-clue">' + item.clue + '</div><div class="per-fillin-boxes">' + boxes + '</div></div>';
+      }).join('');
+      window._perFillinSet = set;
+    }
+    window.perCheckFillin = function() {
+      var set = window._perFillinSet || [];
+      set.forEach(function(item, i){
+        item.answer.split('').forEach(function(ch, ci){
+          var box = document.getElementById('fb-' + i + '-' + ci);
+          if (!box) return;
+          box.classList.toggle('correct', box.value.toUpperCase() === ch);
+        });
+      });
+    };
+
+    /* Spot the difference: same SVG scene rendered twice, second copy has
+       5 attribute changes at known coordinates used as click targets. */
+    var SFD_DIFFS = [
+      { x: 30, y: 20, r: 14 }, { x: 150, y: 40, r: 12 }, { x: 60, y: 110, r: 13 },
+      { x: 170, y: 130, r: 11 }, { x: 100, y: 70, r: 10 }
+    ];
+    function sfdScene(variant) {
+      var sun = variant === 1 ? '#f59e0b' : '#fbbf24';
+      var roof = variant === 1 ? '#7c3aed' : '#CC1010';
+      var flag = variant === 1 ? 0 : 1;
+      return '<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">'
+        + '<rect width="220" height="160" fill="#dbeafe"/>'
+        + '<circle cx="30" cy="20" r="14" fill="' + sun + '"/>'
+        + '<rect x="0" y="120" width="220" height="40" fill="#86efac"/>'
+        + '<rect x="70" y="90" width="60" height="40" fill="#fde68a" stroke="#1a1a1a" stroke-width="2"/>'
+        + '<polygon points="65,90 100,60 135,90" fill="' + roof + '" stroke="#1a1a1a" stroke-width="2"/>'
+        + '<rect x="90" y="105" width="18" height="25" fill="#78350f"/>'
+        + (flag ? '<rect x="150" y="28" width="4" height="24" fill="#1a1a1a"/><polygon points="154,28 174,34 154,40" fill="#0284c7"/>' : '<rect x="150" y="40" width="4" height="12" fill="#1a1a1a"/><circle cx="152" cy="40" r="8" fill="#0284c7"/>')
+        + '<circle cx="60" cy="110" r="' + (variant === 1 ? 13 : 9) + '" fill="#16a34a"/>'
+        + '<circle cx="170" cy="130" r="11" fill="' + (variant === 1 ? '#db2777' : '#f59e0b') + '"/>'
+        + '<rect x="95" y="65" width="10" height="10" fill="' + (variant === 1 ? '#0284c7' : '#fdecea') + '"/>'
+        + '</svg>';
+    }
+    function loadSfd() {
+      var wrap = document.getElementById('perSfdWrap');
+      var spotsHtml = SFD_DIFFS.map(function(s, i){
+        return '<div class="per-sfd-spot" data-idx="' + i + '" style="left:' + (s.x - s.r) + 'px;top:' + (s.y - s.r) + 'px;width:' + (s.r*2) + 'px;height:' + (s.r*2) + 'px;" onclick="perSfdFind(' + i + ')"></div>';
+      }).join('');
+      wrap.innerHTML =
+        '<div class="per-sfd-img">' + sfdScene(0) + '</div>'
+        + '<div class="per-sfd-img" style="position:relative;">' + sfdScene(1) + spotsHtml + '</div>';
+      window._perSfdFound = {};
+      document.getElementById('perSfdStatus').textContent = '0 of ' + SFD_DIFFS.length + ' found';
+    }
+    window.perSfdFind = function(i) {
+      if (window._perSfdFound[i]) return;
+      window._perSfdFound[i] = true;
+      document.querySelector('.per-sfd-spot[data-idx="' + i + '"]').classList.add('found');
+      var found = Object.keys(window._perSfdFound).length;
+      document.getElementById('perSfdStatus').textContent = found + ' of ' + SFD_DIFFS.length + ' found' + (found === SFD_DIFFS.length ? ' — Tapos na! 🎉' : '');
+    };
   })();
   </script>
 </body>
