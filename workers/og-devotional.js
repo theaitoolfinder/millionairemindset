@@ -58,6 +58,12 @@ async function fetchDevotionsData() {
   return res.json();
 }
 
+/* Wikimedia requires a descriptive User-Agent identifying the app and a
+   contact point (https://meta.wikimedia.org/wiki/User-Agent_policy).
+   Without it, requests from Cloudflare Workers' shared IP ranges get
+   silently rejected/rate-limited. */
+const WM_HEADERS = { 'User-Agent': 'MillionaireMindsetOG/1.0 (https://www.millionairemindset.ae; hello@millionairemindset.ae)' };
+
 async function resolveWikiImage(query) {
   const cache = caches.default;
   const cacheKey = new Request('https://og-cache.internal/wiki-image?q=' + encodeURIComponent(query));
@@ -69,7 +75,8 @@ async function resolveWikiImage(query) {
       const searchUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=search'
         + '&srnamespace=6&srlimit=20&srsearch=' + encodeURIComponent(q)
         + '&format=json&origin=*';
-      const searchRes = await fetch(searchUrl);
+      const searchRes = await fetch(searchUrl, { headers: WM_HEADERS });
+      if (!searchRes.ok) return [];
       const searchData = await searchRes.json();
       return ((searchData.query && searchData.query.search) || []).filter(h => {
         const t = h.title.toLowerCase();
@@ -88,7 +95,8 @@ async function resolveWikiImage(query) {
     const infoUrl = 'https://commons.wikimedia.org/w/api.php?action=query'
       + '&titles=' + encodeURIComponent(pick.title)
       + '&prop=imageinfo&iiprop=url|size&iiurlwidth=1200&format=json&origin=*';
-    const infoRes = await fetch(infoUrl);
+    const infoRes = await fetch(infoUrl, { headers: WM_HEADERS });
+    if (!infoRes.ok) return null;
     const infoData = await infoRes.json();
     const pages = infoData.query && infoData.query.pages;
     if (!pages) return null;
