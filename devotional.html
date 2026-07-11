@@ -500,37 +500,14 @@
 
 <script>
 /* ══ WIKIMEDIA IMAGE LOADER ══ */
-/* Philippine nature photo categories on Wikimedia Commons — verified to contain 10+ actual JPG photos */
-var PHIL_CATS = [
-  'Banaue_Rice_Terraces',
-  'El_Nido,_Palawan',
-  'Landscapes_of_the_Philippines',
-  'Mountains_of_the_Philippines',
-  'Rivers_of_the_Philippines',
-  'Chocolate_Hills',
-  'Tubbataha_Reef',
-  'Mount_Apo',
-  'Mount_Pulag',
-  'Boracay',
-  'Siargao',
-  'Coron,_Palawan',
-  'Batanes',
-  'Taal_Volcano',
-  'Hundred_Islands_National_Park',
-  'Mount_Pinatubo',
-  'Apo_Island',
-  'Hinatuan_Enchanted_River'
-];
-
-/* Seed a counter so each devotion card gets a different photo */
-var _wikiSeed = 0;
+/* Each devotion has its own imgQuery (e.g. "Mayon Volcano eruption
+   landscape Philippines"). We search Commons for that exact query and
+   deterministically take the top valid photo match — same image every
+   time for the same day, and the same result the og-devotional Worker
+   resolves server-side for link-preview cards.                       */
+var IMG_BAD = /book|cover|map|flag|seal|coat|logo|stamp|icon|portrait|drawing|illustration|diagram|chart|poster|text/i;
 
 function loadWikiImage(query, containerId, creditId) {
-  /* Rotate categories so each devotion card gets a different scene */
-  var catKey = PHIL_CATS[(_wikiSeed++) % PHIL_CATS.length];
-  /* API uses spaces not underscores */
-  var catName = 'Category:' + catKey.replace(/_/g, ' ');
-
   function setImage(src, title, credit) {
     var c = document.getElementById(containerId);
     if (!c) return;
@@ -546,23 +523,26 @@ function loadWikiImage(query, containerId, creditId) {
 
   /* Fetch up to 50 files from the category, then pick one randomly */
   var catUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers'
-    + '&cmtitle=' + encodeURIComponent(catName)
-    + '&cmtype=file&cmlimit=50&format=json&origin=*';
+  var searchUrl = 'https://commons.wikimedia.org/w/api.php?action=query&list=search'
+    + '&srnamespace=6&srlimit=20&srsearch=' + encodeURIComponent(query || 'Philippines landscape')
+    + '&format=json&origin=*';
 
-  fetch(catUrl)
+  fetch(searchUrl)
     .then(function(r){ return r.json(); })
     .then(function(data){
-      var members = (data.query && data.query.categorymembers) || [];
-      var jpgs = members.filter(function(m){ return /\.(jpg|jpeg)$/i.test(m.title); });
-      return jpgs;
+      var hits = (data.query && data.query.search) || [];
+      return hits.filter(function(h){
+        var t = h.title.toLowerCase();
+        return !IMG_BAD.test(t) && /\.(jpe?g|png)$/i.test(t);
+      });
     })
-    .then(function(jpgs){
-      if (!jpgs || !jpgs.length) { hideIllus(containerId, creditId); return; }
-      var pick = jpgs[Math.floor(Math.random() * jpgs.length)];
+    .then(function(hits){
+      if (!hits || !hits.length) { hideIllus(containerId, creditId); return; }
+      var pick = hits[0]; // deterministic — same query always returns the same top match
       /* Step 2 — get the actual image URL */
       var infoUrl = 'https://commons.wikimedia.org/w/api.php?action=query'
         + '&titles=' + encodeURIComponent(pick.title)
-        + '&prop=imageinfo&iiprop=url|mime|size|extmetadata&iiurlwidth=600&format=json&origin=*';
+        + '&prop=imageinfo&iiprop=url|mime|size|extmetadata&iiurlwidth=1200&format=json&origin=*';
       return fetch(infoUrl).then(function(r){ return r.json(); }).then(function(d){
         var pages = d.query && d.query.pages;
         if (!pages) { hideIllus(containerId, creditId); return; }
@@ -596,9 +576,28 @@ var currentEdition = localStorage.getItem('mm_devotional_edition') || 'kids';
 var currentDate = new Date();
 var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var EDITION_LABEL = { kids:'Kids', yuppies:'Yuppies', primes:'Primes' };
 function formatDate(d) { return MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear(); }
 function shiftDay(delta) { currentDate = new Date(currentDate.getTime() + delta*86400000); render(); }
 function setEdition(ed) { currentEdition = ed; localStorage.setItem('mm_devotional_edition', ed); render(); }
+
+/* ── Per-day shareable URL ── */
+function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+function dateISO(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); }
+
+/* Read ?date=YYYY-MM-DD&edition=kids from the URL so a shared link opens
+   on the exact day/edition it was shared from. */
+(function initFromURL() {
+  var params = new URLSearchParams(window.location.search);
+  var ed = params.get('edition');
+  var d  = params.get('date');
+  if (ed && EDITION_LABEL[ed]) currentEdition = ed;
+  if (d && /^\d{4}-\d{2}-\d{2}$/.test(d)) {
+    var parts = d.split('-');
+    var parsed = new Date(+parts[0], +parts[1] - 1, +parts[2]);
+    if (!isNaN(parsed.getTime())) currentDate = parsed;
+  }
+})();
 
 /* ── SVG icons ── */
 function svgBook(){ return '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'; }
@@ -741,16 +740,28 @@ function render() {
   document.getElementById('devFullDate').textContent = formatDate(currentDate);
   var content = document.getElementById('devContent');
   if (currentEdition === 'kids') {
-    content.innerHTML = renderKids(kidsDevotions[doy], doy);
-    loadWikiImage(kidsDevotions[doy].imgQuery, 'ki-'+doy, 'kc-'+doy);
+    currentDevotion = kidsDevotions[doy];
+    content.innerHTML = renderKids(currentDevotion, doy);
+    loadWikiImage(currentDevotion.imgQuery, 'ki-'+doy, 'kc-'+doy);
   } else if (currentEdition === 'yuppies') {
-    content.innerHTML = renderYuppies(yuppiesDevotions[doy], doy);
-    loadWikiImage(yuppiesDevotions[doy].imgQuery, 'yi-'+doy, 'yc-'+doy);
+    currentDevotion = yuppiesDevotions[doy];
+    content.innerHTML = renderYuppies(currentDevotion, doy);
+    loadWikiImage(currentDevotion.imgQuery, 'yi-'+doy, 'yc-'+doy);
   } else {
-    content.innerHTML = renderPrimes(primesDevotions[doy], doy);
-    loadWikiImage(primesDevotions[doy].imgQuery, 'pi-'+doy, 'pc-'+doy);
+    currentDevotion = primesDevotions[doy];
+    content.innerHTML = renderPrimes(currentDevotion, doy);
+    loadWikiImage(currentDevotion.imgQuery, 'pi-'+doy, 'pc-'+doy);
+  }
+
+  /* Sync the URL and tab title to this exact day + edition so the
+     current link is always the specific day being viewed. */
+  document.title = currentDevotion.title + ' — ' + EDITION_LABEL[currentEdition] + ' Devotional | Millionaire Mindset';
+  var qs = '?date=' + dateISO(currentDate) + '&edition=' + currentEdition;
+  if (window.location.search !== qs) {
+    history.replaceState(null, '', window.location.pathname + qs);
   }
 }
+var currentDevotion = null;
 
 document.addEventListener('DOMContentLoaded', function(){
   render();
@@ -849,9 +860,11 @@ function calJumpMonth(monthIdx, y, e) {
       if (content && content.parentNode) content.parentNode.insertBefore(bar, content.nextSibling);
     }
     bar.innerHTML = '';
+    var devTitle = currentDevotion ? currentDevotion.title : "Today's Devotional";
     mmShareBar('devShareBar', {
       url: window.location.href,
-      title: "Today's devotional from Millionaire Mindset — a daily word for OFWs and their families.",
+      title: devTitle + ' — ' + EDITION_LABEL[currentEdition] + ' Devotional | Millionaire Mindset',
+      msg: '"' + devTitle + '" — a daily word for OFWs and their families. Read it here:',
     });
   };
 </script>
