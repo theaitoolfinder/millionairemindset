@@ -40,6 +40,38 @@ function todayKey() {
   return d.getUTCFullYear() + '-' + (d.getUTCMonth() + 1) + '-' + d.getUTCDate();
 }
 
+/* Usage tracking for the admin "API Usage" dashboard — records tokens
+   actually spent on Claude calls (never on cache hits) into a shared KV
+   namespace. No-ops silently if USAGE_KV isn't bound, so this never
+   breaks the worker's real job. */
+function extractUsage(data) {
+  const u = data.usage || {};
+  const webSearchCalls = (data.content || []).filter(b => b.type === 'server_tool_use' && b.name === 'web_search').length;
+  return {
+    input_tokens: u.input_tokens || 0,
+    output_tokens: u.output_tokens || 0,
+    cache_creation_input_tokens: u.cache_creation_input_tokens || 0,
+    cache_read_input_tokens: u.cache_read_input_tokens || 0,
+    web_search_calls: webSearchCalls,
+  };
+}
+async function recordUsage(env, worker, usage) {
+  if (!env.USAGE_KV) return;
+  try {
+    const day = new Date().toISOString().slice(0, 10);
+    const key = 'usage:' + worker + ':' + day;
+    const existingRaw = await env.USAGE_KV.get(key);
+    const u = existingRaw ? JSON.parse(existingRaw) : { calls: 0, input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 0, cache_read_input_tokens: 0, web_search_calls: 0 };
+    u.calls += 1;
+    u.input_tokens += usage.input_tokens;
+    u.output_tokens += usage.output_tokens;
+    u.cache_creation_input_tokens += usage.cache_creation_input_tokens;
+    u.cache_read_input_tokens += usage.cache_read_input_tokens;
+    u.web_search_calls += usage.web_search_calls;
+    await env.USAGE_KV.put(key, JSON.stringify(u), { expirationTtl: 60 * 60 * 24 * 400 });
+  } catch {}
+}
+
 async function researchStory(apiKey) {
   const prompt = `Search the web for a real, specific, recently-published news story (from a Philippine news outlet, DOLE/DMW feature, or similar credible source) about an OFW (Overseas Filipino Worker) success story — someone who built a business, invested in property, achieved financial independence, or had a notable career/entrepreneurship win after working abroad.
 
@@ -71,7 +103,7 @@ Respond with ONLY this JSON object, no markdown, no explanation:
   const combined = textBlocks.join('\n');
   const jsonMatch = combined.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error('no JSON object in response');
-  return JSON.parse(jsonMatch[0]);
+  return { result: JSON.parse(jsonMatch[0]), usage: extractUsage(data) };
 }
 
 export default {
@@ -88,8 +120,9 @@ export default {
     }
 
     try {
-      const story = await researchStory(env.ANTHROPIC_API_KEY);
-      const payload = JSON.stringify({ status: 'ok', day: todayKey(), ...story });
+      const research = await researchStory(env.ANTHROPIC_API_KEY);
+      ctx.waitUntil(recordUsage(env, 'success', research.usage));
+      const payload = JSON.stringify({ status: 'ok', day: todayKey(), ...research.result });
       const toCache = new Response(payload, { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=86400' } });
       ctx.waitUntil(cache.put(cacheKey, toCache));
       return new Response(payload, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });

@@ -69,6 +69,38 @@ function stripHtml(s) {
   return (s || '').replace(/<[^>]+>/g, '').trim();
 }
 
+/* Usage tracking for the admin "API Usage" dashboard — records tokens
+   actually spent on Claude calls (never on cache hits) into a shared KV
+   namespace. No-ops silently if USAGE_KV isn't bound, so this never
+   breaks the worker's real job. */
+function extractUsage(data) {
+  const u = data.usage || {};
+  const webSearchCalls = (data.content || []).filter(b => b.type === 'server_tool_use' && b.name === 'web_search').length;
+  return {
+    input_tokens: u.input_tokens || 0,
+    output_tokens: u.output_tokens || 0,
+    cache_creation_input_tokens: u.cache_creation_input_tokens || 0,
+    cache_read_input_tokens: u.cache_read_input_tokens || 0,
+    web_search_calls: webSearchCalls,
+  };
+}
+async function recordUsage(env, worker, usage) {
+  if (!env.USAGE_KV) return;
+  try {
+    const day = new Date().toISOString().slice(0, 10);
+    const key = 'usage:' + worker + ':' + day;
+    const existingRaw = await env.USAGE_KV.get(key);
+    const u = existingRaw ? JSON.parse(existingRaw) : { calls: 0, input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 0, cache_read_input_tokens: 0, web_search_calls: 0 };
+    u.calls += 1;
+    u.input_tokens += usage.input_tokens;
+    u.output_tokens += usage.output_tokens;
+    u.cache_creation_input_tokens += usage.cache_creation_input_tokens;
+    u.cache_read_input_tokens += usage.cache_read_input_tokens;
+    u.web_search_calls += usage.web_search_calls;
+    await env.USAGE_KV.put(key, JSON.stringify(u), { expirationTtl: 60 * 60 * 24 * 400 });
+  } catch {}
+}
+
 /* Philstar's RSS doesn't embed a thumbnail, but each article page has a
    proper og:image — fetch it directly so the newspaper actually looks
    like a newspaper. Runs in parallel across all items; a failure on any
@@ -109,7 +141,7 @@ ${JSON.stringify(source, null, 2)}`;
   if (!text) throw new Error('empty Claude response');
   const jsonMatch = text.match(/\[[\s\S]*\]/);
   if (!jsonMatch) throw new Error('no JSON array in Claude response');
-  return JSON.parse(jsonMatch[0]);
+  return { result: JSON.parse(jsonMatch[0]), usage: extractUsage(data) };
 }
 
 export default {
@@ -143,9 +175,10 @@ export default {
         rewriteWithClaude(items, env.ANTHROPIC_API_KEY),
         Promise.all(items.map(it => fetchOgImage(it.link))),
       ]);
+      ctx.waitUntil(recordUsage(env, 'news-' + feedKey, rewritten.usage));
 
       const result = items.map((it, i) => {
-        const r = rewritten.find(x => x.id === i) || {};
+        const r = rewritten.result.find(x => x.id === i) || {};
         return {
           title: r.title || it.title,
           summary: r.summary || stripHtml(it.description).slice(0, 200),

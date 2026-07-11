@@ -754,6 +754,9 @@
       <!-- GROUP 4: System -->
       <div class="tab-group">
         <span class="tab-group-label">System</span>
+        <button class="admin-tab" onclick="showPage('usage',this)">
+          <span class="tab-icon">📊</span> API Usage
+        </button>
         <button class="admin-tab" onclick="showPage('settings',this)">
           <span class="tab-icon">⚙️</span> Settings
         </button>
@@ -855,6 +858,43 @@
           </button>
         </div>
       </div>
+    </div>
+
+    <!-- ─────────────────────── API USAGE PAGE ─── -->
+    <div class="admin-page" id="page-usage">
+      <div class="page-head">
+        <div>
+          <h2>API Usage</h2>
+          <p>Claude API tokens and estimated cost spent by each Periodico worker. Every worker calls Claude at most once per day (results are cached), so these numbers should stay small and predictable.</p>
+        </div>
+      </div>
+
+      <div id="usage-key-gate" style="display:none;">
+        <div class="settings-section">
+          <h3>Connect</h3>
+          <div class="settings-row">
+            <div class="settings-row-info">
+              <div class="settings-row-label">Usage Stats Key</div>
+              <div class="settings-row-sub">The ADMIN_STATS_KEY secret set on the mm-periodico-usage Cloudflare Worker. Kept only in this browser tab — never saved to the site.</div>
+            </div>
+            <div style="display:flex; gap:8px; align-items:center; flex-shrink:0;">
+              <input type="password" id="usage-key-input" placeholder="Stats key" style="padding:9px 14px; border:1.5px solid var(--border); border-radius:9px; font:500 .85rem Poppins,sans-serif; width:220px; outline:none;" onkeydown="if(event.key==='Enter')connectUsage()" />
+              <button class="btn-primary" onclick="connectUsage()">Connect</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="usage-content" style="display:none;">
+        <div style="display:flex; justify-content:flex-end; margin-bottom:12px;">
+          <button class="btn-secondary" onclick="loadUsage(true)">↻ Refresh</button>
+        </div>
+        <div id="usage-cards" class="payment-grid"><!-- rendered by JS --></div>
+        <div id="usage-tables" style="margin-top:24px;"><!-- rendered by JS --></div>
+      </div>
+
+      <div id="usage-loading" style="color:var(--text-dim); font:500 .85rem Poppins,sans-serif; padding:20px 0;">Loading…</div>
+      <div id="usage-error" style="display:none; color:#dc2626; font:500 .85rem Poppins,sans-serif; padding:20px 0;"></div>
     </div>
 
     <!-- ─────────────────────── SETTINGS PAGE ─── -->
@@ -1501,6 +1541,7 @@ function showPage(name, btn) {
   if (name === 'inventory') renderInventory();
   if (name === 'reports')   renderReports();
   if (name === 'research')  loadResearch();
+  if (name === 'usage')     loadUsage();
 }
 
 /* ═══════════════════════════════════════════════════
@@ -2226,6 +2267,106 @@ function resUndo(id) {
   setResState(s);
   renderResearch(_resData);
   showToast('Recommendation restored', 'success');
+}
+
+/* ═══════════════════════════════════════════════════
+   API USAGE
+═══════════════════════════════════════════════════ */
+var USAGE_WORKER_URL = 'https://mm-periodico-usage.info-myaitoolbox.workers.dev';
+var USAGE_LABELS = { 'news-business': 'Business News', 'news-sports': 'Sports News', 'news-entertainment': 'Entertainment News', 'streaming': 'Streaming Picks', 'consulate': 'Consulate Watch', 'success': 'OFW Success Story' };
+
+function connectUsage() {
+  var val = (document.getElementById('usage-key-input').value || '').trim();
+  if (!val) return;
+  sessionStorage.setItem('mm_usage_key', val);
+  loadUsage(true);
+}
+
+function loadUsage(force) {
+  var gate = document.getElementById('usage-key-gate');
+  var content = document.getElementById('usage-content');
+  var loading = document.getElementById('usage-loading');
+  var errEl = document.getElementById('usage-error');
+  var key = sessionStorage.getItem('mm_usage_key');
+
+  if (!key) {
+    gate.style.display = '';
+    content.style.display = 'none';
+    loading.style.display = 'none';
+    errEl.style.display = 'none';
+    return;
+  }
+
+  gate.style.display = 'none';
+  loading.style.display = '';
+  errEl.style.display = 'none';
+  content.style.display = 'none';
+
+  fetch(USAGE_WORKER_URL, { headers: { 'X-Admin-Key': key } })
+    .then(function(r) {
+      if (r.status === 401) { sessionStorage.removeItem('mm_usage_key'); throw new Error('Stats key rejected — check the key and try again.'); }
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(data) {
+      if (data.status !== 'ok') throw new Error(data.error || 'Unknown error');
+      loading.style.display = 'none';
+      content.style.display = '';
+      renderUsage(data);
+    })
+    .catch(function(err) {
+      loading.style.display = 'none';
+      errEl.style.display = '';
+      errEl.textContent = err.message;
+      if (!sessionStorage.getItem('mm_usage_key')) gate.style.display = '';
+    });
+}
+
+function fmtUsd(n) {
+  return '$' + n.toFixed(n < 1 ? 4 : 2);
+}
+function fmtTok(n) {
+  if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+  return String(n);
+}
+
+function renderUsage(data) {
+  var workers = Object.keys(data.byWorker).sort();
+  var cardsEl = document.getElementById('usage-cards');
+  var tablesEl = document.getElementById('usage-tables');
+
+  if (!workers.length) {
+    cardsEl.innerHTML = '<p style="color:var(--text-dim);font:500 .85rem Poppins,sans-serif;">No usage recorded yet — check back after the workers have run at least once.</p>';
+    tablesEl.innerHTML = '';
+    return;
+  }
+
+  var totalToday = 0, total30 = 0;
+  workers.forEach(function(w) { totalToday += data.byWorker[w].today.cost; total30 += data.byWorker[w].last30.cost; });
+
+  cardsEl.innerHTML = '<div class="form-card"><h3>Today (all workers)</h3><p style="font:800 1.6rem Poppins,sans-serif;color:var(--text);margin-top:6px;">' + fmtUsd(totalToday) + '</p></div>'
+    + '<div class="form-card"><h3>Last 30 days (all workers)</h3><p style="font:800 1.6rem Poppins,sans-serif;color:var(--text);margin-top:6px;">' + fmtUsd(total30) + '</p></div>'
+    + workers.map(function(w) {
+        var d = data.byWorker[w];
+        var label = USAGE_LABELS[w] || w;
+        return '<div class="form-card"><h3>' + label + '</h3>'
+          + '<p style="font:800 1.3rem Poppins,sans-serif;color:var(--text);margin-top:6px;">' + fmtUsd(d.today.cost) + ' <span style="font:600 .7rem Poppins,sans-serif;color:var(--text-dim);">today</span></p>'
+          + '<p style="font:600 .78rem Poppins,sans-serif;color:var(--text-dim);margin-top:4px;">' + fmtUsd(d.last30.cost) + ' last 30 days · ' + d.last30.calls + ' calls</p>'
+          + '</div>';
+      }).join('');
+
+  tablesEl.innerHTML = workers.map(function(w) {
+    var d = data.byWorker[w];
+    var label = USAGE_LABELS[w] || w;
+    var rows = d.days.map(function(day) {
+      return '<tr><td>' + day.day + '</td><td>' + day.calls + '</td><td>' + fmtTok(day.input_tokens) + '</td><td>' + fmtTok(day.output_tokens) + '</td><td>' + day.web_search_calls + '</td><td>' + fmtUsd(day.cost) + '</td></tr>';
+    }).join('');
+    return '<div class="settings-section"><h3>' + label + ' — last 30 days</h3>'
+      + '<table style="width:100%;border-collapse:collapse;font:500 .8rem Poppins,sans-serif;">'
+      + '<thead><tr style="text-align:left;color:var(--text-dim);border-bottom:1.5px solid var(--border);"><th style="padding:8px 6px;">Day</th><th style="padding:8px 6px;">Calls</th><th style="padding:8px 6px;">Input tok</th><th style="padding:8px 6px;">Output tok</th><th style="padding:8px 6px;">Searches</th><th style="padding:8px 6px;">Est. cost</th></tr></thead>'
+      + '<tbody>' + rows + '</tbody></table></div>';
+  }).join('');
 }
 
 function loadResearch(force) {

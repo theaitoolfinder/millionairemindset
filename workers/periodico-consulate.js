@@ -45,6 +45,38 @@ function todayKey() {
   return d.getUTCFullYear() + '-' + (d.getUTCMonth() + 1) + '-' + d.getUTCDate();
 }
 
+/* Usage tracking for the admin "API Usage" dashboard — records tokens
+   actually spent on Claude calls (never on cache hits) into a shared KV
+   namespace. No-ops silently if USAGE_KV isn't bound, so this never
+   breaks the worker's real job. */
+function extractUsage(data) {
+  const u = data.usage || {};
+  const webSearchCalls = (data.content || []).filter(b => b.type === 'server_tool_use' && b.name === 'web_search').length;
+  return {
+    input_tokens: u.input_tokens || 0,
+    output_tokens: u.output_tokens || 0,
+    cache_creation_input_tokens: u.cache_creation_input_tokens || 0,
+    cache_read_input_tokens: u.cache_read_input_tokens || 0,
+    web_search_calls: webSearchCalls,
+  };
+}
+async function recordUsage(env, worker, usage) {
+  if (!env.USAGE_KV) return;
+  try {
+    const day = new Date().toISOString().slice(0, 10);
+    const key = 'usage:' + worker + ':' + day;
+    const existingRaw = await env.USAGE_KV.get(key);
+    const u = existingRaw ? JSON.parse(existingRaw) : { calls: 0, input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 0, cache_read_input_tokens: 0, web_search_calls: 0 };
+    u.calls += 1;
+    u.input_tokens += usage.input_tokens;
+    u.output_tokens += usage.output_tokens;
+    u.cache_creation_input_tokens += usage.cache_creation_input_tokens;
+    u.cache_read_input_tokens += usage.cache_read_input_tokens;
+    u.web_search_calls += usage.web_search_calls;
+    await env.USAGE_KV.put(key, JSON.stringify(u), { expirationTtl: 60 * 60 * 24 * 400 });
+  } catch {}
+}
+
 async function researchCountry(country, apiKey) {
   const prompt = `Search the web for the most recent, currently-relevant news from the Philippine Embassy or Consulate General in ${country} — announcements, events, service schedules, visa/amnesty reminders, or advisories for Overseas Filipino Workers. Prioritize official Philippine government sources (dfa.gov.ph, dmw.gov.ph, or the specific embassy/consulate site for ${country}) and recent OFW-relevant news coverage.
 
@@ -72,7 +104,7 @@ Respond with ONLY this JSON object, no markdown, no explanation:
   const combined = textBlocks.join('\n');
   const jsonMatch = combined.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error('no JSON object in response for ' + country);
-  return JSON.parse(jsonMatch[0]);
+  return { result: JSON.parse(jsonMatch[0]), usage: extractUsage(data) };
 }
 
 export default {
@@ -101,7 +133,9 @@ export default {
     }
 
     try {
-      const data = await researchCountry(country, env.ANTHROPIC_API_KEY);
+      const research = await researchCountry(country, env.ANTHROPIC_API_KEY);
+      ctx.waitUntil(recordUsage(env, 'consulate', research.usage));
+      const data = research.result;
       const payload = JSON.stringify({ status: 'ok', day: todayKey(), country, bullets: data.bullets || [], sources: data.sources || [] });
       const toCache = new Response(payload, { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=86400' } });
       ctx.waitUntil(cache.put(cacheKey, toCache));

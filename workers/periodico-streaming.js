@@ -48,6 +48,38 @@ function todayKey() {
   return d.getUTCFullYear() + '-' + (d.getUTCMonth() + 1) + '-' + d.getUTCDate();
 }
 
+/* Usage tracking for the admin "API Usage" dashboard — records tokens
+   actually spent on Claude calls (never on cache hits) into a shared KV
+   namespace. No-ops silently if USAGE_KV isn't bound, so this never
+   breaks the worker's real job. */
+function extractUsage(data) {
+  const u = data.usage || {};
+  const webSearchCalls = (data.content || []).filter(b => b.type === 'server_tool_use' && b.name === 'web_search').length;
+  return {
+    input_tokens: u.input_tokens || 0,
+    output_tokens: u.output_tokens || 0,
+    cache_creation_input_tokens: u.cache_creation_input_tokens || 0,
+    cache_read_input_tokens: u.cache_read_input_tokens || 0,
+    web_search_calls: webSearchCalls,
+  };
+}
+async function recordUsage(env, worker, usage) {
+  if (!env.USAGE_KV) return;
+  try {
+    const day = new Date().toISOString().slice(0, 10);
+    const key = 'usage:' + worker + ':' + day;
+    const existingRaw = await env.USAGE_KV.get(key);
+    const u = existingRaw ? JSON.parse(existingRaw) : { calls: 0, input_tokens: 0, output_tokens: 0, cache_creation_input_tokens: 0, cache_read_input_tokens: 0, web_search_calls: 0 };
+    u.calls += 1;
+    u.input_tokens += usage.input_tokens;
+    u.output_tokens += usage.output_tokens;
+    u.cache_creation_input_tokens += usage.cache_creation_input_tokens;
+    u.cache_read_input_tokens += usage.cache_read_input_tokens;
+    u.web_search_calls += usage.web_search_calls;
+    await env.USAGE_KV.put(key, JSON.stringify(u), { expirationTtl: 60 * 60 * 24 * 400 });
+  } catch {}
+}
+
 async function researchStreaming(apiKey) {
   const prompt = `Search the web for what is currently new or trending this week on Netflix, Prime Video, Disney+, HBO/Max, iWantTFC, or Viu — movies or shows worth watching, including any new Filipino/Pinoy titles if available. Aim for a mix that would appeal to Overseas Filipino Workers relaxing after a shift.
 
@@ -77,7 +109,7 @@ Respond with ONLY this JSON object, no markdown, no explanation:
   const combined = textBlocks.join('\n');
   const jsonMatch = combined.match(/\{[\s\S]*\}/);
   if (!jsonMatch) throw new Error('no JSON object in response');
-  return JSON.parse(jsonMatch[0]);
+  return { result: JSON.parse(jsonMatch[0]), usage: extractUsage(data) };
 }
 
 /* Look up a poster on TMDB by title. Movies and series live in separate
@@ -131,8 +163,9 @@ export default {
     }
 
     try {
-      const data = await researchStreaming(env.ANTHROPIC_API_KEY);
-      const rawPicks = data.picks || [];
+      const research = await researchStreaming(env.ANTHROPIC_API_KEY);
+      ctx.waitUntil(recordUsage(env, 'streaming', research.usage));
+      const rawPicks = research.result.picks || [];
 
       const picks = await Promise.all(rawPicks.map(async p => ({
         ...p,
