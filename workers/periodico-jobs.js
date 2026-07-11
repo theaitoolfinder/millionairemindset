@@ -87,7 +87,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
 
     const cache = caches.default;
-    const cacheKey = new Request('https://periodico-jobs.internal/edition?v=3&day=' + todayKey());
+    const cacheKey = new Request('https://periodico-jobs.internal/edition?v=4&day=' + todayKey());
     const cached = await cache.match(cacheKey);
     if (cached) {
       const body = await cached.text();
