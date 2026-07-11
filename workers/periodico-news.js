@@ -25,8 +25,9 @@ const ALLOWED_ORIGINS = [
   'http://127.0.0.1',
 ];
 const FEEDS = {
-  business: { url: 'https://www.philstar.com/rss/business', source: 'Philstar.com Business' },
-  sports:   { url: 'https://www.philstar.com/rss/sports',   source: 'Philstar.com Sports' },
+  business:      { url: 'https://www.philstar.com/rss/business',      source: 'Philstar.com Business' },
+  sports:        { url: 'https://www.philstar.com/rss/sports',        source: 'Philstar.com Sports' },
+  entertainment: { url: 'https://www.philstar.com/rss/entertainment', source: 'Philstar.com Entertainment' },
 };
 
 function decodeEntities(s) {
