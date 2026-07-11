@@ -9,10 +9,17 @@
  * Never invents a title. If nothing verifiable is found, returns an
  * empty list rather than making something up.
  *
+ * Poster art comes from TMDB (themoviedb.org) — matched by title after
+ * Claude finds each pick, since Claude's web search doesn't reliably
+ * return clean, valid poster image URLs. A pick without a TMDB match
+ * still shows (title/platform/blurb), just without a poster.
+ *
  * Cached at Cloudflare's edge for 24h — Claude + web search runs once
  * per day total, not per visitor.
  *
- * Worker secret required: ANTHROPIC_API_KEY (console.anthropic.com)
+ * Worker secrets required:
+ *   ANTHROPIC_API_KEY — Claude API key (console.anthropic.com)
+ *   TMDB_API_KEY       — TMDB API Read Access Token (themoviedb.org/settings/api)
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -69,6 +76,25 @@ Respond with ONLY this JSON object, no markdown, no explanation:
   return JSON.parse(jsonMatch[0]);
 }
 
+/* Look up a poster on TMDB by title. Movies and series live in separate
+   TMDB endpoints, so /search/multi covers both without needing to trust
+   Claude's "Movie"/"Series" label. Returns '' (no poster) on any miss —
+   never blocks the pick from showing without one. */
+async function findPoster(title, readAccessToken) {
+  try {
+    const url = 'https://api.themoviedb.org/3/search/multi?query=' + encodeURIComponent(title) + '&include_adult=false';
+    const res = await fetch(url, {
+      headers: { Authorization: 'Bearer ' + readAccessToken, Accept: 'application/json' },
+    });
+    if (!res.ok) return '';
+    const data = await res.json();
+    const hit = (data.results || []).find(r => (r.media_type === 'movie' || r.media_type === 'tv') && r.poster_path);
+    return hit ? 'https://image.tmdb.org/t/p/w342' + hit.poster_path : '';
+  } catch {
+    return '';
+  }
+}
+
 export default {
   async fetch(request, env, ctx) {
     const origin = request.headers.get('Origin') || '';
@@ -84,7 +110,13 @@ export default {
 
     try {
       const data = await researchStreaming(env.ANTHROPIC_API_KEY);
-      const payload = JSON.stringify({ status: 'ok', day: todayKey(), picks: data.picks || [] });
+      const rawPicks = data.picks || [];
+
+      const picks = env.TMDB_API_KEY
+        ? await Promise.all(rawPicks.map(async p => ({ ...p, poster: await findPoster(p.title, env.TMDB_API_KEY) })))
+        : rawPicks;
+
+      const payload = JSON.stringify({ status: 'ok', day: todayKey(), picks });
       const toCache = new Response(payload, { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=86400' } });
       ctx.waitUntil(cache.put(cacheKey, toCache));
       return new Response(payload, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });

@@ -208,13 +208,15 @@
 .per-job-apply:hover { background:var(--per-brown); color:#fff; }
 
 /* Entertainment */
-.per-streaming-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; margin-bottom:36px; }
-.per-stream-card { background:#fff; border:1px solid #ddd8cc; padding:18px; }
-.per-stream-platform { display:inline-block; font-family:'Oswald',sans-serif; font-size:0.64rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--per-brown); padding:3px 9px; border-radius:3px; margin-bottom:10px; }
-.per-stream-title { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:1.05rem; color:var(--per-brown); margin-bottom:4px; line-height:1.25; }
-.per-stream-type { font-family:'Oswald',sans-serif; font-size:0.66rem; letter-spacing:.04em; text-transform:uppercase; color:#9a9a9a; margin-bottom:8px; }
-.per-stream-blurb { font-family:Georgia,'Times New Roman',serif; font-size:0.86rem; line-height:1.55; color:#4a4a4a; margin-bottom:10px; }
-.per-stream-link { font-family:'Oswald',sans-serif; font-size:0.68rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; color:var(--per-brown); text-decoration:none; }
+.per-streaming-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:18px; margin-bottom:36px; }
+.per-stream-card { background:#fff; border:1px solid #ddd8cc; overflow:hidden; display:flex; flex-direction:column; }
+.per-stream-poster { width:100%; aspect-ratio:2/3; object-fit:cover; background:#e5e1d8; display:block; }
+.per-stream-body { padding:14px; flex:1; display:flex; flex-direction:column; }
+.per-stream-platform { display:inline-block; font-family:'Oswald',sans-serif; font-size:0.62rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:#fff; background:var(--per-brown); padding:3px 9px; border-radius:3px; margin-bottom:9px; align-self:flex-start; }
+.per-stream-title { font-family:Georgia,'Times New Roman',serif; font-weight:700; font-size:1rem; color:var(--per-brown); margin-bottom:4px; line-height:1.25; }
+.per-stream-type { font-family:'Oswald',sans-serif; font-size:0.64rem; letter-spacing:.04em; text-transform:uppercase; color:#9a9a9a; margin-bottom:8px; }
+.per-stream-blurb { font-family:Georgia,'Times New Roman',serif; font-size:0.82rem; line-height:1.5; color:#4a4a4a; margin-bottom:10px; flex:1; }
+.per-stream-link { font-family:'Oswald',sans-serif; font-size:0.66rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; color:var(--per-brown); text-decoration:none; }
 .per-stream-link:hover { text-decoration:underline; }
   </style>
 </head>
@@ -683,20 +685,23 @@
 
     function loadStreamingPicks() {
       var grid = document.getElementById('perStreamingGrid');
-      var cached = dayCache('mm_periodico_streaming_v1');
+      var cached = dayCache('mm_periodico_streaming_v2');
       function render(picks) {
         if (!picks || !picks.length) {
           grid.innerHTML = '<div class="per-loading">No verifiable picks found today — check back tomorrow.</div>';
           return;
         }
         grid.innerHTML = picks.map(function(p){
+          var poster = p.poster ? '<img class="per-stream-poster" src="' + p.poster + '" alt="" loading="lazy" onerror="this.style.display=\'none\'" />' : '';
           return '<div class="per-stream-card">'
-            + '<span class="per-stream-platform">' + escHtml(p.platform) + '</span>'
-            + '<div class="per-stream-title">' + escHtml(p.title) + '</div>'
-            + '<div class="per-stream-type">' + escHtml(p.type || '') + '</div>'
-            + '<div class="per-stream-blurb">' + escHtml(p.blurb) + '</div>'
-            + (p.source_url ? '<a class="per-stream-link" href="' + p.source_url + '" target="_blank" rel="noopener">More info →</a>' : '')
-          + '</div>';
+            + poster
+            + '<div class="per-stream-body">'
+              + '<span class="per-stream-platform">' + escHtml(p.platform) + '</span>'
+              + '<div class="per-stream-title">' + escHtml(p.title) + '</div>'
+              + '<div class="per-stream-type">' + escHtml(p.type || '') + '</div>'
+              + '<div class="per-stream-blurb">' + escHtml(p.blurb) + '</div>'
+              + (p.source_url ? '<a class="per-stream-link" href="' + p.source_url + '" target="_blank" rel="noopener">More info →</a>' : '')
+            + '</div></div>';
         }).join('');
       }
       if (cached) { render(cached); return; }
@@ -705,7 +710,7 @@
         .then(function(data){
           if (data.status !== 'ok') throw new Error(data.error || 'failed');
           render(data.picks);
-          setDayCache('mm_periodico_streaming_v1', data.picks);
+          setDayCache('mm_periodico_streaming_v2', data.picks);
         })
         .catch(function(){ render([]); });
     }
