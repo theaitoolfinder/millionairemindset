@@ -101,22 +101,40 @@ async function recordUsage(env, worker, usage) {
   } catch {}
 }
 
-/* Cloudflare's caches.default is only written AFTER a Claude call finishes,
-   and that write is async. Any request landing in that window is a cache
-   miss and triggers its own real, billable Claude call — on a busy first-
-   hit-of-the-day this can multiply cost several times over with zero
-   benefit. This is a soft lock (KV isn't atomic, so it narrows the race
-   rather than eliminating it entirely) that makes concurrent requests wait
-   for the in-flight generation instead of starting their own. */
-async function acquireGenerationLock(env, cache, cacheKey, lockName) {
+/* Cloudflare's caches.default is LOCAL TO EACH EDGE LOCATION — it is not a
+   global cache. A visitor hitting a different Cloudflare PoP than the one
+   that generated today's result sees a cold cache and triggers its own
+   real, billable Claude call, all day long, not just in a brief startup
+   race. USAGE_KV is globally consistent, so it — not caches.default — is
+   the source of truth for "has this already been generated today?". The
+   edge cache is kept only as a same-PoP speed boost on top of it. */
+async function getCachedPayload(env, cache, cacheKey, contentKey) {
+  const edgeCached = await cache.match(cacheKey);
+  if (edgeCached) return await edgeCached.text();
+  if (env.USAGE_KV) {
+    const kvCached = await env.USAGE_KV.get(contentKey);
+    if (kvCached) return kvCached;
+  }
+  return null;
+}
+function storePayload(env, ctx, cache, cacheKey, contentKey, payload) {
+  ctx.waitUntil(cache.put(cacheKey, new Response(payload, { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=86400' } })));
+  if (env.USAGE_KV) {
+    ctx.waitUntil(env.USAGE_KV.put(contentKey, payload, { expirationTtl: 60 * 60 * 26 }));
+  }
+}
+/* Soft lock (KV isn't atomic, so this narrows the race rather than
+   eliminating it) so concurrent requests wait for an in-flight generation
+   instead of starting their own. */
+async function acquireGenerationLock(env, cache, cacheKey, contentKey, lockName) {
   if (!env.USAGE_KV) return { shouldGenerate: true };
   const lockKey = 'lock:' + lockName;
   const existingLock = await env.USAGE_KV.get(lockKey);
   if (existingLock) {
     for (let i = 0; i < 6; i++) {
       await new Promise(r => setTimeout(r, 2000));
-      const maybeCached = await cache.match(cacheKey);
-      if (maybeCached) return { shouldGenerate: false, cached: maybeCached };
+      const payload = await getCachedPayload(env, cache, cacheKey, contentKey);
+      if (payload) return { shouldGenerate: false, payload };
     }
     return { shouldGenerate: true }; // gave up waiting — generate anyway rather than fail
   }
@@ -178,16 +196,16 @@ export default {
 
     const cache = caches.default;
     const cacheKey = new Request('https://periodico-news.internal/edition?feed=' + feedKey + '&day=' + todayKey());
-    const cached = await cache.match(cacheKey);
-    if (cached) {
-      const body = await cached.text();
-      return new Response(body, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });
+    const contentKey = 'content:news-' + feedKey + ':' + todayKey();
+
+    const existing = await getCachedPayload(env, cache, cacheKey, contentKey);
+    if (existing) {
+      return new Response(existing, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });
     }
 
-    const lock = await acquireGenerationLock(env, cache, cacheKey, 'news-' + feedKey + ':' + todayKey());
+    const lock = await acquireGenerationLock(env, cache, cacheKey, contentKey, 'news-' + feedKey + ':' + todayKey());
     if (!lock.shouldGenerate) {
-      const body = await lock.cached.text();
-      return new Response(body, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });
+      return new Response(lock.payload, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });
     }
 
     try {
@@ -220,8 +238,7 @@ export default {
       });
 
       const payload = JSON.stringify({ status: 'ok', day: todayKey(), feed: feedKey, items: result });
-      const toCache = new Response(payload, { headers: { 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=86400' } });
-      ctx.waitUntil(cache.put(cacheKey, toCache));
+      storePayload(env, ctx, cache, cacheKey, contentKey, payload);
       return new Response(payload, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });
     } catch (err) {
       return new Response(JSON.stringify({ status: 'error', error: String(err && err.message || err) }), {
