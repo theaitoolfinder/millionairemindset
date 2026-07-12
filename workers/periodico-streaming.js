@@ -96,7 +96,7 @@ Respond with ONLY this JSON object, no markdown, no explanation:
     body: JSON.stringify({
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 1536,
-      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 5 }],
+      tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: 3 }],
       messages: [{ role: 'user', content: prompt }],
     }),
   });
@@ -155,7 +155,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors(origin) });
 
     const cache = caches.default;
-    const cacheKey = new Request('https://periodico-streaming.internal/edition?v=5&day=' + todayKey());
+    const cacheKey = new Request('https://periodico-streaming.internal/edition?v=6&day=' + todayKey());
     const cached = await cache.match(cacheKey);
     if (cached) {
       const body = await cached.text();
