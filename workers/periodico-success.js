@@ -72,6 +72,30 @@ async function recordUsage(env, worker, usage) {
   } catch {}
 }
 
+/* Cloudflare's caches.default is only written AFTER a Claude call finishes
+   (research takes several seconds due to sequential web searches), and that
+   write is async. Any request landing in that window is a cache miss and
+   triggers its own real, billable Claude call — on a busy first-hit-of-the-
+   day this can multiply cost several times over with zero benefit. This is
+   a soft lock (KV isn't atomic, so it narrows the race rather than
+   eliminating it entirely) that makes concurrent requests wait for the
+   in-flight generation instead of starting their own. */
+async function acquireGenerationLock(env, cache, cacheKey, lockName) {
+  if (!env.USAGE_KV) return { shouldGenerate: true };
+  const lockKey = 'lock:' + lockName;
+  const existingLock = await env.USAGE_KV.get(lockKey);
+  if (existingLock) {
+    for (let i = 0; i < 6; i++) {
+      await new Promise(r => setTimeout(r, 2000));
+      const maybeCached = await cache.match(cacheKey);
+      if (maybeCached) return { shouldGenerate: false, cached: maybeCached };
+    }
+    return { shouldGenerate: true }; // gave up waiting — generate anyway rather than fail
+  }
+  await env.USAGE_KV.put(lockKey, '1', { expirationTtl: 90 });
+  return { shouldGenerate: true };
+}
+
 async function researchStory(apiKey) {
   const prompt = `Search the web for a real, specific, recently-published news story (from a Philippine news outlet, DOLE/DMW feature, or similar credible source) about an OFW (Overseas Filipino Worker) success story — someone who built a business, invested in property, achieved financial independence, or had a notable career/entrepreneurship win after working abroad.
 
@@ -116,6 +140,12 @@ export default {
     const cached = await cache.match(cacheKey);
     if (cached) {
       const body = await cached.text();
+      return new Response(body, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });
+    }
+
+    const lock = await acquireGenerationLock(env, cache, cacheKey, 'success:' + todayKey());
+    if (!lock.shouldGenerate) {
+      const body = await lock.cached.text();
       return new Response(body, { status: 200, headers: { 'Content-Type': 'application/json', ...cors(origin) } });
     }
 
